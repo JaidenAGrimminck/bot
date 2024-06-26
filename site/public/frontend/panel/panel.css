@@ -2,6 +2,8 @@
 .panel {
     border-radius: 10px;
     background-color: rgb(235, 235, 235);
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .panel > c-graph {

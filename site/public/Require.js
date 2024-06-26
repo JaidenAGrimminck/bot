@@ -46,7 +46,7 @@ window.onload = (async function() {
     async function load(element, dependent=false) {
         const response = await fetch(`/frontend/${element}`);
         const json = await response.json();
-
+        
         if (!json.jsExists) {
             unsuccessful++;
             return;
@@ -59,7 +59,7 @@ window.onload = (async function() {
                 }
             }
         }
-
+        
         const script = document.createElement('script');
         script.src = `/frontend/${element}/${element}.js`;
         document.head.appendChild(script);
