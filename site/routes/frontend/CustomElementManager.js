@@ -12,10 +12,12 @@ router.get("/:elementName", (req, res) => {
         let htmlExists = false;
         let jsExists = false;
         let cssExists = false;
+        let requirements = [];
 
         const htmlPath = `${elementFolderPath}/${elementName}.html`;
         const jsPath = `${elementFolderPath}/${elementName}.js`;
         const cssPath = `${elementFolderPath}/${elementName}.css`;
+        const requirementsPath = `${elementFolderPath}/need.txt`;
 
         if (fs.existsSync(htmlPath)) {
             htmlExists = true;
@@ -26,11 +28,15 @@ router.get("/:elementName", (req, res) => {
         if (fs.existsSync(cssPath)) {
             cssExists = true;
         }
+        if (fs.existsSync(requirementsPath)) {
+            requirements = fs.readFileSync(requirementsPath).toString().split(",");
+        }
 
         res.json({
             htmlExists,
             jsExists,
-            cssExists
+            cssExists,
+            requirements
         });
     } else {
         res.json({

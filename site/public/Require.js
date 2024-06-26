@@ -21,20 +21,43 @@ window.onload = (async function() {
 
     document.head.appendChild(script);
 
-    console.log("Added RawElement script, appending elements...")
+    await new Promise((resolve) => {
+        script.onload = resolve;
+    });
+
+    console.log("RawElement script loaded, importing other necessary scripts...")
+
+    //import any other necessary scripts
+    await ImportScript("frontend/Queue.js");
+    await ImportScript("misc/uuid.js")
+
+    console.log("Added necessary scripts, loading elements...")
+
+    //load custom elements
 
     const elements = document.getElementsByTagName(rname.toUpperCase())[0].getAttribute('elements').split(',');
 
     let t = performance.now();
 
     let unsuccessful = 0;
-    for (let element of elements) {
+    let dependencies = 0;
+    let loaded = [];
+
+    async function load(element, dependent=false) {
         const response = await fetch(`/frontend/${element}`);
         const json = await response.json();
 
         if (!json.jsExists) {
             unsuccessful++;
-            continue;
+            return;
+        }
+
+        if (json.requirements.length > 0) {
+            for (let requirement of json.requirements) {
+                if (!loaded.includes(requirement)) {
+                    await load(requirement, true);
+                }
+            }
         }
 
         const script = document.createElement('script');
@@ -47,7 +70,16 @@ window.onload = (async function() {
             css.href = `/frontend/${element}/${element}.css`;
             document.head.appendChild(css);
         }
+
+        loaded.push(element);
+        if (dependent) {
+            dependencies++;
+        }
     }
 
-    console.log(`Finished loading ${elements.length - unsuccessful} elements (${unsuccessful} failed to load) in ${Math.round((performance.now() - t) * 10) / 10}ms`);
+    for (let element of elements) {
+        await load(element);
+    }
+
+    console.log(`Finished loading ${loaded.length} elements (${dependencies} dependencies, ${unsuccessful} failed to load) in ${Math.round((performance.now() - t) * 10) / 10}ms`);
 });

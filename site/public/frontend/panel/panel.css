@@ -1,0 +1,12 @@
+
+.panel {
+    border-radius: 10px;
+    background-color: rgb(235, 235, 235);
+}
+
+.panel > c-graph {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
