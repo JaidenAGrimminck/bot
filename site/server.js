@@ -14,6 +14,14 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "public/home/index.html"))
 });
 
+app.get('/heartbeat', (req, res) => {
+    let t = Date.now();
+
+    res.json({
+        time: t
+    });
+});
+
 app.get('/require.js', (req, res) => {
     res.sendFile(path.join(__dirname, "public/Require.js"))
 })

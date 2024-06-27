@@ -30,6 +30,7 @@ window.onload = (async function() {
     //import any other necessary scripts
     await ImportScript("frontend/Queue.js");
     await ImportScript("misc/uuid.js")
+    await ImportScript("comms/ConnectionManager.js")
 
     console.log("Added necessary scripts, loading elements...")
 
@@ -46,7 +47,7 @@ window.onload = (async function() {
     async function load(element, dependent=false) {
         const response = await fetch(`/frontend/${element}`);
         const json = await response.json();
-        
+
         if (!json.jsExists) {
             unsuccessful++;
             return;

@@ -78,6 +78,7 @@ class InfoPanel extends HTMLElement {
             this.children[0].innerHTML = await RawElement("panel//error", false);
         } else if (type == "status") {
             this.children[0].innerHTML = await RawElement("panel//status", false);
+            this.statusInitialize();
         }
     }
 
@@ -105,6 +106,12 @@ class InfoPanel extends HTMLElement {
             
             setGraphData(tagname, generateRandomDataset(100));
         }, 10)
+    }
+
+    async statusInitialize() {
+        addConnectionUpdateListener((info) => {
+            this.children[0].querySelector("#robot-status").innerHTML = (info.robot.connected) ? "🟢" : "🔴";
+        })
     }
 } 
 

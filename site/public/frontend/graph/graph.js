@@ -1,6 +1,25 @@
 
 const graphs = {};
 
+let dpi = window.devicePixelRatio;
+
+//https://medium.com/wdstack/fixing-html5-2d-canvas-blur-8ebe27db07da
+function fix_dpi(canvas) {
+    //create a style object that returns width and height
+    let style = {
+        height() {
+        return +getComputedStyle(canvas).getPropertyValue('height').slice(0,-2);
+        },
+        width() {
+        return +getComputedStyle(canvas).getPropertyValue('width').slice(0,-2);
+        }
+    }
+    //set the correct attributes for a crystal clear image!
+    canvas.setAttribute('width', style.width() * dpi);
+    canvas.setAttribute('height', style.height() * dpi);
+}
+
+
 function getGraph(tagname) {
     return graphs[tagname];
 }
@@ -78,10 +97,15 @@ class Graph extends HTMLElement {
         this.canvas = this.querySelector("canvas");
         this.ctx = this.canvas.getContext("2d");
 
-        this.canvas.setAttribute("width", this.getAttribute("width") || "100px");
-        this.canvas.setAttribute("height", this.getAttribute("height") || "100px");
+        this.canvas.setAttribute("width", this.getAttribute("width") + "px" || "100px");
+        this.canvas.setAttribute("height", this.getAttribute("height") + "px" || "100px");
+
+        this.canvas.setAttribute(`style`, `height: ${this.getAttribute("height")}; width: ${this.getAttribute("width")}`)
+
+        fix_dpi(this.canvas);
 
         addToDrawQueue(() => {
+
             this.ctx.fillStyle = this.options.backgroundColor;
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -149,10 +173,12 @@ class Graph extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === "width") {
-            this.canvas.setAttribute("width", newValue);
+            this.canvas.setAttribute("width", newValue + "px");
         } else if (name === "height") {
-            this.canvas.setAttribute("height", newValue);
+            this.canvas.setAttribute("height", newValue + "px");
         }
+
+        this.canvas.setAttribute(`style`, `height: ${this.getAttribute("height")}; width: ${this.getAttribute("width")}`)
     }
 }
 
