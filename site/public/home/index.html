@@ -13,6 +13,11 @@
 
     <link rel="stylesheet" href="/home/style.css">
 
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    const socket = io();
+    </script>
+
     <script src="/require.js"></script>
     <req-use elements="panel" id="n"> </req-use>
 </head>
@@ -20,6 +25,6 @@
     <info-panel type="status" size="4x2"></info-panel>
     <br/>
     <!---->
-    <info-panel type="number" size="2x2" title="Backend Speed" monitor="backendInfo.status.up" units="ms"></info-panel>
+    <info-panel type="number" size="2x2" title="Backend Speed" monitor="backendInfo.status.down" units="ms"></info-panel>
 </body>
 </html>

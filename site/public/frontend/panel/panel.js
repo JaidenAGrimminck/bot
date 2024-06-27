@@ -230,11 +230,19 @@ class InfoPanel extends HTMLElement {
 
         monitoring = monitoring.replace("#", "");
 
+        let isROS = false;
+
+        if (monitoring.startsWith("ros//")) {
+            monitoring = monitoring.replace("ros//", "");
+            isROS = true;
+        }
+
+
         let monitor;
 
         let getValue = () => {
             let i = 0;
-            let monitorVar = window;
+            let monitorVar = isROS ? ros : window;
             
             try {
                 for (let p of monitoring.split(".")) {

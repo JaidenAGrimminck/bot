@@ -22,6 +22,8 @@ let backendInfo = {
 
 window.backendInfo = backendInfo;
 
+let ros = {};
+
 const connectionUpdateListeners = [];
 
 function setRobotInfo(ip, port) {
@@ -31,6 +33,32 @@ function setRobotInfo(ip, port) {
 
 function addConnectionUpdateListener(listener) {
     connectionUpdateListeners.push(listener);
+}
+
+function doubleCheckIfROS(path) {
+    let fil = path;
+    if (path.startsWith("ros//")) {
+        fil = path.replace("ros//", "");
+    }
+
+    fil = fil.split(".")
+
+    let found = false;
+
+    let monitorVar = ros;
+
+    for (let p of fil) {
+        if (monitorVar[p] == undefined) {
+            found = false;
+            break;
+        }
+
+        monitorVar = monitorVar[p];
+        found = true;
+        return;
+    }
+
+    //todo: when on raspi, then go to backend and subscribe, then feed to ros object.    
 }
 
 async function checkConnection() {
@@ -58,22 +86,24 @@ async function checkRobotConnection() {
     return { connected: false, up: 0, down: 0 };
 }
 
+let hr = null;
+
+socket.on("heartbeat", (data) => {
+    if (hr == null) return;
+    
+    hr({ time: data.time });
+});
+
 async function checkBackendConnection() {
     let t1 = Date.now();
 
-    let r;
+    let j = await new Promise((resolve) => {
+        hr = resolve;
 
-    try {
-        r = await fetch("/heartbeat");
-    } catch (e) {
-        return { connected: false };
-    }
+        socket.emit("heartbeat");
+    });
 
-    if (!r.ok) {
-        return { connected: false };
-    }
-
-    let j = await r.json();
+    hr = null;
 
     let t2 = Date.now();
 
@@ -101,4 +131,4 @@ setTimeout(() => {
         console.warn("Heartbeat not started? Performing resurrection via fallback.");
         beginHeartbeatInterval();
     }
-})
+}, 100)
