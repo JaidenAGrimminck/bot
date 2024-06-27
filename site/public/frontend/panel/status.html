@@ -1,4 +1,19 @@
-<div>
-    <!--Needs to show, idk-->
-    Robot: <span id="robot-status">Loading...</span>
+<div class="panel panel-status">
+    <div class="panel-status-bar">
+        <!--Needs to show, idk-->
+        Robot: <span id="robot-status">🔴</span>
+        Backend: <span id="backend-status">🔴</span>
+    </div>
+    <div class="panel-status-info">
+        <div class="panel-status-info-row">
+            <div>
+                <span>up <span id="robot-up">0</span>ms</span>
+                <span>down <span id="robot-down">0</span>ms</span>
+            </div>
+            <div>
+                <span>up <span id="backend-up">0</span>ms</span>
+                <span>down <span id="backend-down">0</span>ms</span>
+            </div>
+        </div>
+    </div>
 </div>

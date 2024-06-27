@@ -111,6 +111,12 @@ class InfoPanel extends HTMLElement {
     async statusInitialize() {
         addConnectionUpdateListener((info) => {
             this.children[0].querySelector("#robot-status").innerHTML = (info.robot.connected) ? "🟢" : "🔴";
+            this.children[0].querySelector("#backend-status").innerHTML = (info.backend.connected) ? "🟢" : "🔴";
+            
+            this.children[0].querySelector("#robot-up").innerHTML = info.robot.up;
+            this.children[0].querySelector("#robot-down").innerHTML = info.robot.down;
+            this.children[0].querySelector("#backend-up").innerHTML = info.backend.up;
+            this.children[0].querySelector("#backend-down").innerHTML = info.backend.down;
         })
     }
 } 

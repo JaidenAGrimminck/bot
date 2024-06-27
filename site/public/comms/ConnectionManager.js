@@ -30,7 +30,7 @@ function addConnectionUpdateListener(listener) {
 }
 
 async function checkConnection() {
-    let robot = { connected: false }; //await checkRobotConnection();
+    let robot = { connected: false, up: 0, down: 0 }; //await checkRobotConnection();
     let backend = await checkBackendConnection();
 
     if (robot.connected) {
@@ -51,11 +51,11 @@ async function checkConnection() {
 
 async function checkRobotConnection() {
     //todo: implement.
-    return { connected: false };
+    return { connected: false, up: 0, down: 0 };
 }
 
 async function checkBackendConnection() {
-    let t1 = performance.now();
+    let t1 = Date.now();
 
     let r;
 
@@ -71,7 +71,7 @@ async function checkBackendConnection() {
 
     let j = await r.json();
 
-    let t2 = performance.now();
+    let t2 = Date.now();
 
     let up = j.time - t1;
     let down = t2 - j.time;
