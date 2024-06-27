@@ -39,7 +39,7 @@ function addToGraphData(tagname, data=[]) {
         return;
     }
 
-    graphs[tagname].data = graphs[tagname].data.concat(data);
+    graphs[tagname].data = graphs[tagname].data.concat([data]);
 }
 
 function randomTagName() {
@@ -136,7 +136,7 @@ class Graph extends HTMLElement {
             }
 
             let calcY = (y) => {
-                return (y - min) / (max - min) * this.canvas.height * 0.8 + this.canvas.height * 0.1;
+                return this.canvas.height - ((y - min) / (max - min) * this.canvas.height * 0.8 + this.canvas.height * 0.1);
             }
 
             this.ctx.beginPath();

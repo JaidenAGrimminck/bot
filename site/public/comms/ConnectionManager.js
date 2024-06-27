@@ -1,5 +1,5 @@
 
-const robotInfo = {
+let robotInfo = {
     ip: "",
     port: "",
 
@@ -10,13 +10,17 @@ const robotInfo = {
     }
 }
 
-const backendInfo = {
+window.robotInfo = robotInfo;
+
+let backendInfo = {
     status: {
         connected: false,
         up: 0,
         down: 0
     }
 }
+
+window.backendInfo = backendInfo;
 
 const connectionUpdateListeners = [];
 
