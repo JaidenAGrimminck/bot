@@ -23,13 +23,13 @@ with h5py.File(mat_file, 'r') as f:
 # Preprocess the images
 def preprocess_images(images):
     # Normalize and resize images
-    images = np.transpose(images, (3, 0, 1, 2))  # (height, width, channels, samples) => (samples, height, width, channels)
+    images = np.transpose(images, (0, 2, 3, 1))  # (count, rgb, width, height) => (count, width, height, rgb)
     images = images / 255.0 # normalize to [0, 1]
     return images
 
 # Preprocess the depth maps
 def preprocess_depths(depths):
-    depths = np.transpose(depths, (2, 0, 1))  # (height, width, samples) => (samples, height, width)
+    #depths = np.transpose(depths, (2, 0, 1))  # (height, width, samples) => (samples, height, width)
     depths = depths / np.max(depths)
     depths = depths[..., np.newaxis]  # add in channel dimension
     return depths
@@ -87,7 +87,7 @@ print("created model, now training...")
 
 # Train the model
 history = model.fit(
-    train_images, train_depths, epochs=50, batch_size=32, validation_data=(val_images, val_depths),
+    train_images, train_depths, epochs=2, batch_size=32, validation_data=(val_images, val_depths),
     callbacks=[ProgressPrinter()]
 )
 
