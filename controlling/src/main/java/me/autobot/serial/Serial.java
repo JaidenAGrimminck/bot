@@ -1,5 +1,7 @@
 package me.autobot.serial;
 
+import com.pi4j.Pi4J;
+
 public class Serial {
 
     public static Serial connect(int port) {
