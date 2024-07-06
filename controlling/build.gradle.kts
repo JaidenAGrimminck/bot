@@ -2,11 +2,30 @@ plugins {
     id("java")
 }
 
-group = "org.example"
+group = "me.autobot"
 version = "1.0-SNAPSHOT"
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
+    }
+    dependencies {
+        classpath("gradle.plugin.org.ros2.tools.gradle:ament:0.7.0")
+    }
+}
 
 repositories {
     mavenCentral()
+}
+
+ament {
+    entryPoints {
+        consoleScripts = []
+    }
 }
 
 dependencies {
@@ -20,7 +39,7 @@ dependencies {
     implementation("com.pi4j:pi4j-plugin-linuxfs:2.3.0")
 }
 
-
+apply(plugin = "org.ros2.tools.gradle")
 
 tasks.test {
     useJUnitPlatform()
