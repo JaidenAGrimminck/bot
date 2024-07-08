@@ -1,0 +1,6 @@
+path: ../datasets/  # dataset root dir
+train: images/train # both relative to path
+val: images/val 
+test:  
+
+names:

@@ -11,3 +11,5 @@ site/node_modules
 
 
 .*
+
+*.pt
