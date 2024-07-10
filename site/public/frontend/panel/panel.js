@@ -15,7 +15,8 @@ class InfoPanel extends HTMLElement {
         "graph",
         "error",
         "status",
-        "number"
+        "number",
+        "log"
     ]
 
     constructor() {
@@ -83,6 +84,9 @@ class InfoPanel extends HTMLElement {
         } else if (type == "number") {
             this.children[0].innerHTML = await RawElement("panel//number", false);
             this.numberInitialize();
+        } else if (type == "log") {
+            this.children[0].innerHTML = await RawElement("panel//log", false);
+            this.logInitialize();
         }
     }
 
@@ -278,6 +282,41 @@ class InfoPanel extends HTMLElement {
                 obj.textContent = newData;
             });
         }, 100)
+    }
+
+    async logInitialize() {
+        this.data = {
+            logs: [],
+            timestampsEnabled: false
+        }
+
+        let updateContent = () => {
+            for (let msg of this.data.logs) {
+                let display = (this.data.timestampsEnabled ? new Date(msg[0]).toISOString() : "") + msg[1];
+                this.querySelector(".log-text").innerHTML = display.replaceAll("\n", "<br>");
+            }
+        }
+
+        /**
+         * {
+         *  updates: [timestamp, message],
+         *  totalHistory: boolean
+         * }
+         */
+        socket.on("log-update", (data) => {
+            if (data.totalHistory) {
+                this.data.logs = data.updates;
+            } else {
+                this.data.logs.append(data.updates);
+            }
+
+            updateContent();
+        })
+
+        //connect to the logs (pretty much tell the server that this socket wants logs to be sent to it)
+        //we'll get an update on previous logs via "log-update"#totalHistory = true
+        //then we'll get updates on new logs via "log-update"
+        socket.emit("log-connect")
     }
 } 
 

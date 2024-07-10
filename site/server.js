@@ -6,12 +6,15 @@ const { Server } = require("socket.io");
 
 const frontendRouter = require('./routes/frontend/CustomElementManager.js');
 const { handleROSRequest } = require("./routes/data/ROS.js");
+const Log = require('./log.js');
 
 const port = process.env.PORT || 8080;
 
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
+
+const log = new Log();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/frontend', frontendRouter);
@@ -37,8 +40,14 @@ io.on('connection', (socket) => {
             console.error(e);
         }
     });
+    
+    socket.on('log-connect', () => {
+        log.addSocketListener(socket);
+    })
 
-    socket.on('disconnect', () => {});
+    socket.on('disconnect', () => {
+        log.removeSocketListener(socket);
+    });
 });
 
 server.listen(port, () => {
