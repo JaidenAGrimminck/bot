@@ -1,0 +1,7 @@
+- made wheel design
+- added to base
+
+todo:
+
+- fix the bot base in the frame
+- make shell of robot
