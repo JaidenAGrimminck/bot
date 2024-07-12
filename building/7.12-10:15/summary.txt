@@ -1,0 +1,8 @@
+- attached battery cords to motor controller
+- attached motor controller to motors
+- tried byg or bgy idk it's in the slack
+
+todo:
+- pick up some fuses and on/off switch so i don't die lol
+- try other combinations of motor controller wires
+- get soldering iron and solder?
