@@ -1,0 +1,6 @@
+- created accurate sized battery
+- placed in box, centered and confirmed that it would fit
+
+todo:
+
+- make motor controllers
