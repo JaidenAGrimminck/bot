@@ -1,0 +1,10 @@
+- started soldering switch and fuse together
+- attached battery cable as well
+- before attaching battery, tried testing
+- used small dc motor, no response
+- used led, no response
+- tried led on batteries themselves w/ resistor (like aaa batteries) and didn't work
+
+
+todo:
+- get a voltimeter to test the circuit for resistance etc (easiest way)
