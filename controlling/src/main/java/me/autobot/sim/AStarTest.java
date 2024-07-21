@@ -5,7 +5,7 @@ import me.autobot.lib.math.coordinates.Int2;
 
 import java.util.ArrayList;
 
-public class Simulation {
+public class AStarTest {
     private Robot robot;
 
     private int[][] obstacles = new int[][] {
@@ -310,7 +310,7 @@ public class Simulation {
     }
 
     public static void main() {
-        Simulation sim = new Simulation();
+        AStarTest sim = new AStarTest();
 
         sim.printObstacles();
 

@@ -2,6 +2,9 @@ package me.autobot.code;
 
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.robot.Motor;
+import me.autobot.lib.robot.Sensor;
+
+import java.lang.reflect.Field;
 
 //tank drive robot
 public class Robot {
@@ -11,6 +14,8 @@ public class Robot {
     private Motor bottomRightMotor;
     
     private Vector2d position = new Vector2d(0, 0);
+
+    private boolean totalSimulation = false;
 
     public Robot() {
         topLeftMotor = new Motor(0x1);
@@ -22,6 +27,22 @@ public class Robot {
         topRightMotor.invert();
     }
 
+    public void startSimulation() {
+        totalSimulation = true;
+
+        //get all fields
+        for (Field field : this.getClass().getDeclaredFields()) {
+            //check if it extends sensor or device
+            if (field.getType().getSuperclass().equals(Sensor.class)) {
+                try {
+                    Sensor sensor = (Sensor) field.get(this);
+                    sensor.enableSimulation();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     
 
 }
