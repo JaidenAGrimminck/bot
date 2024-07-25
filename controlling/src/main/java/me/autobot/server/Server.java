@@ -1,18 +1,18 @@
-package me.autobot.sim.server;
+package me.autobot.server;
 
 import fi.iki.elonen.NanoHTTPD;
 
-public class SimServer extends NanoHTTPD {
+public class Server extends NanoHTTPD {
 
-    private static SimServer instance;
+    private static Server instance;
 
     public static void startServer(int port) {
         if (instance == null) {
-            instance = new SimServer(port);
+            instance = new Server(port);
         }
     }
 
-    public SimServer(int port) {
+    public Server(int port) {
         super(port);
     }
 

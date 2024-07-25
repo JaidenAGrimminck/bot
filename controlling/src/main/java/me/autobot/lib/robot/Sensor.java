@@ -2,21 +2,41 @@ package me.autobot.lib.robot;
 
 import me.autobot.lib.math.coordinates.Vector3d;
 
+import java.util.ArrayList;
+
 public class Sensor extends Device {
+
+    private static ArrayList<Sensor> sensors = new ArrayList<>();
+
+    public static Sensor getSensor(int address) {
+        for (Sensor sensor : sensors) {
+            if (sensor.getAddress() == address) {
+                return sensor;
+            }
+        }
+
+        return null;
+    }
 
     private double[] sensorValues;
     private int sensorChannels;
 
     private Vector3d relativePosition;
 
+    private int address;
+
     private boolean simulating = false;
 
-    public Sensor(int sensorChannels) {
+    public Sensor(int address, int sensorChannels) {
         super();
 
         this.sensorChannels = sensorChannels;
 
         sensorValues = new double[sensorChannels];
+
+        this.address = address;
+
+        sensors.add(this);
     }
 
     protected double[] getSensorValues() {
@@ -29,6 +49,10 @@ public class Sensor extends Device {
 
     public boolean isSimulating() {
         return simulating;
+    }
+
+    public int getAddress() {
+        return address;
     }
 
     public void simulateValues(double[] values) {

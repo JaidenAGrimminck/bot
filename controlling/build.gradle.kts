@@ -37,6 +37,9 @@ dependencies {
     implementation("com.pi4j:pi4j-plugin-raspberrypi:2.3.0")
     implementation("com.pi4j:pi4j-plugin-pigpio:2.3.0")
     implementation("com.pi4j:pi4j-plugin-linuxfs:2.3.0")
+
+    implementation("org.nanohttpd:nanohttpd:2.3.1")
+    implementation("org.nanohttpd:nanohttpd-websocket:2.3.1")
 }
 
 //apply(plugin = "org.ros2.tools.gradle")

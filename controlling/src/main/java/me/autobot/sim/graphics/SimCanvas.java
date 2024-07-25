@@ -38,7 +38,5 @@ public class SimCanvas extends JFrame {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, (int) Math.pow(2, (System.currentTimeMillis() - t1) / 1000), 200);
         g.setColor(Color.BLACK);
-
-
     }
 }
