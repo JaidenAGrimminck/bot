@@ -3,6 +3,7 @@ package me.autobot.sim;
 import me.autobot.code.Robot;
 import me.autobot.lib.logging.Logger;
 import me.autobot.sim.graphics.SimCanvas;
+import me.autobot.sim.graphics.SimScreen;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,7 +14,7 @@ public class Simulation {
 
     public static void start() {
         Thread thread = new Thread(() -> {
-            new SimCanvas().run();
+            new SimScreen();
         });
 
         thread.start();

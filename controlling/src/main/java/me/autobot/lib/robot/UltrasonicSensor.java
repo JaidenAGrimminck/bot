@@ -2,8 +2,8 @@ package me.autobot.lib.robot;
 
 public class UltrasonicSensor extends Sensor {
 
-    public UltrasonicSensor() {
-        super(1);
+    public UltrasonicSensor(int address) {
+        super(address, 1);
         setSensorValues(0);
     }
 

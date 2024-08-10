@@ -7,6 +7,10 @@ public class Int2 {
     public int x;
     public int y;
 
+    public static Int2 zero() {
+        return new Int2(0, 0);
+    }
+
     public HashMap<String, Object> properties = new HashMap<>();
 
     public Int2(int x, int y) {
