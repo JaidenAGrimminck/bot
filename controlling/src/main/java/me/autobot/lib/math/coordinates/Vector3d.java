@@ -86,4 +86,21 @@ public class Vector3d {
     public Spherical toSpherical() {
         return new Spherical(magnitude(), new Rotation3d(Math.atan2(y, x), Math.atan2(z, Math.hypot(x, y))));
     }
+
+    public Vector2d toXY() {
+        return new Vector2d(x, y);
+    }
+
+    public Vector2d toXZ() {
+        return new Vector2d(x, z);
+    }
+
+    public Vector2d toYZ() {
+        return new Vector2d(y, z);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ", " + z + ")";
+    }
 }

@@ -1,6 +1,9 @@
 package me.autobot.lib.robot;
 
+import me.autobot.lib.math.coordinates.Spherical;
 import me.autobot.lib.math.coordinates.Vector3d;
+import me.autobot.lib.math.rotation.Rotation2d;
+import me.autobot.lib.math.rotation.Rotation3d;
 
 import java.util.ArrayList;
 
@@ -22,6 +25,8 @@ public class Sensor extends Device {
     private int sensorChannels;
 
     private Vector3d relativePosition;
+
+    private Rotation3d relativeRotation;
 
     private int address;
 
@@ -47,7 +52,7 @@ public class Sensor extends Device {
         simulating = true;
     }
 
-    public boolean isSimulating() {
+    public boolean inSimulation() {
         return simulating;
     }
 
@@ -75,8 +80,21 @@ public class Sensor extends Device {
         return relativePosition;
     }
 
+    public Rotation3d getRelativeRotation() {
+        if (relativeRotation == null) {
+            throw new IllegalStateException("Relative rotation has not been set.");
+        }
+
+        return relativeRotation;
+    }
+
     public void attachRelativePosition(Vector3d relativePosition) {
+        attachRelativePosition(relativePosition, new Rotation3d(0, Math.PI/2));
+    }
+
+    public void attachRelativePosition(Vector3d relativePosition, Rotation3d relativeRotation) {
         this.relativePosition = relativePosition;
+        this.relativeRotation = relativeRotation;
     }
 
     protected void setSensorValues(double... values) {

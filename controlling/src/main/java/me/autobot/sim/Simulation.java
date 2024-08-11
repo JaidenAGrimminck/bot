@@ -2,6 +2,7 @@ package me.autobot.sim;
 
 import me.autobot.code.Robot;
 import me.autobot.lib.logging.Logger;
+import me.autobot.lib.pathing.Environment;
 import me.autobot.sim.graphics.SimCanvas;
 import me.autobot.sim.graphics.SimScreen;
 
@@ -12,17 +13,19 @@ public class Simulation {
 
     private static Simulation instance;
 
+    public Environment environment;
+
     public static void start() {
         Thread thread = new Thread(() -> {
             new SimScreen();
         });
 
-        thread.start();
+        if (instance == null) {
+            instance = new Simulation();
+        }
+        getInstance();
 
-//        if (instance == null) {
-//            instance = new Simulation();
-//        }
-//        getInstance();
+        thread.start();
     }
 
     public static void stop() {
@@ -35,6 +38,10 @@ public class Simulation {
             instance = new Simulation();
         }
         return instance;
+    }
+
+    public static boolean running() {
+        return instance != null;
     }
 
     public static class SimulationTimer extends Timer {
@@ -94,6 +101,7 @@ public class Simulation {
 
     private Simulation() {
         robot = new Robot();
+        environment = new Environment();
 
         robot.startSimulation();
 

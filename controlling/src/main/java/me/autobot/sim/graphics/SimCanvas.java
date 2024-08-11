@@ -1,8 +1,13 @@
 package me.autobot.sim.graphics;
 
 import me.autobot.code.Robot;
+import me.autobot.lib.math.Unit;
 import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Int2;
+import me.autobot.lib.math.coordinates.Vector2d;
+import me.autobot.lib.math.rotation.Rotation2d;
+import me.autobot.lib.robot.Sensor;
+import me.autobot.lib.robot.UltrasonicSensor;
 import me.autobot.sim.MapLoader;
 import me.autobot.sim.Simulation;
 import me.autobot.sim.graphics.elements.CanvasButton;
@@ -19,8 +24,6 @@ public class SimCanvas extends JPanel {
     public SimCanvas() {
         new Thread(this::run).start();
     }
-
-    ArrayList<Box2d> objects = new ArrayList<>();
 
     public void run() {
         setBackground(Color.BLACK);
@@ -60,7 +63,7 @@ public class SimCanvas extends JPanel {
         addMouseMotionListener(mouseAdapter);
 
         try {
-            objects = MapLoader.mapToObjects(MapLoader.loadMap("/Users/jgrimminck/Documents/coding projects/bot/controlling/src/maps/map.txt"), 20);
+            Simulation.getInstance().environment.obstacles = MapLoader.mapToObjects(MapLoader.loadMap("/Users/jgrimminck/Documents/coding projects/bot/controlling/src/maps/map.txt"), 20);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,7 +91,7 @@ public class SimCanvas extends JPanel {
         //get all objects nearby the robot
         Robot robot = Simulation.getInstance().getRobot();
 
-        for (Box2d object : objects) {
+        for (Box2d object : Simulation.getInstance().environment.obstacles) {
             if (robot.getPosition().distance(object.getPosition().toVector2d()) < 1000d) {
                 g.setColor(Color.RED);
             } else {
@@ -102,6 +105,27 @@ public class SimCanvas extends JPanel {
         g.setColor(Color.BLACK);
         g.fillRect((getWidth() / 2) - 20, (getHeight() / 2) - 30, 40, 60);
 
+
+        ArrayList<Sensor> sensors = robot.getSensors();
+
+        for (Sensor sensor : sensors) {
+            if (sensor instanceof UltrasonicSensor) {
+                UltrasonicSensor us = (UltrasonicSensor) sensor;
+                g.setColor(Color.BLUE);
+                g.fillOval((int) ((getWidth() / 2) + us.getRelativePosition().getX() - 5), (int) ((getHeight() / 2) + us.getRelativePosition().getY() - 5), 10, 10);
+
+                double distance = us.getDistance().getValue(Unit.Type.CENTIMETER);
+
+//                if (sensor.getAddress() == 0x04) {
+//                    System.out.println("Distance: " + distance);
+//                }
+
+                Vector2d ray = Vector2d.fromPolar(distance, Rotation2d.fromRadians(us.getRelativeRotation().getThetaRadians()));
+
+                g.drawLine((int) (getWidth() / 2 + us.getRelativePosition().getX()), (int) (getHeight() / 2 + us.getRelativePosition().getY()), (int) (getWidth() / 2 + us.getRelativePosition().getX() + ray.getX()), (int) (getHeight() / 2 + us.getRelativePosition().getY() + ray.getY()));
+
+            }
+        }
 
         //wait 20 ms
         try {

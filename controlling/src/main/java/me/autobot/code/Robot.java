@@ -2,6 +2,8 @@ package me.autobot.code;
 
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.coordinates.Vector3d;
+import me.autobot.lib.math.rotation.Rotation2d;
+import me.autobot.lib.math.rotation.Rotation3d;
 import me.autobot.lib.robot.Motor;
 import me.autobot.lib.robot.Sensor;
 import me.autobot.lib.robot.UltrasonicSensor;
@@ -11,6 +13,9 @@ import java.util.ArrayList;
 
 //tank drive robot
 public class Robot {
+
+    public static Robot instance;
+
     private Motor topLeftMotor;
     private Motor topRightMotor;
     private Motor bottomLeftMotor;
@@ -22,7 +27,8 @@ public class Robot {
     private UltrasonicSensor leftSensor;
     private UltrasonicSensor rightSensor;
     
-    private Vector2d position = new Vector2d(1000, 1000);
+    private Vector2d position = new Vector2d(1100, 1050);
+    private Rotation2d rotation = new Rotation2d(0);
 
     private boolean totalSimulation = false;
 
@@ -36,13 +42,17 @@ public class Robot {
         topRightMotor.invert();
 
         frontSensor = new UltrasonicSensor(0x01);
-        frontSensor.attachRelativePosition(new Vector3d(0d, 30d, 0d));
+        frontSensor.attachRelativePosition(new Vector3d(0d, 30d, 0d), Rotation3d.fromDegrees(90, 90));
         backSensor = new UltrasonicSensor(0x02);
-        backSensor.attachRelativePosition(new Vector3d(0d, -30d, 0d));
+        backSensor.attachRelativePosition(new Vector3d(0d, -30d, 0d), Rotation3d.fromDegrees(270, 90));
         leftSensor = new UltrasonicSensor(0x03);
-        leftSensor.attachRelativePosition(new Vector3d(-20d, 0d, 0d));
+        leftSensor.attachRelativePosition(new Vector3d(-20d, 0d, 0d), Rotation3d.fromDegrees(180, 90));
         rightSensor = new UltrasonicSensor(0x04);
         rightSensor.attachRelativePosition(new Vector3d(20d, 0d, 0d));
+
+
+        //just incase simulation, we can do this to ensure that multiple robots can be created for ai etc
+        getSensors().forEach(sensor -> sensor.setParent(this));
     }
 
     public void startSimulation() {
@@ -69,6 +79,10 @@ public class Robot {
 
     public Vector2d getPosition() {
         return position;
+    }
+
+    public Rotation2d getRotation() {
+        return rotation;
     }
 
     public ArrayList<Sensor> getSensors() {

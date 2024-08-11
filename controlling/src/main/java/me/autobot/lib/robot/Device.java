@@ -3,6 +3,7 @@ package me.autobot.lib.robot;
 import java.util.HashMap;
 import java.util.ArrayList;
 
+import me.autobot.code.Robot;
 import me.autobot.lib.logging.Log;
 import me.autobot.lib.logging.Logger;
 
@@ -27,6 +28,8 @@ public class Device implements Logger {
     private double current = 0;
 
     private HashMap<String, Double> properties;
+
+    private Robot parent;
 
     public Device() {
         properties = new HashMap<>();
@@ -75,5 +78,13 @@ public class Device implements Logger {
 
     public void emergencyStop() {
 
+    }
+
+    public void setParent(Robot parent) {
+        this.parent = parent;
+    }
+
+    public Robot getRobot() {
+        return parent;
     }
 }

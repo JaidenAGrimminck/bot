@@ -4,6 +4,10 @@ public class Rotation3d {
     private double theta;
     private double phi;
 
+    public static Rotation3d fromDegrees(double theta, double phi) {
+        return new Rotation3d(Math.toRadians(theta), Math.toRadians(phi));
+    }
+
     public Rotation3d(double theta, double phi) {
         this.theta = theta;
         this.phi = phi;

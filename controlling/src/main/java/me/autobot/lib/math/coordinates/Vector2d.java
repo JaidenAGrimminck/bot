@@ -5,6 +5,10 @@ import me.autobot.lib.math.rotation.Rotation2d;
 public class Vector2d {
     private double x;
     private double y;
+
+    public static Vector2d fromPolar(double magnitude, Rotation2d rotation) {
+        return new Vector2d(magnitude * rotation.cos(), magnitude * rotation.sin());
+    }
     
     public Vector2d(double x, double y) {
         this.x = x;
@@ -25,6 +29,10 @@ public class Vector2d {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    public Vector2d multiply(double scalar) {
+        return scale(scalar);
     }
 
     public Vector2d add(Vector2d other) {
@@ -51,6 +59,10 @@ public class Vector2d {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
+    public Vector2d rotate(Rotation2d rotation) {
+        return new Vector2d(this.x * rotation.cos() - this.y * rotation.sin(), this.x * rotation.sin() + this.y * rotation.cos());
+    }
+
     public Vector2d normalize() {
         double magnitude = magnitude();
         return new Vector2d(this.x / magnitude, this.y / magnitude);
@@ -66,5 +78,9 @@ public class Vector2d {
 
     public double distance(Vector2d other) {
         return this.subtract(other).magnitude();
+    }
+
+    public Int2 toInt2() {
+        return new Int2((int) x, (int) y);
     }
 }
