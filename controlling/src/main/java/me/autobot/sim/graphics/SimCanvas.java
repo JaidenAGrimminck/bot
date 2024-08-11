@@ -1,6 +1,10 @@
 package me.autobot.sim.graphics;
 
+import me.autobot.code.Robot;
+import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Int2;
+import me.autobot.sim.MapLoader;
+import me.autobot.sim.Simulation;
 import me.autobot.sim.graphics.elements.CanvasButton;
 import me.autobot.sim.graphics.elements.CanvasElement;
 
@@ -15,6 +19,8 @@ public class SimCanvas extends JPanel {
     public SimCanvas() {
         new Thread(this::run).start();
     }
+
+    ArrayList<Box2d> objects = new ArrayList<>();
 
     public void run() {
         setBackground(Color.BLACK);
@@ -52,6 +58,12 @@ public class SimCanvas extends JPanel {
 
         addMouseListener(mouseAdapter);
         addMouseMotionListener(mouseAdapter);
+
+        try {
+            objects = MapLoader.mapToObjects(MapLoader.loadMap("/Users/jgrimminck/Documents/coding projects/bot/controlling/src/maps/map.txt"), 20);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -73,12 +85,22 @@ public class SimCanvas extends JPanel {
 
         elements.forEach(e -> e.draw(g, fmousePosition));
 
+        //get all objects nearby the robot
+        Robot robot = Simulation.getInstance().getRobot();
+
+        for (Box2d object : objects) {
+            if (robot.getPosition().distance(object.getPosition().toVector2d()) < 1000d) {
+                g.setColor(Color.RED);
+            } else {
+                continue;
+            }
+
+            g.fillRect(object.getPosition().x - (int) robot.getPosition().getX(), object.getPosition().y - (int) robot.getPosition().getY(), object.getSize().x, object.getSize().y);
+        }
+
         // 1px = 1cm
-
-
         g.setColor(Color.BLACK);
         g.fillRect((getWidth() / 2) - 20, (getHeight() / 2) - 30, 40, 60);
-
 
 
         //wait 20 ms

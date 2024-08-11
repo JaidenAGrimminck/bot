@@ -2,6 +2,7 @@ package me.autobot.lib.math.coordinates;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 public class Int2 {
     public int x;
@@ -44,6 +45,10 @@ public class Int2 {
         return null;
     }
 
+    public Vector2d toVector2d() {
+        return new Vector2d(x, y);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Int2 other) {
@@ -56,4 +61,5 @@ public class Int2 {
     public String toString() {
         return "(" + x + ", " + y + ")";
     }
+
 }

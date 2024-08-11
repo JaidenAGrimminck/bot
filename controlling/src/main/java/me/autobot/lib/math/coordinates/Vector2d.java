@@ -63,4 +63,8 @@ public class Vector2d {
     public Rotation2d angle() {
         return Rotation2d.fromRadians(Math.atan2(this.y, this.x));
     }
+
+    public double distance(Vector2d other) {
+        return this.subtract(other).magnitude();
+    }
 }

@@ -104,6 +104,9 @@ public class Simulation {
         return timer;
     }
 
+    public Robot getRobot() {
+        return robot;
+    }
 
 
 }

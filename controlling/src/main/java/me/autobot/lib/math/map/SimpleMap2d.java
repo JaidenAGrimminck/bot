@@ -4,10 +4,10 @@ import me.autobot.lib.math.coordinates.Vector2d;
 
 import java.util.ArrayList;
 
-public class Map2d {
+public class SimpleMap2d {
     private ArrayList<Vector2d> obstacles;
 
-    public Map2d() {
+    public SimpleMap2d() {
         obstacles = new ArrayList<>();
     }
 
