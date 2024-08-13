@@ -15,15 +15,25 @@ import me.autobot.sim.graphics.elements.CanvasElement;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class SimCanvas extends JPanel {
-    public SimCanvas() {
+    private JFrame frame;
+
+    public SimCanvas(JFrame frame) {
+        this.frame = frame;
         new Thread(this::run).start();
     }
+
+    double scale = 0.001;
+
+    boolean up = false;
+    boolean down = false;
+    boolean left = false;
+    boolean right = false;
+
+    int speed = 10;
 
     public void run() {
         setBackground(Color.BLACK);
@@ -62,8 +72,73 @@ public class SimCanvas extends JPanel {
         addMouseListener(mouseAdapter);
         addMouseMotionListener(mouseAdapter);
 
+        KeyListener keyListener = new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyChar() == 'w') {
+                    up = true;
+                } else if (e.getKeyChar() == 's') {
+                    down = true;
+                } else if (e.getKeyChar() == 'a') {
+                    left = true;
+                } else if (e.getKeyChar() == 'd') {
+                    right = true;
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyChar() == 'w') {
+                    up = false;
+                } else if (e.getKeyChar() == 's') {
+                    down = false;
+                } else if (e.getKeyChar() == 'a') {
+                    left = false;
+                } else if (e.getKeyChar() == 'd') {
+                    right = false;
+                }
+            }
+        };
+
+        frame.addKeyListener(keyListener);
+
         try {
             Simulation.getInstance().environment.obstacles = MapLoader.mapToObjects(MapLoader.loadMap("/Users/jgrimminck/Documents/coding projects/bot/controlling/src/maps/map.txt"), 20);
+
+            Simulation.getInstance().environment.obstacles.add(
+                    new Box2d(
+                            new Int2(-20, -20),
+                            new Int2(20, 2020)
+                    )
+            );
+
+            Simulation.getInstance().environment.obstacles.add(
+                    new Box2d(
+                            new Int2(0, -20),
+                            new Int2(2000, 20)
+                    )
+            );
+
+            Simulation.getInstance().environment.obstacles.add(
+                    new Box2d(
+                            new Int2(-20, 2000),
+                            new Int2(2040, 20)
+                    )
+            );
+
+            Simulation.getInstance().environment.obstacles.add(
+                    new Box2d(
+                            new Int2(2000, -10),
+                            new Int2(20, 2000)
+                    )
+            );
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,25 +161,31 @@ public class SimCanvas extends JPanel {
 
         final Int2 fmousePosition = mousePosition;
 
-        elements.forEach(e -> e.draw(g, fmousePosition));
-
         //get all objects nearby the robot
         Robot robot = Simulation.getInstance().getRobot();
 
         for (Box2d object : Simulation.getInstance().environment.obstacles) {
-            if (robot.getPosition().distance(object.getPosition().toVector2d()) < 1000d) {
+            if (object.signedDistance(robot.getPosition()) < 1000d) {
                 g.setColor(Color.RED);
             } else {
                 continue;
             }
 
-            g.fillRect(object.getPosition().x - (int) robot.getPosition().getX(), object.getPosition().y - (int) robot.getPosition().getY(), object.getSize().x, object.getSize().y);
+            if (object.inRay) {
+                g.setColor(Color.GREEN);
+            }
+
+            g.fillRect(object.getPosition().x - (int) robot.getPosition().getX() + (getWidth() / 2) - 20, object.getPosition().y - (int) robot.getPosition().getY() + (getHeight() / 2) - 30, object.getSize().x, object.getSize().y);
         }
+
 
         // 1px = 1cm
         g.setColor(Color.BLACK);
         g.fillRect((getWidth() / 2) - 20, (getHeight() / 2) - 30, 40, 60);
 
+        g.setColor(Color.WHITE);
+        g.fillOval((getWidth() / 2) - 15, (getHeight() / 2) + 20, 5, 5);
+        g.fillOval((getWidth() / 2) + 10, (getHeight() / 2) + 20, 5, 5);
 
         ArrayList<Sensor> sensors = robot.getSensors();
 
@@ -116,15 +197,30 @@ public class SimCanvas extends JPanel {
 
                 double distance = us.getDistance().getValue(Unit.Type.CENTIMETER);
 
-//                if (sensor.getAddress() == 0x04) {
-//                    System.out.println("Distance: " + distance);
-//                }
-
                 Vector2d ray = Vector2d.fromPolar(distance, Rotation2d.fromRadians(us.getRelativeRotation().getThetaRadians()));
 
-                g.drawLine((int) (getWidth() / 2 + us.getRelativePosition().getX()), (int) (getHeight() / 2 + us.getRelativePosition().getY()), (int) (getWidth() / 2 + us.getRelativePosition().getX() + ray.getX()), (int) (getHeight() / 2 + us.getRelativePosition().getY() + ray.getY()));
+                if (sensor.getAddress() == 0x04) {
+                    g.setColor(Color.RED);
+                }
 
+                g.drawLine((int) (getWidth() / 2 + us.getRelativePosition().getX()), (int) (getHeight() / 2 + us.getRelativePosition().getY()), (int) (getWidth() / 2 + us.getRelativePosition().getX() + ray.getX()), (int) (getHeight() / 2 + us.getRelativePosition().getY() + ray.getY()));
+                g.fillOval((int) (getWidth() / 2 + us.getRelativePosition().getX() + ray.getX() - 5), (int) (getHeight() / 2 + us.getRelativePosition().getY() + ray.getY() - 5), 10, 10);
             }
+        }
+
+        elements.forEach(e -> e.draw(g, fmousePosition));
+
+        if (down) {
+            robot.move(0, speed);
+        }
+        if (up) {
+            robot.move(0, -speed);
+        }
+        if (left) {
+            robot.move(-speed, 0);
+        }
+        if (right) {
+            robot.move(speed, 0);
         }
 
         //wait 20 ms

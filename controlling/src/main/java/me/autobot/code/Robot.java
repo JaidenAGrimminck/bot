@@ -50,7 +50,6 @@ public class Robot {
         rightSensor = new UltrasonicSensor(0x04);
         rightSensor.attachRelativePosition(new Vector3d(20d, 0d, 0d));
 
-
         //just incase simulation, we can do this to ensure that multiple robots can be created for ai etc
         getSensors().forEach(sensor -> sensor.setParent(this));
     }

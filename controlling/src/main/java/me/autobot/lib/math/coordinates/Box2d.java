@@ -7,6 +7,8 @@ public class Box2d {
     Int2 position;
     Int2 size;
 
+    public boolean inRay = false;
+
     public Box2d(int x, int y, int width, int height) {
         this.position = new Int2(x, y);
         this.size = new Int2(width, height);
@@ -46,6 +48,56 @@ public class Box2d {
 
         for (Vector2d point : somePoints) {
             if (isInside(point.toInt2())) return true;
+        }
+
+        return false;
+    }
+
+    public boolean intersectsRay(Vector2d start, Vector2d end) {
+        Vector2d direction = end.subtract(start);
+
+        double t1 = (position.x - start.getX()) / direction.getX();
+        double t2 = (position.x + size.x - start.getX()) / direction.getX();
+        double t3 = (position.y - start.getY()) / direction.getY();
+        double t4 = (position.y + size.y - start.getY()) / direction.getY();
+
+        double tmin = Math.max(Math.min(t1, t2), Math.min(t3, t4));
+        double tmax = Math.min(Math.max(t1, t2), Math.max(t3, t4));
+
+        boolean i = !(tmax < 0 || tmin > tmax);
+
+        //inRay = i;
+
+        return i;
+    }
+
+    public boolean lineIntersects(Vector2d start, Vector2d end) {
+        double slope = (end.getY() - start.getY()) / (end.getX() - start.getX());
+        double yIntercept = start.getY() - slope * start.getX();
+
+        //check if the line intersects with any of the four sides of the box
+        //top
+        if (start.getY() < position.y && end.getY() > position.y) {
+            double x = (position.y - yIntercept) / slope;
+            if (x >= position.x && x <= position.x + size.x) return true;
+        }
+
+        //bottom
+        if (start.getY() > position.y + size.y && end.getY() < position.y + size.y) {
+            double x = (position.y + size.y - yIntercept) / slope;
+            if (x >= position.x && x <= position.x + size.x) return true;
+        }
+
+        //left
+        if (start.getX() < position.x && end.getX() > position.x) {
+            double y = slope * position.x + yIntercept;
+            if (y >= position.y && y <= position.y + size.y) return true;
+        }
+
+        //right
+        if (start.getX() > position.x + size.x && end.getX() < position.x + size.x) {
+            double y = slope * (position.x + size.x) + yIntercept;
+            if (y >= position.y && y <= position.y + size.y) return true;
         }
 
         return false;

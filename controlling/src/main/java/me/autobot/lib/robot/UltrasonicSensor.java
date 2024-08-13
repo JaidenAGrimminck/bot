@@ -34,7 +34,7 @@ public class UltrasonicSensor extends Sensor {
             //then, add the robot's position to get the absolute position
             Vector2d absolutePos = pos.add(rotatedPos);
 
-            Rotation2d relativeRotation = Rotation2d.fromRadians(this.getRelativeRotation().getThetaRadians());
+            Rotation2d relativeRotation = Rotation2d.fromRadians(getRelativeRotation().getThetaRadians());
 
             //need to create a ray from absolutepos in direction of relative rotation, so create vector2d max distance in direction of relative rotation
             Vector2d ray = Vector2d.fromPolar(maxDistance.getValue(Unit.Type.CENTIMETER), relativeRotation);
@@ -46,17 +46,23 @@ public class UltrasonicSensor extends Sensor {
             //filter out objects that are too far away
             objects.removeIf(object -> object.signedDistance(absolutePos) > maxDistance.getValue(Unit.Type.CENTIMETER));
 
+            Box2d closestObject = null;
+            double closestDistance = maxDistance.getValue(Unit.Type.CENTIMETER);
+
             for (Box2d object : objects) {
-//                if (this.getAddress() == 0x04) {
-//                    System.out.println("Object distance: " + object.signedDistance(absolutePos));
-//                }
+                if (getAddress() == 0x04) object.inRay = false;
 
-                if (object.signedDistance(absolutePos) > maxDistance.getValue(Unit.Type.CENTIMETER)) continue;
-
-                if (object.intersectsRaySimple(absolutePos, ray)) {
-                    //if it does, return the distance to the object
-                    return Unit.Type.CENTIMETER.c(object.signedDistance(absolutePos));
+                if (object.lineIntersects(absolutePos, ray) && object.signedDistance(absolutePos) < closestDistance) {
+                    closestDistance = object.signedDistance(absolutePos);
+                    closestObject = object;
                 }
+            }
+
+            if (closestObject != null) {
+                if (getAddress() == 0x04) closestObject.inRay = true;
+
+                //if it does, return the distance to the object
+                return Unit.Type.CENTIMETER.c(closestObject.signedDistance(absolutePos));
             }
 
             //if no objects are in the way, return max distance
