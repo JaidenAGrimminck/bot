@@ -61,4 +61,7 @@ public class Polar {
     }
 
     //to vector
+    public Vector2d toVector() {
+        return new Vector2d(r * Math.cos(theta.getTheta()), r * Math.sin(theta.getTheta()));
+    }
 }

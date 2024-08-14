@@ -6,6 +6,10 @@ public class Vector2d {
     private double x;
     private double y;
 
+    public static Vector2d zero() {
+        return new Vector2d(0, 0);
+    }
+
     public static Vector2d fromPolar(double magnitude, Rotation2d rotation) {
         return new Vector2d(magnitude * rotation.cos(), magnitude * rotation.sin());
     }
@@ -82,5 +86,13 @@ public class Vector2d {
 
     public Int2 toInt2() {
         return new Int2((int) x, (int) y);
+    }
+
+    @Override
+    public String toString() {
+        return "Vector2d{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

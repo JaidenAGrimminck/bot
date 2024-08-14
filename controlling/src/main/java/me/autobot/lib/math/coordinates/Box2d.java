@@ -1,5 +1,7 @@
 package me.autobot.lib.math.coordinates;
 
+import me.autobot.lib.math.Mathf;
+
 import java.util.ArrayList;
 
 public class Box2d {
@@ -32,10 +34,12 @@ public class Box2d {
         return size;
     }
 
-    public double signedDistance(Vector2d point) {
-        double dx = Math.max(position.x - point.getX(), Math.max(0, point.getX() - (position.x + size.x)));
-        double dy = Math.max(position.y - point.getY(), Math.max(0, point.getY() - (position.y + size.y)));
-        return Math.sqrt(dx * dx + dy * dy);
+    //https://stackoverflow.com/questions/30545052/calculate-signed-distance-between-point-and-rectangle
+    public double signedDistance(Vector2d uv) {
+        Vector2d min = position.toVector2d();
+        Vector2d max = position.add(size).toVector2d();
+
+        return Mathf.distanceBoxParticle2D(uv.getX(), uv.getY(), min.getX(), min.getY(), max.getX(), max.getY());
     }
 
     //not raycasting, literally just checking a few points to see if they intersect

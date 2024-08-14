@@ -4,6 +4,7 @@ import me.autobot.code.Robot;
 import me.autobot.lib.math.Unit;
 import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Int2;
+import me.autobot.lib.math.coordinates.Polar;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.robot.Sensor;
@@ -156,7 +157,120 @@ public class SimCanvas extends JPanel {
 
     private Int2 mousePosition = Int2.zero();
 
+    public static String debugStr = "";
+
+    boolean start = false;
+
+    UltrasonicSensor sensor;
+
+    double t = 0;
+
     public void paint(Graphics g) {
+        if (!start) {
+            sensor = new UltrasonicSensor(0x04);
+
+
+            start = true;
+        }
+
+        g.clearRect(0, 0, getWidth(), getHeight());
+
+        Robot robot = Simulation.getInstance().getRobot();
+
+        Box2d left = new Box2d(
+                new Int2(-120, -10),
+                new Int2(20, 20)
+        );
+
+        Box2d right = new Box2d(
+                new Int2(100, -10),
+                new Int2(20, 20)
+        );
+
+        Box2d front = new Box2d(
+                new Int2(-10, -120),
+                new Int2(20, 20)
+        );
+
+        Box2d back = new Box2d(
+                new Int2(-10, 100),
+                new Int2(20, 20)
+        );
+
+        ArrayList<Box2d> boxes = new ArrayList<>();
+//        boxes.add(left);
+//        boxes.add(right);
+//        boxes.add(front);
+//        boxes.add(back);
+
+        for (double i = 0; i < Math.PI * 2; i += Math.PI / 10) {
+            double x = Math.cos(i) * 100;
+            double y = Math.sin(i) * 100;
+
+            boxes.add(new Box2d(
+                    new Int2((int) x, (int) y),
+                    new Int2(20, 20)
+            ));
+        }
+
+        for (Box2d object : boxes) {
+            g.setColor(Color.RED);
+            g.fillRect(
+                    (getWidth() / 2) + object.getPosition().x,
+                    (getHeight() / 2) + object.getPosition().y,
+                    object.getSize().x,
+                    object.getSize().y
+            );
+        }
+
+        Polar polar = new Polar(255, Rotation2d.fromRadians(t));
+
+        Vector2d ray = polar.toVector();
+
+        Box2d intersecting = null;
+        int n = 0;
+
+        for (Box2d object : boxes) {
+            if (object.lineIntersects(Vector2d.zero(), ray)) {
+                g.setColor(Color.GREEN);
+                intersecting = object;
+                n++;
+            } else {
+                g.setColor(Color.RED);
+            }
+
+            g.fillRect(
+                    (getWidth() / 2) + object.getPosition().x,
+                    (getHeight() / 2) + object.getPosition().y,
+                    object.getSize().x,
+                    object.getSize().y
+            );
+        }
+
+        Polar polar2 = new Polar(intersecting != null ? intersecting.signedDistance(Vector2d.zero()) : 255, Rotation2d.fromRadians(t));
+
+        ray = polar2.toVector();
+
+        g.setColor(Color.BLUE);
+        g.drawLine(
+                (getWidth() / 2),
+                (getHeight() / 2),
+                (getWidth() / 2) + (int) ray.getX(),
+                (getHeight() / 2) + (int) ray.getY()
+        );
+
+        t += Math.PI / 100;
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        repaint();
+    }
+
+    public void paint_(Graphics g) {
         g.clearRect(0, 0, getWidth(), getHeight());
 
         final Int2 fmousePosition = mousePosition;
@@ -175,7 +289,7 @@ public class SimCanvas extends JPanel {
                 g.setColor(Color.GREEN);
             }
 
-            g.fillRect(object.getPosition().x - (int) robot.getPosition().getX() + (getWidth() / 2) - 20, object.getPosition().y - (int) robot.getPosition().getY() + (getHeight() / 2) - 30, object.getSize().x, object.getSize().y);
+            g.fillRect(object.getPosition().x - (int) robot.getPosition().getX() + (getWidth() / 2), object.getPosition().y - (int) robot.getPosition().getY() + (getHeight() / 2), object.getSize().x, object.getSize().y);
         }
 
 
@@ -207,6 +321,9 @@ public class SimCanvas extends JPanel {
                 g.fillOval((int) (getWidth() / 2 + us.getRelativePosition().getX() + ray.getX() - 5), (int) (getHeight() / 2 + us.getRelativePosition().getY() + ray.getY() - 5), 10, 10);
             }
         }
+
+        g.setColor(Color.BLACK);
+        g.drawString(debugStr, 100, 10);
 
         elements.forEach(e -> e.draw(g, fmousePosition));
 

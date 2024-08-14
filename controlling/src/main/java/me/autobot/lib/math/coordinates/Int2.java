@@ -36,6 +36,11 @@ public class Int2 {
         return false;
     }
 
+
+    public Int2 add(Int2 other) {
+        return new Int2(x + other.x, y + other.y);
+    }
+
     public Int2 getInList(ArrayList<Int2> list) {
         for (Int2 i : list) {
             if (i.x == x && i.y == y) {

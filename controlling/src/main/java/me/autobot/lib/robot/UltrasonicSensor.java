@@ -5,6 +5,7 @@ import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.sim.Simulation;
+import me.autobot.sim.graphics.SimCanvas;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class UltrasonicSensor extends Sensor {
             Vector2d rotatedPos = relativePos.rotate(robotRotation);
 
             //then, add the robot's position to get the absolute position
-            Vector2d absolutePos = pos.add(rotatedPos);
+            Vector2d absolutePos = pos.add(relativePos);
 
             Rotation2d relativeRotation = Rotation2d.fromRadians(getRelativeRotation().getThetaRadians());
 
@@ -59,7 +60,10 @@ public class UltrasonicSensor extends Sensor {
             }
 
             if (closestObject != null) {
-                if (getAddress() == 0x04) closestObject.inRay = true;
+                if (getAddress() == 0x04) {
+                    closestObject.inRay = true;
+                    SimCanvas.debugStr = closestObject.getPosition().toString() + ", " + getRobot().getPosition().toString();
+                }
 
                 //if it does, return the distance to the object
                 return Unit.Type.CENTIMETER.c(closestObject.signedDistance(absolutePos));
