@@ -3,6 +3,7 @@ package me.autobot.lib.math;
 import me.autobot.lib.math.coordinates.Vector2d;
 
 public class Mathf {
+
     public static double clamp(double n, double min, double max) {
         return Math.max(min, Math.min(max, n));
     }

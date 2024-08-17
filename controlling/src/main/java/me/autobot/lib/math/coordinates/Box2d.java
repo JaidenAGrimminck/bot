@@ -42,6 +42,39 @@ public class Box2d {
         return Mathf.distanceBoxParticle2D(uv.getX(), uv.getY(), min.getX(), min.getY(), max.getX(), max.getY());
     }
 
+    public double raycastDistance(Vector2d pos, Vector2d to) {
+        if (!intersectsRay(pos, to)) return Double.POSITIVE_INFINITY;
+
+        Vector2d direction = to.subtract(pos);
+
+        final double threshold = 1;
+        final double rfac = 1;
+        final int maxn = 100;
+
+        double t = 0;
+
+        double r = signedDistance(pos) * rfac;
+
+        t += r;
+
+        int n = 0;
+
+        while (r > threshold && n++ < maxn) {
+            Vector2d newPos = pos.add(direction.normalize().multiply(r));
+            r = signedDistance(newPos) * rfac;
+
+            t += r;
+
+            pos = newPos;
+        }
+
+        if (n >= maxn) {
+            return Double.POSITIVE_INFINITY;
+        }
+
+        return t;
+    }
+
     //not raycasting, literally just checking a few points to see if they intersect
     public boolean intersectsRaySimple(Vector2d start, Vector2d end) {
         ArrayList<Vector2d> somePoints = new ArrayList<>();
