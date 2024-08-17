@@ -247,7 +247,7 @@ public class SimCanvas extends JPanel {
             );
         }
 
-        Polar polar2 = new Polar(intersecting != null ? intersecting.signedDistance(Vector2d.zero()) : 255, Rotation2d.fromRadians(t));
+        Polar polar2 = new Polar(intersecting != null ? intersecting.raycastDistance(Vector2d.zero(), ray) : 255, Rotation2d.fromRadians(t));
 
         ray = polar2.toVector();
 
@@ -261,94 +261,94 @@ public class SimCanvas extends JPanel {
 
         t += Math.PI / 100;
 
-        Box2d c = new Box2d(
-                new Int2(-10, -10),
-                new Int2(20, 20)
-        );
-
-        for (int i = 0; i < 300; i++) {
-            for (int j = 0; j < 300; j++) {
-                Vector2d v = new Vector2d(i - 150d, j - 150d);
-
-                double dist = 1000;
-
-                for (Box2d object : boxes) {
-                    double d = object.signedDistance(v);
-
-                    if (d < dist) {
-                        dist = d;
-                    }
-                }
-
-                if (dist <= 0) {
-                    g.setColor(Color.RED);
-                } else {
-                    g.setColor(new Color(0, 255 - (int) dist, 0));
-                }
-
-                g.fillRect(
-                        (getWidth() / 2) + (int)v.getX(),
-                        (getHeight() / 2) + (int)v.getY(),
-                        1,
-                        1
-                );
-            }
-        }
-
-        for (double th = 0; th < 360; th += 0.5) {
-            Rotation2d r = Rotation2d.fromDegrees(th);
-
-            Polar p = new Polar(255, r);
-
-            Vector2d v = p.toVector();
-
-            double d = 255;
-
-            for (Box2d object : boxes) {
-                if (!object.intersectsRay(Vector2d.zero(), v)) {
-                    continue;
-                }
-
-                double dist = object.raycastDistance(new Vector2d(0,0), v);
-
-                if (dist < d) {
-                    d = dist;
-                }
-            }
-
-            Polar p2 = new Polar(d, r);
-
-            Vector2d v2 = p2.toVector();
-
-            g.setColor(Color.BLUE);
-            g.drawLine(
-                    (getWidth() / 2),
-                    (getHeight() / 2),
-                    (getWidth() / 2) + (int)v2.getX(),
-                    (getHeight() / 2) + (int)v2.getY()
-            );
-        }
-
-        g.setColor(Color.BLACK);
-
-        for (Box2d object : boxes) {
-            g.drawRect(
-                    (getWidth() / 2) + object.getPosition().x,
-                    (getHeight() / 2) + object.getPosition().y,
-                    object.getSize().x,
-                    object.getSize().y
-            );
-        }
-
-        g.drawRect((getWidth() / 2) + c.getPosition().x, (getHeight() / 2) + c.getPosition().y, c.getSize().x, c.getSize().y);
-
-//        try {
-//            Thread.sleep(200);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
+//        Box2d c = new Box2d(
+//                new Int2(-10, -10),
+//                new Int2(20, 20)
+//        );
+//
+//        for (int i = 0; i < 300; i++) {
+//            for (int j = 0; j < 300; j++) {
+//                Vector2d v = new Vector2d(i - 150d, j - 150d);
+//
+//                double dist = 1000;
+//
+//                for (Box2d object : boxes) {
+//                    double d = object.signedDistance(v);
+//
+//                    if (d < dist) {
+//                        dist = d;
+//                    }
+//                }
+//
+//                if (dist <= 0) {
+//                    g.setColor(Color.RED);
+//                } else {
+//                    g.setColor(new Color(0, 255 - (int) dist, 0));
+//                }
+//
+//                g.fillRect(
+//                        (getWidth() / 2) + (int)v.getX(),
+//                        (getHeight() / 2) + (int)v.getY(),
+//                        1,
+//                        1
+//                );
+//            }
 //        }
 //
-//        repaint();
+//        for (double th = 0; th < 360; th += 0.5) {
+//            Rotation2d r = Rotation2d.fromDegrees(th);
+//
+//            Polar p = new Polar(255, r);
+//
+//            Vector2d v = p.toVector();
+//
+//            double d = 255;
+//
+//            for (Box2d object : boxes) {
+//                if (!object.intersectsRay(Vector2d.zero(), v)) {
+//                    continue;
+//                }
+//
+//                double dist = object.raycastDistance(new Vector2d(0,0), v);
+//
+//                if (dist < d) {
+//                    d = dist;
+//                }
+//            }
+//
+//            Polar p2 = new Polar(d, r);
+//
+//            Vector2d v2 = p2.toVector();
+//
+//            g.setColor(Color.BLUE);
+//            g.drawLine(
+//                    (getWidth() / 2),
+//                    (getHeight() / 2),
+//                    (getWidth() / 2) + (int)v2.getX(),
+//                    (getHeight() / 2) + (int)v2.getY()
+//            );
+//        }
+//
+//        g.setColor(Color.BLACK);
+//
+//        for (Box2d object : boxes) {
+//            g.drawRect(
+//                    (getWidth() / 2) + object.getPosition().x,
+//                    (getHeight() / 2) + object.getPosition().y,
+//                    object.getSize().x,
+//                    object.getSize().y
+//            );
+//        }
+//
+//        g.drawRect((getWidth() / 2) + c.getPosition().x, (getHeight() / 2) + c.getPosition().y, c.getSize().x, c.getSize().y);
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        repaint();
     }
 
     public void paint_(Graphics g) {
