@@ -10,6 +10,7 @@ public class Box2d {
     Int2 size;
 
     public boolean inRay = false;
+    public boolean inZone = false;
 
     public Box2d(int x, int y, int width, int height) {
         this.position = new Int2(x, y);

@@ -50,4 +50,22 @@ public class Mathf {
             return hypot(x_max-x, y_max-y);
         }
     }
+
+    public static double cos(double r) {
+        if (r == 0) return 1;
+        if (r == Math.PI) return -1;
+        if (r == Math.PI / 2) return 0;
+        if (r == 3 * Math.PI / 2) return 0;
+
+        return Math.cos(r);
+    }
+
+    public static double sin(double r) {
+        if (r == 0) return 0;
+        if (r == Math.PI) return 0;
+        if (r == Math.PI / 2) return 1;
+        if (r == 3 * Math.PI / 2) return -1;
+
+        return Math.sin(r);
+    }
 }

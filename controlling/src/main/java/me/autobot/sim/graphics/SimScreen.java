@@ -5,7 +5,6 @@ import java.awt.*;
 
 public class SimScreen {
     private void createGUI() {
-
         JFrame frame = new JFrame("Display");
 
         SimCanvas mainPanel = new SimCanvas(frame);

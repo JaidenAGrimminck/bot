@@ -165,7 +165,7 @@ public class SimCanvas extends JPanel {
 
     double t = 0;
 
-    public void paint(Graphics g) {
+    public void paint_(Graphics g) {
         if (!start) {
             sensor = new UltrasonicSensor(0x04);
 
@@ -351,7 +351,7 @@ public class SimCanvas extends JPanel {
         repaint();
     }
 
-    public void paint_(Graphics g) {
+    public void paint(Graphics g) {
         g.clearRect(0, 0, getWidth(), getHeight());
 
         final Int2 fmousePosition = mousePosition;
@@ -359,49 +359,67 @@ public class SimCanvas extends JPanel {
         //get all objects nearby the robot
         Robot robot = Simulation.getInstance().getRobot();
 
+        Rotation2d robotRotation = robot.getRotation();
+
+        Graphics2D g2d = (Graphics2D) g.create();
+
+        g2d.translate((getWidth() / 2), (getHeight() / 2));
+
         for (Box2d object : Simulation.getInstance().environment.obstacles) {
             if (object.signedDistance(robot.getPosition()) < 1000d) {
-                g.setColor(Color.RED);
+                g2d.setColor(Color.RED);
             } else {
                 continue;
             }
 
-            if (object.inRay) {
-                g.setColor(Color.GREEN);
+            if (object.inZone) {
+                g2d.setColor(Color.BLUE);
             }
 
-            g.fillRect(object.getPosition().x - (int) robot.getPosition().getX() + (getWidth() / 2), object.getPosition().y - (int) robot.getPosition().getY() + (getHeight() / 2), object.getSize().x, object.getSize().y);
+            if (object.inRay) {
+                g2d.setColor(Color.GREEN);
+            }
+
+            g2d.fillRect(object.getPosition().x - (int) robot.getPosition().getX(), object.getPosition().y - (int) robot.getPosition().getY(), object.getSize().x, object.getSize().y);
         }
 
+        g2d.dispose();
+
+        g2d = (Graphics2D) g.create();
+
+        g2d.translate((getWidth() / 2), (getHeight() / 2));
+        g2d.rotate(robotRotation.getTheta());
 
         // 1px = 1cm
-        g.setColor(Color.BLACK);
-        g.fillRect((getWidth() / 2) - 20, (getHeight() / 2) - 30, 40, 60);
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(- 20,  -30, 40, 60);
 
-        g.setColor(Color.WHITE);
-        g.fillOval((getWidth() / 2) - 15, (getHeight() / 2) + 20, 5, 5);
-        g.fillOval((getWidth() / 2) + 10, (getHeight() / 2) + 20, 5, 5);
+        g2d.setColor(Color.WHITE);
+        g2d.fillOval(-15, 20, 5, 5);
+        g2d.fillOval(10, 20, 5, 5);
 
         ArrayList<Sensor> sensors = robot.getSensors();
 
         for (Sensor sensor : sensors) {
             if (sensor instanceof UltrasonicSensor) {
                 UltrasonicSensor us = (UltrasonicSensor) sensor;
-                g.setColor(Color.BLUE);
-                g.fillOval((int) ((getWidth() / 2) + us.getRelativePosition().getX() - 5), (int) ((getHeight() / 2) + us.getRelativePosition().getY() - 5), 10, 10);
+                g2d.setColor(Color.BLUE);
+                g2d.fillOval((int) (us.getRelativePosition().getX() - 5), (int) (us.getRelativePosition().getY() - 5), 10, 10);
 
                 double distance = us.getDistance().getValue(Unit.Type.CENTIMETER);
 
                 Vector2d ray = Vector2d.fromPolar(distance, Rotation2d.fromRadians(us.getRelativeRotation().getThetaRadians()));
 
-                if (sensor.getAddress() == 0x04) {
-                    g.setColor(Color.RED);
+                if (sensor.getAddress() == 0x02) {
+                    g2d.setColor(Color.RED);
                 }
 
-                g.drawLine((int) (getWidth() / 2 + us.getRelativePosition().getX()), (int) (getHeight() / 2 + us.getRelativePosition().getY()), (int) (getWidth() / 2 + us.getRelativePosition().getX() + ray.getX()), (int) (getHeight() / 2 + us.getRelativePosition().getY() + ray.getY()));
-                g.fillOval((int) (getWidth() / 2 + us.getRelativePosition().getX() + ray.getX() - 5), (int) (getHeight() / 2 + us.getRelativePosition().getY() + ray.getY() - 5), 10, 10);
+                g2d.drawLine((int) (us.getRelativePosition().getX()), (int) (us.getRelativePosition().getY()), (int) (us.getRelativePosition().getX() + ray.getX()), (int) (us.getRelativePosition().getY() + ray.getY()));
+                g2d.fillOval((int) (us.getRelativePosition().getX() + ray.getX() - 5), (int) (us.getRelativePosition().getY() + ray.getY() - 5), 10, 10);
             }
         }
+
+        g2d.dispose();
 
         g.setColor(Color.BLACK);
         g.drawString(debugStr, 100, 10);

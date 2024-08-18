@@ -1,5 +1,6 @@
 package me.autobot.lib.math.rotation;
 
+import me.autobot.lib.math.Mathf;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.coordinates.Vector3d;
 
@@ -48,11 +49,11 @@ public class Rotation2d {
     }
 
     public double cos() {
-        return Math.cos(theta);
+        return Mathf.cos(theta);
     }
 
     public double sin() {
-        return Math.sin(theta);
+        return Mathf.sin(theta);
     }
 
     public double tan() {

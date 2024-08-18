@@ -28,7 +28,7 @@ public class Robot {
     private UltrasonicSensor rightSensor;
     
     private Vector2d position = new Vector2d(1100, 1050);
-    private Rotation2d rotation = new Rotation2d(0);
+    private Rotation2d rotation = new Rotation2d(Math.PI / 6);
 
     private boolean totalSimulation = false;
 
@@ -41,10 +41,11 @@ public class Robot {
         bottomRightMotor.invert();
         topRightMotor.invert();
 
+        //,0001 is to prevent a bug lmao idk how to fix it and i don't want to spent the hours of time to fix it
         frontSensor = new UltrasonicSensor(0x01);
-        frontSensor.attachRelativePosition(new Vector3d(0d, 30d, 0d), Rotation3d.fromDegrees(90, 90));
+        frontSensor.attachRelativePosition(new Vector3d(0d, 30d, 0d), Rotation3d.fromDegrees(90.0001, 90));
         backSensor = new UltrasonicSensor(0x02);
-        backSensor.attachRelativePosition(new Vector3d(0d, -30d, 0d), Rotation3d.fromDegrees(270, 90));
+        backSensor.attachRelativePosition(new Vector3d(0d, -30d, 0d), Rotation3d.fromDegrees(270.0001, 90));
         leftSensor = new UltrasonicSensor(0x03);
         leftSensor.attachRelativePosition(new Vector3d(-20d, 0d, 0d), Rotation3d.fromDegrees(180, 90));
         rightSensor = new UltrasonicSensor(0x04);
