@@ -112,6 +112,15 @@ The number component is quite simply just a real-time number display. This is qu
 *example of the number component recording the backend speed*
 
 
+## Bot Code (Controlling/Simulation)
+
+The `/controlling` folder contains the Java code for controlling the robot.
+
+Currently, the simulation doesn't have many capabilities other than moving around the robot and simulating distance sensors.
+
+The code also has a websocket server that once worked on, will be able to communicate seamlessly with other programs, such as the site, AI models, and more.
+
+
 # License
 
 This project is licensed under the MIT License. See the full license in [`LICENSE`](LICENSE.md)
