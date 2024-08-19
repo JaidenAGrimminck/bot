@@ -19,6 +19,20 @@ public class UltrasonicSensor extends Sensor {
         setSensorValues(0);
     }
 
+    public Vector2d getEstimatedAbsPosition() {
+        Vector2d pos = getRobot().getPosition();
+
+        Vector2d relativePos = this.getRelativePosition().toXY();
+
+        Rotation2d robotRotation = this.getRobot().getRotation();
+
+        //first, rotate the relative position by the robot's rotation
+        Vector2d rotatedPos = relativePos.rotate(robotRotation);
+
+        //then, add the robot's position to get the absolute position
+        return pos.add(rotatedPos);
+    }
+
     public Unit getDistance() {
         if (inSimulation()) {
             if (!Simulation.running()) return Unit.zero();
@@ -36,7 +50,7 @@ public class UltrasonicSensor extends Sensor {
             //then, add the robot's position to get the absolute position
             Vector2d absolutePos = pos.add(rotatedPos);
 
-            Rotation2d relativeRotation = Rotation2d.fromRadians(getRelativeRotation().getThetaRadians());
+            Rotation2d relativeRotation = Rotation2d.fromRadians(getRelativeRotation().getThetaRadians() + robotRotation.getTheta());
 
             //need to create a ray from absolutepos in direction of relative rotation, so create vector2d max distance in direction of relative rotation
             Vector2d ray = Vector2d.fromPolar(maxDistance.getValue(Unit.Type.CENTIMETER), relativeRotation);
@@ -54,13 +68,15 @@ public class UltrasonicSensor extends Sensor {
             double closestDistance = maxDistance.getValue(Unit.Type.CENTIMETER);
 
             for (Box2d object : objects) {
-                if (getAddress() == 0x02) object.inRay = false;
+//                if (getAddress() == 0x02) object.inRay = false;
+//
+//                object.inZone = true;
+//
+//                if (object.intersectsRay(absolutePos, ray) && getAddress() == 0x02) {
+//                    object.inRay = true;
+//                }
 
-                object.inZone = true;
-
-                if (object.intersectsRay(absolutePos, ray) && getAddress() == 0x02) {
-                    object.inRay = true;
-                }
+                object.flags.put(getAddress() + "hit", false);
 
                 if (object.lineIntersects(absolutePos, ray) && object.raycastDistance(absolutePos, ray) < closestDistance) {
                     closestDistance = object.raycastDistance(absolutePos, ray);
@@ -69,10 +85,11 @@ public class UltrasonicSensor extends Sensor {
             }
 
             if (closestObject != null) {
-                if (getAddress() == 0x02) {
-                    closestObject.inRay = true;
-                    SimCanvas.debugStr = closestObject.getPosition().toString() + ", " + getRobot().getPosition().toString();
-                }
+//                if (getAddress() == 0x02) {
+//                    closestObject.inRay = true;
+//                    SimCanvas.debugStr = closestObject.getPosition().toString() + ", " + getRobot().getPosition().toString();
+//                }
+                closestObject.flags.put(getAddress() + "hit", true);
 
                 //if it does, return the distance to the object
                 return Unit.Type.CENTIMETER.c(closestObject.raycastDistance(absolutePos, ray));

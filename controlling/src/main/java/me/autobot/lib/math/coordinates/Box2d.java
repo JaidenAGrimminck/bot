@@ -3,14 +3,16 @@ package me.autobot.lib.math.coordinates;
 import me.autobot.lib.math.Mathf;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Box2d {
-
     Int2 position;
     Int2 size;
 
-    public boolean inRay = false;
-    public boolean inZone = false;
+//    public boolean inRay = false;
+//    public boolean inZone = false;
+
+    public HashMap<String, Boolean> flags = new HashMap<>();
 
     public Box2d(int x, int y, int width, int height) {
         this.position = new Int2(x, y);
