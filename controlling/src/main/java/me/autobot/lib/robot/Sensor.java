@@ -1,8 +1,6 @@
 package me.autobot.lib.robot;
 
-import me.autobot.lib.math.coordinates.Spherical;
 import me.autobot.lib.math.coordinates.Vector3d;
-import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.math.rotation.Rotation3d;
 
 import java.util.ArrayList;
@@ -22,13 +20,13 @@ public class Sensor extends Device {
     }
 
     private double[] sensorValues;
-    private int sensorChannels;
+    private final int sensorChannels;
 
     private Vector3d relativePosition;
 
     private Rotation3d relativeRotation;
 
-    private int address;
+    private final int address;
 
     private boolean simulating = false;
 
@@ -44,7 +42,13 @@ public class Sensor extends Device {
         sensors.add(this);
     }
 
-    protected double[] getSensorValues() {
+    //generally raw data
+    public double[] getSensorValues() {
+        return sensorValues;
+    }
+
+    //this is the processed data, if it is.
+    public double[] getValues() {
         return sensorValues;
     }
 

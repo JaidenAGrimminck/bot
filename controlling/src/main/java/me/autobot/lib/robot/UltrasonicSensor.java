@@ -14,6 +14,8 @@ public class UltrasonicSensor extends Sensor {
 
     private final static Unit maxDistance = new Unit(255, Unit.Type.CENTIMETER);
 
+    private final static Unit maxNoise = new Unit(1, Unit.Type.CENTIMETER);
+
     public UltrasonicSensor(int address) {
         super(address, 1);
         setSensorValues(0);
@@ -31,6 +33,11 @@ public class UltrasonicSensor extends Sensor {
 
         //then, add the robot's position to get the absolute position
         return pos.add(rotatedPos);
+    }
+
+    @Override
+    public double[] getValues() {
+        return new double[] {getDistance().getValue(Unit.Type.CENTIMETER)};
     }
 
     public Unit getDistance() {
@@ -92,7 +99,7 @@ public class UltrasonicSensor extends Sensor {
                 closestObject.flags.put(getAddress() + "hit", true);
 
                 //if it does, return the distance to the object
-                return Unit.Type.CENTIMETER.c(closestObject.raycastDistance(absolutePos, ray));
+                return Unit.Type.CENTIMETER.c(closestObject.raycastDistance(absolutePos, ray) + (Math.random() * maxNoise.getValue(Unit.Type.CENTIMETER)));
             }
 
             //if no objects are in the way, return max distance
