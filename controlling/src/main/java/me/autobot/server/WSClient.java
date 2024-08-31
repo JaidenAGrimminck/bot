@@ -88,6 +88,8 @@ public class WSClient extends NanoWSD.WebSocket {
         activated = false;
         created = (int) (System.currentTimeMillis());
 
+        System.out.println("Client connected");
+
         TimerTask close = new TimerTask() {
             @Override
             public void run() {
@@ -136,6 +138,15 @@ public class WSClient extends NanoWSD.WebSocket {
                     activated = false;
                     forceClose(Error.InvalidPayload);
                     return;
+            }
+
+            //send back the confirmation
+            try {
+                send(new byte[] { (byte) 0xFF, (byte) 0x00 });
+                System.out.println("Client successfully activated as " + type.toString());
+            } catch (IOException e) {
+                notifyError(Error.InternalError);
+                e.printStackTrace();
             }
 
             return;
@@ -243,15 +254,19 @@ public class WSClient extends NanoWSD.WebSocket {
 
         int nDoubles = returnPayload.length;
 
+        int preLength = 3;
         //encode doubles to byte list
-        byte[] encodedDoubles = new byte[(nDoubles * Double.BYTES) + 1];
+        byte[] encodedDoubles = new byte[(nDoubles * Double.BYTES) + preLength];
 
-        encodedDoubles[0] = (byte) nDoubles;
+        encodedDoubles[0] = (byte) 0xC0; //response
+        encodedDoubles[1] = (byte) 0x01; //sensor data
+        encodedDoubles[2] = (byte) nDoubles;
+
         ByteBuffer bbuf = ByteBuffer.allocate(nDoubles * Double.BYTES);
 
         Arrays.stream(returnPayload).forEach(bbuf::putDouble);
 
-        System.arraycopy(bbuf.array(), 0, encodedDoubles, 1, nDoubles * Double.BYTES);
+        System.arraycopy(bbuf.array(), 0, encodedDoubles, preLength, nDoubles * Double.BYTES);
 
         try {
             send(encodedDoubles);
