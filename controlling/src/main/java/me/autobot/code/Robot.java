@@ -1,6 +1,8 @@
 package me.autobot.code;
 
+import me.autobot.lib.math.Geometry;
 import me.autobot.lib.math.Unit;
+import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.coordinates.Vector3d;
 import me.autobot.lib.math.map.Map2d;
@@ -9,8 +11,10 @@ import me.autobot.lib.math.rotation.Rotation3d;
 import me.autobot.lib.robot.Motor;
 import me.autobot.lib.robot.Sensor;
 import me.autobot.lib.robot.UltrasonicSensor;
+import me.autobot.sim.Simulation;
 import me.autobot.sim.graphics.SimCanvas;
 
+import javax.swing.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
@@ -18,6 +22,8 @@ import java.util.ArrayList;
 public class Robot {
 
     public static Robot instance;
+
+    private final Vector2d robotSize = new Vector2d(40, 60);
 
     private Motor topLeftMotor;
     private Motor topRightMotor;
@@ -35,7 +41,7 @@ public class Robot {
     private UltrasonicSensor bottomLeftSensor;
     private UltrasonicSensor bottomRightSensor;
     
-    private Vector2d position = new Vector2d(1910, 860);
+    private Vector2d position = new Vector2d(130, 1870);
     private Rotation2d rotation = new Rotation2d(0);
 
     private Map2d obstaclesMap;
@@ -43,6 +49,8 @@ public class Robot {
     private boolean totalSimulation = false;
 
     public Robot() {
+        instance = this;
+
         topLeftMotor = new Motor(0x1);
         topRightMotor = new Motor(0x02);
         bottomLeftMotor = new Motor(0x03);
@@ -154,6 +162,56 @@ public class Robot {
             }
         }
         return sensors;
+    }
+
+    public Vector2d getRobotSize() {
+        return robotSize;
+    }
+
+    public boolean inCollision() {
+        if (totalSimulation) {
+            // get obstacles
+            ArrayList<Box2d> obstacles = (ArrayList<Box2d>) Simulation.getInstance().environment.obstacles.clone();
+
+            // get robot position
+            Vector2d pos = getPosition();
+            // get robot rotation
+            Rotation2d rot = getRotation();
+
+            //sort the box2d points by distance to the robot
+            obstacles.sort((o1, o2) -> {
+                double d1 = o1.getPosition().distance(pos.toInt2());
+                double d2 = o2.getPosition().distance(pos.toInt2());
+                return Double.compare(d1, d2);
+            });
+
+            Vector2d topLeft = new Vector2d(-robotSize.getX() / 2, -robotSize.getY() / 2);
+            Vector2d topRight =  new Vector2d(robotSize.getX() / 2, -robotSize.getY() / 2);
+            Vector2d bottomLeft = new Vector2d(-robotSize.getX() / 2, robotSize.getY() / 2);
+            Vector2d bottomRight = new Vector2d(robotSize.getX() / 2, robotSize.getY() / 2);
+
+            //rotate the points
+            topLeft = topLeft.rotate(rot);
+            topRight = topRight.rotate(rot);
+            bottomLeft = bottomLeft.rotate(rot);
+            bottomRight = bottomRight.rotate(rot);
+
+            Vector2d[] list = new Vector2d[] {topLeft, topRight, bottomLeft, bottomRight};
+
+            //add the position to the points
+            for (int i = 0; i < list.length; i++) {
+                list[i] = pos.add(list[i]);
+            }
+
+
+            for (Box2d obstacle : obstacles) {
+                if (Geometry.twoPolygonsIntersecting(list, obstacle.getVertices())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 }

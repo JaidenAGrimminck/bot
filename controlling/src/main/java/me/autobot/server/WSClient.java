@@ -27,7 +27,7 @@ public class WSClient extends NanoWSD.WebSocket {
         InvalidPassiveType(0xE6, "Invalid passive type, must be denoted by 0x01 or 0x02 for speaker or listener respectively"),
         SensorNotFound(0xE8, "Sensor was not found within the system.");
 
-        public static int C = 0xEE;
+        public static byte C = (byte) 0xEE;
 
         private int code;
         private String description;
@@ -101,15 +101,35 @@ public class WSClient extends NanoWSD.WebSocket {
 
         // 5 seconds timeout
         new java.util.Timer().schedule(close, 5000);
+
+        TimerTask heartbeat = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    ping(new byte[] { (byte) 0xFF, (byte) 0x00 });
+                } catch (IOException e) {
+                    // handle
+                }
+            }
+        };
+
+        // 1 second heartbeat
+        new java.util.Timer().scheduleAtFixedRate(heartbeat, 1000, 1000);
     }
 
     @Override
     protected void onClose(NanoWSD.WebSocketFrame.CloseCode code, String reason, boolean initiatedByRemote) {
         //make sure this is removed from memory
+        System.out.println("Client disconnected (" + (initiatedByRemote ? "remotely" : "by us") + ")! " + code.toString() + ": " + reason);
     }
 
     @Override
     protected void onMessage(NanoWSD.WebSocketFrame message) {
+        if (message.getBinaryPayload()[0] == (byte) 0xFF && message.getBinaryPayload()[1] == (byte) 0x01) {
+            onPong(message); //pong!
+            return;
+        }
+
         if (!activated) {
             byte[] payload = message.getBinaryPayload();
 
@@ -155,6 +175,8 @@ public class WSClient extends NanoWSD.WebSocket {
         byte[] payload = message.getBinaryPayload();
 
         boolean isSpeaker = (type == ClientType.Speaker);
+
+        System.out.println(Arrays.toString(payload));
 
         //if a passive, then the message must start with either 0x01 or 0x02 for speaker or listener respectively
         if (type == ClientType.Passive) {
@@ -219,9 +241,38 @@ public class WSClient extends NanoWSD.WebSocket {
         if (payload.length < 1) { notifyError(Error.InvalidPayloadLength); return; }
 
         boolean isSensor = (payload[0] == (byte) 0x01);
+        boolean subscribeToSensor = (payload[0] == (byte) 0x11);
 
         if (isSensor) {
             handleSensor(Arrays.copyOfRange(payload, 1, payload.length), message);
+        } else if (subscribeToSensor) {
+            handleSubscribe(Arrays.copyOfRange(payload, 1, payload.length), message);
+        }
+    }
+
+    private void handleSubscribe(byte[] payload, NanoWSD.WebSocketFrame message) {
+        //[0] -> address
+        //[1] -> 0x00 for unsubscribe, 0x01 for subscribe
+
+        if (payload.length < 2) { notifyError(Error.InvalidPayloadLength); return; }
+
+        int address = payload[0];
+        int subscribe = payload[1];
+
+        Sensor sensor = Sensor.getSensor(address);
+
+        if (sensor == null) {
+            notifyError(Error.SensorNotFound);
+            return;
+        }
+
+        if (subscribe == 0x00) {
+            sensor.unsubscribe(this);
+        } else if (subscribe == 0x01) {
+            System.out.println("Subscribed to sensor " + address);
+            sensor.subscribe(this);
+        } else {
+            notifyError(Error.InvalidArgument);
         }
     }
 
@@ -244,9 +295,9 @@ public class WSClient extends NanoWSD.WebSocket {
         double[] returnPayload;
 
         if (processed == 0x00) {
-            returnPayload = sensor.getValues();
+            returnPayload = sensor.getValues(); //processed
         } else if (processed == 0x01) {
-            returnPayload = sensor.getSensorValues();
+            returnPayload = sensor.getSensorValues(); //raw
         } else {
             notifyError(Error.InvalidArgument);
             return;
@@ -254,13 +305,14 @@ public class WSClient extends NanoWSD.WebSocket {
 
         int nDoubles = returnPayload.length;
 
-        int preLength = 3;
+        int preLength = 4;
         //encode doubles to byte list
         byte[] encodedDoubles = new byte[(nDoubles * Double.BYTES) + preLength];
 
         encodedDoubles[0] = (byte) 0xC0; //response
         encodedDoubles[1] = (byte) 0x01; //sensor data
-        encodedDoubles[2] = (byte) nDoubles;
+        encodedDoubles[2] = (byte) sensor.getAddress();
+        encodedDoubles[3] = (byte) nDoubles;
 
         ByteBuffer bbuf = ByteBuffer.allocate(nDoubles * Double.BYTES);
 
@@ -276,14 +328,40 @@ public class WSClient extends NanoWSD.WebSocket {
         }
     }
 
+    public void sendSensorData(byte address, double[] values) {
+        byte[] payload = new byte[Double.BYTES * values.length + 1];
+
+        payload[0] = (byte) values.length;
+
+        ByteBuffer bbuf = ByteBuffer.allocate(values.length * Double.BYTES);
+
+        Arrays.stream(values).forEach(bbuf::putDouble);
+
+        System.arraycopy(bbuf.array(), 0, payload, 1, values.length * Double.BYTES);
+
+        sendValues((byte) 0x01, address, payload);
+    }
+
+    public void sendValues(byte type, byte address, byte... payload) {
+        byte[] encodedValues = new byte[3 + payload.length];
+
+        encodedValues[0] = (byte) 0xC0;
+        encodedValues[1] = type;
+        encodedValues[2] = address;
+
+        if (payload.length > 0) System.arraycopy(payload, 0, encodedValues, 3, payload.length);
+
+        try {
+            send(encodedValues);
+        } catch (IOException e) {
+            notifyError(Error.InternalError);
+            e.printStackTrace();
+        }
+    }
+
     @Override
     protected void onPong(NanoWSD.WebSocketFrame pong) {
-        pong.setUnmasked();
-        try {
-            sendFrame(pong);
-        } catch (IOException e) {
-            // handle
-        }
+        //pong!
     }
 
     @Override

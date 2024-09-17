@@ -187,6 +187,8 @@ public class SimCanvas extends JPanel {
     public static String debugStr = "";
 
     public void paint(Graphics g) {
+        if (Robot.instance == null) return;
+
         g.clearRect(0, 0, getWidth(), getHeight());
 
         final Int2 fmousePosition = mousePosition;
@@ -224,7 +226,10 @@ public class SimCanvas extends JPanel {
 
         // 1px = 1cm
         g2d.setColor(Color.BLACK);
-        g2d.fillRect(- 20,  -30, 40, 60);
+        g2d.fillRect(
+                (int) (-Robot.instance.getRobotSize().getX() / 2),  (int) (-Robot.instance.getRobotSize().getY() / 2),
+                (int) (Robot.instance.getRobotSize().getX() / 2), (int) (Robot.instance.getRobotSize().getY() / 2)
+        );
 
         g2d.setColor(Color.WHITE);
         g2d.fillOval(-15, 20, 5, 5);
@@ -234,7 +239,12 @@ public class SimCanvas extends JPanel {
             if (sensor instanceof UltrasonicSensor) {
                 UltrasonicSensor us = (UltrasonicSensor) sensor;
                 g2d.setColor(Color.BLUE);
+                if (us.getAddress() == 0x01) {
+                    g2d.setColor(Color.RED);
+                }
                 g2d.fillOval((int) (us.getRelativePosition().getX() - 5), (int) (us.getRelativePosition().getY() - 5), 10, 10);
+
+
 
                 double distance = us.getDistance().getValue(Unit.Type.CENTIMETER);
 

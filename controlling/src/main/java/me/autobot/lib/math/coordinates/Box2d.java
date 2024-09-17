@@ -142,4 +142,13 @@ public class Box2d {
 
         return false;
     }
+
+    public Vector2d[] getVertices() {
+        return new Vector2d[] {
+                position.toVector2d(),
+                position.add(new Int2(size.x, 0)).toVector2d(),
+                position.add(size).toVector2d(),
+                position.add(new Int2(0, size.y)).toVector2d()
+        };
+    }
 }

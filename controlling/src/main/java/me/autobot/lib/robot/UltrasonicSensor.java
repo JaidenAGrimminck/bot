@@ -37,7 +37,9 @@ public class UltrasonicSensor extends Sensor {
 
     @Override
     public double[] getValues() {
-        return new double[] {getDistance().getValue(Unit.Type.CENTIMETER)};
+        return new double[] {
+                getDistance().getValue(Unit.Type.CENTIMETER)
+        };
     }
 
     public Unit getDistance() {

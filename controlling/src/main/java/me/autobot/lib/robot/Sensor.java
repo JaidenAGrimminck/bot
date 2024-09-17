@@ -2,8 +2,11 @@ package me.autobot.lib.robot;
 
 import me.autobot.lib.math.coordinates.Vector3d;
 import me.autobot.lib.math.rotation.Rotation3d;
+import me.autobot.server.WSClient;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Sensor extends Device {
 
@@ -26,9 +29,15 @@ public class Sensor extends Device {
 
     private Rotation3d relativeRotation;
 
+    private ArrayList<WSClient> subscribers;
+
     private final int address;
 
     private boolean simulating = false;
+
+    private Timer updateTimer;
+
+    private long updateInterval = 1000 / 20;
 
     public Sensor(int address, int sensorChannels) {
         super();
@@ -40,6 +49,41 @@ public class Sensor extends Device {
         this.address = address;
 
         sensors.add(this);
+
+        startUpdateTimer();
+    }
+
+    private void startUpdateTimer() {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if (subscribers == null) return;
+
+                ArrayList<WSClient> toRemove = new ArrayList<>();
+
+                for (int i = 0; i < subscribers.size(); i++) {
+                    WSClient client = subscribers.get(i);
+                    try {
+                        if (client.isOpen())
+                            client.sendSensorData((byte) address, getValues());
+                        else
+                            toRemove.add(client);
+                    } catch (Exception e) {
+                        // ignore
+                    }
+                }
+
+                toRemove.forEach(subscribers::remove);
+            }
+        };
+
+        updateTimer = new Timer();
+
+        updateTimer.schedule(task, 0, updateInterval);
+    }
+
+    protected void changeUpdateInterval(long interval) {
+        updateInterval = interval;
     }
 
     //generally raw data
@@ -103,5 +147,19 @@ public class Sensor extends Device {
 
     protected void setSensorValues(double... values) {
         sensorValues = values;
+    }
+
+    public void subscribe(WSClient client) {
+        if (subscribers == null) {
+            subscribers = new ArrayList<>();
+        }
+
+        subscribers.add(client);
+    }
+
+    public void unsubscribe(WSClient client) {
+        if (subscribers == null) return;
+
+        subscribers.remove(client);
     }
 }

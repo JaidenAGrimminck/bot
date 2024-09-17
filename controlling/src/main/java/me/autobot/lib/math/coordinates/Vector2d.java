@@ -88,6 +88,10 @@ public class Vector2d {
         return new Int2((int) x, (int) y);
     }
 
+    public Vector2d perpendicular() {
+        return new Vector2d(-y, x);
+    }
+
     @Override
     public String toString() {
         return "Vector2d{" +

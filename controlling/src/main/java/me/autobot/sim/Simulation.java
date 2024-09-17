@@ -3,6 +3,7 @@ package me.autobot.sim;
 import me.autobot.code.Robot;
 import me.autobot.lib.logging.Logger;
 import me.autobot.lib.pathing.Environment;
+import me.autobot.server.WSServer;
 import me.autobot.sim.graphics.SimCanvas;
 import me.autobot.sim.graphics.SimScreen;
 
@@ -16,6 +17,8 @@ public class Simulation {
     public Environment environment;
 
     public static void start() {
+        WSServer.wsstart();
+
         Thread thread = new Thread(() -> {
             new SimScreen();
         });

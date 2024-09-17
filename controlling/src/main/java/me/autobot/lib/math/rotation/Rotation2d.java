@@ -82,7 +82,8 @@ public class Rotation2d {
      * @return A new Rotation2d with the given angle in degrees.
      */
     public static Rotation2d fromDegrees(double degrees) {
-        return new Rotation2d(Math.toRadians(degrees));
+        //ignore the 0.00001, it's just to prevent any potential issues....
+        return new Rotation2d(Math.toRadians(degrees + 0.00001));
     }
 
     /**

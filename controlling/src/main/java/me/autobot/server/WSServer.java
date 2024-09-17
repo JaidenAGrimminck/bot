@@ -7,6 +7,8 @@ import java.io.IOException;
 
 public class WSServer extends NanoWSD {
 
+    private static WSServer instance;
+
     public static void main(String[] args) {
         try {
             new WSServer(8080);
@@ -15,8 +17,21 @@ public class WSServer extends NanoWSD {
         }
     }
 
+    public static void wsstart() {
+        try {
+            new WSServer(8080);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static WSServer getInstance() {
+        return instance;
+    }
+
     public WSServer(int port) throws IOException {
         super(port);
+        instance = this;
         System.out.println("WSServer started on port " + port);
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
     }
