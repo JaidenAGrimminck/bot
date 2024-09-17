@@ -10,11 +10,11 @@ import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.math.rotation.Rotation3d;
 import me.autobot.lib.robot.Motor;
 import me.autobot.lib.robot.Sensor;
-import me.autobot.lib.robot.UltrasonicSensor;
+import me.autobot.lib.robot.sensors.CollisionSensor;
+import me.autobot.lib.robot.sensors.UltrasonicSensor;
 import me.autobot.sim.Simulation;
 import me.autobot.sim.graphics.SimCanvas;
 
-import javax.swing.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
@@ -40,6 +40,8 @@ public class Robot {
     private UltrasonicSensor topRightSensor;
     private UltrasonicSensor bottomLeftSensor;
     private UltrasonicSensor bottomRightSensor;
+
+    private CollisionSensor collisionSensor;
     
     private Vector2d position = new Vector2d(130, 1870);
     private Rotation2d rotation = new Rotation2d(0);
@@ -61,7 +63,7 @@ public class Robot {
 
         obstaclesMap = new Map2d();
 
-        //,0001 is to prevent a bug lmao idk how to fix it and i don't want to spent the hours of time to fix it
+        //,0001 is to prevent a bug lmao idk how to fix it and i don't want to spend the hours of time to fix it
         frontSensor = new UltrasonicSensor(0x01);
         frontSensor.attachRelativePosition(new Vector3d(0d, 30d, 0d), Rotation3d.fromDegrees(90.0001, 90));
         backSensor = new UltrasonicSensor(0x02);
@@ -79,6 +81,9 @@ public class Robot {
         bottomLeftSensor.attachRelativePosition(new Vector3d(-20d, -30d, 0d), Rotation3d.fromDegrees(225.0001, 90));
         bottomRightSensor = new UltrasonicSensor(0x08);
         bottomRightSensor.attachRelativePosition(new Vector3d(20d, -30d, 0d), Rotation3d.fromDegrees(315.0001, 90));
+
+        //used primarily for simulation purposes
+        collisionSensor = new CollisionSensor(0xC7);
 
         //just incase simulation, we can do this to ensure that multiple robots can be created for ai etc
         getSensors().forEach(sensor -> sensor.setParent(this));

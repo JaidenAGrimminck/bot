@@ -12,16 +12,25 @@ wscon = None
 
 sensors = {}
 
+listeners = {}
+
+onFinishMethod = lambda: None
+
 # This function will be called when a message is received from the server
 def on_message(ws, message):
     global timeSinceLastHeartbeat
+
+    if message[0] == 0xFF and message[1] == 0xFF:
+        print('successful connection')
+        onFinishMethod()
+        onConfirmedConnection()
+        return
 
     if message[0] == 0xFF and message[1] == 0x00:
         timeSinceLastHeartbeat = time.time()
         print("heartbeat")
         # pong
         ws.send([0xFF, 0x01])
-        onConfirmedConnection()
         return
 
     try:
@@ -53,6 +62,10 @@ def on_message(ws, message):
                     sensors[address] = sensor.Sensor(address, n_values)
                     sensors[address].update_value(i, value)
 
+                if address in listeners:
+                    for listener in listeners[address]:
+                        listener(sensors[address].get_values())
+
 def on_error(ws, error):
     print(f"Error: {error}")
 
@@ -77,7 +90,9 @@ def on_open(ws):
     threading.Thread(target=run).start()
 
 # Main function to initiate the WebSocket connection
-def start_websocket():
+def start_websocket(onFinish=lambda: None):
+    global onFinishMethod
+
     ws = websocket.WebSocketApp(
         WEBSOCKET_URL,
         on_message=on_message,
@@ -92,6 +107,8 @@ def start_websocket():
     wst = threading.Thread(target=ws.run_forever)
     wst.daemon = True  # This ensures the thread doesn't block the main program from exiting
     wst.start()
+
+    onFinishMethod = onFinish
 
     # Keep the main thread alive
     while True:
@@ -138,6 +155,15 @@ def subscribe(address, unsubscribe=False):
     ]
 
     sendPayload(payload)
+
+def listen(address, method):
+    subscribe(address)
+
+    if address not in listeners:
+        listeners[address] = []
+
+    listeners[address].append(method)
+
 
 ran = False
 

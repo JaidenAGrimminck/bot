@@ -2,6 +2,7 @@ package me.autobot.server;
 
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoWSD;
+import me.autobot.lib.math.Mathf;
 import me.autobot.lib.robot.Sensor;
 import me.autobot.lib.tools.RunnableWithArgs;
 
@@ -10,6 +11,8 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TimerTask;
+
+import static me.autobot.lib.math.Mathf.allPos;
 
 public class WSClient extends NanoWSD.WebSocket {
     enum ClientType {
@@ -162,7 +165,7 @@ public class WSClient extends NanoWSD.WebSocket {
 
             //send back the confirmation
             try {
-                send(new byte[] { (byte) 0xFF, (byte) 0x00 });
+                send(new byte[] { (byte) 0xFF, (byte) 0xFF });
                 System.out.println("Client successfully activated as " + type.toString());
             } catch (IOException e) {
                 notifyError(Error.InternalError);
@@ -172,11 +175,21 @@ public class WSClient extends NanoWSD.WebSocket {
             return;
         }
 
-        byte[] payload = message.getBinaryPayload();
+        byte[] payload = message.getBinaryPayload().clone();
+
+        System.out.print("[");
+        //if the payload <0, there's an issue while parsing, convert to 0 to 256 range
+        for (int i = 0; i < payload.length; i++) {
+            if (payload[i] < 0) {
+                payload[i] = (byte) allPos(payload[i]);
+            }
+
+            System.out.print(allPos(payload[i]) + (i == payload.length - 1 ? "" : " "));
+        }
+
+        System.out.println("]");
 
         boolean isSpeaker = (type == ClientType.Speaker);
-
-        System.out.println(Arrays.toString(payload));
 
         //if a passive, then the message must start with either 0x01 or 0x02 for speaker or listener respectively
         if (type == ClientType.Passive) {
@@ -218,7 +231,7 @@ public class WSClient extends NanoWSD.WebSocket {
 
         if (payload.length < 1) { notifyError(Error.InvalidPayloadLength); return; }
 
-        int address = payload[0];
+        int address = allPos(payload[0]);
 
         Runnable runnable = callables.get(address);
 
@@ -256,7 +269,7 @@ public class WSClient extends NanoWSD.WebSocket {
 
         if (payload.length < 2) { notifyError(Error.InvalidPayloadLength); return; }
 
-        int address = payload[0];
+        int address = allPos(payload[0]);
         int subscribe = payload[1];
 
         Sensor sensor = Sensor.getSensor(address);
@@ -282,7 +295,7 @@ public class WSClient extends NanoWSD.WebSocket {
 
         if (payload.length < 2) { notifyError(Error.InvalidPayloadLength); return; }
 
-        int address = payload[0];
+        int address = allPos(payload[0]);
         int processed = payload[1];
 
         Sensor sensor = Sensor.getSensor(address);

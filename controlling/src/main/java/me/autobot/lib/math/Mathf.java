@@ -68,4 +68,9 @@ public class Mathf {
 
         return Math.sin(r);
     }
+
+    public static int allPos(byte n) {
+        if ((int) n < 0) return ((int) n) + 256;
+        return n;
+    }
 }

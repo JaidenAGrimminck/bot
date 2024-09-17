@@ -1,9 +1,10 @@
-package me.autobot.lib.robot;
+package me.autobot.lib.robot.sensors;
 
 import me.autobot.lib.math.Unit;
 import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
+import me.autobot.lib.robot.Sensor;
 import me.autobot.sim.Simulation;
 import me.autobot.sim.graphics.SimCanvas;
 

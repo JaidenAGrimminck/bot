@@ -28,10 +28,18 @@ def act(state):
 
     return actions[np.argmax(values)]
 
+def onCollide(v):
+    if v[0] == 1:
+        print("collided!!!")
+
+def finishStartup():
+    print("oisadgjlasndgl")
+    ws.listen(0xC7, onCollide)
+
 # [speed up, speed down, turn left, turn right, no action]
 
 if __name__ == "__main__":
-    ws.start_websocket()
+    ws.start_websocket(finishStartup)
 
 
 

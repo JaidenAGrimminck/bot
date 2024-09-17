@@ -4,11 +4,10 @@ import me.autobot.code.Robot;
 import me.autobot.lib.math.Unit;
 import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Int2;
-import me.autobot.lib.math.coordinates.Polar;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.robot.Sensor;
-import me.autobot.lib.robot.UltrasonicSensor;
+import me.autobot.lib.robot.sensors.UltrasonicSensor;
 import me.autobot.sim.MapLoader;
 import me.autobot.sim.Simulation;
 import me.autobot.sim.graphics.elements.CanvasButton;
@@ -226,9 +225,12 @@ public class SimCanvas extends JPanel {
 
         // 1px = 1cm
         g2d.setColor(Color.BLACK);
+        if (Robot.instance.inCollision()) {
+            g2d.setColor(Color.RED);
+        }
         g2d.fillRect(
                 (int) (-Robot.instance.getRobotSize().getX() / 2),  (int) (-Robot.instance.getRobotSize().getY() / 2),
-                (int) (Robot.instance.getRobotSize().getX() / 2), (int) (Robot.instance.getRobotSize().getY() / 2)
+                (int) (Robot.instance.getRobotSize().getX()), (int) (Robot.instance.getRobotSize().getY())
         );
 
         g2d.setColor(Color.WHITE);
