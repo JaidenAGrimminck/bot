@@ -13,12 +13,12 @@ public class Map2d {
     }
 
     public void addObstaclePoint(Vector2d location) {
-        locations.add(location);
-
-        //not the purpose, want a dynamic map that can "map out" the entire "maze" but this should work for now for in terms of memory management
-        if (locations.size() > 1000) {
-            locations.remove(0);
-        }
+//        locations.add(location);
+//
+//        //not the purpose, want a dynamic map that can "map out" the entire "maze" but this should work for now for in terms of memory management
+//        if (locations.size() > 1000) {
+//            locations.remove(0);
+//        }
     }
 
     public ArrayList<Vector2d> getLocations() {

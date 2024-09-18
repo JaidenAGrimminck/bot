@@ -8,6 +8,10 @@ class Agent:
         self.state_size = state_size
         self.action_size = action_size
 
+        self.crashed = False
+
+        self.inputs = {}
+
     def act(self, state):
         return np.argmax(self.model.predict(state)[0])
 
@@ -32,6 +36,9 @@ class Agent:
         new_model.set_weights(weights)
 
         self.model = new_model
+
+    def update_sensor(self, address, n):
+        self.inputs[address] = n / 256
 
     def evaluate_model(model, environment):
         total_reward = 0

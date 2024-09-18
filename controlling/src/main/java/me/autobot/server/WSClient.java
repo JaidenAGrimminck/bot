@@ -175,16 +175,22 @@ public class WSClient extends NanoWSD.WebSocket {
             return;
         }
 
-        byte[] payload = message.getBinaryPayload().clone();
+        byte[] rawPayload = message.getBinaryPayload().clone();
+
+        int[] payload = new int[rawPayload.length];
+
+        //TODO: convert payload to int[] and add robot specification.
 
         System.out.print("[");
         //if the payload <0, there's an issue while parsing, convert to 0 to 256 range
         for (int i = 0; i < payload.length; i++) {
+            payload[i] = rawPayload[i]; //convert the payload to a list of int[] to mitigate signed integers
+
             if (payload[i] < 0) {
-                payload[i] = (byte) allPos(payload[i]);
+                payload[i] = allPos(payload[i]);
             }
 
-            System.out.print(allPos(payload[i]) + (i == payload.length - 1 ? "" : " "));
+            System.out.print(payload[i] + (i == payload.length - 1 ? "" : " "));
         }
 
         System.out.println("]");
@@ -215,7 +221,7 @@ public class WSClient extends NanoWSD.WebSocket {
         }
     }
 
-    private void handleSpeaker(byte[] payload, NanoWSD.WebSocketFrame message) {
+    private void handleSpeaker(int[] payload, NanoWSD.WebSocketFrame message) {
         //first byte is telling what type of speaker it is
         //[0] -> 0x01, 0x02 (set sensor data / run callable)
 
@@ -226,12 +232,12 @@ public class WSClient extends NanoWSD.WebSocket {
         }
     }
 
-    private void handleCallable(byte[] payload, NanoWSD.WebSocketFrame message) {
+    private void handleCallable(int[] payload, NanoWSD.WebSocketFrame message) {
         //[0] -> address
 
         if (payload.length < 1) { notifyError(Error.InvalidPayloadLength); return; }
 
-        int address = allPos(payload[0]);
+        int address = payload[0];
 
         Runnable runnable = callables.get(address);
 
@@ -241,13 +247,13 @@ public class WSClient extends NanoWSD.WebSocket {
         }
 
         if (runnable instanceof RunnableWithArgs rwa) {
-            byte[] args = Arrays.copyOfRange(payload, 1, payload.length);
+            int[] args = Arrays.copyOfRange(payload, 1, payload.length);
 
             rwa.run((Object) args);
         } else runnable.run();
     }
 
-    private void handleListener(byte[] payload, NanoWSD.WebSocketFrame message) {
+    private void handleListener(int[] payload, NanoWSD.WebSocketFrame message) {
         //first byte is telling what type of listener it is
         //[0] -> 0x01 (sensor data)
 
@@ -263,13 +269,13 @@ public class WSClient extends NanoWSD.WebSocket {
         }
     }
 
-    private void handleSubscribe(byte[] payload, NanoWSD.WebSocketFrame message) {
+    private void handleSubscribe(int[] payload, NanoWSD.WebSocketFrame message) {
         //[0] -> address
         //[1] -> 0x00 for unsubscribe, 0x01 for subscribe
 
         if (payload.length < 2) { notifyError(Error.InvalidPayloadLength); return; }
 
-        int address = allPos(payload[0]);
+        int address = payload[0];
         int subscribe = payload[1];
 
         Sensor sensor = Sensor.getSensor(address);
@@ -289,13 +295,13 @@ public class WSClient extends NanoWSD.WebSocket {
         }
     }
 
-    private void handleSensor(byte[] payload, NanoWSD.WebSocketFrame message) {
+    private void handleSensor(int[] payload, NanoWSD.WebSocketFrame message) {
         //[0] -> address
         //[1] -> 0x00 for processed, 0x01 for raw
 
         if (payload.length < 2) { notifyError(Error.InvalidPayloadLength); return; }
 
-        int address = allPos(payload[0]);
+        int address = payload[0];
         int processed = payload[1];
 
         Sensor sensor = Sensor.getSensor(address);

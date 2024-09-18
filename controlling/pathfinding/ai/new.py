@@ -20,21 +20,40 @@ def create():
 def normalizeState(sensorValues):
     return clamp(np.array(sensorValues) / 255, 0, 1)
 
-def act(state):
+def act():
     if myagent is None:
         create()
+
+    state = np.zeros(8)
+
+    for i in range(0x01, 0x08):
+        if i in ws.sensors:
+            state[i - 1] = ws.sensors[i].get_values()[0]
 
     values = myagent.predict(state)
 
     return actions[np.argmax(values)]
 
 def onCollide(v):
+    if myagent is None:
+        return
+
     if v[0] == 1:
-        print("collided!!!")
+        if not myagent.crashed:
+            myagent.crashed = True
+            print("agent crashed!")
 
 def finishStartup():
-    print("oisadgjlasndgl")
+    print("finished startup")
+
+    create()
+
     ws.listen(0xC7, onCollide)
+
+    for i in range(0x01, 0x08):
+        ws.listen(i, lambda v: myagent.update_sensor(i, v))
+
+
 
 # [speed up, speed down, turn left, turn right, no action]
 

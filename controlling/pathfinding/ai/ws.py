@@ -159,11 +159,13 @@ def subscribe(address, unsubscribe=False):
 def listen(address, method):
     subscribe(address)
 
+    listenWithoutSubscribing(address, method)
+
+def listenWithoutSubscribing(address, method):
     if address not in listeners:
         listeners[address] = []
 
     listeners[address].append(method)
-
 
 ran = False
 

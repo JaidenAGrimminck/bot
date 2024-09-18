@@ -246,8 +246,6 @@ public class SimCanvas extends JPanel {
                 }
                 g2d.fillOval((int) (us.getRelativePosition().getX() - 5), (int) (us.getRelativePosition().getY() - 5), 10, 10);
 
-
-
                 double distance = us.getDistance().getValue(Unit.Type.CENTIMETER);
 
                 Vector2d ray = Vector2d.fromPolar(distance, Rotation2d.fromRadians(us.getRelativeRotation().getThetaRadians()));

@@ -11,6 +11,14 @@ If any issues are occuring, connect via USB to the device to view the serial log
 byte I2C_ADDRESS = 0x00;
 
 /** 
+Also, if you want to priortize that address over the one saved in the EEPROM, set the variable
+below to 'false'. This is recommended to be set to 'true' if you're fully using the EEPROM, 
+as the saved I2C in EEPROM will have no affect if the below variable is set to 'false'.
+**/
+
+bool PRIORITIZE_EEPROM_I2C = false;
+
+/** 
 EEPROM Formatting
 
 --- GENERAL ---
@@ -53,7 +61,6 @@ If this is used for testing and likely will need to be constantly changed, enabl
 bool IGNORE_EEPROM = true;
 
 /*
-
 Then, you can edit the following EEPROM_SIM to fit the information following the above flags.
 You can look at the script "eeprom_gen.py" *TODO* to automatically curate the EEPROM sim registry
 if you don't feel comfortable editing it yourself.
@@ -70,9 +77,19 @@ byte EEPROM_SIM[] = {
     //devices
 };
 
+/**
+
+If you want to look at the I2C formatting for sending/recieving, look at [---- I2C Messages ----]
+
+**/
+
+//variables for the setup error if it occurs.
 bool errorSetup = false;
 String errorMsg = "";
 
+/**
+Called in setup to setup the loop() so it'll print error if someone connects to serial.
+**/
 void setupError(String msg) {
     errorSetup = true;
     errorMsg = msg;
@@ -80,55 +97,127 @@ void setupError(String msg) {
 }
 
 void setup() {
+    //Begin serial at baud 9600
     Serial.begin(9600);
 
     print("Begun serial.");
     
+    //read the set i2c address for the device
     byte address = read(0);
 
+    //if the saved i2c address is not set (is 0)
     if (address == 0) {
+        // compare that i2c address with the set one in the code
         if (I2C_ADDRESS == 0) {
+            //if the i2c address in the code was not set, then it'll throw an error since we don't want to connect w/o an address.
             setupError("I2C Address was not set! You must set it for every device BEFORE uploading.");
             return;
         } else {
+            //if the i2c address is 0x01 (the raspi i2c address) then throw another error.
             if (I2C_ADDRESS == 0x01) {
                 setupError("Don't set the address to 0x01, that's reserved.");
                 return;
             }
 
+            //once done, save that i2c address.
             print("Writing to EEPROM to update the I2C address for the first time.");
             write(0, I2C_ADDRESS);
         }
     } else if (address != I2C_ADDRESS) {
         warn("I2C address in code does not match saved address in EEPROM.");
-        print("Updating I2C address in EEPROM to new address...");
 
-        if (I2C_ADDRESS == 0x01) {
-            setupError("Don't set the address to 0x01, that's reserved.");
-            return;
+        if (PRIORITIZE_EEPROM_I2C) {
+            print("Updating I2C address in code to one saved in EEPROM");
+            //if the address in eeprom is = 0x01, that's a major issue.
+            //to fix, just need to reload the code as described below to remove the 0x01 from the EEPROM and update it.
+            if (address == 0x01) {
+                setupError("I2C address in code is equal to 0x01. You must reload the code onto the device and set I2C_ADDRESS to >0x01 and PRIORITIZE_EEPROM_I2C to true to fix this.");
+                return;
+            } 
+
+            //set the global i2c address to the address read.
+            I2C_ADDRESS = address;
+        } else {
+            print("Updating I2C address in EEPROM to new address...");
+
+            //if the i2c address in code is equal to 0x01, ignore it.
+            if (I2C_ADDRESS == 0x01) {
+                setupError("Don't set I2C_ADDRESS to 0x01, that's reserved.");
+                return;
+            }
+
+            //update the EEPROM
+            update(0, I2C_ADDRESS);
+
+            //set the local to method address to the i2c address
+            address = I2C_ADDRESS;
         }
-
-        update(0, I2C_ADDRESS);
-
-        address = I2C_ADDRESS;
     }
-
+    
+    //connect to i2c
     print("Connecting to I2C...");
-    Wire.begin(I2C_ADDRESS);
+    Wire.begin(address);
 
+    //register events
     Wire.onReceive(recieveEvent);
     Wire.onRequest(requestEvent);
 
+    //done.
     print("Started, now on the lookout for new messages.");
 }
 
 void loop() {
-    // put your main code here, to run repeatedly:
+    // throw a message every 2 seconds if an error occured during setup.
     if (errorSetup) {
         delay(2000);
         err(errorMsg);
     }
 }
+
+/**
+---- I2C Messages ----
+
+--- RECEIVE: ---
+0: message type.
+- 0xA0: EDIT EEPROM
+- 0xA1: READ
+- 0xA2: WRITE
+- 0xA3: SUBSCRIBE
+
+-- READ: --
+1: Pin
+2: Signature (I2C address of request)
+
+-- SUBSCRIBE: --
+1: Pin
+2: Signature (I2C address of request)
+
+-- WRITE: --
+1: Pin
+2...9: Double Value
+- LOW => 0 => [0x00...0x00]
+- HIGH => MAX => [0xFF...0xFF]
+10: Signature (I2C address of request)
+
+-- EDIT: (EEPROM) --
+1: action
+- 0x01: add
+- 0x02: update
+- ...etc. TODO: implement
+
+--- SEND: ---
+
+-- RESPONSE TO READ: --
+1: Pin of device
+2...9: Double Value
+10: This I2C Signature (I2C_ADDRESS)
+
+-- SUBSCRIBE UPDATE: --
+1: Pin of device
+2...9: Double Value
+10: This I2C Signature (I2C_ADDRESS)
+
+**/
 
 void recieveEvent(int nbytes) {
     while (Wire.available()) {
