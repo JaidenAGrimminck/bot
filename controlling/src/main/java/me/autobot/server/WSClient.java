@@ -227,6 +227,8 @@ public class WSClient extends NanoWSD.WebSocket {
 
         if (payload.length < 1) { notifyError(Error.InvalidPayloadLength); return; }
 
+        System.out.println("Handling speaker");
+
         if (payload[0] == (byte) 0x02) {
             handleCallable(Arrays.copyOfRange(payload, 1, payload.length), message);
         }

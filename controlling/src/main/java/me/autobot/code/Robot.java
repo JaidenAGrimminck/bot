@@ -44,7 +44,7 @@ public class Robot {
     private CollisionSensor collisionSensor;
     
     private Vector2d position = new Vector2d(130, 1870);
-    private Rotation2d rotation = new Rotation2d(0);
+    private Rotation2d rotation = new Rotation2d(3 * Math.PI / 2);
 
     private Map2d obstaclesMap;
 
@@ -107,7 +107,7 @@ public class Robot {
         }
     }
 
-    public void move(int a, int b) {
+    public void move(double a, double b) {
         position = position.add(new Vector2d(a, b));
         onMove();
     }
@@ -118,7 +118,7 @@ public class Robot {
     }
 
     void onMove() {
-        SimCanvas.debugStr = "rpos#" + position.toString();
+        //SimCanvas.debugStr = "rpos#" + position.toString();
 
         ArrayList<Sensor> sensors = getSensors();
 

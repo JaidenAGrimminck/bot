@@ -8,6 +8,8 @@ import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.robot.Sensor;
 import me.autobot.lib.robot.sensors.UltrasonicSensor;
+import me.autobot.lib.tools.RunnableWithArgs;
+import me.autobot.server.WSClient;
 import me.autobot.sim.MapLoader;
 import me.autobot.sim.Simulation;
 import me.autobot.sim.graphics.elements.CanvasButton;
@@ -17,6 +19,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SimCanvas extends JPanel {
     private JFrame frame;
@@ -42,6 +45,13 @@ public class SimCanvas extends JPanel {
     int speed = 10;
     double turnSpeed = Math.PI / 100;
 
+
+    // for the robot ai controls
+    double aiSpeed = 0;
+    final double aiSpeedIncrement = 0.1;
+    Rotation2d aiDirection = new Rotation2d(0);
+    final Rotation2d aiDirectionIncrement = new Rotation2d((Math.PI / 100) / 50);
+
     public void run() {
         setBackground(Color.BLACK);
         setForeground(Color.WHITE);
@@ -65,6 +75,33 @@ public class SimCanvas extends JPanel {
             ).setStyle(Color.DARK_GRAY, Color.WHITE, new Color(44, 44, 44))
                     .adjustText(14, 5, 13)
         );
+
+        WSClient.registerCallable(0xB0, new RunnableWithArgs() {
+            @Override
+            public void run(Object... args) {
+                int data = ((int[]) args[0])[0];
+
+                switch (data) {
+                    case 0xA1:
+                        aiSpeed += aiSpeedIncrement;
+                        break;
+                    case 0xA2:
+                        aiSpeed -= aiSpeedIncrement;
+                        break;
+                    case 0xA3:
+                        aiDirection = aiDirection.rotateBy(aiDirectionIncrement);
+                        break;
+                    case 0xA4:
+                        aiDirection = aiDirection.rotateBy(aiDirectionIncrement.inverse());
+                    case 0xA0:
+                        break;
+                }
+
+                if (Math.abs(aiDirection.getRadians()) > Math.PI / 100) {
+                    aiDirection = Rotation2d.fromRadians(Math.PI / 100 * Math.signum(aiDirection.getRadians()));
+                }
+            }
+        });
 
         ActionListener mousepress = e -> {
             elements.forEach(element -> {
@@ -269,29 +306,46 @@ public class SimCanvas extends JPanel {
             );
         }
 
-        g.setColor(Color.BLACK);
-        g.drawString(debugStr, 5, getHeight() - 10);
-
         elements.forEach(e -> e.draw(g, fmousePosition));
 
-        if (down) {
-            robot.move(0, speed);
-        }
-        if (up) {
-            robot.move(0, -speed);
-        }
-        if (left) {
-            robot.move(-speed, 0);
-        }
-        if (right) {
-            robot.move(speed, 0);
+        debugStr = "{" + aiSpeed + ", " + (aiDirection.getDegrees()) + "}";
+
+        if (Math.abs(aiSpeed) > 0 || Math.abs(aiDirection.getTheta()) > 0) {
+            Vector2d move = Vector2d.fromPolar(aiSpeed, robotRotation.rotateBy(Rotation2d.fromRadians(Math.PI / 2)));
+            robot.move(move.getX(), move.getY());
+            robot.rotate(aiDirection.getRadians());
+
+            // draw vector
+            g.setColor(Color.GREEN);
+            g.drawLine((int) robot.getPosition().getX(), (int) robot.getPosition().getY(), (int) (move.getX() + robot.getPosition().getX()), (int) (move.getY() + robot.getPosition().getY()));
+
+            if (robot.inCollision()) {
+                aiSpeed = 0;
+                aiDirection = Rotation2d.zero();
+            }
+        } else {
+            if (down) {
+                robot.move(0, speed);
+            }
+            if (up) {
+                robot.move(0, -speed);
+            }
+            if (left) {
+                robot.move(-speed, 0);
+            }
+            if (right) {
+                robot.move(speed, 0);
+            }
+
+            if (rotL) {
+                robot.rotate(turnSpeed);
+            } else if (rotR) {
+                robot.rotate(-turnSpeed);
+            }
         }
 
-        if (rotL) {
-            robot.rotate(turnSpeed);
-        } else if (rotR) {
-            robot.rotate(-turnSpeed);
-        }
+        g.setColor(Color.BLACK);
+        g.drawString(debugStr, 5, getHeight() - 10);
 
         //wait 20 ms
         try {

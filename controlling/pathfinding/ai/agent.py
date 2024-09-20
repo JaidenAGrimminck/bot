@@ -3,23 +3,36 @@ import numpy as np
 import copy
 
 class Agent:
-    def __init__(self, model, state_size, action_size):
-        self.model = model
-        self.state_size = state_size
-        self.action_size = action_size
+    def __init__(self, input_size, output_size, model=None):
+
+        if model is None:
+            self.model = create_model(input_size, output_size)
+        else:
+            self.model = model
 
         self.crashed = False
 
         self.inputs = {}
 
+    def mutate_weights(self, model, mutation_rate=0.1, mutation_strength=0.05):
+        new_model = tf.keras.models.clone_model(model)
+        new_model.set_weights(model.get_weights())
+
+        weights = new_model.get_weights()
+        for i in range(len(weights)):
+            if np.random.rand() < mutation_rate:
+                mutation = np.random.randn(*weights[i].shape) * mutation_strength
+                weights[i] += mutation
+        new_model.set_weights(weights)
+
+        return new_model
+
     def act(self, state):
         return np.argmax(self.model.predict(state)[0])
 
-    def train(self, state, target):
-        self.model.fit(state, target, epochs=1, verbose=0)
-
     def predict(self, state):
-        return self.model.predict(state)
+        predictions = self.model.predict(state)
+        return predictions
 
     def clone(self):
         return copy.deepcopy(self)
@@ -38,7 +51,8 @@ class Agent:
         self.model = new_model
 
     def update_sensor(self, address, n):
-        self.inputs[address] = n / 256
+        self.inputs[address] = n
+        pass
 
     def evaluate_model(model, environment):
         total_reward = 0
@@ -52,7 +66,7 @@ class Agent:
         return total_reward
 
 
-def create_model(input_size=8, output_size=8):
+def create_model(input_size=8, output_size=5):
     model = tf.keras.Sequential([
         tf.keras.layers.InputLayer(shape=(input_size,)),
         tf.keras.layers.Dense(16, activation='relu'),
@@ -61,6 +75,7 @@ def create_model(input_size=8, output_size=8):
     ])
     return model
 
+# Create the initial model
 model = create_model()
 
 # Example input (8 distance values)

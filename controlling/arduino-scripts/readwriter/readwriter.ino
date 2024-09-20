@@ -1,5 +1,6 @@
 #include <EEPROM.h>
 #include <Wire.h>
+#include <Servo.h>
 
 /**
 NOTICE: In order to use this device, before uploading you MUST set the following variable, 
@@ -49,11 +50,11 @@ where the # is the index in the chunk of bytes representing the device.
 -- PIN DEVICE --
 2: Pin number
 3: out / in.
+ - 0x01 for out
+ - 0x00 for in
 
 -- PWM DEVICE --
 2: Pin number
-
-
 
 
 If this is used for testing and likely will need to be constantly changed, enable the following boolean: */
@@ -86,6 +87,9 @@ If you want to look at the I2C formatting for sending/recieving, look at [---- I
 //variables for the setup error if it occurs.
 bool errorSetup = false;
 String errorMsg = "";
+
+//variables for i2c
+bool i2cOpen = false;
 
 /**
 Called in setup to setup the loop() so it'll print error if someone connects to serial.
@@ -166,6 +170,24 @@ void setup() {
     print("Started, now on the lookout for new messages.");
 }
 
+/**
+Initializes the devices on the device according to saved EEPROM memory.
+**/
+void init_devices() {
+    //the byte that the program is on.
+    int on_byte = 8;
+
+    for (int i = 0; i < read(1); i++) {
+        int next_n_bytes = read(on_byte);
+
+        byte deviceType = read(on_byte + 1);
+
+        print("device type is " + ((int) deviceType));
+
+        on_byte += next_n_bytes;
+    }
+}
+
 void loop() {
     // throw a message every 2 seconds if an error occured during setup.
     if (errorSetup) {
@@ -219,6 +241,8 @@ void loop() {
 
 **/
 
+/** -- I2C Events -- **/
+
 void recieveEvent(int nbytes) {
     while (Wire.available()) {
         byte c = Wire.read();
@@ -226,7 +250,22 @@ void recieveEvent(int nbytes) {
 }
 
 void requestEvent() {
+    
+}
 
+/** -- I2C Methods **/
+void send(byte address, byte bytes[]) {
+    if (i2cOpen) return;
+
+    Wire.beginTransmission(address);
+    i2cOpen = true;
+
+    for (int i = 0; i < len(bytes); i++) {
+        Wire.write(bytes[i]);
+    }
+
+    i2cOpen = false;
+    Wire.endTransmission();
 }
 
 

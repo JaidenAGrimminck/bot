@@ -15,6 +15,7 @@ sensors = {}
 listeners = {}
 
 onFinishMethod = lambda: None
+onDisconnectMethod = lambda: None
 
 # This function will be called when a message is received from the server
 def on_message(ws, message):
@@ -66,11 +67,22 @@ def on_message(ws, message):
                     for listener in listeners[address]:
                         listener(sensors[address].get_values())
 
+def setDisconnectMethod(method):
+    global onDisconnectMethod
+    onDisconnectMethod = method
+
 def on_error(ws, error):
     print(f"Error: {error}")
 
 def on_close(ws, close_status_code, close_msg):
     print(f"WebSocket closed with message: {close_msg}, code: {close_status_code}")
+
+    if close_status_code == 1006:
+        print("Attempting to reconnect...")
+        start_websocket()
+
+    if close_status_code == 1000:
+        onDisconnectMethod()
 
 def on_open(ws):
     global wscon
@@ -166,6 +178,19 @@ def listenWithoutSubscribing(address, method):
         listeners[address] = []
 
     listeners[address].append(method)
+
+# sends a message to the server to call a callable/listener
+def send(listenerAddress, payload=None):
+    if payload is None:
+        payload = []
+
+    payload = [
+        0x01, # is a speaker
+        0x02, # to a callable
+        listenerAddress # address of the listener
+    ] + payload
+
+    sendPayload(payload)
 
 ran = False
 
