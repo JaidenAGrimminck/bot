@@ -3,6 +3,7 @@ import time
 import struct
 import threading
 import sensor
+import constants
 
 WEBSOCKET_URL = "ws://localhost:8080"
 
@@ -16,6 +17,7 @@ listeners = {}
 
 onFinishMethod = lambda: None
 onDisconnectMethod = lambda: None
+onGenerationFinishMethod = lambda scores: None
 
 # This function will be called when a message is received from the server
 def on_message(ws, message):
@@ -29,7 +31,7 @@ def on_message(ws, message):
 
     if message[0] == 0xFF and message[1] == 0x00:
         timeSinceLastHeartbeat = time.time()
-        print("heartbeat")
+        #print("heartbeat")
         # pong
         ws.send([0xFF, 0x01])
         return
@@ -38,6 +40,7 @@ def on_message(ws, message):
         if ''.join(message).startswith("-18"):
             print("Stack trace: " + message[4:])
             return
+        else: return
     except:
         pass
 
@@ -46,33 +49,84 @@ def on_message(ws, message):
     if key == 0xC0:
         datatype = message[1]
         if datatype == 0x01:
-            address = message[2]
-            n_values = message[3]
+            robotAddress = message[2]
+            sensorAddress = message[3]
+            n_values = message[4]
+
+            initial = 5
 
             for i in range(0, n_values, 1):
                 value = []
                 for j in range(0, 8, 1):
-                    value.append(message[4 + j + (i * 8)])
+                    value.append(message[initial + j + (i * 8)])
 
                 # value is a double from java, so we need to convert it to a python float
                 value = struct.unpack('>d', bytes(value))[0]
 
-                if address in sensors:
-                    sensors[address].update_value(i, value)
-                else:
-                    sensors[address] = sensor.Sensor(address, n_values)
-                    sensors[address].update_value(i, value)
+                if robotAddress not in sensors:
+                    sensors[robotAddress] = {}
 
-                if address in listeners:
-                    for listener in listeners[address]:
-                        listener(sensors[address].get_values())
+                if sensorAddress in sensors[robotAddress]:
+                    sensors[robotAddress][sensorAddress].update_value(i, value)
+                else:
+                    sensors[robotAddress][sensorAddress] = sensor.Sensor(sensorAddress, n_values)
+                    sensors[robotAddress][sensorAddress].update_value(i, value)
+
+                if robotAddress in listeners:
+                    if sensorAddress in listeners[robotAddress]:
+                        for listener in listeners[robotAddress][sensorAddress]:
+                            # get how many pluggable arguments the listener has
+                            n_args = listener.__code__.co_argcount
+
+                            if n_args == 0:
+                                listener()
+                            elif n_args == 1:
+                                listener(sensors[robotAddress][sensorAddress].get_values())
+                            elif n_args == 2:
+                                listener(sensors[robotAddress][sensorAddress].get_values(), robotAddress)
+                            elif n_args == 3:
+                                listener(sensors[robotAddress][sensorAddress].get_values(), robotAddress, sensorAddress)
+    elif key == 0xC1:
+        type = message[1]
+        if type == 0x01: # received reset, got scores
+            scores = []
+
+            for i in range(constants.robotN):
+                for j in range(8):
+                    scores.append(message[2 + (i * 8) + j])
+
+            onGenerationFinishMethod(scores)
+    elif key == 0xC3: # generation end
+        payload = message[1:]
+
+        generation = payload[0:8]
+        rawScores = payload[8:]
+
+        generation = struct.unpack('>d', bytes(generation))[0]
+        scores = []
+
+        for i in range(0, len(rawScores), 8):
+            score = struct.unpack('>d', bytes(rawScores[i:i+8]))[0]
+            scores.append(score)
+
+        print("finished generation " + str(generation))
+
+        onGenerationFinishMethod(scores)
+
+
+
 
 def setDisconnectMethod(method):
     global onDisconnectMethod
     onDisconnectMethod = method
 
+def setGenerationFinishMethod(method=lambda scores: None):
+    global onGenerationFinishMethod
+    onGenerationFinishMethod = method
+
 def on_error(ws, error):
-    print(f"Error: {error}")
+    print(f"Error ?? : {error}")
+    print(f"Last payload: {lastPayload}")
 
 def on_close(ws, close_status_code, close_msg):
     print(f"WebSocket closed with message: {close_msg}, code: {close_status_code}")
@@ -127,33 +181,39 @@ def start_websocket(onFinish=lambda: None):
         time.sleep(1)
 
 
+lastPayload = []
 # sends a payload of bytes to the websocket
-def sendPayload(payload: []):
+def sendPayload(payload=[]):
+    global lastPayload
+
     if wscon == None:
         print("Websocket not connected")
         return
+
+    lastPayload = payload
 
     wscon.send(payload)
 
 
 # sends a one-time request to get sensor info from the server
-def getSensorInfo(address, raw):
+def getSensorInfo(robotAddress, sensorAddress, raw):
     raw_bt = 0x00
 
     if raw:
         raw_bt = 0x01
 
     payload = [
-        0x02,
-        0x01,
-        address,
+        0x02, # listen
+        0x01, # get sensor info
+        robotAddress,
+        sensorAddress,
         raw_bt
     ]
 
     sendPayload(payload)
 
 # sends a request to subscribe to a sensor
-def subscribe(address, unsubscribe=False):
+def subscribe(robotAddress, sensorAddress, unsubscribe=False):
     subscribe_bit = 0x01
 
     if unsubscribe:
@@ -162,22 +222,26 @@ def subscribe(address, unsubscribe=False):
     payload = [
         0x02, # listen
         0x11, # subscribe
-        address, # address of sensor
+        robotAddress, # address of robot
+        sensorAddress, # address of sensor
         subscribe_bit # subscribe
     ]
 
     sendPayload(payload)
 
-def listen(address, method):
-    subscribe(address)
+def listen(robotAddress, sensorAddress, method):
+    subscribe(robotAddress, sensorAddress)
 
-    listenWithoutSubscribing(address, method)
+    listenWithoutSubscribing(robotAddress, sensorAddress, method)
 
-def listenWithoutSubscribing(address, method):
-    if address not in listeners:
-        listeners[address] = []
+def listenWithoutSubscribing(robotAddress, sensorAddress, method):
+    global listeners
 
-    listeners[address].append(method)
+    if robotAddress not in listeners:
+        listeners[robotAddress] = {}
+    if sensorAddress not in listeners[robotAddress]:
+        listeners[robotAddress][sensorAddress] = []
+    listeners[robotAddress][sensorAddress].append(method)
 
 # sends a message to the server to call a callable/listener
 def send(listenerAddress, payload=None):
@@ -200,9 +264,3 @@ def onConfirmedConnection():
         return
 
     ran = True
-
-    print("subscribing to all sensors")
-
-    # subscribe to the distance sensors
-    for i in range(0x01, 0x09):
-        subscribe(i)

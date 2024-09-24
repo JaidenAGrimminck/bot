@@ -1,10 +1,12 @@
 package me.autobot.sim.graphics;
 
 import me.autobot.code.Robot;
+import me.autobot.lib.math.Mathf;
 import me.autobot.lib.math.Unit;
 import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Int2;
 import me.autobot.lib.math.coordinates.Vector2d;
+import me.autobot.lib.math.map.Map2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.robot.Sensor;
 import me.autobot.lib.robot.sensors.UltrasonicSensor;
@@ -12,6 +14,7 @@ import me.autobot.lib.tools.RunnableWithArgs;
 import me.autobot.server.WSClient;
 import me.autobot.sim.MapLoader;
 import me.autobot.sim.Simulation;
+import me.autobot.sim.evolution.EvolutionTracker;
 import me.autobot.sim.graphics.elements.CanvasButton;
 import me.autobot.sim.graphics.elements.CanvasElement;
 
@@ -47,12 +50,16 @@ public class SimCanvas extends JPanel {
 
 
     // for the robot ai controls
-    double aiSpeed = 0;
-    final double aiSpeedIncrement = 0.1;
-    Rotation2d aiDirection = new Rotation2d(0);
-    final Rotation2d aiDirectionIncrement = new Rotation2d((Math.PI / 100) / 50);
+
+    final static public int numberOfAIRobots = 10;
+
+    private EvolutionTracker evoTracker;
+
+    public static Map2d obstaclesMap = new Map2d();
 
     public void run() {
+        evoTracker = new EvolutionTracker(Robot.getRobots());
+
         setBackground(Color.BLACK);
         setForeground(Color.WHITE);
         setFont(new Font("Arial", Font.PLAIN, 24));
@@ -79,27 +86,33 @@ public class SimCanvas extends JPanel {
         WSClient.registerCallable(0xB0, new RunnableWithArgs() {
             @Override
             public void run(Object... args) {
-                int data = ((int[]) args[0])[0];
+                int robotID = Mathf.allPos(((int[]) args[0])[0]);
+                int action = Mathf.allPos(((int[]) args[0])[1]);
 
-                switch (data) {
+                switch (action) {
                     case 0xA1:
-                        aiSpeed += aiSpeedIncrement;
+                        evoTracker.changeSpeed(robotID, true);
                         break;
                     case 0xA2:
-                        aiSpeed -= aiSpeedIncrement;
+                        evoTracker.changeSpeed(robotID, false);
                         break;
                     case 0xA3:
-                        aiDirection = aiDirection.rotateBy(aiDirectionIncrement);
+                        evoTracker.rotate(robotID, true);
                         break;
                     case 0xA4:
-                        aiDirection = aiDirection.rotateBy(aiDirectionIncrement.inverse());
+                        evoTracker.rotate(robotID, false);
                     case 0xA0:
                         break;
                 }
+            }
+        });
 
-                if (Math.abs(aiDirection.getRadians()) > Math.PI / 100) {
-                    aiDirection = Rotation2d.fromRadians(Math.PI / 100 * Math.signum(aiDirection.getRadians()));
-                }
+        WSClient.registerCallable(0xB5, new RunnableWithArgs() {
+            @Override
+            public void run(WSClient client) {
+                evoTracker.assignWSRef(client);
+                evoTracker.start();
+                System.out.println("[Evolution] Started sim.");
             }
         });
 
@@ -223,124 +236,160 @@ public class SimCanvas extends JPanel {
     public static String debugStr = "";
 
     public void paint(Graphics g) {
-        if (Robot.instance == null) return;
+        if (Robot.getRobots().isEmpty()) return;
 
+        // clears the canvas
         g.clearRect(0, 0, getWidth(), getHeight());
 
+        //the mouse position (used for any threads or whatevers)
         final Int2 fmousePosition = mousePosition;
 
-        //get all objects nearby the robot
-        Robot robot = Simulation.getInstance().getRobot();
-        ArrayList<Sensor> sensors = robot.getSensors();
+        //the focused robot (where the camera view is gonna be)
+        int topIndex = 0;
+        double topScore = -Double.MAX_VALUE;
+        for (int i = 0; i < evoTracker.getScores().length; i++) {
+            if (evoTracker.getScores()[i] > topScore) {
+                topScore = evoTracker.getScores()[i];
+                topIndex = i;
+            }
+        }
 
-        Rotation2d robotRotation = robot.getRotation();
+        Robot focusedRobot = Robot.getRobots().get(topIndex); //sort by advantage to focus on top robot.
 
+        //create some graphics
         Graphics2D g2d = (Graphics2D) g.create();
 
+        //move it to the center
         g2d.translate((getWidth() / 2), (getHeight() / 2));
 
+        //draw the obstacles (boxes)
         for (Box2d object : Simulation.getInstance().environment.obstacles) {
-            if (object.signedDistance(robot.getPosition()) < 1000d) {
+            if (object.signedDistance(focusedRobot.getPosition()) < 1000d) {
                 g2d.setColor(Color.RED);
             } else {
                 continue;
             }
 
-            for (int i = 0x00; i <= sensors.size(); i++)
-                if (object.flags.getOrDefault(i + "hit", false))
-                    g2d.setColor(Color.GREEN);
+            for (Robot robot : Robot.getRobots())
+                for (int i = 0x00; i <= robot.getSensors().size(); i++)
+                    if (object.flags.getOrDefault(robot.getIdentification() + i + "hit", false))
+                        g2d.setColor(Color.GREEN);
 
-            if (mapEnabled) g2d.fillRect(object.getPosition().x - (int) robot.getPosition().getX(), object.getPosition().y - (int) robot.getPosition().getY(), object.getSize().x, object.getSize().y);
+            if (mapEnabled) g2d.fillRect(object.getPosition().x - (int) focusedRobot.getPosition().getX(), object.getPosition().y - (int) focusedRobot.getPosition().getY(), object.getSize().x, object.getSize().y);
         }
 
+        //dispose that
         g2d.dispose();
 
-        g2d = (Graphics2D) g.create();
+        //draw the robots
+        for (Robot bot : Robot.getRobots()) {
+            Rotation2d robotRotation = bot.getRotation();
 
-        g2d.translate((getWidth() / 2), (getHeight() / 2));
-        g2d.rotate(robotRotation.getTheta());
+            g2d = (Graphics2D) g.create();
 
-        // 1px = 1cm
-        g2d.setColor(Color.BLACK);
-        if (Robot.instance.inCollision()) {
-            g2d.setColor(Color.RED);
-        }
-        g2d.fillRect(
-                (int) (-Robot.instance.getRobotSize().getX() / 2),  (int) (-Robot.instance.getRobotSize().getY() / 2),
-                (int) (Robot.instance.getRobotSize().getX()), (int) (Robot.instance.getRobotSize().getY())
-        );
-
-        g2d.setColor(Color.WHITE);
-        g2d.fillOval(-15, 20, 5, 5);
-        g2d.fillOval(10, 20, 5, 5);
-
-        for (Sensor sensor : sensors) {
-            if (sensor instanceof UltrasonicSensor) {
-                UltrasonicSensor us = (UltrasonicSensor) sensor;
-                g2d.setColor(Color.BLUE);
-                if (us.getAddress() == 0x01) {
-                    g2d.setColor(Color.RED);
-                }
-                g2d.fillOval((int) (us.getRelativePosition().getX() - 5), (int) (us.getRelativePosition().getY() - 5), 10, 10);
-
-                double distance = us.getDistance().getValue(Unit.Type.CENTIMETER);
-
-                Vector2d ray = Vector2d.fromPolar(distance, Rotation2d.fromRadians(us.getRelativeRotation().getThetaRadians()));
-
-                g2d.drawLine((int) (us.getRelativePosition().getX()), (int) (us.getRelativePosition().getY()), (int) (us.getRelativePosition().getX() + ray.getX()), (int) (us.getRelativePosition().getY() + ray.getY()));
-                g2d.fillOval((int) (us.getRelativePosition().getX() + ray.getX() - 5), (int) (us.getRelativePosition().getY() + ray.getY() - 5), 10, 10);
+            //translate to center if focused on that bot
+            if (bot.getIdentification() == focusedRobot.getIdentification()) {
+                g2d.translate(
+                        (getWidth() / 2), (getHeight() / 2)
+                );
+            } else {
+                //else, translate to the bot's position
+                g2d.translate(
+                        (int) (bot.getPosition().getX() - focusedRobot.getPosition().getX()) + (getWidth() / 2),
+                        (int) (bot.getPosition().getY() - focusedRobot.getPosition().getY()) + (getHeight() / 2)
+                );
             }
-        }
+            g2d.rotate(robotRotation.getTheta());
 
-        g2d.dispose();
+            // 1px = 1cm
+            g2d.setColor(Color.BLACK);
+            if (bot.inCollision()) {
+                g2d.setColor(Color.RED);
+            }
+            g2d.fillRect(
+                    (int) (-bot.getRobotSize().getX() / 2), (int) (-bot.getRobotSize().getY() / 2),
+                    (int) (bot.getRobotSize().getX()), (int) (bot.getRobotSize().getY())
+            );
+
+            g2d.setColor(Color.WHITE);
+            g2d.fillOval(-15, 20, 5, 5);
+            g2d.fillOval(10, 20, 5, 5);
+
+            for (Sensor sensor : bot.getSensors()) {
+                if (sensor instanceof UltrasonicSensor) {
+                    UltrasonicSensor us = (UltrasonicSensor) sensor;
+                    g2d.setColor(Color.BLUE);
+                    if (us.getAddress() == 0x01) {
+                        g2d.setColor(Color.RED);
+                    }
+                    g2d.fillOval((int) (us.getRelativePosition().getX() - 5), (int) (us.getRelativePosition().getY() - 5), 10, 10);
+
+                    double distance = us.getDistance().getValue(Unit.Type.CENTIMETER);
+
+                    Vector2d ray = Vector2d.fromPolar(distance, Rotation2d.fromRadians(us.getRelativeRotation().getThetaRadians()));
+
+                    g2d.drawLine((int) (us.getRelativePosition().getX()), (int) (us.getRelativePosition().getY()), (int) (us.getRelativePosition().getX() + ray.getX()), (int) (us.getRelativePosition().getY() + ray.getY()));
+                    g2d.fillOval((int) (us.getRelativePosition().getX() + ray.getX() - 5), (int) (us.getRelativePosition().getY() + ray.getY() - 5), 10, 10);
+                }
+            }
+
+            g2d.dispose();
+        }
 
         g2d = (Graphics2D) g.create();
 
-        for (Vector2d point : robot.getMap().getLocations()) {
+        for (Vector2d point : obstaclesMap.getLocations()) {
             g.setColor(new Color(242, 163, 60));
 
             g.fillOval(
-                    (int) (point.getX() - robot.getPosition().getX()) + (getWidth() / 2),
-                    (int) (point.getY() - robot.getPosition().getY()) + (getHeight() / 2),
+                    (int) (point.getX() - focusedRobot.getPosition().getX()) + (getWidth() / 2),
+                    (int) (point.getY() - focusedRobot.getPosition().getY()) + (getHeight() / 2),
                     3,3
             );
         }
 
         elements.forEach(e -> e.draw(g, fmousePosition));
 
-        debugStr = "{" + aiSpeed + ", " + (aiDirection.getDegrees()) + "}";
+        //debugStr = "{" + evoTracker.getSpeeds()[0] + ", " + (evoTracker.getRotations()[0].getDegrees()) + "}";
+        debugStr = "{gen: " + evoTracker.getGeneration() + ", timeleft: " + evoTracker.getTimeLeft() + "}";
 
-        if (Math.abs(aiSpeed) > 0 || Math.abs(aiDirection.getTheta()) > 0) {
-            Vector2d move = Vector2d.fromPolar(aiSpeed, robotRotation.rotateBy(Rotation2d.fromRadians(Math.PI / 2)));
-            robot.move(move.getX(), move.getY());
-            robot.rotate(aiDirection.getRadians());
+        for (int i = 0; i < Robot.getRobots().size(); i++) {
+            Robot bot = Robot.getRobots().get(i);
 
-            // draw vector
-            g.setColor(Color.GREEN);
-            g.drawLine((int) robot.getPosition().getX(), (int) robot.getPosition().getY(), (int) (move.getX() + robot.getPosition().getX()), (int) (move.getY() + robot.getPosition().getY()));
+            double aiSpeed = evoTracker.getSpeeds()[i];
+            Rotation2d aiDirection = evoTracker.getRotations()[i];
 
-            if (robot.inCollision()) {
-                aiSpeed = 0;
-                aiDirection = Rotation2d.zero();
-            }
-        } else {
-            if (down) {
-                robot.move(0, speed);
-            }
-            if (up) {
-                robot.move(0, -speed);
-            }
-            if (left) {
-                robot.move(-speed, 0);
-            }
-            if (right) {
-                robot.move(speed, 0);
-            }
+            if (Math.abs(aiSpeed) > 0 || Math.abs(aiDirection.getTheta()) > 0) {
+                Vector2d move = Vector2d.fromPolar(aiSpeed, bot.getRotation().rotateBy(Rotation2d.fromRadians(Math.PI / 2)));
+                bot.move(move.getX(), move.getY());
+                bot.rotate(aiDirection.getRadians());
 
-            if (rotL) {
-                robot.rotate(turnSpeed);
-            } else if (rotR) {
-                robot.rotate(-turnSpeed);
+                // draw vector
+                g.setColor(Color.GREEN);
+                g.drawLine((int) bot.getPosition().getX(), (int) bot.getPosition().getY(), (int) (move.getX() + bot.getPosition().getX()), (int) (move.getY() + bot.getPosition().getY()));
+
+                if (bot.inCollision()) {
+                    evoTracker.stop(i);
+                }
+            } else {
+                if (down) {
+                    bot.move(0, speed);
+                }
+                if (up) {
+                    bot.move(0, -speed);
+                }
+                if (left) {
+                    bot.move(-speed, 0);
+                }
+                if (right) {
+                    bot.move(speed, 0);
+                }
+
+                if (rotL) {
+                    bot.rotate(turnSpeed);
+                } else if (rotR) {
+                    bot.rotate(-turnSpeed);
+                }
             }
         }
 

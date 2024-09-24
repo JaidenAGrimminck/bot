@@ -12,7 +12,7 @@ public class CollisionSensor extends Sensor {
     @Override
     public double[] getValues() {
         return new double[] {
-                inSimulation() && Robot.instance.inCollision() ? 1 : 0
+                inSimulation() && this.getParent().inCollision() ? 1 : 0
         };
     }
 }

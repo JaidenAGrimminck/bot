@@ -31,7 +31,7 @@ class Agent:
         return np.argmax(self.model.predict(state)[0])
 
     def predict(self, state):
-        predictions = self.model.predict(state)
+        predictions = self.model.predict(state, verbose = 0)
         return predictions
 
     def clone(self):
@@ -54,17 +54,6 @@ class Agent:
         self.inputs[address] = n
         pass
 
-    def evaluate_model(model, environment):
-        total_reward = 0
-        state = environment.reset()
-        done = False
-        while not done:
-            action_probs = model.predict(state.reshape(1, -1))
-            action = np.argmax(action_probs)
-            state, reward, done, _ = environment.step(action)
-            total_reward += reward
-        return total_reward
-
 
 def create_model(input_size=8, output_size=5):
     model = tf.keras.Sequential([
@@ -76,11 +65,11 @@ def create_model(input_size=8, output_size=5):
     return model
 
 # Create the initial model
-model = create_model()
-
-# Example input (8 distance values)
-input_data = np.random.rand(1, 8)
-
-# Get the action probabilities
-action_probs = model.predict(input_data)
-print("Action Probabilities:", action_probs)
+# model = create_model()
+#
+# # Example input (8 distance values)
+# input_data = np.random.rand(1, 8)
+#
+# # Get the action probabilities
+# action_probs = model.predict(input_data)
+# print("Action Probabilities:", action_probs)

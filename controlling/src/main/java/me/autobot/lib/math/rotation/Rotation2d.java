@@ -102,4 +102,8 @@ public class Rotation2d {
     public static Rotation2d zero() {
         return new Rotation2d();
     }
+
+    public Rotation2d clone() {
+        return new Rotation2d(this.theta);
+    }
 }

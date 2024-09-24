@@ -54,6 +54,8 @@ public class WSClient extends NanoWSD.WebSocket {
     private boolean activated;
     private int created;
 
+    private static final boolean verbose = false;
+
     private static HashMap<Integer, Runnable> callables = new HashMap<>();
 
     public WSClient(NanoHTTPD.IHTTPSession handshake) {
@@ -181,7 +183,7 @@ public class WSClient extends NanoWSD.WebSocket {
 
         //TODO: convert payload to int[] and add robot specification.
 
-        System.out.print("[");
+        if (verbose) System.out.print("[");
         //if the payload <0, there's an issue while parsing, convert to 0 to 256 range
         for (int i = 0; i < payload.length; i++) {
             payload[i] = rawPayload[i]; //convert the payload to a list of int[] to mitigate signed integers
@@ -190,10 +192,11 @@ public class WSClient extends NanoWSD.WebSocket {
                 payload[i] = allPos(payload[i]);
             }
 
-            System.out.print(payload[i] + (i == payload.length - 1 ? "" : " "));
+            if (verbose) System.out.print(payload[i] + (i == payload.length - 1 ? "" : " "));
         }
 
-        System.out.println("]");
+        if (verbose) System.out.println("]");
+
 
         boolean isSpeaker = (type == ClientType.Speaker);
 
@@ -227,7 +230,7 @@ public class WSClient extends NanoWSD.WebSocket {
 
         if (payload.length < 1) { notifyError(Error.InvalidPayloadLength); return; }
 
-        System.out.println("Handling speaker");
+        //System.out.println("Handling speaker");
 
         if (payload[0] == (byte) 0x02) {
             handleCallable(Arrays.copyOfRange(payload, 1, payload.length), message);
@@ -252,6 +255,7 @@ public class WSClient extends NanoWSD.WebSocket {
             int[] args = Arrays.copyOfRange(payload, 1, payload.length);
 
             rwa.run((Object) args);
+            rwa.run(this);
         } else runnable.run();
     }
 
@@ -272,15 +276,17 @@ public class WSClient extends NanoWSD.WebSocket {
     }
 
     private void handleSubscribe(int[] payload, NanoWSD.WebSocketFrame message) {
-        //[0] -> address
-        //[1] -> 0x00 for unsubscribe, 0x01 for subscribe
+        //[0] -> robot address
+        //[1] -> sensor address
+        //[2] -> 0x00 for unsubscribe, 0x01 for subscribe
 
         if (payload.length < 2) { notifyError(Error.InvalidPayloadLength); return; }
 
-        int address = payload[0];
-        int subscribe = payload[1];
+        int robotAddr = payload[0];
+        int sensorAddress = payload[1];
+        int subscribe = payload[2];
 
-        Sensor sensor = Sensor.getSensor(address);
+        Sensor sensor = Sensor.getSensor(robotAddr, sensorAddress);
 
         if (sensor == null) {
             notifyError(Error.SensorNotFound);
@@ -290,7 +296,7 @@ public class WSClient extends NanoWSD.WebSocket {
         if (subscribe == 0x00) {
             sensor.unsubscribe(this);
         } else if (subscribe == 0x01) {
-            System.out.println("Subscribed to sensor " + address);
+            System.out.println("[Robot " + robotAddr + "]: Subscribed to sensor " + sensorAddress);
             sensor.subscribe(this);
         } else {
             notifyError(Error.InvalidArgument);
@@ -301,12 +307,13 @@ public class WSClient extends NanoWSD.WebSocket {
         //[0] -> address
         //[1] -> 0x00 for processed, 0x01 for raw
 
-        if (payload.length < 2) { notifyError(Error.InvalidPayloadLength); return; }
+        if (payload.length < 3) { notifyError(Error.InvalidPayloadLength); return; }
 
-        int address = payload[0];
-        int processed = payload[1];
+        int robotAddr = payload[0];
+        int address = payload[1];
+        int processed = payload[2];
 
-        Sensor sensor = Sensor.getSensor(address);
+        Sensor sensor = Sensor.getSensor(robotAddr, address);
 
         if (sensor == null) {
             notifyError(Error.SensorNotFound);
@@ -349,7 +356,7 @@ public class WSClient extends NanoWSD.WebSocket {
         }
     }
 
-    public void sendSensorData(byte address, double[] values) {
+    public void sendSensorData(byte robotAddress, byte sensorAddress, double[] values) {
         byte[] payload = new byte[Double.BYTES * values.length + 1];
 
         payload[0] = (byte) values.length;
@@ -360,17 +367,19 @@ public class WSClient extends NanoWSD.WebSocket {
 
         System.arraycopy(bbuf.array(), 0, payload, 1, values.length * Double.BYTES);
 
-        sendValues((byte) 0x01, address, payload);
+        sendValues((byte) 0x01, robotAddress, sensorAddress, payload);
     }
 
-    public void sendValues(byte type, byte address, byte... payload) {
-        byte[] encodedValues = new byte[3 + payload.length];
+    public void sendValues(byte type, byte address, byte address2, byte... payload) {
+        final int infoPayloadLength = 4;
+        byte[] encodedValues = new byte[infoPayloadLength + payload.length];
 
         encodedValues[0] = (byte) 0xC0;
         encodedValues[1] = type;
         encodedValues[2] = address;
+        encodedValues[3] = address2;
 
-        if (payload.length > 0) System.arraycopy(payload, 0, encodedValues, 3, payload.length);
+        if (payload.length > 0) System.arraycopy(payload, 0, encodedValues, infoPayloadLength, payload.length);
 
         try {
             send(encodedValues);

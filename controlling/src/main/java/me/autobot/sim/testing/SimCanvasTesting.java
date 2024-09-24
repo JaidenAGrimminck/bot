@@ -30,33 +30,7 @@ public class SimCanvasTesting extends JFrame {
 
         g.clearRect(0, 0, getWidth(), getHeight());
 
-        Robot robot = Simulation.getInstance().getRobot();
-
-        Box2d left = new Box2d(
-                new Int2(-120, -10),
-                new Int2(20, 20)
-        );
-
-        Box2d right = new Box2d(
-                new Int2(100, -10),
-                new Int2(20, 20)
-        );
-
-        Box2d front = new Box2d(
-                new Int2(-10, -120),
-                new Int2(20, 20)
-        );
-
-        Box2d back = new Box2d(
-                new Int2(-10, 100),
-                new Int2(20, 20)
-        );
-
         ArrayList<Box2d> boxes = new ArrayList<>();
-//        boxes.add(left);
-//        boxes.add(right);
-//        boxes.add(front);
-//        boxes.add(back);
 
         for (double i = 0; i < Math.PI * 2; i += Math.PI / 10) {
             double x = Math.cos(i) * 100;

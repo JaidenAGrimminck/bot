@@ -17,12 +17,17 @@ import me.autobot.sim.graphics.SimCanvas;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 //tank drive robot
 public class Robot {
 
-    public static Robot instance;
+    private static boolean totalSimulation = false;
+    private static ArrayList<Robot> robots = new ArrayList<>();
 
+    public static ArrayList<Robot> getRobots() {
+        return robots;
+    }
     private final Vector2d robotSize = new Vector2d(40, 60);
 
     private Motor topLeftMotor;
@@ -42,16 +47,22 @@ public class Robot {
     private UltrasonicSensor bottomRightSensor;
 
     private CollisionSensor collisionSensor;
-    
-    private Vector2d position = new Vector2d(130, 1870);
-    private Rotation2d rotation = new Rotation2d(3 * Math.PI / 2);
 
-    private Map2d obstaclesMap;
+    private final Vector2d startingPosition = new Vector2d(130, 1870);
+    private Vector2d position = startingPosition.clone();
 
-    private boolean totalSimulation = false;
+    private final Rotation2d startingRotation = new Rotation2d(2 * Math.PI / 2);
+    private Rotation2d rotation = startingRotation.clone();
+
+    private boolean hasCrashed = false;
+    private byte identification;
+
+    private HashMap<String, Integer> flags = new HashMap<>();
 
     public Robot() {
-        instance = this;
+        identification = (byte) robots.size();
+
+        robots.add(this);
 
         topLeftMotor = new Motor(0x1);
         topRightMotor = new Motor(0x02);
@@ -60,8 +71,6 @@ public class Robot {
 
         bottomRightMotor.invert();
         topRightMotor.invert();
-
-        obstaclesMap = new Map2d();
 
         //,0001 is to prevent a bug lmao idk how to fix it and i don't want to spend the hours of time to fix it
         frontSensor = new UltrasonicSensor(0x01);
@@ -86,12 +95,23 @@ public class Robot {
         collisionSensor = new CollisionSensor(0xC7);
 
         //just incase simulation, we can do this to ensure that multiple robots can be created for ai etc
-        getSensors().forEach(sensor -> sensor.setParent(this));
+        getSensors().forEach(sensor -> {
+            sensor.setParent(this);
+        });
     }
 
-    public void startSimulation() {
-        totalSimulation = true;
+    public byte getIdentification() {
+        return identification;
+    }
 
+    public static void startSimulation() {
+        totalSimulation = true;
+        for (Robot robot : robots) {
+            robot.switchSensorsToSimulation();
+        }
+    }
+
+    protected void switchSensorsToSimulation() {
         //get all fields
         for (Field field : this.getClass().getDeclaredFields()) {
 
@@ -108,11 +128,13 @@ public class Robot {
     }
 
     public void move(double a, double b) {
+        if (hasCrashed) return;
         position = position.add(new Vector2d(a, b));
         onMove();
     }
 
     public void rotate(double theta) {
+        if (hasCrashed) return;
         rotation = rotation.rotateBy(Rotation2d.fromRadians(theta));
         onMove();
     }
@@ -138,7 +160,7 @@ public class Robot {
                                 us.getEstimatedAbsPosition()
                         );
 
-                obstaclesMap.addObstaclePoint(ray);
+                SimCanvas.obstaclesMap.addObstaclePoint(ray);
             }
         }
     }
@@ -149,10 +171,6 @@ public class Robot {
 
     public Rotation2d getRotation() {
         return rotation;
-    }
-
-    public Map2d getMap() {
-        return obstaclesMap;
     }
 
     public ArrayList<Sensor> getSensors() {
@@ -211,6 +229,7 @@ public class Robot {
 
             for (Box2d obstacle : obstacles) {
                 if (Geometry.twoPolygonsIntersecting(list, obstacle.getVertices())) {
+                    hasCrashed = true;
                     return true;
                 }
             }
@@ -219,4 +238,17 @@ public class Robot {
         return false;
     }
 
+    public void setFlag(String key, int value) {
+        flags.put(key, value);
+    }
+
+    public int getFlag(String key) {
+        return flags.get(key);
+    }
+
+    public void reset() {
+        hasCrashed = false;
+        position = startingPosition.clone();
+        rotation = startingRotation.clone();
+    }
 }

@@ -99,4 +99,8 @@ public class Vector2d {
                 ", y=" + y +
                 '}';
     }
+
+    public Vector2d clone() {
+        return new Vector2d(x, y);
+    }
 }

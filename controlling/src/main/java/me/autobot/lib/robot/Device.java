@@ -84,7 +84,7 @@ public class Device implements Logger {
         this.parent = parent;
     }
 
-    public Robot getRobot() {
+    protected Robot getParent() {
         return parent;
     }
 }

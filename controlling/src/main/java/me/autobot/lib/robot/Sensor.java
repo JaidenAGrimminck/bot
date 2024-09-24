@@ -12,9 +12,9 @@ public class Sensor extends Device {
 
     private static ArrayList<Sensor> sensors = new ArrayList<>();
 
-    public static Sensor getSensor(int address) {
+    public static Sensor getSensor(int robotAddr, int address) {
         for (Sensor sensor : sensors) {
-            if (sensor.getAddress() == address) {
+            if (sensor.getAddress() == address && sensor.getParentAddress() == robotAddr) {
                 return sensor;
             }
         }
@@ -65,7 +65,7 @@ public class Sensor extends Device {
                     WSClient client = subscribers.get(i);
                     try {
                         if (client.isOpen())
-                            client.sendSensorData((byte) address, getValues());
+                            client.sendSensorData(getParentAddress(), (byte) address, getValues());
                         else
                             toRemove.add(client);
                     } catch (Exception e) {
@@ -161,5 +161,9 @@ public class Sensor extends Device {
         if (subscribers == null) return;
 
         subscribers.remove(client);
+    }
+
+    public byte getParentAddress() {
+        return this.getParent().getIdentification();
     }
 }

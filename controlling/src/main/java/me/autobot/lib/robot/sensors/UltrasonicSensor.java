@@ -6,9 +6,7 @@ import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.robot.Sensor;
 import me.autobot.sim.Simulation;
-import me.autobot.sim.graphics.SimCanvas;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class UltrasonicSensor extends Sensor {
@@ -23,11 +21,11 @@ public class UltrasonicSensor extends Sensor {
     }
 
     public Vector2d getEstimatedAbsPosition() {
-        Vector2d pos = getRobot().getPosition();
+        Vector2d pos = getParent().getPosition();
 
         Vector2d relativePos = this.getRelativePosition().toXY();
 
-        Rotation2d robotRotation = this.getRobot().getRotation();
+        Rotation2d robotRotation = this.getParent().getRotation();
 
         //first, rotate the relative position by the robot's rotation
         Vector2d rotatedPos = relativePos.rotate(robotRotation);
@@ -48,11 +46,11 @@ public class UltrasonicSensor extends Sensor {
             if (!Simulation.running()) return Unit.zero();
 
             //get position
-            Vector2d pos = getRobot().getPosition();
+            Vector2d pos = getParent().getPosition();
 
             Vector2d relativePos = this.getRelativePosition().toXY();
 
-            Rotation2d robotRotation = this.getRobot().getRotation();
+            Rotation2d robotRotation = this.getParent().getRotation();
 
             //first, rotate the relative position by the robot's rotation
             Vector2d rotatedPos = relativePos.rotate(robotRotation);
@@ -86,7 +84,7 @@ public class UltrasonicSensor extends Sensor {
 //                    object.inRay = true;
 //                }
 
-                object.flags.put(getAddress() + "hit", false);
+                object.flags.put(getParentAddress() + getAddress() + "hit", false);
 
                 if (object.lineIntersects(absolutePos, ray) && object.raycastDistance(absolutePos, ray) < closestDistance) {
                     closestDistance = object.raycastDistance(absolutePos, ray);
@@ -99,7 +97,7 @@ public class UltrasonicSensor extends Sensor {
 //                    closestObject.inRay = true;
 //                    SimCanvas.debugStr = closestObject.getPosition().toString() + ", " + getRobot().getPosition().toString();
 //                }
-                closestObject.flags.put(getAddress() + "hit", true);
+                closestObject.flags.put(getParentAddress() + getAddress() + "hit", true);
 
                 //if it does, return the distance to the object
                 return Unit.Type.CENTIMETER.c(closestObject.raycastDistance(absolutePos, ray) + (Math.random() * maxNoise.getValue(Unit.Type.CENTIMETER)));

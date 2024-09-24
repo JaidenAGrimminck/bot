@@ -99,14 +99,14 @@ public class Simulation {
 
 
     private SimulationTimer timer = new SimulationTimer();
-    private Robot robot;
-
 
     private Simulation() {
-        robot = new Robot();
+        for (int i = 0; i < SimCanvas.numberOfAIRobots; i++) {
+            new Robot();
+        }
         environment = new Environment();
 
-        robot.startSimulation();
+        Robot.startSimulation();
 
         timer.start();
     }
@@ -114,10 +114,5 @@ public class Simulation {
     public SimulationTimer getTimer() {
         return timer;
     }
-
-    public Robot getRobot() {
-        return robot;
-    }
-
 
 }
