@@ -1,6 +1,5 @@
 package me.autobot.lib.robot.sensors;
 
-import me.autobot.code.Robot;
 import me.autobot.lib.robot.Sensor;
 
 public class CollisionSensor extends Sensor {

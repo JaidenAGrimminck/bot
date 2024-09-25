@@ -1,7 +1,7 @@
 package me.autobot.sim;
 
-import me.autobot.code.Robot;
-import me.autobot.lib.logging.Logger;
+import me.autobot.code.SimRobot;
+import me.autobot.lib.robot.Robot;
 import me.autobot.lib.pathing.Environment;
 import me.autobot.server.WSServer;
 import me.autobot.sim.graphics.SimCanvas;
@@ -102,7 +102,7 @@ public class Simulation {
 
     private Simulation() {
         for (int i = 0; i < SimCanvas.numberOfAIRobots; i++) {
-            new Robot();
+            new SimRobot();
         }
         environment = new Environment();
 

@@ -1,6 +1,6 @@
 package me.autobot.sim.evolution;
 
-import me.autobot.code.Robot;
+import me.autobot.lib.robot.Robot;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.server.WSClient;
@@ -11,6 +11,12 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/***
+ * Used to track the evolution of the robots
+ * and manage the evolution process
+ *
+ * TODO: generalize class.
+ */
 public class EvolutionTracker {
     private static EvolutionTracker instance;
 
@@ -56,6 +62,10 @@ public class EvolutionTracker {
 
     private int[] onGoal = new int[0];
 
+    /**
+     * Constructor for EvolutionTracker
+     * @param referenceRobots The robots to track
+     */
     public EvolutionTracker(ArrayList<Robot> referenceRobots) {
         instance = this;
 
@@ -75,10 +85,16 @@ public class EvolutionTracker {
         }
     }
 
+    /**
+     * Gets how much time is left in a generation.
+     * */
     public int getTimeLeft() {
         return (int) (genTime - (System.currentTimeMillis() - currentGenStart));
     }
 
+    /**
+     * Starts the evolution process
+     * */
     public void start() {
         final TimerTask task = new TimerTask() {
             @Override
@@ -125,12 +141,22 @@ public class EvolutionTracker {
         currentGenStart = System.currentTimeMillis();
         generation = 1;
 
+        for (int i = 0; i < numberOfRobots; i++) {
+            stop(i);
+        }
+
         evoTimer.scheduleAtFixedRate(task, 0, evoTimerInterval);
         System.out.println("[evo] Started evolution timer.");
 
         genRunning = true;
     }
 
+    /**
+     * Changes the speed of a robot by an increment
+     * @param index The index of the robot
+     *              to change the speed of
+     * @param increase Whether to increase or decrease the speed
+     * */
     public void changeSpeed(int index, boolean increase) {
         if (increase) {
             aiSpeeds[index] += aiSpeedIncrement;
@@ -143,10 +169,23 @@ public class EvolutionTracker {
         }
     }
 
+    /**
+     * Sets the speed of a robot
+     * @param index The index of the robot
+     *              to change the speed of
+     * @param speed The speed to set the robot to
+     * */
     public void setSpeed(int index, double speed) {
         aiSpeeds[index] = speed;
     }
 
+    /**
+     * Rotates a robot by an increment
+     * @param index The index of the robot
+     *              to rotate
+     * @param clockwise Whether to rotate the robot
+     *                 clockwise or counter-clockwise
+     * */
     public void rotate(int index, boolean clockwise) {
         if (clockwise) {
             aiRotations[index] = aiRotations[index].rotateBy(aiDirectionIncrement);
@@ -159,18 +198,36 @@ public class EvolutionTracker {
         }
     }
 
+    /**
+     * Sets the rotation of a robot
+     * @param index The index of the robot
+     *              to rotate
+     * @param rotation The rotation to set the robot to
+     * */
     public void setRotation(int index, Rotation2d rotation) {
         aiRotations[index] = rotation;
     }
 
+    /**
+     * Gets the speeds of the robots
+     * @return The speeds of the robots
+     * */
     public double[] getSpeeds() {
         return aiSpeeds;
     }
 
+    /**
+     * Gets the rotations of the robots
+     * @return The rotations of the robots
+     * */
     public Rotation2d[] getRotations() {
         return aiRotations;
     }
 
+    /**
+     * Gets how well a robot is performing
+     * @param index The index of the robot
+     * */
     public double getScore(int index) {
         int onGoal = this.onGoal[index];
 
@@ -180,6 +237,7 @@ public class EvolutionTracker {
         }
 
         Vector2d nextGoalPos = goalSteps[onGoal];
+        //todo: generalize this.
         Vector2d lastGoalPos = onGoal > 0 ? goalSteps[onGoal - 1] : new Vector2d(130, 1870);
 
         double distanceToGoal = this.referenceRobots.get(index).getPosition().distance(nextGoalPos);
@@ -188,6 +246,10 @@ public class EvolutionTracker {
         return 1 + onGoal * 10000 + (1.5 - (distanceToGoal / totDist)) * 1000 - crashFactor;
     }
 
+    /**
+     * Gets the scores of the robots
+     * @return The scores of the robots
+     * */
     public double[] getScores() {
         double[] scores = new double[referenceRobots.size()];
 
@@ -198,11 +260,18 @@ public class EvolutionTracker {
         return scores;
     }
 
+    /**
+     * Stops a robot.
+     * @param i
+     */
     public void stop(int i) {
-        aiSpeeds[i] = 0;
+        aiSpeeds[i] = 5;
         aiRotations[i] = Rotation2d.zero();
     }
 
+    /**
+     * Starts a new generation
+     * */
     public void startNewGen() {
         if (genRunning) {
             return;
@@ -251,10 +320,18 @@ public class EvolutionTracker {
         }
     }
 
+    /**
+     * Gets the current generation
+     * @return The current generation
+     * */
     public int getGeneration() {
         return generation;
     }
 
+    /**
+     * Assigns a reference to the websocket client to send data to
+     * @param wsClient The websocket client to send data to
+     * */
     public void assignWSRef(WSClient wsClient) {
         wsClientRef = wsClient;
     }

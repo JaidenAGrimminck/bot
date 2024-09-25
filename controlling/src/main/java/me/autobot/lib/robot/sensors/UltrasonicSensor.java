@@ -10,8 +10,7 @@ import me.autobot.sim.Simulation;
 import java.util.ArrayList;
 
 public class UltrasonicSensor extends Sensor {
-
-    private final static Unit maxDistance = new Unit(255, Unit.Type.CENTIMETER);
+    public final static Unit maxDistance = new Unit(255, Unit.Type.CENTIMETER);
 
     private final static Unit maxNoise = new Unit(1, Unit.Type.CENTIMETER);
 

@@ -3,7 +3,6 @@ package me.autobot.lib.robot;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-import me.autobot.code.Robot;
 import me.autobot.lib.logging.Log;
 import me.autobot.lib.logging.Logger;
 

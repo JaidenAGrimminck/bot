@@ -1,13 +1,11 @@
 package me.autobot.sim.testing;
 
-import me.autobot.code.Robot;
 import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Int2;
 import me.autobot.lib.math.coordinates.Polar;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.robot.sensors.UltrasonicSensor;
-import me.autobot.sim.Simulation;
 
 import javax.swing.*;
 import java.awt.*;

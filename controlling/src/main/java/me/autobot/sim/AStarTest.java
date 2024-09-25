@@ -1,6 +1,6 @@
 package me.autobot.sim;
 
-import me.autobot.code.Robot;
+import me.autobot.lib.robot.Robot;
 import me.autobot.lib.math.coordinates.Int2;
 
 import java.util.ArrayList;
@@ -309,7 +309,7 @@ public class AStarTest {
         }
     }
 
-    public static void main() {
+    public static void main(String[] args) {
         AStarTest sim = new AStarTest();
 
         sim.printObstacles();

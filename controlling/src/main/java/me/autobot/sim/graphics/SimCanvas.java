@@ -1,6 +1,6 @@
 package me.autobot.sim.graphics;
 
-import me.autobot.code.Robot;
+import me.autobot.lib.robot.Robot;
 import me.autobot.lib.math.Mathf;
 import me.autobot.lib.math.Unit;
 import me.autobot.lib.math.coordinates.Box2d;
@@ -22,7 +22,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SimCanvas extends JPanel {
     private JFrame frame;

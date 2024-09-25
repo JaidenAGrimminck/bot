@@ -9,17 +9,18 @@ agentsN = constants.robotN
 agents = []
 
 actions = [
-    0xA1, # speed up
-    0xA2, # speed down
     0xA3, # turn left
-    0xA4, # turn right
-    0xA0 # no action
+    0xA4 # turn right
 ]
+#     0xA1, # speed up
+#     0xA2, # speed down
+#     0xA0 # no action
+# ]
 
 def create():
     global agents
     for i in range(agentsN):
-        newagent = agent.Agent(8, 5)
+        newagent = agent.Agent(8, 2)
 
         agents.append(newagent)
 

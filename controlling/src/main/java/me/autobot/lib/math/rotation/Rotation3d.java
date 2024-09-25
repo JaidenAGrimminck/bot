@@ -5,7 +5,8 @@ public class Rotation3d {
     private double phi;
 
     public static Rotation3d fromDegrees(double theta, double phi) {
-        return new Rotation3d(Math.toRadians(theta), Math.toRadians(phi));
+        //the .0001 is to prevent a bug lmao idk how to fix it and i don't want to spend the hours of time to fix it
+        return new Rotation3d(Math.toRadians(theta + 0.0001), Math.toRadians(phi + .0001));
     }
 
     public Rotation3d(double theta, double phi) {
