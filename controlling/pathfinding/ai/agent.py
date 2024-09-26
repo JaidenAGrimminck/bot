@@ -5,6 +5,9 @@ import copy
 class Agent:
     def __init__(self, input_size, output_size, model=None):
 
+        self.input_size = input_size
+        self.output_size = output_size
+
         if model is None:
             self.model = create_model(input_size, output_size)
         else:
@@ -50,16 +53,20 @@ class Agent:
 
         self.model = new_model
 
+    def randomize(self):
+        self.model = create_model(self.input_size, self.output_size)
+        return self
+
     def update_sensor(self, address, n):
         self.inputs[address] = n
         pass
 
 
-def create_model(input_size=8, output_size=5):
+def create_model(input_size=5, output_size=2):
     model = tf.keras.Sequential([
         tf.keras.layers.InputLayer(shape=(input_size,)),
-        tf.keras.layers.Dense(16, activation='relu'),
-        tf.keras.layers.Dense(16, activation='relu'),
+        tf.keras.layers.Dense(4, activation='sigmoid'),
+        tf.keras.layers.Dense(2, activation='sigmoid'),
         tf.keras.layers.Dense(output_size, activation='softmax')  # Softmax for probability distribution
     ])
     return model

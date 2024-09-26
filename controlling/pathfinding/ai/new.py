@@ -4,6 +4,7 @@ import numpy as np
 from clamp import clamp
 import threading
 import constants
+import random
 
 agentsN = constants.robotN
 agents = []
@@ -20,7 +21,7 @@ actions = [
 def create():
     global agents
     for i in range(agentsN):
-        newagent = agent.Agent(8, 2)
+        newagent = agent.Agent(5, 2)
 
         agents.append(newagent)
 
@@ -47,7 +48,7 @@ def act():
         # print(agents[i])
         # print("agent: " + str(i))
 
-        state = [0] * 8
+        ostate = [0] * 8
 
         for j in range(0x01, 0x08):
             if j in ws.sensors.keys():
@@ -55,6 +56,14 @@ def act():
                     state[j - 1] = ws.sensors[i][j].get_values()[0]
                 else:
                     state[j - 1] = 0
+
+        state = [
+            ostate[3],
+            ostate[5],
+            ostate[0],
+            ostate[4],
+            ostate[2]
+        ]
 
         state = np.array(state)
 
@@ -143,6 +152,8 @@ def onGenFinish(scores):
         if i != top_score_index:
             agents[i] = agents[top_score_index].clone()
             agents[i].mutate_weights()
+
+    agents[random.randint(0, agentsN - 1)] = agents[random.randint(0, agentsN - 1)].randomize()
 
     print("ready for next gen.")
 

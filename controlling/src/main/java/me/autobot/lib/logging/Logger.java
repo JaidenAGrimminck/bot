@@ -6,7 +6,12 @@ import java.util.HashMap;
 
 public interface Logger {
     //get all @Log annotated fields and methods
-    
+
+    /**
+     * Returns all of the fields and methods annotated with @Log and returns their values.
+     *
+     * @return A HashMap of all of the fields and methods annotated with @Log and their values.
+     * */
     private HashMap<String, String> getLogFields() {
         HashMap<String, String> logFields = new HashMap<>();
 

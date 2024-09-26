@@ -1,6 +1,7 @@
 package me.autobot.sim;
 
 import me.autobot.code.SimRobot;
+import me.autobot.lib.os.OSDetector;
 import me.autobot.lib.robot.Robot;
 import me.autobot.lib.pathing.Environment;
 import me.autobot.server.WSServer;
@@ -20,7 +21,11 @@ public class Simulation {
         WSServer.wsstart();
 
         Thread thread = new Thread(() -> {
-            new SimScreen();
+            if (!OSDetector.usingLinux()) {
+                new SimScreen();
+            } else {
+                System.out.println("Linux detected, skipping screen creation.");
+            }
         });
 
         if (instance == null) {

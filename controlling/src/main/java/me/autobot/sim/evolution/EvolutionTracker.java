@@ -233,7 +233,7 @@ public class EvolutionTracker {
 
         int crashFactor = 0;
         if (this.referenceRobots.get(index).inCollision()) {
-            crashFactor = 100000;
+            crashFactor = 1000;
         }
 
         Vector2d nextGoalPos = goalSteps[onGoal];

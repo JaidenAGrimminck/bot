@@ -8,10 +8,28 @@ import java.awt.*;
 
 public class Geometry {
 
+    /**
+     * Checks if two polygons are intersecting
+     * @param polygonA The first polygon
+     *                 The polygon is represented as an array of Vector2d points
+     *                 The points are in counter-clockwise order
+     *                 The last point is connected to the first point
+     *                 The polygon is assumed to be convex
+     *                 The polygon is assumed to be simple (no self-intersections)
+     * @param polygonB The second polygon
+     *                 The polygon is represented as an array of Vector2d points
+     *                 Same assumptions as polygonA
+     * @return true if the polygons are intersecting, false otherwise
+     * */
     public static boolean twoPolygonsIntersecting(Vector2d[] polygonA, Vector2d[] polygonB) {
         return isSeparatingAxisTheorem(polygonA, polygonB) && isSeparatingAxisTheorem(polygonB, polygonA);
     }
 
+    /**
+     * Checks if two polygons are intersecting using the Separating Axis Theorem
+     * @param a The first polygon
+     * @param b The second polygon
+     * */
     public static boolean isSeparatingAxisTheorem(Vector2d[] a, Vector2d[] b) {
         for (int i = 0; i < a.length; i++) {
             Vector2d p1 = a[i];
@@ -34,7 +52,14 @@ public class Geometry {
         return true;
     }
 
-    // Projects a polygon onto an axis and returns the projection range
+    /**
+     * Projects a polygon onto an axis and returns the projection range
+     * @param polygon The polygon to project
+     *                The polygon is represented as an array of Vector2d points
+     * @param axis The axis to project the polygon onto
+     *             The axis is represented as a Vector2d
+     * @return The projection range
+     * */
     public static Projection projectPolygon(Vector2d[] polygon, Vector2d axis) {
         double min = Double.POSITIVE_INFINITY;
         double max = Double.NEGATIVE_INFINITY;

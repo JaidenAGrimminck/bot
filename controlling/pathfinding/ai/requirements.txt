@@ -1,0 +1,6 @@
+tensorflow
+numpy
+websocket
+websocket-client
+asyncio
+threading

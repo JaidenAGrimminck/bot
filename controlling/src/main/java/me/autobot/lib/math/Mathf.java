@@ -2,12 +2,32 @@ package me.autobot.lib.math;
 
 import me.autobot.lib.math.coordinates.Vector2d;
 
+/**
+ * A class that contains mathematical functions that are not included in the Math class.
+ * **/
 public class Mathf {
 
+    /**
+     * Returns the value of the given number clamped between the given minimum and maximum values.
+     * @param n The number to clamp.
+     *          Can be any number.
+     *          If the number is less than the minimum value, the minimum value is returned.
+     *          If the number is greater than the maximum value, the maximum value is returned.
+     *          If the number is between the minimum and maximum values, the number is returned.
+     * @param min The minimum value.
+     * @param max The maximum value.
+     * */
     public static double clamp(double n, double min, double max) {
         return Math.max(min, Math.min(max, n));
     }
 
+    /**
+     * Return the maximum value of the given numbers.
+     * @param v The numbers to compare.
+     *          Can be any number of arguments.
+     *          If no arguments are given, 0 is returned.
+     * @return The maximum value of the given numbers.
+     * */
     public static double max(double ...v) {
         if (v.length == 0) return 0;
 
@@ -18,6 +38,13 @@ public class Mathf {
         return max;
     }
 
+    /**
+     * Returns the minimum value of the given numbers.
+     * @param v The numbers to compare.
+     *          Can be any number of arguments.
+     *          If no arguments are given, 0 is returned.
+     * @return The minimum value of the given numbers.
+     * */
     public static double min(double ...v) {
         if (v.length == 0) return 0;
 
@@ -28,11 +55,38 @@ public class Mathf {
         return min;
     }
 
+    /**
+     * Returns the hypotenuse of the given sides.
+     * @param x The length of the first side.
+     *          Can be any number.
+     * @param y The length of the second side.
+     *          Can be any number.
+     * @return The length of the hypotenuse.
+     * */
     public static double hypot(double x, double y) {
         return Math.sqrt(x * x + y * y);
     }
 
     //https://codereview.stackexchange.com/questions/175566/compute-shortest-distance-between-point-and-a-rectangle
+    /**
+     * Returns the signed distance between a point and a box in 2D space.
+     * @param x The x-coordinate of the point.
+     *          Can be any number.
+     * @param y The y-coordinate of the point.
+     *          Can be any number.
+     * @param x_min The minimum x-coordinate of the box.
+     *              Can be any number.
+     *              Must be less than x_max.
+     * @param y_min The minimum y-coordinate of the box.
+     *              Can be any number.
+     *              Must be less than y_max.
+     * @param x_max The maximum x-coordinate of the box.
+     *              Can be any number.
+     *              Must be greater than x_min.
+     * @param y_max The maximum y-coordinate of the box.
+     *              Can be any number.
+     *              Must be greater than y_min.
+     * **/
     public static double distanceBoxParticle2D(double x, double y, double x_min, double y_min,
                                  double x_max, double y_max)
     {
@@ -51,6 +105,12 @@ public class Mathf {
         }
     }
 
+    /**
+     * Returns the cosine of the given angle, but without any floating point errors.
+     * @param r The angle in radians.
+     *          Can be any number.
+     * @return The cosine of the angle.
+     * */
     public static double cos(double r) {
         if (r == 0) return 1;
         if (r == Math.PI) return -1;
@@ -60,6 +120,12 @@ public class Mathf {
         return Math.cos(r);
     }
 
+    /**
+     * Returns the sine of the given angle, but without any floating point errors.
+     * @param r The angle in radians.
+     *          Can be any number.
+     * @return The sine of the angle.
+     * */
     public static double sin(double r) {
         if (r == 0) return 0;
         if (r == Math.PI) return 0;
@@ -69,6 +135,11 @@ public class Mathf {
         return Math.sin(r);
     }
 
+    /**
+     * Takes in a number between -127 and 128 (a byte) and returns the equivalent positive number.
+     * @param n The number to convert.
+     * @return The equivalent positive number.
+     * */
     public static int allPos(int n) {
         if ((int) n < 0) return ((int) n) + 256;
         return n;

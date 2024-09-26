@@ -1,5 +1,7 @@
 package me.autobot.lib.robot;
 
+import me.autobot.lib.logging.Log;
+import me.autobot.lib.logging.Logger;
 import me.autobot.lib.math.Geometry;
 import me.autobot.lib.math.Unit;
 import me.autobot.lib.math.coordinates.Box2d;
@@ -21,7 +23,7 @@ import java.util.HashMap;
  * The general robot class.
  * This can be extended to create a robot with sensors and motors.
  * **/
-public class Robot {
+public class Robot implements Logger {
 
     //static methods
     private static boolean totalSimulation = false;
@@ -57,11 +59,15 @@ public class Robot {
 
     private Vector2d robotSize = new Vector2d(40, 60);
 
+    @Log
     private SimpleOdometry2d odometry;
 
     private boolean hasCrashed = false;
+
+    @Log
     private byte identification;
 
+    @Log
     private HashMap<String, Integer> flags = new HashMap<>();
 
     /**
