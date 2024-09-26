@@ -1,5 +1,7 @@
+
 plugins {
     id("java")
+    id("application")
 }
 
 group = "me.autobot"
@@ -46,4 +48,8 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+application {
+    mainClass = "me.autobot.code.Main"
 }
