@@ -145,8 +145,12 @@ public class Sensor extends Device {
         this.relativeRotation = relativeRotation;
     }
 
-    protected void setSensorValues(double... values) {
+    public void setSensorValues(double... values) {
         sensorValues = values;
+    }
+
+    public void setSensorValue(int index, double value) {
+        sensorValues[index] = value;
     }
 
     public void subscribe(WSClient client) {

@@ -2,6 +2,8 @@
 #include <Wire.h>
 #include <Servo.h>
 
+#define MAX_MESSAGE_SIZE 25
+
 /**
 NOTICE: In order to use this device, before uploading you MUST set the following variable, 
 otherwise the code will NOT work. Do not set it to 0x01, that is RESERVED. Any number from 0x02 to 0xFF is fine.
@@ -201,10 +203,14 @@ void loop() {
 
 --- RECEIVE: ---
 0: message type.
+- 0xFF: PING
 - 0xA0: EDIT EEPROM
 - 0xA1: READ
 - 0xA2: WRITE
 - 0xA3: SUBSCRIBE
+
+-- PING: --
+1: 0x00
 
 -- READ: --
 1: Pin
@@ -229,6 +235,10 @@ void loop() {
 
 --- SEND: ---
 
+0:
+- 0xA1: RESPONSE TO READ
+- 0xA3: RESPONSE TO SUBSCRIBE
+
 -- RESPONSE TO READ: --
 1: Pin of device
 2...9: Double Value
@@ -242,11 +252,49 @@ void loop() {
 **/
 
 /** -- I2C Events -- **/
+int currentMessageIndex = 0;
+byte currentMessage[MAX_MESSAGE_SIZE];
 
 void recieveEvent(int nbytes) {
     while (Wire.available()) {
         byte c = Wire.read();
+        currentMessage[currentMessageIndex++] = c;
+
+        if (processEvent()) clearCurrentMessage();
     }
+}
+
+bool processEvent() {
+    if (lessThan(1)) {
+        return false;
+    }
+
+    if (currentMessage[0] == 0xFF) {
+        if (lessThan(2)) return false;
+
+        if (currentMessage[1] == 0x00) {
+            print("Pinged!");
+        } else {
+            incorrectArgs();
+        }
+
+        return true;
+    }
+}
+
+bool lessThan(int n) {
+    return currentMessageIndex < n;
+}
+
+void clearCurrentMessage() {
+    for (int i = 0; i < MAX_MESSAGE_SIZE; i++) {
+        currentMessage[i] = 0x00;
+    }
+    currentMessageIndex = 0;
+}
+
+void incorrectArgs() {
+    err("Message recieved wasn't correct!");
 }
 
 void requestEvent() {

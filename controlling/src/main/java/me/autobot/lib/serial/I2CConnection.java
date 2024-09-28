@@ -7,6 +7,8 @@ import com.pi4j.io.i2c.I2CConfig;
 import com.pi4j.io.i2c.I2CProvider;
 
 public class I2CConnection {
+    protected static final int THIS_DEVICE_ADDRESS = 0x01;
+
     private Context context;
     private I2CProvider provider;
 
@@ -15,7 +17,7 @@ public class I2CConnection {
 
     private int deviceAddress;
 
-    private I2CConnection(String id, int bus, int device) {
+    public I2CConnection(String id, int bus, int device) {
         context = Pi4J.newAutoContext();
         provider = context.provider("linuxfs-i2c");
         config = I2C.newConfigBuilder(context)
@@ -28,11 +30,11 @@ public class I2CConnection {
         this.deviceAddress = device;
     }
     
-    private void write(byte[] data) {
+    public void write(byte[] data) {
         device.write(data);
     }
 
-    private byte[] read(int length) {
+    public byte[] read(int length) {
         return device.readNBytes(deviceAddress, length);
     }
 }

@@ -144,4 +144,17 @@ public class Mathf {
         if ((int) n < 0) return ((int) n) + 256;
         return n;
     }
+
+    /**
+     * Takes in an array of numbers between -127 and 128 (bytes) and returns the equivalent positive numbers.
+     * @param n The numbers to convert.
+     * @return The equivalent positive numbers.
+     * */
+    public static int[] allPos(int[] n) {
+        int[] pos = new int[n.length];
+        for (int i = 0; i < n.length; i++) {
+            pos[i] = allPos(n[i]);
+        }
+        return pos;
+    }
 }
