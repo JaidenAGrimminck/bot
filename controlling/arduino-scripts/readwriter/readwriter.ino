@@ -11,7 +11,7 @@ otherwise the code will NOT work. Do not set it to 0x01, that is RESERVED. Any n
 If any issues are occuring, connect via USB to the device to view the serial log messages.
 **/
 
-byte I2C_ADDRESS = 0x00;
+byte I2C_ADDRESS = 0x02;
 
 /** 
 Also, if you want to priortize that address over the one saved in the EEPROM, set the variable

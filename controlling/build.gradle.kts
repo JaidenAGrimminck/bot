@@ -40,6 +40,9 @@ dependencies {
     implementation("com.pi4j:pi4j-plugin-pigpio:2.3.0")
     implementation("com.pi4j:pi4j-plugin-linuxfs:2.3.0")
 
+    implementation("org.slf4j:slf4j-simple:2.0.16")
+    implementation("org.slf4j:slf4j-api:2.0.16")
+
     implementation("org.nanohttpd:nanohttpd:2.3.1")
     implementation("org.nanohttpd:nanohttpd-websocket:2.3.1")
 }
