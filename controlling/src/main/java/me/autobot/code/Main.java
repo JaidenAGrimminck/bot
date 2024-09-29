@@ -23,9 +23,9 @@ public class Main {
             @Override
             public void run() {
                 if (!activated) {
-                    sensorHubI2CConnection.writeToPin(0, SensorHubI2CConnection.HIGH);
+                    sensorHubI2CConnection.writeToPin(12, SensorHubI2CConnection.HIGH);
                 } else {
-                    sensorHubI2CConnection.writeToPin(0, SensorHubI2CConnection.LOW);
+                    sensorHubI2CConnection.writeToPin(12, SensorHubI2CConnection.LOW);
                 }
 
                 activated = !activated;
