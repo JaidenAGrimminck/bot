@@ -8,6 +8,7 @@ import com.pi4j.io.i2c.I2CProvider;
 
 public class I2CConnection {
     protected static final int THIS_DEVICE_ADDRESS = 0x01;
+    public static final int default_bus = 1;
 
     private Context context;
     private I2CProvider provider;
