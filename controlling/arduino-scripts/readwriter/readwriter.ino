@@ -3,6 +3,7 @@
 #include <Servo.h>
 
 #define MAX_MESSAGE_SIZE 25
+#define NUM_DEVICES 1
 
 /**
 NOTICE: In order to use this device, before uploading you MUST set the following variable, 
@@ -47,15 +48,15 @@ where the # is the index in the chunk of bytes representing the device.
  - (0x00 ignore)
  - 0x01 -> PIN DEVICE
  - 0x02 -> PWM DEVICE
-2, ..., n: Specific flags and info for device.
+2, ..., n: Specific flags and info for device, see below:
 
--- PIN DEVICE --
+-- PIN DEVICE: --
 2: Pin number
 3: out / in.
  - 0x01 for out
  - 0x00 for in
 
--- PWM DEVICE --
+-- PWM DEVICE: --
 2: Pin number
 
 
@@ -75,9 +76,10 @@ but to not waste EEPROM cycles, you may want to just update it in the EEPROM_SIM
 byte EEPROM_SIM[] = {
     //general
     I2C_ADDRESS, // i2c address
-    0, // # of devices
-    0, 0, 0, 0, 0, 0, 0, 0, 0,
+    NUM_DEVICES, // # of devices
+    0, 0, 0, 0, 0, 0,
     //devices
+    0x03, 0x01, 0x0C, 0x01
 };
 
 /**
@@ -168,8 +170,33 @@ void setup() {
     Wire.onReceive(recieveEvent);
     Wire.onRequest(requestEvent);
 
+    print("Initializing devices...");
+    init_devices();
+
     //done.
-    print("Started, now on the lookout for new messages.");
+    print("Successfully started I2C and initialized devices, now on the lookout for new messages.");
+}
+
+/**
+Every two bytes is a reference to the number of devices.
+0: The pin of the device
+1: Type. See below.
+
+-- TYPES: --
+- (0x00: DOES NOT EXIST) [used for reference]
+- 0x01: PIN OUT
+- 0x02: PIN IN
+- 0x03: PWM OUT
+**/
+byte deviceReference[NUM_DEVICES * 2];
+int deviceReferenceIndex = 0;
+
+byte findDeviceType(byte pin) {
+    for (int i = 0; i < NUM_DEVICES * 2; i += 2) {
+        if (deviceReference[i] == pin) return deviceReference[i + 1];
+    }
+
+    return 0x00;
 }
 
 /**
@@ -184,9 +211,33 @@ void init_devices() {
 
         byte deviceType = read(on_byte + 1);
 
-        print("device type is " + ((int) deviceType));
+        if (deviceType == 0x01) {
+            byte pin = read(on_byte + 2);
+            byte inoutR = read(on_byte + 3);
 
-        on_byte += next_n_bytes;
+            Serial.print("[LOG] Registering a PIN device at pin ");
+            Serial.print((int) pin);
+            Serial.print(" with type ");
+            bool in = inoutR == 0x00;
+
+            deviceReference[deviceReferenceIndex] = pin;
+
+            if (!in) {
+                Serial.print("OUT");
+
+                deviceReference[deviceReferenceIndex + 1] = 0x01;
+            } else {
+                Serial.print("IN");
+
+                deviceReference[deviceReferenceIndex + 1] = 0x02;
+            }
+
+            pinMode(pin, inoutR); //INPUT = 0x00 and OUTPUT = 0x01, so we can just pass it in since that's what we have already
+
+            Serial.println("!");
+        }
+
+        on_byte += next_n_bytes + 1;
     }
 }
 
@@ -279,7 +330,42 @@ bool processEvent() {
         }
 
         return true;
+    } else if (currentMessage[0] == 0xA2) {
+        if (lessThan(11)) return false;
+        
+        byte pin = currentMessage[1];
+        byte i2cSignature = currentMessage[10];
+
+        byte rawDouble[8];
+        for (int i = 2; i < 10; i++) rawDouble[i - 1] = currentMessage[i];
+
+        double d = 0;
+        unsigned char buf[sizeof(double)] = {0};
+
+        memcpy(&d, rawDouble, sizeof d);
+
+        byte dtype = findDeviceType(pin);
+
+        if (dtype != 0x00) {
+            if (dtype == 0x01) {
+                if (rawDouble[0] == 0xFF) {
+                    digitalWrite(pin, HIGH);
+                } else {
+                    digitalWrite(pin, LOW);
+                }
+            }
+        } else {
+            errp("Requested device ");
+            Serial.print((int) pin);
+            Serial.println(" does not exist.");
+        }
+
+        print("Writing something to something");
+
+        return true;
     }
+
+    return true;
 }
 
 bool lessThan(int n) {
@@ -354,7 +440,7 @@ Reads the index in the EEPROM
 **/
 byte read(int index) {
     if (IGNORE_EEPROM) {
-        if (index < len(EEPROM_SIM)) {
+        if (index < sizeof(EEPROM_SIM)) {
             return EEPROM_SIM[index];
         } else {
             return 0x00;
@@ -373,6 +459,14 @@ Prints an error to the serial.
 void err(String err) {
     String totMsg = "[ERROR] " + err;
     Serial.println(totMsg);
+}
+
+/**
+Prints a partial error to the serial.
+**/
+void errp(String err) {
+    String totMsg = "[ERROR] " + err;
+    Serial.print(totMsg);
 }
 
 /**

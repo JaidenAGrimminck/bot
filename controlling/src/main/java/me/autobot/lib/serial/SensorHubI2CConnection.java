@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SensorHubI2CConnection extends I2CConnection {
+    public static final byte[] HIGH = new byte[] {(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
+    public static final byte[] LOW = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
     private HashMap<int[], Sensor> subscribedSensors = new HashMap<>();
 
     public SensorHubI2CConnection(String id, int bus, int device) {
@@ -83,6 +86,20 @@ public class SensorHubI2CConnection extends I2CConnection {
 
         System.arraycopy(bbuf.array(), 0, payload, 2, Double.BYTES);
         payload[2 + Double.BYTES] = THIS_DEVICE_ADDRESS;
+        write(payload);
+    }
+
+    public void writeToPin(int index, byte[] value) {
+        if (value.length != Double.BYTES) {
+            return;
+        }
+
+        byte[] payload = new byte[3 + value.length];
+        payload[0] = (byte) 0xA2;
+        payload[1] = (byte) index;
+
+        System.arraycopy(value, 0, payload, 2, value.length);
+        payload[2 + value.length] = THIS_DEVICE_ADDRESS;
         write(payload);
     }
 }
