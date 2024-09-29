@@ -348,10 +348,12 @@ bool processEvent() {
 
         if (dtype != 0x00) {
             if (dtype == 0x01) {
-                if (rawDouble[0] == 0xFF) {
+                if (currentMessage[2] == 0xFF) {
                     digitalWrite(pin, HIGH);
+                    print("Writing HIGH to a device!");
                 } else {
                     digitalWrite(pin, LOW);
+                    print("Writing LOW to a device!");
                 }
             }
         } else {
@@ -359,8 +361,6 @@ bool processEvent() {
             Serial.print((int) pin);
             Serial.println(" does not exist.");
         }
-
-        print("Writing something to something");
 
         return true;
     }
