@@ -6,12 +6,12 @@
 
 /**
 NOTICE: In order to use this device, before uploading you MUST set the following variable, 
-otherwise the code will NOT work. Do not set it to 0x01, that is RESERVED. Any number from 0x02 to 0xFF is fine.
+otherwise the code will NOT work. Do not set it less than 0x08, it won't be able to form a connection. Any number from 0x08 to 0xFF is fine.
 
 If any issues are occuring, connect via USB to the device to view the serial log messages.
 **/
 
-byte I2C_ADDRESS = 0x02;
+byte I2C_ADDRESS = 0x12;
 
 /** 
 Also, if you want to priortize that address over the one saved in the EEPROM, set the variable
@@ -119,9 +119,9 @@ void setup() {
             setupError("I2C Address was not set! You must set it for every device BEFORE uploading.");
             return;
         } else {
-            //if the i2c address is 0x01 (the raspi i2c address) then throw another error.
-            if (I2C_ADDRESS == 0x01) {
-                setupError("Don't set the address to 0x01, that's reserved.");
+            //if the i2c address less than 0x08 then throw another error.
+            if (I2C_ADDRESS < 0x08) {
+                setupError("Don't set the address to anything less than 0x08, that's reserved.");
                 return;
             }
 
@@ -136,8 +136,8 @@ void setup() {
             print("Updating I2C address in code to one saved in EEPROM");
             //if the address in eeprom is = 0x01, that's a major issue.
             //to fix, just need to reload the code as described below to remove the 0x01 from the EEPROM and update it.
-            if (address == 0x01) {
-                setupError("I2C address in code is equal to 0x01. You must reload the code onto the device and set I2C_ADDRESS to >0x01 and PRIORITIZE_EEPROM_I2C to true to fix this.");
+            if (address < 0x08) {
+                setupError("I2C address in code is less than 0x08. You must reload the code onto the device and set I2C_ADDRESS to >0x01 and PRIORITIZE_EEPROM_I2C to true to fix this.");
                 return;
             } 
 
@@ -146,9 +146,9 @@ void setup() {
         } else {
             print("Updating I2C address in EEPROM to new address...");
 
-            //if the i2c address in code is equal to 0x01, ignore it.
-            if (I2C_ADDRESS == 0x01) {
-                setupError("Don't set I2C_ADDRESS to 0x01, that's reserved.");
+            //if the i2c address in code is less than 0x08, ignore it.
+            if (I2C_ADDRESS < 0x08) {
+                setupError("Don't set I2C_ADDRESS to 0x08, that's reserved.");
                 return;
             }
 

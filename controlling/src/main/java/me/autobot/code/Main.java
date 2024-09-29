@@ -9,7 +9,7 @@ public class Main {
         SensorHubI2CConnection sensorHubI2CConnection = new SensorHubI2CConnection(
                 "i2c-connection-1",
                 1,
-                0x02
+                0x12
         );
 
         sensorHubI2CConnection.ping();
