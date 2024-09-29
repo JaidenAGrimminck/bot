@@ -36,6 +36,16 @@ public class I2CConnection {
     }
 
     public byte[] read(int length) {
-        return device.readNBytes(deviceAddress, length);
+        byte[] data = new byte[length];
+
+        for (int i = 0; i < length; i++) {
+            try {
+                data[i] = device.readByte();
+            } catch (Exception e) {
+                data[i] = 0x00;
+            }
+        }
+
+        return data;
     }
 }
