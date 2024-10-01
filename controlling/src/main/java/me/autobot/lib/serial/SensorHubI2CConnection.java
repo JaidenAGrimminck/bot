@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SensorHubI2CConnection extends I2CConnection {
-    public static final byte[] HIGH = new byte[] {(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
-    public static final byte[] LOW = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    public static final byte[] HIGH = new byte[] {(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF };
+    public static final byte[] LOW = new byte[] {0x00, 0x00, 0x00, 0x00};
 
     private HashMap<int[], Sensor> subscribedSensors = new HashMap<>();
 
@@ -79,21 +79,21 @@ public class SensorHubI2CConnection extends I2CConnection {
         write(new byte[] {(byte) 0xA3, (byte) index, THIS_DEVICE_ADDRESS});
     }
 
-    public void writeToPin(int index, double value) {
-        byte[] payload = new byte[3 + Double.BYTES];
+    public void writeToPin(int index, float value) {
+        byte[] payload = new byte[3 + Float.BYTES];
         payload[0] = (byte) 0xA2;
         payload[1] = (byte) index;
 
-        ByteBuffer bbuf = ByteBuffer.allocate(Double.BYTES);
+        ByteBuffer bbuf = ByteBuffer.allocate(Float.BYTES);
         bbuf.putDouble(value);
 
-        System.arraycopy(bbuf.array(), 0, payload, 2, Double.BYTES);
-        payload[2 + Double.BYTES] = THIS_DEVICE_ADDRESS;
+        System.arraycopy(bbuf.array(), 0, payload, 2, Float.BYTES);
+        payload[2 + Float.BYTES] = THIS_DEVICE_ADDRESS;
         write(payload);
     }
 
     public void writeToPin(int index, byte[] value) {
-        if (value.length != Double.BYTES) {
+        if (value.length != Float.BYTES) {
             return;
         }
 

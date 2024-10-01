@@ -369,12 +369,15 @@ bool processEvent() {
         byte i2cSignature = currentMessage[10];
 
         byte rawDouble[8];
-        for (int i = 2; i < 10; i++) rawDouble[i - 1] = currentMessage[i];
+        for (int i = 2; i < 10; i++) {
+            rawDouble[i - 2] = currentMessage[i];
+        }
 
-        double d = 0;
-        unsigned char buf[sizeof(double)] = {0};
+        reverseArray(rawDouble, 8);
 
-        memcpy(&d, rawDouble, sizeof d);
+        double d;
+
+        memcpy(&d, rawDouble, sizeof(d));
 
         byte dtype = findDeviceType(pin);
 
@@ -388,7 +391,8 @@ bool processEvent() {
                     print("Writing LOW to a device!");
                 }
             } else if (dtype == 0x03) {
-                Serial.println(d); 
+                Serial.println(sizeof(double));
+                Serial.println(d);
             }
         } else {
             errp("Requested device ");
@@ -545,4 +549,12 @@ void print(String msg) {
 
 int len(byte arr[]) {
     return sizeof(arr) / sizeof(byte);
+}
+
+void reverseArray(byte* arr, int length) {
+    for (int i = 0; i < length / 2; i++) {
+        byte temp = arr[i];
+        arr[i] = arr[length - i - 1];
+        arr[length - i - 1] = temp;
+    }
 }
