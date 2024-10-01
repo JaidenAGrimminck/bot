@@ -85,7 +85,7 @@ public class SensorHubI2CConnection extends I2CConnection {
         payload[1] = (byte) index;
 
         ByteBuffer bbuf = ByteBuffer.allocate(Float.BYTES);
-        bbuf.putDouble(value);
+        bbuf.putFloat(value);
 
         System.arraycopy(bbuf.array(), 0, payload, 2, Float.BYTES);
         payload[2 + Float.BYTES] = THIS_DEVICE_ADDRESS;

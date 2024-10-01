@@ -363,21 +363,21 @@ bool processEvent() {
 
         return true;
     } else if (currentMessage[0] == 0xA2) {
-        if (lessThan(11)) return false;
+        if (lessThan(7)) return false;
         
         byte pin = currentMessage[1];
-        byte i2cSignature = currentMessage[10];
+        byte i2cSignature = currentMessage[7];
 
-        byte rawDouble[8];
-        for (int i = 2; i < 10; i++) {
-            rawDouble[i - 2] = currentMessage[i];
+        byte rawNumber[4];
+        for (int i = 2; i < 6; i++) {
+            rawNumber[i - 2] = currentMessage[i];
         }
 
-        reverseArray(rawDouble, 8);
+        reverseArray(rawNumber, 4);
 
-        double d;
+        float d;
 
-        memcpy(&d, rawDouble, sizeof(d));
+        memcpy(&d, rawNumber, sizeof(d));
 
         byte dtype = findDeviceType(pin);
 
