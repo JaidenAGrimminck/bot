@@ -28,6 +28,8 @@ public class Main {
                     sensorHubI2CConnection.writeToPin(12, SensorHubI2CConnection.LOW);
                 }
 
+                sensorHubI2CConnection.writeToPin(8, 18);
+
                 activated = !activated;
             }
         };

@@ -35,7 +35,10 @@ public class SensorHubI2CConnection extends I2CConnection {
                             if (data[0] == (byte) 0xA1 || data[0] == (byte) 0xA3) {
                                 byte rpin = data[1];
                                 double value = ByteBuffer.wrap(data, 2, Double.BYTES).getDouble();
-                                byte device = data[2 + Double.BYTES];
+                                byte deviceSignature = data[2 + Double.BYTES];
+
+                                //run a check to see if the device signature is the same as the device address, if not, ignore the data
+                                assert deviceSignature == getDeviceAddress() : "Device signature does not match device address.";
 
                                 int pin = Mathf.allPos(rpin);
 

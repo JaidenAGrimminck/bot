@@ -2,8 +2,18 @@
 #include <Wire.h>
 #include <Servo.h>
 
+//some advanced constants.
 #define MAX_MESSAGE_SIZE 25
-#define NUM_DEVICES 1
+
+/**
+This is the number of devices that are connected to the Arduino.
+**/
+#define NUM_DEVICES 2
+
+/**
+This is the number of servos connected to the Arduino. This is NOT independent of the above variable.
+**/
+#define NUM_SERVOS 1
 
 /**
 NOTICE: In order to use this device, before uploading you MUST set the following variable, 
@@ -79,7 +89,8 @@ byte EEPROM_SIM[] = {
     NUM_DEVICES, // # of devices
     0, 0, 0, 0, 0, 0,
     //devices
-    0x03, 0x01, 0x0C, 0x01
+    0x03, 0x01, 0x0C, 0x01, //pin device at port 12 (led)
+    0x02, 0x02, 0x08 //pwm device at port 8 (servo)
 };
 
 /**
@@ -191,6 +202,10 @@ Every two bytes is a reference to the number of devices.
 byte deviceReference[NUM_DEVICES * 2];
 int deviceReferenceIndex = 0;
 
+int servoReference[NUM_SERVOS];
+int servoReferenceIndex = 0;
+Servo servos[NUM_SERVOS];
+
 byte findDeviceType(byte pin) {
     for (int i = 0; i < NUM_DEVICES * 2; i += 2) {
         if (deviceReference[i] == pin) return deviceReference[i + 1];
@@ -220,21 +235,32 @@ void init_devices() {
             Serial.print(" with type ");
             bool in = inoutR == 0x00;
 
-            deviceReference[deviceReferenceIndex] = pin;
+            deviceReference[deviceReferenceIndex++] = pin;
 
             if (!in) {
                 Serial.print("OUT");
 
-                deviceReference[deviceReferenceIndex + 1] = 0x01;
+                deviceReference[deviceReferenceIndex++] = 0x01;
             } else {
                 Serial.print("IN");
 
-                deviceReference[deviceReferenceIndex + 1] = 0x02;
+                deviceReference[deviceReferenceIndex++] = 0x02;
             }
 
             pinMode(pin, inoutR); //INPUT = 0x00 and OUTPUT = 0x01, so we can just pass it in since that's what we have already
 
             Serial.println("!");
+        } else if (deviceType == 0x02) {
+            byte pin = read(on_byte + 2);
+
+            deviceReference[deviceReferenceIndex++] = pin;
+            deviceReference[deviceReferenceIndex++] = 0x03;
+
+            servos[pin].attach(pin);
+            servoReference[servoReferenceIndex++] = pin;
+            
+            Serial.print("[LOG] Added servo to port ");
+            Serial.println((int) pin);
         }
 
         on_byte += next_n_bytes + 1;
@@ -306,6 +332,9 @@ void loop() {
 int currentMessageIndex = 0;
 byte currentMessage[MAX_MESSAGE_SIZE];
 
+/**
+Called whenever bytes are recieved from the I2C bus.
+**/
 void recieveEvent(int nbytes) {
     while (Wire.available()) {
         byte c = Wire.read();
@@ -315,6 +344,9 @@ void recieveEvent(int nbytes) {
     }
 }
 
+/**
+Processes any events using the currentMessage buffer.
+**/
 bool processEvent() {
     if (lessThan(1)) {
         return false;
@@ -355,6 +387,8 @@ bool processEvent() {
                     digitalWrite(pin, LOW);
                     print("Writing LOW to a device!");
                 }
+            } else if (dtype == 0x03) {
+                Serial.println(d); 
             }
         } else {
             errp("Requested device ");
@@ -368,10 +402,16 @@ bool processEvent() {
     return true;
 }
 
+/**
+If the number of bytes in the currentMessage buffer is less than n, then this returns true.
+**/
 bool lessThan(int n) {
     return currentMessageIndex < n;
 }
 
+/**
+Clears and resets the currentMessage buffer.
+**/
 void clearCurrentMessage() {
     for (int i = 0; i < MAX_MESSAGE_SIZE; i++) {
         currentMessage[i] = 0x00;
@@ -379,12 +419,28 @@ void clearCurrentMessage() {
     currentMessageIndex = 0;
 }
 
+/**
+An quick error message if the message recieved via the buffer wasn't correct.
+**/
 void incorrectArgs() {
     err("Message recieved wasn't correct!");
 }
 
+byte outputBuffer[64]; 
+
+/**
+Called whenever bytes are requested 
+**/
 void requestEvent() {
     
+}
+
+void shiftOutputBuffer(int nbytes) {
+    byte newarr[64] = {0};
+
+    memcpy(&newarr[0], &outputBuffer[nbytes], sizeof(outputBuffer) - (sizeof(byte) * nbytes));
+
+    memcpy(&outputBuffer, &newarr, sizeof(newarr));
 }
 
 /** -- I2C Methods **/

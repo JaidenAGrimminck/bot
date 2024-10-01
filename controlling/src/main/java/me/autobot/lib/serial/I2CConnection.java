@@ -48,4 +48,8 @@ public class I2CConnection {
 
         return data;
     }
+
+    public int getDeviceAddress() {
+        return deviceAddress;
+    }
 }
