@@ -24,11 +24,11 @@ public class Main {
             public void run() {
                 if (!activated) {
                     sensorHubI2CConnection.writeToPin(12, SensorHubI2CConnection.HIGH);
+                    sensorHubI2CConnection.writeToPin(8, 90);
                 } else {
                     sensorHubI2CConnection.writeToPin(12, SensorHubI2CConnection.LOW);
+                    sensorHubI2CConnection.writeToPin(8, 180);
                 }
-
-                sensorHubI2CConnection.writeToPin(8, 18);
 
                 activated = !activated;
             }

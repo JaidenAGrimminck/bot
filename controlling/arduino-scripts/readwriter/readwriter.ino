@@ -373,6 +373,7 @@ bool processEvent() {
             rawNumber[i - 2] = currentMessage[i];
         }
 
+        // big-endian to little-endian conversion
         reverseArray(rawNumber, 4);
 
         float d;
@@ -391,8 +392,11 @@ bool processEvent() {
                     print("Writing LOW to a device!");
                 }
             } else if (dtype == 0x03) {
-                Serial.println(sizeof(double));
-                Serial.println(d);
+                for (int i = 0; i < NUM_SERVOS; i++) {
+                    if (servoReference[i] == pin) {
+                        servos[i].write((int) d);
+                    }
+                }
             }
         } else {
             errp("Requested device ");
