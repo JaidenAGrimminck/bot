@@ -2,7 +2,7 @@ from ultralytics import YOLO
 import cv2
 
 # load the model
-model = YOLO("datasets/yolov8l.pt")
+model = YOLO("datasets/yolo11l.pt")
 
 image = "datasets/images/val/cone.jpg"
 

@@ -256,7 +256,7 @@ void init_devices() {
             deviceReference[deviceReferenceIndex++] = pin;
             deviceReference[deviceReferenceIndex++] = 0x03;
 
-            servos[pin].attach(pin);
+            servos[servoReferenceIndex].attach(pin);
             servoReference[servoReferenceIndex++] = pin;
             
             Serial.print("[LOG] Added servo to port ");
@@ -266,6 +266,7 @@ void init_devices() {
         on_byte += next_n_bytes + 1;
     }
 }
+
 
 void loop() {
     // throw a message every 2 seconds if an error occured during setup.
@@ -395,6 +396,11 @@ bool processEvent() {
                 for (int i = 0; i < NUM_SERVOS; i++) {
                     if (servoReference[i] == pin) {
                         servos[i].write((int) d);
+
+                        Serial.print("[LOG] Writing ");
+                        Serial.print(d);
+                        Serial.print(" to servo on port ");
+                        Serial.println((int) pin);
                     }
                 }
             }

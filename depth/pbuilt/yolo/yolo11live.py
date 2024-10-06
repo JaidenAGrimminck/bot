@@ -3,7 +3,7 @@ import cv2
 import time
 
 # load the model
-model = YOLO("datasets/yolov8l.pt")
+model = YOLO("datasets/yolo11l.pt")
 
 webcam = cv2.VideoCapture(1)
 
