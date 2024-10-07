@@ -7,6 +7,7 @@ import com.pi4j.io.i2c.I2CConfig;
 import com.pi4j.io.i2c.I2CProvider;
 
 public class I2CConnection {
+    public static int i2cVerboseLevel = 0; //0=none, 1=notify there's an error, 2=print stack trace
     protected static final int THIS_DEVICE_ADDRESS = 0x01;
     public static final int default_bus = 1;
 
@@ -35,7 +36,15 @@ public class I2CConnection {
     }
     
     public void write(byte[] data) {
-        device.write(data);
+        try {
+            device.write(data);
+        } catch (Exception e) {
+            if (i2cVerboseLevel == 2) {
+                e.printStackTrace();
+            } else if (i2cVerboseLevel == 1) {
+                System.out.println("Error writing to I2C device");
+            }
+        }
     }
 
     public byte[] read(int length) {
