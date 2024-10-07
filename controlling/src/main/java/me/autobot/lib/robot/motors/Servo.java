@@ -9,13 +9,24 @@ public class Servo extends Motor {
     @Log
     private double speed = 0;
 
+    private double lastReportedSpeed = 0;
+
+    //I2C connection reference
     private SensorHubI2CConnection connectionRef;
+
+    //The pin that the servo is connected to on the i2c bus
     private int pin;
 
+    /**
+     * Creates a new servo with the given address on the default I2C bus.
+     * */
     public Servo(int address) {
         super(address);
     }
 
+    /**
+     * Creates a new servo with the given address on the given I2C bus.
+     * */
     public Servo(int address, int bus) {
         super(address, bus);
     }
@@ -40,14 +51,36 @@ public class Servo extends Motor {
         );
 
         this.pin = pin;
+
+        //since the servo should already be initialized on the i2c if configured properly,
+        //we don't need to do anything here, just save the pin and connection reference
     }
 
-    @Override
-    public void setSpeed(double speed) {
-        this.speed = (this.isInverted() ? 0 : 180) * Mathf.clamp(speed, 0, 180);
+    /**
+     * Sets the speed of the servo to a number between 0 and 180.
+     * @param speed The speed to set the servo to.
+     * */
+    public void setRawSpeed(double speed) {
+        this.speed = Mathf.clamp(speed, 0, 180);
+        if (this.isInverted()) {
+            this.speed = 180 - this.speed;
+        }
+
         reportSpeed();
     }
 
+    /**
+     * Sets the speed of the servo to a number between -1 and 1.
+     * @param speed The speed to set the servo to.
+     * */
+    public void setSpeed(double speed) {
+        //map the value to 0, 180
+        this.setRawSpeed(Mathf.map(speed, -1, 1, 0, 180));
+    }
+
+    /**
+     * Reports the speed of the servo to the I2C bus.
+     * */
     @Override
     protected void reportSpeed() {
         if (this.inSimulation()) {
@@ -58,6 +91,13 @@ public class Servo extends Motor {
             throw new IllegalStateException("Cannot write to pin without a connection.");
         }
 
+        if (Math.abs(this.speed - this.lastReportedSpeed) < 0.01) {
+            //ignore since it's the same value - don't want to spam the i2c bus
+            return;
+        }
+
         connectionRef.writeToPin(this.pin, (float) this.speed);
+
+        this.lastReportedSpeed = this.speed;
     }
 }

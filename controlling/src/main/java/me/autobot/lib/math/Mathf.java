@@ -22,6 +22,23 @@ public class Mathf {
     }
 
     /**
+     * Returns a value that is linearly interpolated between the given minimum and maximum values.
+     * @param n The number to interpolate.
+     *          Can be any number.
+     * @param premin The minimum value of the number.
+     *               Can be any number.
+     * @param premax The maximum value of the number.
+     *               Can be any number greater than premin.
+     * @param postmin The minimum value of the interpolation.
+     *                Can be any number.
+     * @param postmax The maximum value of the interpolation.
+     *                Can be any number greater than postmin.
+     * */
+    public static double map(double n, double premin, double premax, double postmin, double postmax) {
+        return (n - premin) / (premax - premin) * (postmax - postmin) + postmin;
+    }
+
+    /**
      * Return the maximum value of the given numbers.
      * @param v The numbers to compare.
      *          Can be any number of arguments.
