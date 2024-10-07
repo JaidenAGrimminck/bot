@@ -303,6 +303,10 @@ public class Robot implements Logger {
             Class<?> topLevel = (field.getType().getSuperclass() == null ? field.getType() : field.getType().getSuperclass());
             while (topLevel.getSuperclass() != null) {
                 topLevel = topLevel.getSuperclass();
+
+                if (topLevel == Device.class) {
+                    break;
+                }
             }
 
              if (topLevel.equals(Device.class)) {
