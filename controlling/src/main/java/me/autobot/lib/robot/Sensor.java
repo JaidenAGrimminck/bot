@@ -2,6 +2,7 @@ package me.autobot.lib.robot;
 
 import me.autobot.lib.math.coordinates.Vector3d;
 import me.autobot.lib.math.rotation.Rotation3d;
+import me.autobot.lib.serial.SensorHubI2CConnection;
 import me.autobot.server.WSClient;
 
 import java.util.ArrayList;
@@ -32,8 +33,7 @@ public class Sensor extends Device {
     private ArrayList<WSClient> subscribers;
 
     private final int address;
-
-    private boolean simulating = false;
+    private final int bus;
 
     private Timer updateTimer;
 
@@ -43,6 +43,7 @@ public class Sensor extends Device {
         super();
 
         this.sensorChannels = sensorChannels;
+        this.bus = SensorHubI2CConnection.default_bus;
 
         sensorValues = new double[sensorChannels];
 
@@ -51,6 +52,43 @@ public class Sensor extends Device {
         sensors.add(this);
 
         startUpdateTimer();
+    }
+
+    public Sensor(int address, int bus, int sensorChannels) {
+        super();
+
+        this.sensorChannels = sensorChannels;
+        this.bus = bus;
+
+        sensorValues = new double[sensorChannels];
+
+        this.address = address;
+
+        sensors.add(this);
+
+        startUpdateTimer();
+    }
+
+    /**
+     * Connects the sensor to the I2C bus.
+     * **/
+    public void connectToI2C(int pin) {
+        if (this.getParent() == null) {
+            throw new IllegalStateException("Cannot connect sensor to I2C bus without a parent.");
+        }
+
+        if (this.inSimulation()) {
+            //ignore this if we are in simulation
+            return;
+        }
+
+        SensorHubI2CConnection connection = SensorHubI2CConnection.getOrCreateConnection(
+                SensorHubI2CConnection.generateId(bus, this.getAddress()), bus, this.getAddress()
+        );
+
+        connection.subscribeSensor(
+        this, pin
+        );
     }
 
     private void startUpdateTimer() {
@@ -96,20 +134,12 @@ public class Sensor extends Device {
         return sensorValues;
     }
 
-    public void enableSimulation() {
-        simulating = true;
-    }
-
-    public boolean inSimulation() {
-        return simulating;
-    }
-
     public int getAddress() {
         return address;
     }
 
     public void simulateValues(double[] values) {
-        if (!simulating) {
+        if (!this.inSimulation()) {
             throw new IllegalStateException("Cannot simulate values when simulation is not enabled.");
         }
 

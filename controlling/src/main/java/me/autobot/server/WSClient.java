@@ -8,6 +8,7 @@ import me.autobot.lib.tools.RunnableWithArgs;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TimerTask;
@@ -15,7 +16,7 @@ import java.util.TimerTask;
 import static me.autobot.lib.math.Mathf.allPos;
 
 public class WSClient extends NanoWSD.WebSocket {
-    enum ClientType {
+    public static enum ClientType {
         Speaker,
         Listener,
         Passive //passive, as in can be either speaker or listener
@@ -57,6 +58,7 @@ public class WSClient extends NanoWSD.WebSocket {
     private static final boolean verbose = false;
 
     private static HashMap<Integer, Runnable> callables = new HashMap<>();
+    protected static ArrayList<WSClientRoute> routes = new ArrayList<>();
 
     public WSClient(NanoHTTPD.IHTTPSession handshake) {
         super(handshake);
@@ -181,10 +183,10 @@ public class WSClient extends NanoWSD.WebSocket {
 
         int[] payload = new int[rawPayload.length];
 
-        //TODO: convert payload to int[] and add robot specification.
-
+        //verbose message
         if (verbose) System.out.print("[");
-        //if the payload <0, there's an issue while parsing, convert to 0 to 256 range
+
+        //if the payload <0, there's an issue while parsing, convert to 0 to 255 range
         for (int i = 0; i < payload.length; i++) {
             payload[i] = rawPayload[i]; //convert the payload to a list of int[] to mitigate signed integers
 
@@ -192,12 +194,14 @@ public class WSClient extends NanoWSD.WebSocket {
                 payload[i] = allPos(payload[i]);
             }
 
+            //verbose message
             if (verbose) System.out.print(payload[i] + (i == payload.length - 1 ? "" : " "));
         }
 
+        //end verbose message
         if (verbose) System.out.println("]");
 
-
+        //get if it's a speaker
         boolean isSpeaker = (type == ClientType.Speaker);
 
         //if a passive, then the message must start with either 0x01 or 0x02 for speaker or listener respectively
@@ -217,6 +221,19 @@ public class WSClient extends NanoWSD.WebSocket {
             payload = Arrays.copyOfRange(payload, 1, payload.length);
         }
 
+        //loop through all of the wsclientroutes and check if the route matches
+        //if it does, then call the onMessage method
+        //if not, then call the handleSpeaker or handleListener method
+        for (WSClientRoute route : routes) {
+            if (route.getRoutePrefix().length > payload.length) continue;
+            if (isSpeaker && route.getType() == ClientType.Listener) continue;
+            if (!isSpeaker && route.getType() == ClientType.Speaker) continue;
+            if (!Arrays.equals(route.getRoutePrefix(), Arrays.copyOfRange(payload, 0, route.getRoutePrefix().length))) continue;
+
+            route.onMessage(this, Arrays.copyOfRange(payload, route.getRoutePrefix().length, payload.length));
+            return;
+        }
+
         if (isSpeaker) {
             handleSpeaker(payload, message);
         } else {
@@ -229,8 +246,6 @@ public class WSClient extends NanoWSD.WebSocket {
         //[0] -> 0x01, 0x02 (set sensor data / run callable)
 
         if (payload.length < 1) { notifyError(Error.InvalidPayloadLength); return; }
-
-        //System.out.println("Handling speaker");
 
         if (payload[0] == (byte) 0x02) {
             handleCallable(Arrays.copyOfRange(payload, 1, payload.length), message);

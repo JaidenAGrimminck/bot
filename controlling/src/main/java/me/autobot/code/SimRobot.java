@@ -75,9 +75,7 @@ public class SimRobot extends Robot {
         collisionSensor = new CollisionSensor(0xC7);
 
         //just incase simulation, we can do this to ensure that multiple robots can be created for ai etc
-        getSensors().forEach(sensor -> {
-            sensor.setParent(this);
-        });
+        getDevices().forEach(device -> device.setParent(this));
     }
 
     @Override

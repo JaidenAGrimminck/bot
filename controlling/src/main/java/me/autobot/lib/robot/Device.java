@@ -36,6 +36,8 @@ public class Device implements Logger {
 
     private Robot parent;
 
+    private boolean inSimulation = false;
+
     /**
      * Creates a new device.
      * */
@@ -121,6 +123,21 @@ public class Device implements Logger {
      * */
     public void setParent(Robot parent) {
         this.parent = parent;
+    }
+
+    /**
+     * Enable simulation mode for the device.
+     * **/
+    public void enableSimulation() {
+        inSimulation = true;
+    }
+
+    /**
+     * Check if the device is in simulation mode.
+     * @return true if the device is in simulation mode.
+     * */
+    public boolean inSimulation() {
+        return inSimulation;
     }
 
     /**

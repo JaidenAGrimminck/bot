@@ -1,6 +1,7 @@
 package me.autobot.lib.serial;
 
 import me.autobot.lib.math.Mathf;
+import me.autobot.lib.robot.Motor;
 import me.autobot.lib.robot.Sensor;
 
 import java.nio.ByteBuffer;
@@ -8,8 +9,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SensorHubI2CConnection extends I2CConnection {
+    public static int DEFAULT_BUS = 1;
+
     public static final byte[] HIGH = new byte[] {(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF };
     public static final byte[] LOW = new byte[] {0x00, 0x00, 0x00, 0x00};
+
+    public static String generateId(int bus, int device) {
+        return "i2c-connection-" + bus + "-" + device;
+    }
+
+    // A list of the connections that have been made, indexed by the device address
+    private static HashMap<String, SensorHubI2CConnection> connections = new HashMap<>();
+
+    public static SensorHubI2CConnection getOrCreateConnection(String id, int bus, int device) {
+        if (connections.containsKey(id)) {
+            return connections.get(id);
+        } else {
+            SensorHubI2CConnection connection = new SensorHubI2CConnection(id, bus, device);
+            connections.put(id, connection);
+            return connection;
+        }
+    }
 
     private HashMap<int[], Sensor> subscribedSensors = new HashMap<>();
 

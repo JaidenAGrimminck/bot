@@ -3,21 +3,17 @@ package me.autobot.lib.robot;
 import me.autobot.lib.logging.Log;
 import me.autobot.lib.logging.Logger;
 import me.autobot.lib.math.Geometry;
-import me.autobot.lib.math.Unit;
 import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Vector2d;
-import me.autobot.lib.math.coordinates.Vector3d;
 import me.autobot.lib.math.rotation.Rotation2d;
-import me.autobot.lib.math.rotation.Rotation3d;
 import me.autobot.lib.odometry.SimpleOdometry2d;
-import me.autobot.lib.robot.sensors.CollisionSensor;
-import me.autobot.lib.robot.sensors.UltrasonicSensor;
 import me.autobot.sim.Simulation;
-import me.autobot.sim.graphics.SimCanvas;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The general robot class.
@@ -34,7 +30,7 @@ public class Robot implements Logger {
     public static void startSimulation() {
         totalSimulation = true;
         for (Robot robot : robots) {
-            robot.switchSensorsToSimulation();
+            robot.switchDevicesToSimulation();
         }
     }
 
@@ -70,6 +66,11 @@ public class Robot implements Logger {
     @Log
     private HashMap<String, Integer> flags = new HashMap<>();
 
+    private long loopTime = 50;
+    private final Timer loopTimer;
+
+    private long timeCreated = 0;
+
     /**
      * Creates a new, basic robot.
      * This robot has no sensors or motors.
@@ -81,6 +82,18 @@ public class Robot implements Logger {
         robots.add(this);
 
         this.setup();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                loop();
+            }
+        };
+
+        loopTimer = new Timer();
+        loopTimer.schedule(task, loopTime, loopTime);
+
+        timeCreated = System.currentTimeMillis();
     }
 
     /**
@@ -117,11 +130,13 @@ public class Robot implements Logger {
      * This method is called when the simulation starts.
      * It is not recommended to call this method manually.
      * @see #startSimulation()
-     * @see #switchSensorsToSimulation()
+     * @see #switchDevicesToSimulation()
      * */
-    protected void switchSensorsToSimulation() {
-        ArrayList<Sensor> sensors = getSensors();
-        sensors.forEach(Sensor::enableSimulation);
+    protected void switchDevicesToSimulation() {
+        ArrayList<Device> devices = getDevices();
+        for (Device device : devices) {
+            device.enableSimulation();
+        }
     }
 
     /**
@@ -190,6 +205,22 @@ public class Robot implements Logger {
     }
 
     /**
+     * Loop method.
+     * This method is called every loop of the simulation.
+     * Override this method with:
+     * <code>
+     *     @Override
+     *     protected void loop() {
+     *     //your code here
+     *     //this code will be executed every loop of the simulation
+     *     }
+     * </code>
+     * */
+    protected void loop() {
+
+    }
+
+    /**
      * Returns the position of the robot using the odometry.
      * If the odometry is not set, it'll return a zero vector.
      * @return The position of the robot.
@@ -214,9 +245,6 @@ public class Robot implements Logger {
      * @return An array list of all the sensors of the robot.
      * @see Device
      * @see Sensor
-     * @see UltrasonicSensor
-     * @see CollisionSensor
-     * @see #getSensors()
      * */
     public ArrayList<Sensor> getSensors() {
         ArrayList<Sensor> sensors = new ArrayList<>();
@@ -237,6 +265,63 @@ public class Robot implements Logger {
         }
         return sensors;
     }
+
+    /**
+     * Gets all the motors of the robot.
+     * @return An array list of all the motors of the robot.
+     * @see Device
+     * @see Motor
+     * */
+    public ArrayList<Motor> getMotors() {
+        ArrayList<Motor> motors = new ArrayList<>();
+        for (Field field : this.getClass().asSubclass(this.getClass()).getDeclaredFields()) {
+            if ((field.getType().getSuperclass() == null ? field.getType() : field.getType().getSuperclass()).equals(Motor.class)) {
+                boolean accessible = field.canAccess(this);
+
+                field.setAccessible(true);
+
+                try {
+                    motors.add((Motor) field.get(this));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+
+                field.setAccessible(accessible);
+            }
+        }
+        return motors;
+    }
+
+    /**
+     * Gets all the devices of the robot.
+     * @return An array list of all the devices of the robot.
+     * @see Device
+     * */
+    public ArrayList<Device> getDevices() {
+        ArrayList<Device> devices = new ArrayList<>();
+        for (Field field : this.getClass().asSubclass(this.getClass()).getDeclaredFields()) {
+            Class<?> topLevel = (field.getType().getSuperclass() == null ? field.getType() : field.getType().getSuperclass());
+            while (topLevel.getSuperclass() != null) {
+                topLevel = topLevel.getSuperclass();
+            }
+
+             if (topLevel.equals(Device.class)) {
+                boolean accessible = field.canAccess(this);
+
+                field.setAccessible(true);
+
+                try {
+                    devices.add((Device) field.get(this));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+
+                field.setAccessible(accessible);
+            }
+        }
+        return devices;
+    }
+
 
     /**
      * Gets the size of the robot.
@@ -336,5 +421,37 @@ public class Robot implements Logger {
     public void reset() {
         hasCrashed = false;
         odometry.reset();
+    }
+
+    /**
+     * Cancels the loop timer.
+     * Will stop the loop method from being called in the future.
+     * */
+    public void stopLoop() {
+        loopTimer.cancel();
+    }
+
+    /**
+     * Sets the loop time.
+     * @param loopTime The time between each loop.
+     */
+    public void setLoopTime(long loopTime) {
+        this.loopTime = loopTime;
+    }
+
+    /**
+     * Gets the loop time.
+     * @return The time between each loop.
+     */
+    public long getLoopTime() {
+        return loopTime;
+    }
+
+    /**
+     * Gets the time elapsed since the robot was created.
+     * @return The time elapsed in milliseconds.
+     * */
+    public long getTimeElapsed() {
+        return System.currentTimeMillis() - timeCreated;
     }
 }

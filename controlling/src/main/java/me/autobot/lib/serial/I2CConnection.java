@@ -18,6 +18,8 @@ public class I2CConnection {
 
     private int deviceAddress;
 
+    private int bus;
+
     public I2CConnection(String id, int bus, int device) {
         context = Pi4J.newAutoContext();
         provider = context.provider("linuxfs-i2c");
@@ -29,6 +31,7 @@ public class I2CConnection {
         this.device = provider.create(config);   
 
         this.deviceAddress = device;
+        this.bus = bus;
     }
     
     public void write(byte[] data) {
@@ -51,5 +54,8 @@ public class I2CConnection {
 
     public int getDeviceAddress() {
         return deviceAddress;
+    }
+    public int getBus() {
+        return bus;
     }
 }
