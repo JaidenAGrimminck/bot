@@ -2,6 +2,7 @@ package me.autobot.lib.robot;
 
 import me.autobot.lib.logging.Log;
 import me.autobot.lib.logging.Logger;
+import me.autobot.lib.math.Clock;
 import me.autobot.lib.math.Geometry;
 import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Vector2d;
@@ -71,6 +72,8 @@ public class Robot implements Logger {
 
     private long timeCreated = 0;
 
+    private Clock clock;
+
     /**
      * Creates a new, basic robot.
      * This robot has no sensors or motors.
@@ -94,6 +97,7 @@ public class Robot implements Logger {
         loopTimer.schedule(task, loopTime, loopTime);
 
         timeCreated = System.currentTimeMillis();
+        clock = new Clock();
     }
 
     /**
@@ -457,5 +461,13 @@ public class Robot implements Logger {
      * */
     public long getTimeElapsed() {
         return System.currentTimeMillis() - timeCreated;
+    }
+
+    /**
+     * Gets the clock of the robot.
+     * @return The clock of the robot.
+     */
+    public Clock clock() {
+        return clock;
     }
 }

@@ -21,9 +21,7 @@ public class ServoBot extends Robot {
 
     @Override
     protected void loop() {
-        long timeElapsed = getTimeElapsed();
-
-        if (Math.floor(timeElapsed / 100d) == 0) {
+        if (clock().elapsedSince(100)) {
             servo.setSpeed(Math.sin(t));
 
             t += 0.01;
