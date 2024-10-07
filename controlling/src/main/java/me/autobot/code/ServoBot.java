@@ -10,7 +10,9 @@ public class ServoBot extends Robot {
     protected void setup() {
         servo = new Servo(0x12);
 
-        getDevices().forEach(device -> device.setParent(this));
+        getDevices().forEach(device -> {
+            device.setParent(this);
+        });
 
         servo.connectToI2C(8);
     }

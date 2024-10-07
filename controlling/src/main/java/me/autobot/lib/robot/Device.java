@@ -123,6 +123,7 @@ public class Device implements Logger {
      * */
     public void setParent(Robot parent) {
         this.parent = parent;
+        System.out.println("Assigned parent to device: " + this.getClass().getSimpleName());
     }
 
     /**
