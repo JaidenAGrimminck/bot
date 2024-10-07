@@ -17,14 +17,16 @@ public class ServoBot extends Robot {
         servo.connectToI2C(8);
     }
 
+    double t = 0;
+
     @Override
     protected void loop() {
         long timeElapsed = getTimeElapsed();
 
-        if (Math.floor(timeElapsed / 1000d) % 2 == 0) {
-            servo.setSpeed(0);
-        } else {
-            servo.setSpeed(0.5);
+        if (Math.floor(timeElapsed / 100d) == 0) {
+            servo.setSpeed(Math.sin(t));
+
+            t += 0.01;
         }
     }
 }
