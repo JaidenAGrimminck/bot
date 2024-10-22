@@ -54,6 +54,8 @@ public class SensorHubI2CConnection extends I2CConnection {
                         if (data != null) {
                             if (data[0] == (byte) 0xA1 || data[0] == (byte) 0xA3) {
                                 byte rpin = data[1];
+
+                                //todo: convert double.bytes to 4 instead of 8, since arduino/java are different
                                 double value = ByteBuffer.wrap(data, 2, Double.BYTES).getDouble();
                                 byte deviceSignature = data[2 + Double.BYTES];
 

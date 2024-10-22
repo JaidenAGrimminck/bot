@@ -1,6 +1,8 @@
 # Bot
 
-This is a repo detailing the CAD progress, code, and more for an autonomous robot/rover that I'm building. Unfortunately this can't be viewed online (must be downloaded to run), but look below for details about individual components and screenshots from the build/code.
+[![Documentation Status](https://readthedocs.org/projects/jaidens-bot-docs/badge/?version=latest)](https://jaidens-bot-docs.readthedocs.io/en/latest/?badge=latest)
+
+This is both a library and the code for a robot I'm building.
 
 ## Prerequisites
 
@@ -21,6 +23,24 @@ git clone https://github.com/JaidenAGrimminck/bot.git
 # Components
 
 Since this repo is made up of several different components, this section details the different parts of the repo individually.
+
+## Bot Code (Controlling/Simulation)
+
+### Prerequisites (for the site)
+
+Need Java >19 installed to run.
+
+### To Use
+
+If you haven't already, clone the repo via
+```bash
+git clone https://github.com/JaidenAGrimminck/bot.git
+```
+
+In the `controlling` folder, run `./gradlew clean` then `./gradlew build`.
+
+Then to run, run `./gradlew run`.
+
 
 ## Site
 
@@ -112,13 +132,6 @@ The number component is quite simply just a real-time number display. This is qu
 *example of the number component recording the backend speed*
 
 
-## Bot Code (Controlling/Simulation)
-
-The `/controlling` folder contains the Java code for controlling the robot.
-
-Currently, the simulation doesn't have many capabilities other than moving around the robot and simulating distance sensors.
-
-The code also has a websocket server that once worked on, will be able to communicate seamlessly with other programs, such as the site, AI models, and more.
 
 
 # License

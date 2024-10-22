@@ -181,7 +181,7 @@ public class Robot implements Logger {
      * Event called whenever the robot moves.
      * Override this method with:
      * <code>
-     * @Override
+     * &#64;Override
      * protected void onMove() {
      *     //your code here
      *     //this code will be executed whenever the robot moves
@@ -197,7 +197,7 @@ public class Robot implements Logger {
      * This method is called when the robot is created.
      * Override this method with:
      * <code>
-     * @Override
+     * &#64;Override
      * protected void setup() {
      *    //your code here
      *    //this code will be executed when the robot is created
@@ -213,7 +213,7 @@ public class Robot implements Logger {
      * This method is called every loop of the simulation.
      * Override this method with:
      * <code>
-     *     @Override
+     *     &#64;Override
      *     protected void loop() {
      *     //your code here
      *     //this code will be executed every loop of the simulation

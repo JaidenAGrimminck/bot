@@ -6,6 +6,8 @@ import com.pi4j.io.i2c.I2C;
 import com.pi4j.io.i2c.I2CConfig;
 import com.pi4j.io.i2c.I2CProvider;
 
+import java.util.ArrayList;
+
 public class I2CConnection {
     public static int i2cVerboseLevel = 0; //0=none, 1=notify there's an error, 2=print stack trace
     protected static final int THIS_DEVICE_ADDRESS = 0x01;

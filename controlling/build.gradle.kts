@@ -1,11 +1,10 @@
-
 plugins {
     id("java")
     id("application")
 }
 
 group = "me.autobot"
-version = "1.0-SNAPSHOT"
+version = "0.1"
 
 // buildscript {
 //     repositories {
@@ -19,6 +18,19 @@ version = "1.0-SNAPSHOT"
 //     //     classpath("gradle.plugin.org.ros2.tools.gradle:ament:0.7.0")
 //     // }
 // }
+
+tasks.javadoc {
+    destinationDir = file("docs/javadoc")
+
+    source = sourceSets.main.get().allJava
+
+    options.encoding = "UTF-8"
+    options.windowTitle = "Bot (Control) Docs"
+    title = "Bot (Control) Docs"
+
+    //ignore any empty docs
+    //options.jFlags("-Xdoclint:none")
+}
 
 repositories {
     mavenCentral()
@@ -45,6 +57,7 @@ dependencies {
 
     implementation("org.nanohttpd:nanohttpd:2.3.1")
     implementation("org.nanohttpd:nanohttpd-websocket:2.3.1")
+
 }
 
 //apply(plugin = "org.ros2.tools.gradle")

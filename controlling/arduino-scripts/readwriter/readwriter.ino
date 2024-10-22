@@ -16,6 +16,11 @@ This is the number of servos connected to the Arduino. This is NOT independent o
 #define NUM_SERVOS 1
 
 /**
+This is the number of ping devices there are. This is NOT independent of the above variable.
+**/
+#define PING_DEVICES 0
+
+/**
 NOTICE: In order to use this device, before uploading you MUST set the following variable, 
 otherwise the code will NOT work. Do not set it less than 0x08, it won't be able to form a connection. Any number from 0x08 to 0xFF is fine.
 
@@ -58,6 +63,7 @@ where the # is the index in the chunk of bytes representing the device.
  - (0x00 ignore)
  - 0x01 -> PIN DEVICE
  - 0x02 -> PWM DEVICE
+ - 0x03 -> PING (ULTRASONIC) DEVICE
 2, ..., n: Specific flags and info for device, see below:
 
 -- PIN DEVICE: --
@@ -69,6 +75,9 @@ where the # is the index in the chunk of bytes representing the device.
 -- PWM DEVICE: --
 2: Pin number
 
+-- PING (ULTRASONIC) DEVICE: --
+2: Pin number for echo (this is also used as reference by I2C)
+3: Pin number for trigger
 
 If this is used for testing and likely will need to be constantly changed, enable the following boolean: */
 
@@ -98,6 +107,23 @@ byte EEPROM_SIM[] = {
 If you want to look at the I2C formatting for sending/recieving, look at [---- I2C Messages ----]
 
 **/
+
+//variables for the subscription system
+//if the following subscription variable is too little, you can increase it 
+#define MAX_SUBSCRIPTIONS 10
+//TODO: move this into the eeprom
+
+//ordered list of subscriptions, L=2n. n=pin, n+1=subscribed device address
+//if subscribed device address<0x08, then it goes back to the control device (rasbpi)
+byte subscribedTo[MAX_SUBSCRIPTIONS * 2];
+int currentlySubscribed = 0;
+
+//length of the output buffer, i would make it divisible by 8 for it to work well.
+#define OUTPUT_BUFFER 64
+
+//response buffer for the 
+byte outputBuffer[OUTPUT_BUFFER];
+int currentBufferByte = 0;
 
 //variables for the setup error if it occurs.
 bool errorSetup = false;
@@ -198,6 +224,7 @@ Every two bytes is a reference to the number of devices.
 - 0x01: PIN OUT
 - 0x02: PIN IN
 - 0x03: PWM OUT
+- 0x04: PING
 **/
 byte deviceReference[NUM_DEVICES * 2];
 int deviceReferenceIndex = 0;
@@ -205,6 +232,23 @@ int deviceReferenceIndex = 0;
 int servoReference[NUM_SERVOS];
 int servoReferenceIndex = 0;
 Servo servos[NUM_SERVOS];
+
+struct Ping {
+    int echo;
+    int trigger;
+};
+
+Ping pingReference[PING_DEVICES];
+int currentDistance[PING_DEVICES];
+int pingReferenceIndex = 0;
+
+int findPingDeviceIndex(int pin) {
+    for (int i = 0; i < PING_DEVICES; i++) {
+        if (pingReference[i].echo == pin) return i;
+    }
+
+    return -1;
+}
 
 byte findDeviceType(byte pin) {
     for (int i = 0; i < NUM_DEVICES * 2; i += 2) {
@@ -261,6 +305,22 @@ void init_devices() {
             
             Serial.print("[LOG] Added servo to port ");
             Serial.println((int) pin);
+        } else if (deviceType == 0x03) {
+            byte echo = read(on_byte + 2);
+            byte trig = read(on_byte + 3);
+
+            Ping ping;
+
+            ping.echo = echo;
+            ping.trigger = trig;
+
+            deviceReference[deviceReferenceIndex++] = echo;
+            deviceReference[deviceReferenceIndex++] = 0x04;
+
+            pingReference[pingReferenceIndex++] = ping;
+
+            Serial.print("[LOG] Added 4 pin ultrasonic sensor to port ");
+            Serial.println((int) echo);
         }
 
         on_byte += next_n_bytes + 1;
@@ -268,11 +328,80 @@ void init_devices() {
 }
 
 
+//used in calculating the ultrasonic sensor.
+int distance;
+long duration;
+
 void loop() {
     // throw a message every 2 seconds if an error occured during setup.
     if (errorSetup) {
         delay(2000);
         err(errorMsg);
+        return;
+    }
+
+    //ultrasonic sensor
+    for (int i = 0; i < PING_DEVICES; i++) {
+        Ping pd = pingReference[i];
+
+        // Clears the trigger pin
+        digitalWrite(pd.trigger, LOW);
+        digitalWrite(pd.trigger, LOW);
+        delayMicroseconds(2);
+
+        // Sets the trigger pin on HIGH state for 10 microseconds
+        digitalWrite(pd.trigger, HIGH);
+        delayMicroseconds(10);
+        digitalWrite(pd.trigger, LOW);
+
+        // Reads the echo pin, returns the sound wave travel time in microseconds
+        duration = pulseIn(pd.echo, HIGH);
+        
+        // Calculates the distance the distance
+        distance = duration * 0.034 / 2;
+
+        currentDistance[i] = distance;
+
+        delayMicroseconds(5); //quick delay
+    }
+
+    for (int i = 0; i < MAX_SUBSCRIPTIONS * 2; i += 2) {
+        byte pin = subscribedTo[i];
+        byte device_addr = subscribedTo[i + 1];
+
+        if (pin == 0x00) continue; //empty, not in use
+
+        byte rbuff[7];
+
+        rbuff[0] = 0xA3;
+        rbuff[1] = pin;
+        rbuff[6] = read(0);
+
+        byte dtype = findDeviceType(pin);
+
+        if (dtype == 0x04) {
+            int in = findPingDeviceIndex(pin);
+            if (in == -1) continue;
+
+            double d = 1.0 * currentDistance[in];
+            
+            byte n[4];
+
+            //copy to pre-array
+            memcpy(&d, &n, 4);
+
+            // little-endian to big-endian conversion of pre-array
+            reverseArray(n, 4);
+
+            //copy then to buffer chunk
+            memcpy(&n, &rbuff[2], 4);
+        }
+        
+        //then copy buffer chunk over to the output buffer
+        memcpy(&rbuff, &outputBuffer[currentBufferByte], 7);
+
+        //keep track of how much was added (3 info bytes, 4 bytes for an int)
+        currentBufferByte += 7;
     }
 }
 
@@ -411,6 +540,20 @@ bool processEvent() {
         }
 
         return true;
+    } else if (currentMessage[0] == 0xA3) {
+        if (lessThan(3)) return;
+
+        byte pin = currentMessage[1];
+        byte signature = currentMessage[2];
+
+        if (currentlySubscribed >= MAX_SUBSCRIPTIONS) {
+            err("Cannot subscribe something new! Already at the maximum number of subscriptions!");
+            return true;
+        }
+        
+        //n=pin, n+1=device address
+        subscribedTo[currentlySubscribed++] = pin;
+        subscribedTo[currentlySubscribed++] = signature;
     }
 
     return true;
@@ -440,20 +583,39 @@ void incorrectArgs() {
     err("Message recieved wasn't correct!");
 }
 
-byte outputBuffer[64]; 
-
 /**
 Called whenever bytes are requested 
 **/
 void requestEvent() {
-    
+    if (OUTPUT_BUFFER < 16) {
+        err("Hey, that's weird -- the output buffer is less than 16 bytes? It must be >=16 bytes.");
+        return;
+    }
+
+    byte firstSixteen[16];
+
+    //copy the first 16 bytes
+    memcpy(&outputBuffer, firstSixteen, 16);
+
+    //shift the output buffer back 16 bytes
+    shiftOutputBuffer(16);
+
+    for (int i = 0; i < 16; i++) {
+        Wire.write(firstSixteen[i]);
+    }
 }
 
-void shiftOutputBuffer(int nbytes) {
-    byte newarr[64] = {0};
 
+/**
+Shifts the output buffer by n bytes (removes the first n bytes and moves the rest of the array from index n to 0)
+*/
+void shiftOutputBuffer(int nbytes) {
+    byte newarr[OUTPUT_BUFFER] = {0};
+
+    //copy to new array
     memcpy(&newarr[0], &outputBuffer[nbytes], sizeof(outputBuffer) - (sizeof(byte) * nbytes));
 
+    //then copy it back to the output buffer
     memcpy(&outputBuffer, &newarr, sizeof(newarr));
 }
 
