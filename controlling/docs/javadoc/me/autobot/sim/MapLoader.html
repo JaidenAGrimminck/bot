@@ -90,6 +90,15 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MapLoader</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Loads maps for the simulator and converts them to Box2d objects.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../lib/math/coordinates/Box2d.html" title="class in me.autobot.lib.math.coordinates"><code>Box2d</code></a></li>
+</ul>
+</dd>
+</dl>
 </div>
 </section>
 <section class="summary">
@@ -103,7 +112,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">MapLoader</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">This class should not be instantiated.</div>
+</div>
 </div>
 </section>
 </li>
@@ -120,11 +131,15 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int[][]</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#loadMap(java.lang.String)" class="member-name-link">loadMap</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Loads a map from a file.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="../lib/math/coordinates/Box2d.html" title="class in me.autobot.lib.math.coordinates">Box2d</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#mapToObjects(int%5B%5D%5B%5D,int)" class="member-name-link">mapToObjects</a><wbr>(int[][]&nbsp;map,
  int&nbsp;boxWidth)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Converts a 2D array of integers (where 1 represents a box and 0 represents empty space) to a list of Box2d objects.</div>
+</div>
 </div>
 </div>
 </div>
@@ -147,6 +162,7 @@ loadScripts(document, 'script');</script>
 <h3>MapLoader</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MapLoader</span>()</div>
+<div class="block">This class should not be instantiated.</div>
 </div>
 </section>
 </li>
@@ -164,9 +180,24 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int[][]</span>&nbsp;<span class="element-name">loadMap</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path)</span>
                        throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/FileNotFoundException.html" title="class or interface in java.io" class="external-link">FileNotFoundException</a></span></div>
+<div class="block">Loads a map from a file. This is supposed to be a text file where each line represents a row of the map, with 0 representing empty space and 1 representing a box.
+ See the /map directory for examples.</div>
 <dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>path</code> - The path to the file.
+             Can be any string.
+             If the file does not exist, a FileNotFoundException is thrown.
+             If the file is not a text file, the function may not work as expected.</dd>
+<dt>Returns:</dt>
+<dd>A 2D array of integers.</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/FileNotFoundException.html" title="class or interface in java.io" class="external-link">FileNotFoundException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/FileNotFoundException.html" title="class or interface in java.io" class="external-link">FileNotFoundException</a></code> - If the file does not exist.</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="#mapToObjects(int%5B%5D%5B%5D,int)"><code>mapToObjects(int[][], int)</code></a></li>
+</ul>
+</dd>
 </dl>
 </div>
 </section>
@@ -177,6 +208,16 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../lib/math/coordinates/Box2d.html" title="class in me.autobot.lib.math.coordinates">Box2d</a>&gt;</span>&nbsp;<span class="element-name">mapToObjects</span><wbr><span class="parameters">(int[][]&nbsp;map,
  int&nbsp;boxWidth)</span></div>
+<div class="block">Converts a 2D array of integers (where 1 represents a box and 0 represents empty space) to a list of Box2d objects.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>map</code> - The 2D array of integers.
+            Can be any 2D array of integers, where 1 represents a box and 0 or else represents empty space.</dd>
+<dd><code>boxWidth</code> - The width of each box. Can be any positive integer.
+                 If the width is less than or equal to 0, an assertion error is thrown.</dd>
+<dt>Returns:</dt>
+<dd>A list of Box2d objects.</dd>
+</dl>
 </div>
 </section>
 </li>

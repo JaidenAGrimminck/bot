@@ -100,6 +100,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Motor</span>
 <span class="extends-implements">extends <a href="Device.html" title="class in me.autobot.lib.robot">Device</a></span></div>
+<div class="block">A moving device that can be controlled by the robot, such as a motor.</div>
 </div>
 </section>
 <section class="summary">
@@ -122,10 +123,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">Motor</a><wbr>(int&nbsp;address)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new motor with the given I2C address (and default I2C bus).</div>
+</div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int,int)" class="member-name-link">Motor</a><wbr>(int&nbsp;address,
  int&nbsp;bus)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a new motor with the given I2C address and bus.</div>
+</div>
 </div>
 </section>
 </li>
@@ -142,43 +147,59 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#brake()" class="member-name-link">brake</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Brakes the motor.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#connectToI2C(int)" class="member-name-link">connectToI2C</a><wbr>(int&nbsp;pin)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Connects the motor to the I2C bus.</div>
+<div class="block">Actually connects the motor to the I2C bus using the given pin.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#emergencyStop()" class="member-name-link">emergencyStop</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Called to emergency stop the device.</div>
+<div class="block">Emergency stops the motor.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAddress()" class="member-name-link">getAddress</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the I2C address of the motor controller.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBus()" class="member-name-link">getBus</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the I2C bus the motor controller is connected to.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#inSimulation()" class="member-name-link">inSimulation</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Check if the device is in simulation mode.</div>
+<div class="block">Returns whether the motor is currently in simulation mode.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#invert()" class="member-name-link">invert</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Inverts the motor's direction.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isInverted()" class="member-name-link">isInverted</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns if the motor direction is inverted.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reportSpeed()" class="member-name-link">reportSpeed</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sends the speed to the motor controller.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSpeed(double)" class="member-name-link">setSpeed</a><wbr>(double&nbsp;speed)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the speed of the motor.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop(double)" class="member-name-link">stop</a><wbr>(double&nbsp;speed)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Stops the motor (sets speed to 0).</div>
+</div>
 </div>
 </div>
 </div>
@@ -204,6 +225,11 @@ loadScripts(document, 'script');</script>
 <h3>Motor</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Motor</span><wbr><span class="parameters">(int&nbsp;address)</span></div>
+<div class="block">Creates a new motor with the given I2C address (and default I2C bus).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>address</code> - The I2C address of the motor controller.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -213,6 +239,12 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Motor</span><wbr><span class="parameters">(int&nbsp;address,
  int&nbsp;bus)</span></div>
+<div class="block">Creates a new motor with the given I2C address and bus.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>address</code> - The I2C address of the motor controller.</dd>
+<dd><code>bus</code> - The I2C bus the motor controller is connected to.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -229,7 +261,13 @@ loadScripts(document, 'script');</script>
 <h3>connectToI2C</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">connectToI2C</span><wbr><span class="parameters">(int&nbsp;pin)</span></div>
-<div class="block">Connects the motor to the I2C bus.</div>
+<div class="block">Actually connects the motor to the I2C bus using the given pin.
+ This must be overridden by subclasses, it will throw a warning if not.
+ Note: The parent must be set before calling this method.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>pin</code> - The pin the motor is connected to on the motor controller.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -238,14 +276,20 @@ loadScripts(document, 'script');</script>
 <h3>setSpeed</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSpeed</span><wbr><span class="parameters">(double&nbsp;speed)</span></div>
+<div class="block">Sets the speed of the motor.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>speed</code> - The speed of the motor, from -1 to 1.</dd>
+</dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="stop(double)">
+<section class="detail" id="stop()">
 <h3>stop</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">stop</span><wbr><span class="parameters">(double&nbsp;speed)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">stop</span>()</div>
+<div class="block">Stops the motor (sets speed to 0).</div>
 </div>
 </section>
 </li>
@@ -254,6 +298,7 @@ loadScripts(document, 'script');</script>
 <h3>invert</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">invert</span>()</div>
+<div class="block">Inverts the motor's direction.</div>
 </div>
 </section>
 </li>
@@ -262,6 +307,7 @@ loadScripts(document, 'script');</script>
 <h3>brake</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">brake</span>()</div>
+<div class="block">Brakes the motor. Should be overridden by subclasses.</div>
 </div>
 </section>
 </li>
@@ -270,6 +316,8 @@ loadScripts(document, 'script');</script>
 <h3>reportSpeed</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">reportSpeed</span>()</div>
+<div class="block">Sends the speed to the motor controller.
+ This should be overridden by subclasses due to the difference in motor controllers.</div>
 </div>
 </section>
 </li>
@@ -278,12 +326,17 @@ loadScripts(document, 'script');</script>
 <h3>emergencyStop</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">emergencyStop</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="Device.html#emergencyStop()">Device</a></code></span></div>
-<div class="block">Called to emergency stop the device.
- This means: stop all motors, turn off all LEDs, etc. Literally stop everything.</div>
+<div class="block">Emergency stops the motor. Runs both #stop and #brake.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="Device.html#emergencyStop()">emergencyStop</a></code>&nbsp;in class&nbsp;<code><a href="Device.html" title="class in me.autobot.lib.robot">Device</a></code></dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="#stop()"><code>stop()</code></a></li>
+<li><a href="#brake()"><code>brake()</code></a></li>
+</ul>
+</dd>
 </dl>
 </div>
 </section>
@@ -293,13 +346,12 @@ loadScripts(document, 'script');</script>
 <h3>inSimulation</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">inSimulation</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="Device.html#inSimulation()">Device</a></code></span></div>
-<div class="block">Check if the device is in simulation mode.</div>
+<div class="block">Returns whether the motor is currently in simulation mode.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="Device.html#inSimulation()">inSimulation</a></code>&nbsp;in class&nbsp;<code><a href="Device.html" title="class in me.autobot.lib.robot">Device</a></code></dd>
 <dt>Returns:</dt>
-<dd>true if the device is in simulation mode.</dd>
+<dd>Whether the motor is in simulation mode.</dd>
 </dl>
 </div>
 </section>
@@ -309,6 +361,11 @@ loadScripts(document, 'script');</script>
 <h3>getAddress</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getAddress</span>()</div>
+<div class="block">Returns the I2C address of the motor controller.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The I2C address of the motor controller.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -317,6 +374,11 @@ loadScripts(document, 'script');</script>
 <h3>getBus</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getBus</span>()</div>
+<div class="block">Returns the I2C bus the motor controller is connected to.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The I2C bus the motor controller is connected to.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -325,6 +387,11 @@ loadScripts(document, 'script');</script>
 <h3>isInverted</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isInverted</span>()</div>
+<div class="block">Returns if the motor direction is inverted.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>If the direction is inverted.</dd>
+</dl>
 </div>
 </section>
 </li>

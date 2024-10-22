@@ -11,12 +11,21 @@ import me.autobot.sim.graphics.SimScreen;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * A class used to simulate the robot.
+ * */
 public class Simulation {
 
     private static Simulation instance;
 
+    /**
+     * The simulation environment.
+     * */
     public Environment environment;
 
+    /**
+     * Starts the simulation.
+     * */
     public static void start() {
         WSServer.wsstart();
 
@@ -36,11 +45,18 @@ public class Simulation {
         thread.start();
     }
 
+    /**
+     * Stops the simulation.
+     * */
     public static void stop() {
         instance = null;
         //shutdown etc.
     }
 
+    /**
+     * Returns the instance of the simulation.
+     * @return The instance of the simulation.
+     * */
     public static Simulation getInstance() {
         if (instance == null) {
             instance = new Simulation();
@@ -48,10 +64,17 @@ public class Simulation {
         return instance;
     }
 
+    /**
+     * Returns whether the simulation is running.
+     * @return Whether the simulation is running.
+     * */
     public static boolean running() {
         return instance != null;
     }
 
+    /**
+     * A timer that keeps track of the simulation time.
+     * */
     public static class SimulationTimer extends Timer {
         double time = 0;
 
@@ -68,14 +91,25 @@ public class Simulation {
             }
         };
 
+        /**
+         * Creates a new simulation timer.
+         * */
         public SimulationTimer() {
             super();
         }
 
+        /**
+         * Starts the simulation timer.
+         * */
         public void start() {
             timer.scheduleAtFixedRate(task, 0, 50);
         }
 
+        /**
+         * Adjusts the multiplier of the simulation timer.
+         * This can be used to speed up or slow down the simulation.
+         * @param multiplier The multiplier to adjust the simulation by.
+         * */
         public void adjustMultiplier(double multiplier) {
             if (multiplier < 0) {
                 throw new IllegalArgumentException("Multiplier must be greater than 0");
@@ -87,16 +121,27 @@ public class Simulation {
             this.multiplier = multiplier;
         }
 
+        /**
+         * Pauses the simulation timer.
+         * */
         public void pause() {
             this.multiplier = 0;
 
             //etc.
         }
 
+        /**
+         * Gets the time multiplier of the simulation timer.
+         * @return The time multiplier of the simulation timer.
+         * */
         public double getMultiplier() {
             return multiplier;
         }
 
+        /**
+         * Gets the delta time of the simulation timer.
+         * @return The delta time of the simulation timer.
+         * */
         private double getDeltaTime() {
             return (1d / fps) * multiplier;
         }
@@ -105,6 +150,9 @@ public class Simulation {
 
     private SimulationTimer timer = new SimulationTimer();
 
+    /**
+     * Creates a new simulation.
+     * */
     private Simulation() {
         for (int i = 0; i < SimCanvas.numberOfAIRobots; i++) {
             new SimRobot();
@@ -116,6 +164,10 @@ public class Simulation {
         timer.start();
     }
 
+    /**
+     * Gets the simulation timer.
+     * @return The simulation timer.
+     * */
     public SimulationTimer getTimer() {
         return timer;
     }

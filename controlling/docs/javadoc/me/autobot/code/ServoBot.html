@@ -96,6 +96,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ServoBot</span>
 <span class="extends-implements">extends <a href="../lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></span></div>
+<div class="block">A bot used to test the Servo class!</div>
 </div>
 </section>
 <section class="summary">
@@ -109,7 +110,10 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">ServoBot</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new SimRobot
+ Not necessary needed, but it's here for the sake of completeness.</div>
+</div>
 </div>
 </section>
 </li>
@@ -127,12 +131,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loop()" class="member-name-link">loop</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Loop method.</div>
+<div class="block">Every 100ms, set the speed of the servo to sin(t).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setup()" class="member-name-link">setup</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Setup method.</div>
+<div class="block">Creates a new servo at address 0x12, then lets the i2c device know that the servo we're looking for is the one attached to the gpio pin 8.</div>
 </div>
 </div>
 </div>
@@ -159,6 +163,8 @@ loadScripts(document, 'script');</script>
 <h3>ServoBot</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ServoBot</span>()</div>
+<div class="block">Creates a new SimRobot
+ Not necessary needed, but it's here for the sake of completeness.</div>
 </div>
 </section>
 </li>
@@ -175,17 +181,7 @@ loadScripts(document, 'script');</script>
 <h3>setup</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setup</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../lib/robot/Robot.html#setup()">Robot</a></code></span></div>
-<div class="block">Setup method.
- This method is called when the robot is created.
- Override this method with:
- <code>
- &#64;Override
- protected void setup() {
-    //your code here
-    //this code will be executed when the robot is created
- }
- </code></div>
+<div class="block">Creates a new servo at address 0x12, then lets the i2c device know that the servo we're looking for is the one attached to the gpio pin 8.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="../lib/robot/Robot.html#setup()">setup</a></code>&nbsp;in class&nbsp;<code><a href="../lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></code></dd>
@@ -198,17 +194,7 @@ loadScripts(document, 'script');</script>
 <h3>loop</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">loop</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../lib/robot/Robot.html#loop()">Robot</a></code></span></div>
-<div class="block">Loop method.
- This method is called every loop of the simulation.
- Override this method with:
- <code>
-     &#64;Override
-     protected void loop() {
-     //your code here
-     //this code will be executed every loop of the simulation
-     }
- </code></div>
+<div class="block">Every 100ms, set the speed of the servo to sin(t).</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="../lib/robot/Robot.html#loop()">loop</a></code>&nbsp;in class&nbsp;<code><a href="../lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></code></dd>

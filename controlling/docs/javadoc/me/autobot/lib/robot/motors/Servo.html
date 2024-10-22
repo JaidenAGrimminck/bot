@@ -98,6 +98,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Servo</span>
 <span class="extends-implements">extends <a href="../Motor.html" title="class in me.autobot.lib.robot">Motor</a></span></div>
+<div class="block">The servo motor class. This class is used to control a servo motor via the I2C bus.</div>
 </div>
 </section>
 <section class="summary">
@@ -162,12 +163,17 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the speed of the servo to a number between -1 and 1.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Stops the servo via setting the speed to 90 (halfway point).</div>
+</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-me.autobot.lib.robot.Motor">Methods inherited from class&nbsp;me.autobot.lib.robot.<a href="../Motor.html" title="class in me.autobot.lib.robot">Motor</a></h3>
-<code><a href="../Motor.html#brake()">brake</a>, <a href="../Motor.html#emergencyStop()">emergencyStop</a>, <a href="../Motor.html#getAddress()">getAddress</a>, <a href="../Motor.html#getBus()">getBus</a>, <a href="../Motor.html#inSimulation()">inSimulation</a>, <a href="../Motor.html#invert()">invert</a>, <a href="../Motor.html#isInverted()">isInverted</a>, <a href="../Motor.html#stop(double)">stop</a></code></div>
+<code><a href="../Motor.html#brake()">brake</a>, <a href="../Motor.html#emergencyStop()">emergencyStop</a>, <a href="../Motor.html#getAddress()">getAddress</a>, <a href="../Motor.html#getBus()">getBus</a>, <a href="../Motor.html#inSimulation()">inSimulation</a>, <a href="../Motor.html#invert()">invert</a>, <a href="../Motor.html#isInverted()">isInverted</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-me.autobot.lib.robot.Device">Methods inherited from class&nbsp;me.autobot.lib.robot.<a href="../Device.html" title="class in me.autobot.lib.robot">Device</a></h3>
 <code><a href="../Device.html#emergencyStopAll()">emergencyStopAll</a>, <a href="../Device.html#enableSimulation()">enableSimulation</a>, <a href="../Device.html#getCurrent()">getCurrent</a>, <a href="../Device.html#getParent()">getParent</a>, <a href="../Device.html#getProperties()">getProperties</a>, <a href="../Device.html#getProperty(java.lang.String)">getProperty</a>, <a href="../Device.html#getVoltage()">getVoltage</a>, <a href="../Device.html#registerDevice(me.autobot.lib.robot.Device)">registerDevice</a>, <a href="../Device.html#setParent(me.autobot.lib.robot.Robot)">setParent</a>, <a href="../Device.html#setProperty(java.lang.String,double)">setProperty</a></code></div>
@@ -191,6 +197,10 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Servo</span><wbr><span class="parameters">(int&nbsp;address)</span></div>
 <div class="block">Creates a new servo with the given address on the default I2C bus.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>address</code> - The I2C address of the controller.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -201,6 +211,11 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Servo</span><wbr><span class="parameters">(int&nbsp;address,
  int&nbsp;bus)</span></div>
 <div class="block">Creates a new servo with the given address on the given I2C bus.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>address</code> - The I2C address of the controller.</dd>
+<dd><code>bus</code> - The I2C bus the controller is connected to.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -217,7 +232,8 @@ loadScripts(document, 'script');</script>
 <h3>connectToI2C</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">connectToI2C</span><wbr><span class="parameters">(int&nbsp;pin)</span></div>
-<div class="block">Connects the servo to the I2C bus.</div>
+<div class="block">Connects the servo to the I2C bus. This is assuming that the bot has the <a href="https://github.com/JaidenAGrimminck/bot/blob/main/controlling/arduino-scripts/readwriter/readwriter.ino">standard interpreter</a>
+ for the Arduino. If you're using a different interpreter, you'll need to change this method or create a different subclass.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="../Motor.html#connectToI2C(int)">connectToI2C</a></code>&nbsp;in class&nbsp;<code><a href="../Motor.html" title="class in me.autobot.lib.robot">Motor</a></code></dd>
@@ -251,6 +267,19 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../Motor.html#setSpeed(double)">setSpeed</a></code>&nbsp;in class&nbsp;<code><a href="../Motor.html" title="class in me.autobot.lib.robot">Motor</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>speed</code> - The speed to set the servo to.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="stop()">
+<h3>stop</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">stop</span>()</div>
+<div class="block">Stops the servo via setting the speed to 90 (halfway point).</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="../Motor.html#stop()">stop</a></code>&nbsp;in class&nbsp;<code><a href="../Motor.html" title="class in me.autobot.lib.robot">Motor</a></code></dd>
 </dl>
 </div>
 </section>

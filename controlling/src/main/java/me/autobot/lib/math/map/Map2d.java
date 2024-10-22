@@ -5,13 +5,23 @@ import me.autobot.lib.math.coordinates.Vector2d;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * A class that represents a 2D map of locations/obstacles.
+ * **/
 public class Map2d {
     private ArrayList<Vector2d> locations;
 
+    /**
+     * Create a new 2D map.
+     * */
     public Map2d() {
         locations = new ArrayList<>();
     }
 
+    /**
+     * Add an obstacle to the map.
+     * @param location The location of the obstacle.
+     * */
     public void addObstaclePoint(Vector2d location) {
 //        locations.add(location);
 //
@@ -21,6 +31,10 @@ public class Map2d {
 //        }
     }
 
+    /**
+     * Get the locations of the obstacles on the map.
+     * @return The locations of the obstacles on the map.
+     * */
     public ArrayList<Vector2d> getLocations() {
         return locations;
     }

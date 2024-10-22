@@ -3,7 +3,13 @@ package me.autobot.sim.graphics;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * A class that creates the GUI for the simulation.
+ * */
 public class SimScreen {
+    /**
+     * Actually creates the GUI for the simulation.
+     * */
     private void createGUI() {
         JFrame frame = new JFrame("Display");
 
@@ -17,6 +23,9 @@ public class SimScreen {
         frame.setFocusable(true);
     }
 
+    /**
+     * Creates a new SimScreen object (and GUI for the simulation).
+     * */
     public SimScreen() {
         SwingUtilities.invokeLater(this::createGUI);
     }

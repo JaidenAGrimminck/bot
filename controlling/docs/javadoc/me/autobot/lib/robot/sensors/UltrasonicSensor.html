@@ -98,6 +98,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">UltrasonicSensor</span>
 <span class="extends-implements">extends <a href="../Sensor.html" title="class in me.autobot.lib.robot">Sensor</a></span></div>
+<div class="block">An ultrasonic sensor is a sensor that can detect the distance to the nearest object in front of it.
+ It can be used to detect objects in front of the robot, and can be used to avoid obstacles.</div>
 </div>
 </section>
 <section class="summary">
@@ -113,7 +115,10 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static final <a href="../../math/Unit.html" title="class in me.autobot.lib.math">Unit</a></code></div>
 <div class="col-second even-row-color"><code><a href="#maxDistance" class="member-name-link">maxDistance</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">The maximum recording distance of the ultrasonic sensor
+ in centimeters.</div>
+</div>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-me.autobot.lib.robot.Device">Fields inherited from class&nbsp;me.autobot.lib.robot.<a href="../Device.html" title="class in me.autobot.lib.robot">Device</a></h3>
@@ -128,8 +133,11 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">UltrasonicSensor</a><wbr>(int&nbsp;address)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int)" class="member-name-link">UltrasonicSensor</a><wbr>(int&nbsp;identifier,
+ int&nbsp;address)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new ultrasonic sensor object.</div>
+</div>
 </div>
 </section>
 </li>
@@ -146,19 +154,25 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../math/Unit.html" title="class in me.autobot.lib.math">Unit</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDistance()" class="member-name-link">getDistance</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the distance to the nearest object in front of the sensor.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../math/coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEstimatedAbsPosition()" class="member-name-link">getEstimatedAbsPosition</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the estimated absolute position of the sensor (relative to a starting point, not the robot).</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double[]</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getValues()" class="member-name-link">getValues</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the values of the sensor.</div>
+</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-me.autobot.lib.robot.Sensor">Methods inherited from class&nbsp;me.autobot.lib.robot.<a href="../Sensor.html" title="class in me.autobot.lib.robot">Sensor</a></h3>
-<code><a href="../Sensor.html#attachRelativePosition(me.autobot.lib.math.coordinates.Vector3d)">attachRelativePosition</a>, <a href="../Sensor.html#attachRelativePosition(me.autobot.lib.math.coordinates.Vector3d,me.autobot.lib.math.rotation.Rotation3d)">attachRelativePosition</a>, <a href="../Sensor.html#changeUpdateInterval(long)">changeUpdateInterval</a>, <a href="../Sensor.html#connectToI2C(int)">connectToI2C</a>, <a href="../Sensor.html#getAddress()">getAddress</a>, <a href="../Sensor.html#getParentAddress()">getParentAddress</a>, <a href="../Sensor.html#getRelativePosition()">getRelativePosition</a>, <a href="../Sensor.html#getRelativeRotation()">getRelativeRotation</a>, <a href="../Sensor.html#getSensor(int,int)">getSensor</a>, <a href="../Sensor.html#getSensorValues()">getSensorValues</a>, <a href="../Sensor.html#setSensorValue(int,double)">setSensorValue</a>, <a href="../Sensor.html#setSensorValues(double...)">setSensorValues</a>, <a href="../Sensor.html#simulateValues(double%5B%5D)">simulateValues</a>, <a href="../Sensor.html#subscribe(me.autobot.server.WSClient)">subscribe</a>, <a href="../Sensor.html#unsubscribe(me.autobot.server.WSClient)">unsubscribe</a></code></div>
+<code><a href="../Sensor.html#attachRelativePosition(me.autobot.lib.math.coordinates.Vector3d)">attachRelativePosition</a>, <a href="../Sensor.html#attachRelativePosition(me.autobot.lib.math.coordinates.Vector3d,me.autobot.lib.math.rotation.Rotation3d)">attachRelativePosition</a>, <a href="../Sensor.html#changeUpdateInterval(long)">changeUpdateInterval</a>, <a href="../Sensor.html#connectToI2C(int)">connectToI2C</a>, <a href="../Sensor.html#getAddress()">getAddress</a>, <a href="../Sensor.html#getIdentifier()">getIdentifier</a>, <a href="../Sensor.html#getParentAddress()">getParentAddress</a>, <a href="../Sensor.html#getRelativePosition()">getRelativePosition</a>, <a href="../Sensor.html#getRelativeRotation()">getRelativeRotation</a>, <a href="../Sensor.html#getSensor(int,int)">getSensor</a>, <a href="../Sensor.html#getSensors(int,int)">getSensors</a>, <a href="../Sensor.html#getSensorValues()">getSensorValues</a>, <a href="../Sensor.html#setSensorValue(int,double)">setSensorValue</a>, <a href="../Sensor.html#setSensorValues(double...)">setSensorValues</a>, <a href="../Sensor.html#simulateValues(double%5B%5D)">simulateValues</a>, <a href="../Sensor.html#subscribe(me.autobot.server.WSClient)">subscribe</a>, <a href="../Sensor.html#unsubscribe(me.autobot.server.WSClient)">unsubscribe</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-me.autobot.lib.robot.Device">Methods inherited from class&nbsp;me.autobot.lib.robot.<a href="../Device.html" title="class in me.autobot.lib.robot">Device</a></h3>
 <code><a href="../Device.html#emergencyStop()">emergencyStop</a>, <a href="../Device.html#emergencyStopAll()">emergencyStopAll</a>, <a href="../Device.html#enableSimulation()">enableSimulation</a>, <a href="../Device.html#getCurrent()">getCurrent</a>, <a href="../Device.html#getParent()">getParent</a>, <a href="../Device.html#getProperties()">getProperties</a>, <a href="../Device.html#getProperty(java.lang.String)">getProperty</a>, <a href="../Device.html#getVoltage()">getVoltage</a>, <a href="../Device.html#inSimulation()">inSimulation</a>, <a href="../Device.html#registerDevice(me.autobot.lib.robot.Device)">registerDevice</a>, <a href="../Device.html#setParent(me.autobot.lib.robot.Robot)">setParent</a>, <a href="../Device.html#setProperty(java.lang.String,double)">setProperty</a></code></div>
@@ -181,6 +195,16 @@ loadScripts(document, 'script');</script>
 <h3>maxDistance</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="../../math/Unit.html" title="class in me.autobot.lib.math">Unit</a></span>&nbsp;<span class="element-name">maxDistance</span></div>
+<div class="block">The maximum recording distance of the ultrasonic sensor
+ in centimeters.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../math/Unit.html" title="class in me.autobot.lib.math"><code>Unit</code></a></li>
+</ul>
+</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -193,10 +217,17 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(int)">
+<section class="detail" id="&lt;init&gt;(int,int)">
 <h3>UltrasonicSensor</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">UltrasonicSensor</span><wbr><span class="parameters">(int&nbsp;address)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">UltrasonicSensor</span><wbr><span class="parameters">(int&nbsp;identifier,
+ int&nbsp;address)</span></div>
+<div class="block">Creates a new ultrasonic sensor object.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>identifier</code> - The identifier of the sensor.</dd>
+<dd><code>address</code> - The address of the sensor hub (i2c).</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -213,6 +244,11 @@ loadScripts(document, 'script');</script>
 <h3>getEstimatedAbsPosition</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../math/coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></span>&nbsp;<span class="element-name">getEstimatedAbsPosition</span>()</div>
+<div class="block">Gets the estimated absolute position of the sensor (relative to a starting point, not the robot).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The estimated absolute position of the sensor.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -221,9 +257,12 @@ loadScripts(document, 'script');</script>
 <h3>getValues</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double[]</span>&nbsp;<span class="element-name">getValues</span>()</div>
+<div class="block">Gets the values of the sensor.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="../Sensor.html#getValues()">getValues</a></code>&nbsp;in class&nbsp;<code><a href="../Sensor.html" title="class in me.autobot.lib.robot">Sensor</a></code></dd>
+<dt>Returns:</dt>
+<dd>The values of the sensor.</dd>
 </dl>
 </div>
 </section>
@@ -233,6 +272,11 @@ loadScripts(document, 'script');</script>
 <h3>getDistance</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../math/Unit.html" title="class in me.autobot.lib.math">Unit</a></span>&nbsp;<span class="element-name">getDistance</span>()</div>
+<div class="block">Gets the distance to the nearest object in front of the sensor.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The distance to the nearest object in front of the sensor.</dd>
+</dl>
 </div>
 </section>
 </li>

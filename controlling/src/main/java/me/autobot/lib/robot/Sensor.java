@@ -9,13 +9,39 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * A device that's used to sense the environment around the robot.
+ * */
 public class Sensor extends Device {
 
     private static ArrayList<Sensor> sensors = new ArrayList<>();
 
-    public static Sensor getSensor(int robotAddr, int address) {
+    /**
+     * Gets the sensor objects connected to the specific sensor hub address on the specific robot.
+     * @param robotAddr The address of the robot.
+     * @param address The address of the sensor hub.
+     * @return The sensor objects connected to the specific sensor hub address on the specific robot.
+     * */
+    public static ArrayList<Sensor> getSensors(int robotAddr, int address) {
+        ArrayList<Sensor> nl = new ArrayList<>();
         for (Sensor sensor : sensors) {
             if (sensor.getAddress() == address && sensor.getParentAddress() == robotAddr) {
+                nl.add(sensor);
+            }
+        }
+
+        return nl;
+    }
+
+    /**
+     * Gets the sensor object with the specific identifier and robot address.
+     * @param identifier The identifier of the sensor.
+     * @param robotAddr The address of the robot.
+     * @return The sensor object with the specific identifier and robot address.
+     * */
+    public static Sensor getSensor(int identifier, int robotAddr) {
+        for (Sensor sensor : sensors) {
+            if (sensor.identifier == identifier && sensor.getParentAddress() == robotAddr) {
                 return sensor;
             }
         }
@@ -35,11 +61,19 @@ public class Sensor extends Device {
     private final int address;
     private final int bus;
 
+    private final int identifier;
+
     private Timer updateTimer;
 
     private long updateInterval = 1000 / 20;
 
-    public Sensor(int address, int sensorChannels) {
+    /**
+     * Creates a new sensor with the given address and number of sensor channels.
+     * @param identifier The identifier of the sensor. Could be any number, should be unique to all other sensors on the robot.
+     * @param address The address of the sensor hub on the I2C bus.
+     * @param sensorChannels The number of output channels the sensor has.
+     * */
+    public Sensor(int identifier, int address, int sensorChannels) {
         super();
 
         this.sensorChannels = sensorChannels;
@@ -51,10 +85,19 @@ public class Sensor extends Device {
 
         sensors.add(this);
 
+        this.identifier = identifier;
+
         startUpdateTimer();
     }
 
-    public Sensor(int address, int bus, int sensorChannels) {
+    /**
+     * Creates a new sensor with the given address, bus, and number of sensor channels.
+     * @param identifier The identifier of the sensor. Could be any number, should be unique to all other sensors on the robot.
+     * @param address The address of the sensor hub on the I2C bus.
+     * @param bus The bus of the sensor hub on the I2C bus.
+     * @param sensorChannels The number of output channels the sensor has.
+     * */
+    public Sensor(int identifier, int address, int bus, int sensorChannels) {
         super();
 
         this.sensorChannels = sensorChannels;
@@ -66,11 +109,14 @@ public class Sensor extends Device {
 
         sensors.add(this);
 
+        this.identifier = identifier;
+
         startUpdateTimer();
     }
 
     /**
      * Connects the sensor to the I2C bus.
+     * @param pin The pin to connect the sensor to.
      * **/
     public void connectToI2C(int pin) {
         if (this.getParent() == null) {
@@ -91,6 +137,9 @@ public class Sensor extends Device {
         );
     }
 
+    /**
+     * Starts the update timer for any sensor subscribers.
+     * */
     private void startUpdateTimer() {
         TimerTask task = new TimerTask() {
             @Override
@@ -120,24 +169,50 @@ public class Sensor extends Device {
         updateTimer.schedule(task, 0, updateInterval);
     }
 
+    /**
+     * Changes the update interval of the sensor for the subscribers.
+     * @param interval The new update interval of the sensor subscribers.
+     * */
     protected void changeUpdateInterval(long interval) {
         updateInterval = interval;
     }
 
-    //generally raw data
+    /**
+     * Returns the raw sensor values.
+     * @return The raw sensor values.
+     * */
     public double[] getSensorValues() {
         return sensorValues;
     }
 
-    //this is the processed data, if it is.
+    /**
+     * Returns the processed sensor values.
+     * @return The processed sensor values.
+     * */
     public double[] getValues() {
         return sensorValues;
     }
 
+    /**
+     * Returns the I2C address of the sensor hub.
+     * @return The I2C address of the sensor hub.
+     * **/
     public int getAddress() {
         return address;
     }
 
+    /**
+     * Returns the identifier of the sensor.
+     * @return The identifier of the sensor.
+     * */
+    public int getIdentifier() {
+        return identifier;
+    }
+
+    /**
+     * Plugs in fake sensor values for simulation.
+     * @param values The values to simulate.
+     * */
     public void simulateValues(double[] values) {
         if (!this.inSimulation()) {
             throw new IllegalStateException("Cannot simulate values when simulation is not enabled.");
@@ -150,6 +225,10 @@ public class Sensor extends Device {
         sensorValues = values;
     }
 
+    /**
+     * Gets the relative position to the center of the robot.
+     * @return The relative position to the center of the robot.
+     * */
     public Vector3d getRelativePosition() {
         if (relativePosition == null) {
             throw new IllegalStateException("Relative position has not been set.");
@@ -158,6 +237,10 @@ public class Sensor extends Device {
         return relativePosition;
     }
 
+    /**
+     * Gets the relative rotation to the center of the robot.
+     * @return The relative rotation to the center of the robot.
+     * */
     public Rotation3d getRelativeRotation() {
         if (relativeRotation == null) {
             throw new IllegalStateException("Relative rotation has not been set.");
@@ -166,23 +249,45 @@ public class Sensor extends Device {
         return relativeRotation;
     }
 
+    /**
+     * Attaches the relative position of the sensor to the center of the robot.
+     * @param relativePosition The relative position of the sensor to the center of the robot.
+     * */
     public void attachRelativePosition(Vector3d relativePosition) {
         attachRelativePosition(relativePosition, new Rotation3d(0, Math.PI/2));
     }
 
+    /**
+     * Attaches the relative position and rotation of the sensor to the center of the robot.
+     * @param relativePosition The relative position of the sensor to the center of the robot.
+     * @param relativeRotation The relative rotation of the sensor to the center of the robot.
+     * */
     public void attachRelativePosition(Vector3d relativePosition, Rotation3d relativeRotation) {
         this.relativePosition = relativePosition;
         this.relativeRotation = relativeRotation;
     }
 
-    public void setSensorValues(double... values) {
+    /**
+     * Set the sensor values.
+     * @param values The values to set the sensor to.
+     * */
+    protected void setSensorValues(double... values) {
         sensorValues = values;
     }
 
+    /**
+     * Set a specific sensor value.
+     * @param index The index of the sensor value to set.
+     * @param value The value to set the sensor to.
+     * */
     public void setSensorValue(int index, double value) {
         sensorValues[index] = value;
     }
 
+    /**
+     * Subscribes a client to the sensor to recieve updates.
+     * @param client The client to subscribe.
+     * */
     public void subscribe(WSClient client) {
         if (subscribers == null) {
             subscribers = new ArrayList<>();
@@ -191,12 +296,20 @@ public class Sensor extends Device {
         subscribers.add(client);
     }
 
+    /**
+     * Unsubscribes a client from the sensor.
+     * @param client The client to unsubscribe.
+     * */
     public void unsubscribe(WSClient client) {
         if (subscribers == null) return;
 
         subscribers.remove(client);
     }
 
+    /**
+     * Returns the address/identifier of the parent robot.
+     * @return The address/identifier of the parent robot.
+     * */
     public byte getParentAddress() {
         return this.getParent().getIdentification();
     }

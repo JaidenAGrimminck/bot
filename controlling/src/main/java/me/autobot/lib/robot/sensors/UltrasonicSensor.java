@@ -9,16 +9,34 @@ import me.autobot.sim.Simulation;
 
 import java.util.ArrayList;
 
+/**
+ * An ultrasonic sensor is a sensor that can detect the distance to the nearest object in front of it.
+ * It can be used to detect objects in front of the robot, and can be used to avoid obstacles.
+ * */
 public class UltrasonicSensor extends Sensor {
+    /**
+     * The maximum recording distance of the ultrasonic sensor
+     * in centimeters.
+     * @see Unit
+     * */
     public final static Unit maxDistance = new Unit(255, Unit.Type.CENTIMETER);
 
     private final static Unit maxNoise = new Unit(1, Unit.Type.CENTIMETER);
 
-    public UltrasonicSensor(int address) {
-        super(address, 1);
+    /**
+     * Creates a new ultrasonic sensor object.
+     * @param identifier The identifier of the sensor.
+     * @param address The address of the sensor hub (i2c).
+     * */
+    public UltrasonicSensor(int identifier, int address) {
+        super(identifier, address, 1);
         setSensorValues(0);
     }
 
+    /**
+     * Gets the estimated absolute position of the sensor (relative to a starting point, not the robot).
+     * @return The estimated absolute position of the sensor.
+     * */
     public Vector2d getEstimatedAbsPosition() {
         Vector2d pos = getParent().getPosition();
 
@@ -33,6 +51,10 @@ public class UltrasonicSensor extends Sensor {
         return pos.add(rotatedPos);
     }
 
+    /**
+     * Gets the values of the sensor.
+     * @return The values of the sensor.
+     * */
     @Override
     public double[] getValues() {
         return new double[] {
@@ -40,6 +62,10 @@ public class UltrasonicSensor extends Sensor {
         };
     }
 
+    /**
+     * Gets the distance to the nearest object in front of the sensor.
+     * @return The distance to the nearest object in front of the sensor.
+     * */
     public Unit getDistance() {
         if (inSimulation()) {
             if (!Simulation.running()) return Unit.zero();
@@ -106,6 +132,4 @@ public class UltrasonicSensor extends Sensor {
             return maxDistance;
         } else return Unit.Type.CENTIMETER.c(getSensorValues()[0]);
     }
-
-
 }

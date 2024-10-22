@@ -5,7 +5,15 @@ import me.autobot.lib.math.coordinates.Int2;
 
 import java.util.ArrayList;
 
+/**
+ * A simple A* pathfinding algorithm test.
+ * */
 public class AStarTest {
+    /**
+     * default constructor.
+     * */
+    public AStarTest() {}
+
     private Robot robot;
 
     private int[][] obstacles = new int[][] {
@@ -30,6 +38,9 @@ public class AStarTest {
 
     String ud = "┃";
 
+    /**
+     * Prints out the correct path string (to create a nice looking text display).
+     * */
     String pathStr(Int2 from, Int2 to, Int2 next) {
         boolean fromTop = from.y < to.y;
         boolean fromBottom = from.y > to.y;
@@ -91,6 +102,9 @@ public class AStarTest {
 
     Int2 end = new Int2(1,1);
 
+    /**
+     * Prints the obstacles.
+     * */
     private void printObstacles() {
         for (int i = 0; i < obstacles.length; i++) {
             for (int j = 0; j < obstacles[i].length; j++) {
@@ -114,6 +128,9 @@ public class AStarTest {
         }
     }
 
+    /**
+     * Actually does the pathfinding.
+     * */
     private void pathfind() {
         ArrayList<Int2> openlist = new ArrayList<>();
         ArrayList<Int2> closedList = new ArrayList<>();
@@ -309,6 +326,10 @@ public class AStarTest {
         }
     }
 
+    /**
+     * Main method to run this test.
+     * @param args The arguments passed to the program.
+     * */
     public static void main(String[] args) {
         AStarTest sim = new AStarTest();
 

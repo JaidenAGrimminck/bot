@@ -333,6 +333,7 @@ public class Robot implements Logger {
 
     /**
      * Gets the size of the robot.
+     * @return The size of the robot.
      * */
     public Vector2d getRobotSize() {
         return robotSize;
@@ -340,6 +341,7 @@ public class Robot implements Logger {
 
     /**
      * Checks if the robot is in collision with any obstacles.
+     * @return True if the robot is in collision with any obstacles, false otherwise.
      * */
     public boolean inCollision() {
         if (totalSimulation) {
@@ -390,7 +392,7 @@ public class Robot implements Logger {
 
     /**
      * Gets the odometry of the robot.
-     * @return
+     * @return The odometry of the robot.
      */
     public SimpleOdometry2d getOdometry() {
         return odometry;
@@ -398,7 +400,7 @@ public class Robot implements Logger {
 
     /**
      * Sets the odometry of the robot.
-     * @param odometry
+     * @param odometry The odometry of the robot.
      */
     protected void setOdometry(SimpleOdometry2d odometry) {
         this.odometry = odometry;

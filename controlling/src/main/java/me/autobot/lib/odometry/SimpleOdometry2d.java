@@ -3,6 +3,9 @@ package me.autobot.lib.odometry;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 
+/**
+ * A simple 2D odometry object that can be used to track the position and rotation of an object.
+ * */
 public class SimpleOdometry2d {
     private Vector2d startPosition;
     private Vector2d position;
@@ -20,6 +23,8 @@ public class SimpleOdometry2d {
 
     /**
      * Creates an odometry object with a given position and rotation.
+     * @param position The position of the odometry object.
+     * @param rotation The rotation of the odometry object.
      * */
     public SimpleOdometry2d(Vector2d position, Rotation2d rotation) {
         this.position = position;
@@ -65,6 +70,7 @@ public class SimpleOdometry2d {
 
     /**
      * Gets the current position of the odometry object.
+     * @return The current position of the odometry object.
      * */
     public Vector2d getPosition() {
         return position;
@@ -72,6 +78,7 @@ public class SimpleOdometry2d {
 
     /**
      * Gets the current rotation of the odometry object.
+     * @return The current rotation of the odometry object.
      * */
     public Rotation2d getRotation() {
         return rotation;

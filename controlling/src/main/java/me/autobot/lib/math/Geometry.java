@@ -1,12 +1,18 @@
 package me.autobot.lib.math;
 
-import kotlin.Pair;
 import me.autobot.lib.math.coordinates.Projection;
 import me.autobot.lib.math.coordinates.Vector2d;
 
-import java.awt.*;
-
+/**
+ * A class containing geometry utility functions.
+ * */
 public class Geometry {
+    /**
+     * Geometry class is a utility class and should not be instantiated.
+     * */
+    public Geometry() {
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * Checks if two polygons are intersecting
@@ -29,6 +35,7 @@ public class Geometry {
      * Checks if two polygons are intersecting using the Separating Axis Theorem
      * @param a The first polygon
      * @param b The second polygon
+     * @return true if the polygons are intersecting, false otherwise
      * */
     public static boolean isSeparatingAxisTheorem(Vector2d[] a, Vector2d[] b) {
         for (int i = 0; i < a.length; i++) {

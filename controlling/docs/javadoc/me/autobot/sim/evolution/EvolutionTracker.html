@@ -142,7 +142,9 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="EvolutionTracker.html" title="class in me.autobot.sim.evolution">EvolutionTracker</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getInstance()" class="member-name-link">getInstance</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the instance of the EvolutionTracker</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../lib/math/rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a>[]</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRotations()" class="member-name-link">getRotations</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -176,7 +178,9 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sendScoreInfo()" class="member-name-link">sendScoreInfo</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sends the score information to the websocket client</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRotation(int,me.autobot.lib.math.rotation.Rotation2d)" class="member-name-link">setRotation</a><wbr>(int&nbsp;index,
  <a href="../../lib/math/rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a>&nbsp;rotation)</code></div>
@@ -247,6 +251,11 @@ loadScripts(document, 'script');</script>
 <h3>getInstance</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="EvolutionTracker.html" title="class in me.autobot.sim.evolution">EvolutionTracker</a></span>&nbsp;<span class="element-name">getInstance</span>()</div>
+<div class="block">Gets the instance of the EvolutionTracker</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The instance of the EvolutionTracker</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -256,6 +265,10 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getTimeLeft</span>()</div>
 <div class="block">Gets how much time is left in a generation.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The time left in the generation</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -368,6 +381,8 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>index</code> - The index of the robot</dd>
+<dt>Returns:</dt>
+<dd>The score of the robot</dd>
 </dl>
 </div>
 </section>
@@ -393,7 +408,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Stops a robot.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>i</code> - </dd>
+<dd><code>i</code> - The index of the robot to stop.</dd>
 </dl>
 </div>
 </section>
@@ -412,6 +427,7 @@ loadScripts(document, 'script');</script>
 <h3>sendScoreInfo</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">sendScoreInfo</span>()</div>
+<div class="block">Sends the score information to the websocket client</div>
 </div>
 </section>
 </li>

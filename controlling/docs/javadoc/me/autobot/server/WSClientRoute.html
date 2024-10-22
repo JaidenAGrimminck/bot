@@ -90,6 +90,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">WSClientRoute</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">A class representing a route for the WSClient.
+ This class can be used to handle messages from the WSClient.</div>
 </div>
 </section>
 <section class="summary">
@@ -103,7 +105,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">WSClientRoute</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new WSClientRoute and adds it to the WSClient.</div>
+</div>
 </div>
 </section>
 </li>
@@ -120,20 +124,30 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addToWSClient()" class="member-name-link">addToWSClient</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds the route to the WSClient.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int[]</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRoutePrefix()" class="member-name-link">getRoutePrefix</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">What the message prefix should be (should be unique).</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="WSClient.ClientType.html" title="enum class in me.autobot.server">WSClient.ClientType</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getType()" class="member-name-link">getType</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the type of the route (whether that be passive, speaker, or listener).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onMessage(me.autobot.server.WSClient,int%5B%5D)" class="member-name-link">onMessage</a><wbr>(<a href="WSClient.html" title="class in me.autobot.server">WSClient</a>&nbsp;client,
  int[]&nbsp;message)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Called when a message is received from the WSClient.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeFromWSClient()" class="member-name-link">removeFromWSClient</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Removes the route from the WSClient.</div>
+</div>
 </div>
 </div>
 </div>
@@ -156,6 +170,7 @@ loadScripts(document, 'script');</script>
 <h3>WSClientRoute</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">WSClientRoute</span>()</div>
+<div class="block">Creates a new WSClientRoute and adds it to the WSClient.</div>
 </div>
 </section>
 </li>
@@ -172,6 +187,11 @@ loadScripts(document, 'script');</script>
 <h3>getRoutePrefix</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int[]</span>&nbsp;<span class="element-name">getRoutePrefix</span>()</div>
+<div class="block">What the message prefix should be (should be unique).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The message prefix.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -180,6 +200,11 @@ loadScripts(document, 'script');</script>
 <h3>getType</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="WSClient.ClientType.html" title="enum class in me.autobot.server">WSClient.ClientType</a></span>&nbsp;<span class="element-name">getType</span>()</div>
+<div class="block">Gets the type of the route (whether that be passive, speaker, or listener).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The type of the route.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -188,6 +213,7 @@ loadScripts(document, 'script');</script>
 <h3>addToWSClient</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addToWSClient</span>()</div>
+<div class="block">Adds the route to the WSClient.</div>
 </div>
 </section>
 </li>
@@ -196,6 +222,7 @@ loadScripts(document, 'script');</script>
 <h3>removeFromWSClient</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">removeFromWSClient</span>()</div>
+<div class="block">Removes the route from the WSClient.</div>
 </div>
 </section>
 </li>
@@ -205,6 +232,12 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onMessage</span><wbr><span class="parameters">(<a href="WSClient.html" title="class in me.autobot.server">WSClient</a>&nbsp;client,
  int[]&nbsp;message)</span></div>
+<div class="block">Called when a message is received from the WSClient.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>client</code> - The client that sent the message.</dd>
+<dd><code>message</code> - The message that was sent.</dd>
+</dl>
 </div>
 </section>
 </li>

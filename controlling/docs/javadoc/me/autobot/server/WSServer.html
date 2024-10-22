@@ -94,6 +94,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">WSServer</span>
 <span class="extends-implements">extends fi.iki.elonen.NanoWSD</span></div>
+<div class="block">A websocket server for the robot.</div>
 </div>
 </section>
 <section class="summary">
@@ -131,7 +132,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">WSServer</a><wbr>(int&nbsp;port)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Starts the WSServer on the given port.</div>
+</div>
 </div>
 </section>
 </li>
@@ -148,16 +151,24 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="WSServer.html" title="class in me.autobot.server">WSServer</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getInstance()" class="member-name-link">getInstance</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Gets the instance of the WSServer.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#main(java.lang.String%5B%5D)" class="member-name-link">main</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;args)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">The main method of the WSServer, only used for testing the server.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected fi.iki.elonen.NanoWSD.WebSocket</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#openWebSocket(fi.iki.elonen.NanoHTTPD.IHTTPSession)" class="member-name-link">openWebSocket</a><wbr>(fi.iki.elonen.NanoHTTPD.IHTTPSession&nbsp;handshake)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Opens a new WebSocket connection.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#wsstart()" class="member-name-link">wsstart</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Starts the WSServer on port 8080.</div>
+</div>
 </div>
 </div>
 </div>
@@ -187,9 +198,12 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">WSServer</span><wbr><span class="parameters">(int&nbsp;port)</span>
          throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
+<div class="block">Starts the WSServer on the given port.</div>
 <dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>port</code> - The port to start the server on.</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - If the server cannot be started.</dd>
 </dl>
 </div>
 </section>
@@ -207,6 +221,11 @@ loadScripts(document, 'script');</script>
 <h3>main</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">main</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;args)</span></div>
+<div class="block">The main method of the WSServer, only used for testing the server.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>args</code> - The arguments of the main method.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -215,6 +234,7 @@ loadScripts(document, 'script');</script>
 <h3>wsstart</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">wsstart</span>()</div>
+<div class="block">Starts the WSServer on port 8080.</div>
 </div>
 </section>
 </li>
@@ -223,6 +243,11 @@ loadScripts(document, 'script');</script>
 <h3>getInstance</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="WSServer.html" title="class in me.autobot.server">WSServer</a></span>&nbsp;<span class="element-name">getInstance</span>()</div>
+<div class="block">Gets the instance of the WSServer.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The instance of the WSServer.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -231,9 +256,14 @@ loadScripts(document, 'script');</script>
 <h3>openWebSocket</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">fi.iki.elonen.NanoWSD.WebSocket</span>&nbsp;<span class="element-name">openWebSocket</span><wbr><span class="parameters">(fi.iki.elonen.NanoHTTPD.IHTTPSession&nbsp;handshake)</span></div>
+<div class="block">Opens a new WebSocket connection.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>openWebSocket</code>&nbsp;in class&nbsp;<code>fi.iki.elonen.NanoWSD</code></dd>
+<dt>Parameters:</dt>
+<dd><code>handshake</code> - The handshake of the WebSocket connection.</dd>
+<dt>Returns:</dt>
+<dd>The WebSocket connection.</dd>
 </dl>
 </div>
 </section>

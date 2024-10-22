@@ -102,6 +102,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SimCanvas</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/javax/swing/JPanel.html" title="class or interface in javax.swing" class="external-link">JPanel</a></span></div>
+<div class="block">The simulation canvas is a JPanel that is used to draw the simulation.</div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -143,13 +144,19 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#debugStr" class="member-name-link">debugStr</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Just used for debugging purposes.</div>
+</div>
 <div class="col-first odd-row-color"><code>static final int</code></div>
 <div class="col-second odd-row-color"><code><a href="#numberOfAIRobots" class="member-name-link">numberOfAIRobots</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">Number of AI robots.</div>
+</div>
 <div class="col-first even-row-color"><code>static <a href="../../lib/math/map/Map2d.html" title="class in me.autobot.lib.math.map">Map2d</a></code></div>
 <div class="col-second even-row-color"><code><a href="#obstaclesMap" class="member-name-link">obstaclesMap</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">A map of obstacles.</div>
+</div>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-javax.swing.JComponent">Fields inherited from class&nbsp;javax.swing.<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/javax/swing/JComponent.html" title="class or interface in javax.swing" class="external-link">JComponent</a></h3>
@@ -171,7 +178,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(javax.swing.JFrame)" class="member-name-link">SimCanvas</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/javax/swing/JFrame.html" title="class or interface in javax.swing" class="external-link">JFrame</a>&nbsp;frame)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new simulation canvas.</div>
+</div>
 </div>
 </section>
 </li>
@@ -188,13 +197,19 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/java/awt/Dimension.html" title="class or interface in java.awt" class="external-link">Dimension</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPreferredSize()" class="member-name-link">getPreferredSize</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the preferred size of the canvas.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#paint(java.awt.Graphics)" class="member-name-link">paint</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/java/awt/Graphics.html" title="class or interface in java.awt" class="external-link">Graphics</a>&nbsp;g)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The paint method of the canvas, draws it every frame.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#run()" class="member-name-link">run</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Startup of the simulation canvas.</div>
+</div>
 </div>
 </div>
 </div>
@@ -229,6 +244,7 @@ loadScripts(document, 'script');</script>
 <h3>numberOfAIRobots</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">numberOfAIRobots</span></div>
+<div class="block">Number of AI robots.</div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -245,6 +261,15 @@ loadScripts(document, 'script');</script>
 <h3>obstaclesMap</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../../lib/math/map/Map2d.html" title="class in me.autobot.lib.math.map">Map2d</a></span>&nbsp;<span class="element-name">obstaclesMap</span></div>
+<div class="block">A map of obstacles.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../lib/math/map/Map2d.html" title="class in me.autobot.lib.math.map"><code>Map2d</code></a></li>
+</ul>
+</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -253,6 +278,7 @@ loadScripts(document, 'script');</script>
 <h3>debugStr</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">debugStr</span></div>
+<div class="block">Just used for debugging purposes.</div>
 </div>
 </section>
 </li>
@@ -269,6 +295,11 @@ loadScripts(document, 'script');</script>
 <h3>SimCanvas</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SimCanvas</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/javax/swing/JFrame.html" title="class or interface in javax.swing" class="external-link">JFrame</a>&nbsp;frame)</span></div>
+<div class="block">Creates a new simulation canvas.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>frame</code> - The frame to draw the canvas on.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -285,6 +316,7 @@ loadScripts(document, 'script');</script>
 <h3>run</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">run</span>()</div>
+<div class="block">Startup of the simulation canvas.</div>
 </div>
 </section>
 </li>
@@ -293,9 +325,12 @@ loadScripts(document, 'script');</script>
 <h3>getPreferredSize</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/java/awt/Dimension.html" title="class or interface in java.awt" class="external-link">Dimension</a></span>&nbsp;<span class="element-name">getPreferredSize</span>()</div>
+<div class="block">Gets the preferred size of the canvas.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/javax/swing/JComponent.html#getPreferredSize()" title="class or interface in javax.swing" class="external-link">getPreferredSize</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/javax/swing/JComponent.html" title="class or interface in javax.swing" class="external-link">JComponent</a></code></dd>
+<dt>Returns:</dt>
+<dd>The preferred size of the canvas.</dd>
 </dl>
 </div>
 </section>
@@ -305,9 +340,12 @@ loadScripts(document, 'script');</script>
 <h3>paint</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">paint</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/java/awt/Graphics.html" title="class or interface in java.awt" class="external-link">Graphics</a>&nbsp;g)</span></div>
+<div class="block">The paint method of the canvas, draws it every frame.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/javax/swing/JComponent.html#paint(java.awt.Graphics)" title="class or interface in javax.swing" class="external-link">paint</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/javax/swing/JComponent.html" title="class or interface in javax.swing" class="external-link">JComponent</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>g</code> - The graphics object to draw with.</dd>
 </dl>
 </div>
 </section>

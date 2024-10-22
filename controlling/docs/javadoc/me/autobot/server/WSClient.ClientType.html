@@ -100,6 +100,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public static enum </span><span class="element-name type-name-label">WSClient.ClientType</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;<a href="WSClient.ClientType.html" title="enum class in me.autobot.server">WSClient.ClientType</a>&gt;</span></div>
+<div class="block">ClientType is an enum representing the type of client that is connected to the server.
+ It can be a speaker, listener, or passive.</div>
 </div>
 </section>
 <section class="summary">
@@ -122,11 +124,17 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Enum Constant</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code><a href="#Listener" class="member-name-link">Listener</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Connection is supposed to only be used for reading data.</div>
+</div>
 <div class="col-first odd-row-color"><code><a href="#Passive" class="member-name-link">Passive</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">Connection can be used for both sending and receiving data.</div>
+</div>
 <div class="col-first even-row-color"><code><a href="#Speaker" class="member-name-link">Speaker</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Connection is supposed to only be used for sending data.</div>
+</div>
 </div>
 </section>
 </li>
@@ -177,6 +185,7 @@ the order they are declared.</div>
 <h3>Speaker</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="WSClient.ClientType.html" title="enum class in me.autobot.server">WSClient.ClientType</a></span>&nbsp;<span class="element-name">Speaker</span></div>
+<div class="block">Connection is supposed to only be used for sending data.</div>
 </div>
 </section>
 </li>
@@ -185,6 +194,7 @@ the order they are declared.</div>
 <h3>Listener</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="WSClient.ClientType.html" title="enum class in me.autobot.server">WSClient.ClientType</a></span>&nbsp;<span class="element-name">Listener</span></div>
+<div class="block">Connection is supposed to only be used for reading data.</div>
 </div>
 </section>
 </li>
@@ -193,6 +203,7 @@ the order they are declared.</div>
 <h3>Passive</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="WSClient.ClientType.html" title="enum class in me.autobot.server">WSClient.ClientType</a></span>&nbsp;<span class="element-name">Passive</span></div>
+<div class="block">Connection can be used for both sending and receiving data.</div>
 </div>
 </section>
 </li>

@@ -99,6 +99,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Device</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../logging/Logger.html" title="interface in me.autobot.lib.logging">Logger</a></span></div>
+<div class="block">Some sort of device that can be attached to a robot.</div>
 </div>
 </section>
 <section class="summary">
@@ -112,9 +113,11 @@ implements <a href="../logging/Logger.html" title="interface in me.autobot.lib.l
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="Device.html" title="class in me.autobot.lib.robot">Device</a>&gt;</code></div>
+<div class="col-first even-row-color"><code>protected static <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="Device.html" title="class in me.autobot.lib.robot">Device</a>&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#devices" class="member-name-link">devices</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">List of all devices.</div>
+</div>
 </div>
 </section>
 </li>
@@ -226,7 +229,8 @@ implements <a href="../logging/Logger.html" title="interface in me.autobot.lib.l
 <section class="detail" id="devices">
 <h3>devices</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="Device.html" title="class in me.autobot.lib.robot">Device</a>&gt;</span>&nbsp;<span class="element-name">devices</span></div>
+<div class="member-signature"><span class="modifiers">protected static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="Device.html" title="class in me.autobot.lib.robot">Device</a>&gt;</span>&nbsp;<span class="element-name">devices</span></div>
+<div class="block">List of all devices.</div>
 </div>
 </section>
 </li>
@@ -261,6 +265,10 @@ implements <a href="../logging/Logger.html" title="interface in me.autobot.lib.l
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">registerDevice</span><wbr><span class="parameters">(<a href="Device.html" title="class in me.autobot.lib.robot">Device</a>&nbsp;device)</span></div>
 <div class="block">Registers a device.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>device</code> - The device to register.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -280,6 +288,11 @@ implements <a href="../logging/Logger.html" title="interface in me.autobot.lib.l
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setProperty</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
  double&nbsp;value)</span></div>
 <div class="block">Sets a property of the device.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>key</code> - The key of the property.</dd>
+<dd><code>value</code> - The value of the property.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -289,6 +302,10 @@ implements <a href="../logging/Logger.html" title="interface in me.autobot.lib.l
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;</span>&nbsp;<span class="element-name">getProperties</span>()</div>
 <div class="block">Returns the properties of the device.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The properties of the device.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -298,6 +315,12 @@ implements <a href="../logging/Logger.html" title="interface in me.autobot.lib.l
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getProperty</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key)</span></div>
 <div class="block">Get a property of the device.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>key</code> - The key of the property.</dd>
+<dt>Returns:</dt>
+<dd>The value of the property.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -307,6 +330,10 @@ implements <a href="../logging/Logger.html" title="interface in me.autobot.lib.l
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getVoltage</span>()</div>
 <div class="block">Get the voltage of the device (if applicable).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The voltage of the device.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -316,6 +343,10 @@ implements <a href="../logging/Logger.html" title="interface in me.autobot.lib.l
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getCurrent</span>()</div>
 <div class="block">Get the current of the device (if applicable).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The current of the device.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -335,6 +366,10 @@ implements <a href="../logging/Logger.html" title="interface in me.autobot.lib.l
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setParent</span><wbr><span class="parameters">(<a href="Robot.html" title="class in me.autobot.lib.robot">Robot</a>&nbsp;parent)</span></div>
 <div class="block">Set the parent of the device, i.e what robot the device is attached to.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>parent</code> - The parent of the device.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -366,6 +401,10 @@ implements <a href="../logging/Logger.html" title="interface in me.autobot.lib.l
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="Robot.html" title="class in me.autobot.lib.robot">Robot</a></span>&nbsp;<span class="element-name">getParent</span>()</div>
 <div class="block">Get the parent of the device.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The parent of the device.</dd>
+</dl>
 </div>
 </section>
 </li>

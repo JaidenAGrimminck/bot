@@ -90,6 +90,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SimpleOdometry2d</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">A simple 2D odometry object that can be used to track the position and rotation of an object.</div>
 </div>
 </section>
 <section class="summary">
@@ -193,6 +194,11 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SimpleOdometry2d</span><wbr><span class="parameters">(<a href="../math/coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;position,
  <a href="../math/rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a>&nbsp;rotation)</span></div>
 <div class="block">Creates an odometry object with a given position and rotation.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>position</code> - The position of the odometry object.</dd>
+<dd><code>rotation</code> - The rotation of the odometry object.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -267,6 +273,10 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../math/coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></span>&nbsp;<span class="element-name">getPosition</span>()</div>
 <div class="block">Gets the current position of the odometry object.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The current position of the odometry object.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -276,6 +286,10 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../math/rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a></span>&nbsp;<span class="element-name">getRotation</span>()</div>
 <div class="block">Gets the current rotation of the odometry object.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The current rotation of the odometry object.</dd>
+</dl>
 </div>
 </section>
 </li>

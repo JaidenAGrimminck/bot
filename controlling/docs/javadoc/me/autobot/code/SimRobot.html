@@ -96,6 +96,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SimRobot</span>
 <span class="extends-implements">extends <a href="../lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></span></div>
+<div class="block">A robot used in the context of simulation!</div>
 </div>
 </section>
 <section class="summary">
@@ -109,7 +110,10 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">SimRobot</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new SimRobot
+ Not necessary needed, but it's here for the sake of completeness.</div>
+</div>
 </div>
 </section>
 </li>
@@ -132,7 +136,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setup()" class="member-name-link">setup</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Setup method.</div>
+<div class="block">Sets up the robot with 4 motors, 8 ultrasonic sensors, and 1 collision sensor.</div>
 </div>
 </div>
 </div>
@@ -159,6 +163,8 @@ loadScripts(document, 'script');</script>
 <h3>SimRobot</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SimRobot</span>()</div>
+<div class="block">Creates a new SimRobot
+ Not necessary needed, but it's here for the sake of completeness.</div>
 </div>
 </section>
 </li>
@@ -175,17 +181,8 @@ loadScripts(document, 'script');</script>
 <h3>setup</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setup</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../lib/robot/Robot.html#setup()">Robot</a></code></span></div>
-<div class="block">Setup method.
- This method is called when the robot is created.
- Override this method with:
- <code>
- &#64;Override
- protected void setup() {
-    //your code here
-    //this code will be executed when the robot is created
- }
- </code></div>
+<div class="block">Sets up the robot with 4 motors, 8 ultrasonic sensors, and 1 collision sensor.
+ Also sets up the robot for simulation purposes.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="../lib/robot/Robot.html#setup()">setup</a></code>&nbsp;in class&nbsp;<code><a href="../lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></code></dd>

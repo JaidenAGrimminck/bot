@@ -90,6 +90,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Map2d</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">A class that represents a 2D map of locations/obstacles.</div>
 </div>
 </section>
 <section class="summary">
@@ -103,7 +104,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">Map2d</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Create a new 2D map.</div>
+</div>
 </div>
 </section>
 </li>
@@ -120,10 +123,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addObstaclePoint(me.autobot.lib.math.coordinates.Vector2d)" class="member-name-link">addObstaclePoint</a><wbr>(<a href="../coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;location)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Add an obstacle to the map.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="../coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLocations()" class="member-name-link">getLocations</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get the locations of the obstacles on the map.</div>
+</div>
 </div>
 </div>
 </div>
@@ -146,6 +153,7 @@ loadScripts(document, 'script');</script>
 <h3>Map2d</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Map2d</span>()</div>
+<div class="block">Create a new 2D map.</div>
 </div>
 </section>
 </li>
@@ -162,6 +170,11 @@ loadScripts(document, 'script');</script>
 <h3>addObstaclePoint</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addObstaclePoint</span><wbr><span class="parameters">(<a href="../coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;location)</span></div>
+<div class="block">Add an obstacle to the map.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>location</code> - The location of the obstacle.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -170,6 +183,11 @@ loadScripts(document, 'script');</script>
 <h3>getLocations</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&gt;</span>&nbsp;<span class="element-name">getLocations</span>()</div>
+<div class="block">Get the locations of the obstacles on the map.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The locations of the obstacles on the map.</dd>
+</dl>
 </div>
 </section>
 </li>

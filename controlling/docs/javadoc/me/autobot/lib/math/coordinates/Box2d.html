@@ -90,6 +90,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Box2d</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">A class representing a 2D box.</div>
 </div>
 </section>
 <section class="summary">
@@ -105,7 +106,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#flags" class="member-name-link">flags</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">All flags on the robot.</div>
+</div>
 </div>
 </section>
 </li>
@@ -121,10 +124,14 @@ loadScripts(document, 'script');</script>
  int&nbsp;y,
  int&nbsp;width,
  int&nbsp;height)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new 2D box object.</div>
+</div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(me.autobot.lib.math.coordinates.Int2,me.autobot.lib.math.coordinates.Int2)" class="member-name-link">Box2d</a><wbr>(<a href="Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a>&nbsp;position,
  <a href="Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a>&nbsp;size)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a new 2D box object.</div>
+</div>
 </div>
 </section>
 </li>
@@ -141,35 +148,47 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPosition()" class="member-name-link">getPosition</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the position of the box.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSize()" class="member-name-link">getSize</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the size of the box.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>[]</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVertices()" class="member-name-link">getVertices</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the vertices of the box.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#intersectsRay(me.autobot.lib.math.coordinates.Vector2d,me.autobot.lib.math.coordinates.Vector2d)" class="member-name-link">intersectsRay</a><wbr>(<a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;start,
  <a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;end)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks if the box intersects with a ray.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#intersectsRaySimple(me.autobot.lib.math.coordinates.Vector2d,me.autobot.lib.math.coordinates.Vector2d)" class="member-name-link">intersectsRaySimple</a><wbr>(<a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;start,
- <a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;end)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isInside(me.autobot.lib.math.coordinates.Int2)" class="member-name-link">isInside</a><wbr>(<a href="Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a>&nbsp;point)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks if the given point is inside the box.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isInside(me.autobot.lib.math.coordinates.Int2)" class="member-name-link">isInside</a><wbr>(<a href="Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a>&nbsp;point)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#lineIntersects(me.autobot.lib.math.coordinates.Vector2d,me.autobot.lib.math.coordinates.Vector2d)" class="member-name-link">lineIntersects</a><wbr>(<a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;start,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#lineIntersects(me.autobot.lib.math.coordinates.Vector2d,me.autobot.lib.math.coordinates.Vector2d)" class="member-name-link">lineIntersects</a><wbr>(<a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;start,
  <a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;end)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#raycastDistance(me.autobot.lib.math.coordinates.Vector2d,me.autobot.lib.math.coordinates.Vector2d)" class="member-name-link">raycastDistance</a><wbr>(<a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;pos,
- <a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;to)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks if the box intersects with a line</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#signedDistance(me.autobot.lib.math.coordinates.Vector2d)" class="member-name-link">signedDistance</a><wbr>(<a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;uv)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#raycastDistance(me.autobot.lib.math.coordinates.Vector2d,me.autobot.lib.math.coordinates.Vector2d)" class="member-name-link">raycastDistance</a><wbr>(<a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;pos,
+ <a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;to)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Figures out the distance between the box and a point looking in a certain direction.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#signedDistance(me.autobot.lib.math.coordinates.Vector2d)" class="member-name-link">signedDistance</a><wbr>(<a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;uv)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the signed distance between the box and the given point.</div>
+</div>
 </div>
 </div>
 </div>
@@ -192,6 +211,7 @@ loadScripts(document, 'script');</script>
 <h3>flags</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</span>&nbsp;<span class="element-name">flags</span></div>
+<div class="block">All flags on the robot.</div>
 </div>
 </section>
 </li>
@@ -211,6 +231,14 @@ loadScripts(document, 'script');</script>
  int&nbsp;y,
  int&nbsp;width,
  int&nbsp;height)</span></div>
+<div class="block">Creates a new 2D box object.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>x</code> - The x position of the box.</dd>
+<dd><code>y</code> - The y position of the box.</dd>
+<dd><code>width</code> - The width of the box.</dd>
+<dd><code>height</code> - The height of the box.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -220,6 +248,12 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Box2d</span><wbr><span class="parameters">(<a href="Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a>&nbsp;position,
  <a href="Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a>&nbsp;size)</span></div>
+<div class="block">Creates a new 2D box object.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>position</code> - The position of the box.</dd>
+<dd><code>size</code> - The size of the box.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -236,6 +270,13 @@ loadScripts(document, 'script');</script>
 <h3>isInside</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isInside</span><wbr><span class="parameters">(<a href="Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a>&nbsp;point)</span></div>
+<div class="block">Checks if the given point is inside the box.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>point</code> - The point to check.</dd>
+<dt>Returns:</dt>
+<dd>Whether the point is inside the box.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -244,6 +285,11 @@ loadScripts(document, 'script');</script>
 <h3>getPosition</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a></span>&nbsp;<span class="element-name">getPosition</span>()</div>
+<div class="block">Returns the position of the box.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The position of the box.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -252,6 +298,11 @@ loadScripts(document, 'script');</script>
 <h3>getSize</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a></span>&nbsp;<span class="element-name">getSize</span>()</div>
+<div class="block">Returns the size of the box.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The size of the box.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -260,6 +311,13 @@ loadScripts(document, 'script');</script>
 <h3>signedDistance</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">signedDistance</span><wbr><span class="parameters">(<a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;uv)</span></div>
+<div class="block">Returns the signed distance between the box and the given point.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>uv</code> - The point to calculate the distance to.</dd>
+<dt>Returns:</dt>
+<dd>The signed distance between the box and the given point.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -269,15 +327,14 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">raycastDistance</span><wbr><span class="parameters">(<a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;pos,
  <a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;to)</span></div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="intersectsRaySimple(me.autobot.lib.math.coordinates.Vector2d,me.autobot.lib.math.coordinates.Vector2d)">
-<h3>intersectsRaySimple</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">intersectsRaySimple</span><wbr><span class="parameters">(<a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;start,
- <a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;end)</span></div>
+<div class="block">Figures out the distance between the box and a point looking in a certain direction.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>pos</code> - The position to start from.</dd>
+<dd><code>to</code> - The position to look at.</dd>
+<dt>Returns:</dt>
+<dd>The distance between the box and the point.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -287,6 +344,14 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">intersectsRay</span><wbr><span class="parameters">(<a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;start,
  <a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;end)</span></div>
+<div class="block">Checks if the box intersects with a ray.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>start</code> - The start of the ray.</dd>
+<dd><code>end</code> - The end of the ray.</dd>
+<dt>Returns:</dt>
+<dd>Whether the box intersects with the ray.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -296,6 +361,14 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">lineIntersects</span><wbr><span class="parameters">(<a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;start,
  <a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;end)</span></div>
+<div class="block">Checks if the box intersects with a line</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>start</code> - The start of the line.</dd>
+<dd><code>end</code> - The end of the line.</dd>
+<dt>Returns:</dt>
+<dd>Whether the box intersects with the line.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -304,6 +377,11 @@ loadScripts(document, 'script');</script>
 <h3>getVertices</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>[]</span>&nbsp;<span class="element-name">getVertices</span>()</div>
+<div class="block">Gets the vertices of the box.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The vertices of the box.</dd>
+</dl>
 </div>
 </section>
 </li>

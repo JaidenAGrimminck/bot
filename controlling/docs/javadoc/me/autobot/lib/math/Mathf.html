@@ -104,7 +104,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">Mathf</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Tries to instantiate a Mathf object, but throws an exception because it is a utility class.</div>
+</div>
 </div>
 </section>
 </li>
@@ -203,6 +205,8 @@ loadScripts(document, 'script');</script>
 <h3>Mathf</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Mathf</span>()</div>
+<div class="block">Tries to instantiate a Mathf object, but throws an exception because it is a utility class.
+ Please use the static methods instead.</div>
 </div>
 </section>
 </li>
@@ -231,6 +235,8 @@ loadScripts(document, 'script');</script>
           If the number is between the minimum and maximum values, the number is returned.</dd>
 <dd><code>min</code> - The minimum value.</dd>
 <dd><code>max</code> - The maximum value.</dd>
+<dt>Returns:</dt>
+<dd>The clamped value.</dd>
 </dl>
 </div>
 </section>
@@ -257,6 +263,8 @@ loadScripts(document, 'script');</script>
                 Can be any number.</dd>
 <dd><code>postmax</code> - The maximum value of the interpolation.
                 Can be any number greater than postmin.</dd>
+<dt>Returns:</dt>
+<dd>The interpolated value.</dd>
 </dl>
 </div>
 </section>
@@ -343,6 +351,8 @@ loadScripts(document, 'script');</script>
 <dd><code>y_max</code> - The maximum y-coordinate of the box.
               Can be any number.
               Must be greater than y_min.</dd>
+<dt>Returns:</dt>
+<dd>The signed distance between the point and the box.</dd>
 </dl>
 </div>
 </section>

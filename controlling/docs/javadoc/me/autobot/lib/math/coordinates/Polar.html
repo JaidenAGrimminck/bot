@@ -90,6 +90,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Polar</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Polar coordinates represent a vector by its magnitude and the angle it makes with the x-axis.</div>
 </div>
 </section>
 <section class="summary">
@@ -104,7 +105,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(double,me.autobot.lib.math.rotation.Rotation2d)" class="member-name-link">Polar</a><wbr>(double&nbsp;r,
  <a href="../rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a>&nbsp;theta)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Constructs a Polar object with the given magnitude and angle.</div>
+</div>
 </div>
 </section>
 </li>
@@ -121,43 +124,69 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cos()" class="member-name-link">cos</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the x-component of the vector, calculated as r * cos(theta).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDegrees()" class="member-name-link">getDegrees</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the angle of the vector in degrees.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getR()" class="member-name-link">getR</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the magnitude of the vector (the radius value).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRadians()" class="member-name-link">getRadians</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the angle of the vector in radians.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTheta()" class="member-name-link">getTheta</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the angle of the vector.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Polar.html" title="class in me.autobot.lib.math.coordinates">Polar</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#inverse()" class="member-name-link">inverse</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the inverse of the vector, with the same magnitude and the opposite angle.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Polar.html" title="class in me.autobot.lib.math.coordinates">Polar</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#normal()" class="member-name-link">normal</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the normal of the vector, with the same magnitude (this implies a 90 degree rotation).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Polar.html" title="class in me.autobot.lib.math.coordinates">Polar</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rotateBy(me.autobot.lib.math.rotation.Rotation2d)" class="member-name-link">rotateBy</a><wbr>(<a href="../rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a>&nbsp;other)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Rotates the vector by the given angle.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setR(double)" class="member-name-link">setR</a><wbr>(double&nbsp;r)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the magnitude of the vector (the radius value).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTheta(me.autobot.lib.math.rotation.Rotation2d)" class="member-name-link">setTheta</a><wbr>(<a href="../rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a>&nbsp;theta)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the angle of the vector.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sin()" class="member-name-link">sin</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the y-component of the vector, calculated as r * sin(theta).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tan()" class="member-name-link">tan</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the tangent of the vector, calculated as sin(theta) / cos(theta).</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toVector()" class="member-name-link">toVector</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Converts the Polar object to a Vector2d object.</div>
+</div>
 </div>
 </div>
 </div>
@@ -181,6 +210,14 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Polar</span><wbr><span class="parameters">(double&nbsp;r,
  <a href="../rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a>&nbsp;theta)</span></div>
+<div class="block">Constructs a Polar object with the given magnitude and angle.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>r</code> - The magnitude of the vector.
+          This is the distance from the origin to the point.</dd>
+<dd><code>theta</code> - The angle of the vector.
+              This is the angle the vector makes with the x-axis.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -197,6 +234,11 @@ loadScripts(document, 'script');</script>
 <h3>getR</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getR</span>()</div>
+<div class="block">Returns the magnitude of the vector (the radius value).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The magnitude of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -205,6 +247,11 @@ loadScripts(document, 'script');</script>
 <h3>setR</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setR</span><wbr><span class="parameters">(double&nbsp;r)</span></div>
+<div class="block">Sets the magnitude of the vector (the radius value).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>r</code> - The new magnitude of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -213,6 +260,11 @@ loadScripts(document, 'script');</script>
 <h3>getTheta</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a></span>&nbsp;<span class="element-name">getTheta</span>()</div>
+<div class="block">Returns the angle of the vector.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The angle of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -221,6 +273,11 @@ loadScripts(document, 'script');</script>
 <h3>setTheta</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTheta</span><wbr><span class="parameters">(<a href="../rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a>&nbsp;theta)</span></div>
+<div class="block">Sets the angle of the vector.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>theta</code> - The new angle of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -229,6 +286,13 @@ loadScripts(document, 'script');</script>
 <h3>rotateBy</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Polar.html" title="class in me.autobot.lib.math.coordinates">Polar</a></span>&nbsp;<span class="element-name">rotateBy</span><wbr><span class="parameters">(<a href="../rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a>&nbsp;other)</span></div>
+<div class="block">Rotates the vector by the given angle.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>other</code> - The angle by which to rotate the vector.</dd>
+<dt>Returns:</dt>
+<dd>The vector rotated by the given angle.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -237,6 +301,11 @@ loadScripts(document, 'script');</script>
 <h3>normal</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Polar.html" title="class in me.autobot.lib.math.coordinates">Polar</a></span>&nbsp;<span class="element-name">normal</span>()</div>
+<div class="block">Gets the normal of the vector, with the same magnitude (this implies a 90 degree rotation).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The normal of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -245,6 +314,11 @@ loadScripts(document, 'script');</script>
 <h3>inverse</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Polar.html" title="class in me.autobot.lib.math.coordinates">Polar</a></span>&nbsp;<span class="element-name">inverse</span>()</div>
+<div class="block">Returns the inverse of the vector, with the same magnitude and the opposite angle.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The inverse of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -253,6 +327,11 @@ loadScripts(document, 'script');</script>
 <h3>cos</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">cos</span>()</div>
+<div class="block">Returns the x-component of the vector, calculated as r * cos(theta).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The x-component of the vector (cos(theta) * r).</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -261,6 +340,11 @@ loadScripts(document, 'script');</script>
 <h3>sin</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">sin</span>()</div>
+<div class="block">Returns the y-component of the vector, calculated as r * sin(theta).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The y-component of the vector (sin(theta) * r).</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -269,6 +353,11 @@ loadScripts(document, 'script');</script>
 <h3>tan</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">tan</span>()</div>
+<div class="block">Returns the tangent of the vector, calculated as sin(theta) / cos(theta).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The tangent of the vector (sin(theta) / cos(theta)).</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -277,6 +366,11 @@ loadScripts(document, 'script');</script>
 <h3>getRadians</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getRadians</span>()</div>
+<div class="block">Returns the angle of the vector in radians.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The angle of the vector in radians.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -285,6 +379,11 @@ loadScripts(document, 'script');</script>
 <h3>getDegrees</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getDegrees</span>()</div>
+<div class="block">Returns the angle of the vector in degrees.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The angle of the vector in degrees.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -293,6 +392,11 @@ loadScripts(document, 'script');</script>
 <h3>toVector</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></span>&nbsp;<span class="element-name">toVector</span>()</div>
+<div class="block">Converts the Polar object to a Vector2d object.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The Vector2d object equivalent to the Polar object.</dd>
+</dl>
 </div>
 </section>
 </li>

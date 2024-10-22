@@ -90,6 +90,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Projection</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">A projection of a shape onto an axis.</div>
 </div>
 </section>
 <section class="summary">
@@ -105,10 +106,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>double</code></div>
 <div class="col-second even-row-color"><code><a href="#max" class="member-name-link">max</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">The minimum and maximum values of the projection.</div>
+</div>
 <div class="col-first odd-row-color"><code>double</code></div>
 <div class="col-second odd-row-color"><code><a href="#min" class="member-name-link">min</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">The minimum and maximum values of the projection.</div>
+</div>
 </div>
 </section>
 </li>
@@ -122,7 +127,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(double,double)" class="member-name-link">Projection</a><wbr>(double&nbsp;min,
  double&nbsp;max)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new projection with the given min and max values.</div>
+</div>
 </div>
 </section>
 </li>
@@ -139,7 +146,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#overlaps(me.autobot.lib.math.coordinates.Projection)" class="member-name-link">overlaps</a><wbr>(<a href="Projection.html" title="class in me.autobot.lib.math.coordinates">Projection</a>&nbsp;other)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks if this projection overlaps with another projection</div>
+</div>
 </div>
 </div>
 </div>
@@ -162,6 +171,7 @@ loadScripts(document, 'script');</script>
 <h3>min</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">min</span></div>
+<div class="block">The minimum and maximum values of the projection.</div>
 </div>
 </section>
 </li>
@@ -170,6 +180,7 @@ loadScripts(document, 'script');</script>
 <h3>max</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">max</span></div>
+<div class="block">The minimum and maximum values of the projection.</div>
 </div>
 </section>
 </li>
@@ -187,6 +198,14 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Projection</span><wbr><span class="parameters">(double&nbsp;min,
  double&nbsp;max)</span></div>
+<div class="block">Creates a new projection with the given min and max values.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>min</code> - The minimum value of the projection.
+            This value must be less than or equal to max.</dd>
+<dd><code>max</code> - The maximum value of the projection.
+            This value must be greater than or equal to min.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -203,6 +222,14 @@ loadScripts(document, 'script');</script>
 <h3>overlaps</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">overlaps</span><wbr><span class="parameters">(<a href="Projection.html" title="class in me.autobot.lib.math.coordinates">Projection</a>&nbsp;other)</span></div>
+<div class="block">Checks if this projection overlaps with another projection</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>other</code> - The other projection to check for overlap
+              with this projection.</dd>
+<dt>Returns:</dt>
+<dd>True if the projections overlap, false otherwise.</dd>
+</dl>
 </div>
 </section>
 </li>

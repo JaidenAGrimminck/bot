@@ -83,6 +83,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/annotation/Retention.html" title="class or interface in java.lang.annotation" class="external-link">@Retention</a>(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/annotation/RetentionPolicy.html#RUNTIME" title="class or interface in java.lang.annotation" class="external-link">RUNTIME</a>)
 </span><span class="modifiers">public @interface </span><span class="element-name type-name-label">WSByteRoute</span></div>
+<div class="block">The annotation for websocket client routes.</div>
 </div>
 </section>
 <section class="summary">
@@ -98,10 +99,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>int[]</code></div>
 <div class="col-second even-row-color"><code><a href="#prefix()" class="member-name-link">prefix</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">The prefix of the route.</div>
+</div>
 <div class="col-first odd-row-color"><code><a href="WSClient.ClientType.html" title="enum class in me.autobot.server">WSClient.ClientType</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#type()" class="member-name-link">type</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">The type of the client.</div>
+</div>
 </div>
 </section>
 </li>
@@ -119,6 +124,17 @@ loadScripts(document, 'script');</script>
 <h3>type</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="return-type"><a href="WSClient.ClientType.html" title="enum class in me.autobot.server">WSClient.ClientType</a></span>&nbsp;<span class="element-name">type</span></div>
+<div class="block">The type of the client.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The type of the client.</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="WSClient.ClientType.html" title="enum class in me.autobot.server"><code>WSClient.ClientType</code></a></li>
+</ul>
+</dd>
+</dl>
 <dl class="notes">
 <dt>Default:</dt>
 <dd><code>Passive</code></dd>
@@ -131,6 +147,11 @@ loadScripts(document, 'script');</script>
 <h3>prefix</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="return-type">int[]</span>&nbsp;<span class="element-name">prefix</span></div>
+<div class="block">The prefix of the route.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The prefix of the route.</dd>
+</dl>
 <dl class="notes">
 <dt>Default:</dt>
 <dd><code>{255, 255}</code></dd>

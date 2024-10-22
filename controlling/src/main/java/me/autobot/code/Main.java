@@ -8,37 +8,24 @@ import me.autobot.sim.Simulation;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * The main entry point to the program.
+ * */
 public class Main {
-    public static boolean activated = false;
+    /**
+     * Isn't called! Rather, the main() method is called.
+     * */
+    public Main() {}
 
+    /**
+     * This is the entry point of the code.
+     * Just create a new instance of whatever Robot class you may want to run, and the code will start running.
+     * Note: This is NOT for simulation. This is for running the code on the actual robot.
+     * @see Simulation
+     * @see me.autobot.lib.robot.Robot
+     * @param args The arguments passed to the program.
+     * */
     public static void main(String[] args) {
         new ServoBot();
-
-
-//        SensorHubI2CConnection sensorHubI2CConnection = new SensorHubI2CConnection(
-//                "i2c-connection-1",
-//                1,
-//                0x12
-//        );
-//
-//        sensorHubI2CConnection.ping();
-//
-//        TimerTask t = new TimerTask() {
-//            @Override
-//            public void run() {
-//                if (!activated) {
-//                    sensorHubI2CConnection.writeToPin(12, SensorHubI2CConnection.HIGH);
-//                    sensorHubI2CConnection.writeToPin(8, 90);
-//                } else {
-//                    sensorHubI2CConnection.writeToPin(12, SensorHubI2CConnection.LOW);
-//                    sensorHubI2CConnection.writeToPin(8, 180);
-//                }
-//
-//                activated = !activated;
-//            }
-//        };
-//
-//        Timer tt = new Timer();
-//        tt.schedule(t, 0, 1000);
     }
 }

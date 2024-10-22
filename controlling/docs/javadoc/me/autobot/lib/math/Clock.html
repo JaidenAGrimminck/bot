@@ -90,6 +90,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Clock</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Used to keep track of time.</div>
 </div>
 </section>
 <section class="summary">
@@ -103,7 +104,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">Clock</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new clock object.</div>
+</div>
 </div>
 </section>
 </li>
@@ -120,13 +123,19 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#elapsed(long)" class="member-name-link">elapsed</a><wbr>(long&nbsp;time)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Check if the given time has elapsed.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#elapsedSince(long)" class="member-name-link">elapsedSince</a><wbr>(long&nbsp;time)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Check if the given time has elapsed since the last time it was triggered.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTimeElapsed()" class="member-name-link">getTimeElapsed</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Check how long it has been since the clock was created.</div>
+</div>
 </div>
 </div>
 </div>
@@ -149,6 +158,7 @@ loadScripts(document, 'script');</script>
 <h3>Clock</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Clock</span>()</div>
+<div class="block">Creates a new clock object.</div>
 </div>
 </section>
 </li>
@@ -165,6 +175,11 @@ loadScripts(document, 'script');</script>
 <h3>getTimeElapsed</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">getTimeElapsed</span>()</div>
+<div class="block">Check how long it has been since the clock was created.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The time elapsed in milliseconds.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -173,6 +188,13 @@ loadScripts(document, 'script');</script>
 <h3>elapsed</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">elapsed</span><wbr><span class="parameters">(long&nbsp;time)</span></div>
+<div class="block">Check if the given time has elapsed.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>time</code> - The time to check.</dd>
+<dt>Returns:</dt>
+<dd>Whether the time has elapsed.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -181,6 +203,13 @@ loadScripts(document, 'script');</script>
 <h3>elapsedSince</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">elapsedSince</span><wbr><span class="parameters">(long&nbsp;time)</span></div>
+<div class="block">Check if the given time has elapsed since the last time it was triggered.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>time</code> - The time to check.</dd>
+<dt>Returns:</dt>
+<dd>Whether the time has elapsed.</dd>
+</dl>
 </div>
 </section>
 </li>

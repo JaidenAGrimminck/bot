@@ -90,6 +90,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Vector3d</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">A class representing a 3D vector.</div>
 </div>
 </section>
 <section class="summary">
@@ -105,7 +106,9 @@ loadScripts(document, 'script');</script>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(double,double,double)" class="member-name-link">Vector3d</a><wbr>(double&nbsp;x,
  double&nbsp;y,
  double&nbsp;z)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new 3D vector object.</div>
+</div>
 </div>
 </section>
 </li>
@@ -114,7 +117,7 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel">
 <div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
 <div class="table-header col-first">Modifier and Type</div>
@@ -122,67 +125,114 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(me.autobot.lib.math.coordinates.Vector3d)" class="member-name-link">add</a><wbr>(<a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;other)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds another vector to this vector (and returns a new vector).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#angle(me.autobot.lib.math.coordinates.Vector3d)" class="member-name-link">angle</a><wbr>(<a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;other)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the angle between this vector and another vector.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cross(me.autobot.lib.math.coordinates.Vector3d)" class="member-name-link">cross</a><wbr>(<a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;other)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Cross product of this vector and another vector (and returns a new vector).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dot(me.autobot.lib.math.coordinates.Vector3d)" class="member-name-link">dot</a><wbr>(<a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;other)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Dot product of this vector and another vector.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getX()" class="member-name-link">getX</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the x component of the vector.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getY()" class="member-name-link">getY</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the y component of the vector.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getZ()" class="member-name-link">getZ</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the z component of the vector.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#magnitude()" class="member-name-link">magnitude</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the magnitude of the vector.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#normalize()" class="member-name-link">normalize</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns a new vector that is the normalized version of this vector.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rotateBy(me.autobot.lib.math.rotation.Rotation3d)" class="member-name-link">rotateBy</a><wbr>(<a href="../rotation/Rotation3d.html" title="class in me.autobot.lib.math.rotation">Rotation3d</a>&nbsp;rotation)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns a new vector that's this rotated by the given Rotation3d.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#scale(double)" class="member-name-link">scale</a><wbr>(double&nbsp;scalar)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Scales the vector by a scalar (and returns a new vector).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setX(double)" class="member-name-link">setX</a><wbr>(double&nbsp;x)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the x component of the vector.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setY(double)" class="member-name-link">setY</a><wbr>(double&nbsp;y)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the y component of the vector.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setZ(double)" class="member-name-link">setZ</a><wbr>(double&nbsp;z)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the z component of the vector.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#subtract(me.autobot.lib.math.coordinates.Vector3d)" class="member-name-link">subtract</a><wbr>(<a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;other)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Subtracts another vector from this vector (and returns a new vector).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Polar.html" title="class in me.autobot.lib.math.coordinates">Polar</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toPolar()" class="member-name-link">toPolar</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Converts the vector to a polar vector.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Spherical.html" title="class in me.autobot.lib.math.coordinates">Spherical</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toSpherical()" class="member-name-link">toSpherical</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Converts the vector to a spherical vector.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns a string representation of the vector.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toXY()" class="member-name-link">toXY</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Converts the vector to a 2D vector (x, y).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toXZ()" class="member-name-link">toXZ</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Converts the vector to a 2D vector (x, z).</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toYZ()" class="member-name-link">toYZ</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Converts the vector to a 2D vector (y, z).</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#zero()" class="member-name-link">zero</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a 3D zero vector</div>
+</div>
 </div>
 </div>
 </div>
@@ -207,6 +257,13 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Vector3d</span><wbr><span class="parameters">(double&nbsp;x,
  double&nbsp;y,
  double&nbsp;z)</span></div>
+<div class="block">Creates a new 3D vector object.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>x</code> - The x component of the vector.</dd>
+<dd><code>y</code> - The y component of the vector.</dd>
+<dd><code>z</code> - The z component of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -219,10 +276,28 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="zero()">
+<h3>zero</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></span>&nbsp;<span class="element-name">zero</span>()</div>
+<div class="block">Creates a 3D zero vector</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The zero vector</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="getX()">
 <h3>getX</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getX</span>()</div>
+<div class="block">Gets the x component of the vector.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The x component of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -231,6 +306,11 @@ loadScripts(document, 'script');</script>
 <h3>setX</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setX</span><wbr><span class="parameters">(double&nbsp;x)</span></div>
+<div class="block">Sets the x component of the vector.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>x</code> - The new x component of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -239,6 +319,11 @@ loadScripts(document, 'script');</script>
 <h3>getY</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getY</span>()</div>
+<div class="block">Gets the y component of the vector.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The y component of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -247,6 +332,11 @@ loadScripts(document, 'script');</script>
 <h3>setY</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setY</span><wbr><span class="parameters">(double&nbsp;y)</span></div>
+<div class="block">Sets the y component of the vector.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>y</code> - The new y component of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -255,6 +345,11 @@ loadScripts(document, 'script');</script>
 <h3>getZ</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getZ</span>()</div>
+<div class="block">Gets the z component of the vector.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The z component of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -263,6 +358,11 @@ loadScripts(document, 'script');</script>
 <h3>setZ</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setZ</span><wbr><span class="parameters">(double&nbsp;z)</span></div>
+<div class="block">Sets the z component of the vector.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>z</code> - The new z component of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -271,6 +371,13 @@ loadScripts(document, 'script');</script>
 <h3>add</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;other)</span></div>
+<div class="block">Adds another vector to this vector (and returns a new vector).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>other</code> - The other vector to add to this vector.</dd>
+<dt>Returns:</dt>
+<dd>The new vector that is the sum of this vector and the other vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -279,6 +386,13 @@ loadScripts(document, 'script');</script>
 <h3>subtract</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></span>&nbsp;<span class="element-name">subtract</span><wbr><span class="parameters">(<a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;other)</span></div>
+<div class="block">Subtracts another vector from this vector (and returns a new vector).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>other</code> - The other vector to subtract from this vector.</dd>
+<dt>Returns:</dt>
+<dd>The new vector that is the difference of this vector and the other vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -287,6 +401,13 @@ loadScripts(document, 'script');</script>
 <h3>scale</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></span>&nbsp;<span class="element-name">scale</span><wbr><span class="parameters">(double&nbsp;scalar)</span></div>
+<div class="block">Scales the vector by a scalar (and returns a new vector).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>scalar</code> - The scalar to scale the vector by.</dd>
+<dt>Returns:</dt>
+<dd>The new vector that is the scaled version of this vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -295,6 +416,13 @@ loadScripts(document, 'script');</script>
 <h3>dot</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">dot</span><wbr><span class="parameters">(<a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;other)</span></div>
+<div class="block">Dot product of this vector and another vector.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>other</code> - The other vector to dot this vector with.</dd>
+<dt>Returns:</dt>
+<dd>The dot product of this vector and the other vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -303,6 +431,13 @@ loadScripts(document, 'script');</script>
 <h3>cross</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></span>&nbsp;<span class="element-name">cross</span><wbr><span class="parameters">(<a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;other)</span></div>
+<div class="block">Cross product of this vector and another vector (and returns a new vector).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>other</code> - The other vector to cross this vector with.</dd>
+<dt>Returns:</dt>
+<dd>The new vector that is the cross product of this vector and the other vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -311,6 +446,11 @@ loadScripts(document, 'script');</script>
 <h3>magnitude</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">magnitude</span>()</div>
+<div class="block">Returns the magnitude of the vector.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The magnitude of the vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -319,6 +459,11 @@ loadScripts(document, 'script');</script>
 <h3>normalize</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></span>&nbsp;<span class="element-name">normalize</span>()</div>
+<div class="block">Returns a new vector that is the normalized version of this vector.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The normalized version of this vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -327,6 +472,13 @@ loadScripts(document, 'script');</script>
 <h3>angle</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">angle</span><wbr><span class="parameters">(<a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;other)</span></div>
+<div class="block">Gets the angle between this vector and another vector.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>other</code> - The other vector to get the angle between.</dd>
+<dt>Returns:</dt>
+<dd>The angle between this vector and the other vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -335,6 +487,13 @@ loadScripts(document, 'script');</script>
 <h3>rotateBy</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></span>&nbsp;<span class="element-name">rotateBy</span><wbr><span class="parameters">(<a href="../rotation/Rotation3d.html" title="class in me.autobot.lib.math.rotation">Rotation3d</a>&nbsp;rotation)</span></div>
+<div class="block">Returns a new vector that's this rotated by the given Rotation3d.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rotation</code> - The Rotation3d to rotate the vector by.</dd>
+<dt>Returns:</dt>
+<dd>The new vector that's this rotated by the given Rotation3d.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -343,6 +502,11 @@ loadScripts(document, 'script');</script>
 <h3>toPolar</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Polar.html" title="class in me.autobot.lib.math.coordinates">Polar</a></span>&nbsp;<span class="element-name">toPolar</span>()</div>
+<div class="block">Converts the vector to a polar vector.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The polar vector representation of this vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -351,6 +515,11 @@ loadScripts(document, 'script');</script>
 <h3>toSpherical</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Spherical.html" title="class in me.autobot.lib.math.coordinates">Spherical</a></span>&nbsp;<span class="element-name">toSpherical</span>()</div>
+<div class="block">Converts the vector to a spherical vector.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The spherical vector representation of this vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -359,6 +528,11 @@ loadScripts(document, 'script');</script>
 <h3>toXY</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></span>&nbsp;<span class="element-name">toXY</span>()</div>
+<div class="block">Converts the vector to a 2D vector (x, y).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The 2D vector representation of this vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -367,6 +541,11 @@ loadScripts(document, 'script');</script>
 <h3>toXZ</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></span>&nbsp;<span class="element-name">toXZ</span>()</div>
+<div class="block">Converts the vector to a 2D vector (x, z).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The 2D vector representation of this vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -375,6 +554,11 @@ loadScripts(document, 'script');</script>
 <h3>toYZ</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></span>&nbsp;<span class="element-name">toYZ</span>()</div>
+<div class="block">Converts the vector to a 2D vector (y, z).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The 2D vector representation of this vector.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -383,9 +567,12 @@ loadScripts(document, 'script');</script>
 <h3>toString</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
+<div class="block">Returns a string representation of the vector.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dt>Returns:</dt>
+<dd>The string representation of the vector.</dd>
 </dl>
 </div>
 </section>

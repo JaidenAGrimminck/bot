@@ -95,6 +95,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">RunnableWithArgs</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a></span></div>
+<div class="block">A runnable that can take arguments.</div>
 </div>
 </section>
 <section class="summary">
@@ -108,7 +109,9 @@ implements <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">RunnableWithArgs</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new RunnableWithArgs object.</div>
+</div>
 </div>
 </section>
 </li>
@@ -125,13 +128,19 @@ implements <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#run()" class="member-name-link">run</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Runs the runnable.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#run(java.lang.Object...)" class="member-name-link">run</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>...&nbsp;args)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Runs the runnable with the given arguments.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#run(me.autobot.server.WSClient)" class="member-name-link">run</a><wbr>(<a href="../../server/WSClient.html" title="class in me.autobot.server">WSClient</a>&nbsp;client)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Runs the runnable with the websocket client (very specific, I know).</div>
+</div>
 </div>
 </div>
 </div>
@@ -154,6 +163,15 @@ implements <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base
 <h3>RunnableWithArgs</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">RunnableWithArgs</span>()</div>
+<div class="block">Creates a new RunnableWithArgs object.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Thread.html#run()" title="class or interface in java.lang" class="external-link"><code>Thread.run()</code></a></li>
+</ul>
+</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -170,6 +188,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base
 <h3>run</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">run</span>()</div>
+<div class="block">Runs the runnable.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Runnable.html#run()" title="class or interface in java.lang" class="external-link">run</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a></code></dd>
@@ -182,6 +201,11 @@ implements <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base
 <h3>run</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">run</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>...&nbsp;args)</span></div>
+<div class="block">Runs the runnable with the given arguments.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>args</code> - The arguments to pass to the runnable.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -190,6 +214,11 @@ implements <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base
 <h3>run</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">run</span><wbr><span class="parameters">(<a href="../../server/WSClient.html" title="class in me.autobot.server">WSClient</a>&nbsp;client)</span></div>
+<div class="block">Runs the runnable with the websocket client (very specific, I know).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>client</code> - The client to pass to the runnable.</dd>
+</dl>
 </div>
 </section>
 </li>

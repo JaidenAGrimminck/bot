@@ -8,6 +8,14 @@ import me.autobot.lib.math.coordinates.Vector2d;
 public class Mathf {
 
     /**
+     * Tries to instantiate a Mathf object, but throws an exception because it is a utility class.
+     * Please use the static methods instead.
+     * */
+    public Mathf() {
+        throw new IllegalStateException("Cannot instantiate a utility class.");
+    }
+
+    /**
      * Returns the value of the given number clamped between the given minimum and maximum values.
      * @param n The number to clamp.
      *          Can be any number.
@@ -16,6 +24,7 @@ public class Mathf {
      *          If the number is between the minimum and maximum values, the number is returned.
      * @param min The minimum value.
      * @param max The maximum value.
+     * @return The clamped value.
      * */
     public static double clamp(double n, double min, double max) {
         return Math.max(min, Math.min(max, n));
@@ -33,6 +42,8 @@ public class Mathf {
      *                Can be any number.
      * @param postmax The maximum value of the interpolation.
      *                Can be any number greater than postmin.
+     *
+     * @return The interpolated value.
      * */
     public static double map(double n, double premin, double premax, double postmin, double postmax) {
         return (n - premin) / (premax - premin) * (postmax - postmin) + postmin;
@@ -103,6 +114,7 @@ public class Mathf {
      * @param y_max The maximum y-coordinate of the box.
      *              Can be any number.
      *              Must be greater than y_min.
+     * @return The signed distance between the point and the box.
      * **/
     public static double distanceBoxParticle2D(double x, double y, double x_min, double y_min,
                                  double x_max, double y_max)

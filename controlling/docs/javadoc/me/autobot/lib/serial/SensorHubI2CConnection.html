@@ -92,6 +92,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SensorHubI2CConnection</span>
 <span class="extends-implements">extends <a href="I2CConnection.html" title="class in me.autobot.lib.serial">I2CConnection</a></span></div>
+<div class="block">I2C connection to the <a href="https://github.com/JaidenAGrimminck/bot/blob/main/controlling/arduino-scripts/readwriter/readwriter.ino">configurable Arduino code</a> that's prebuilt for this library.</div>
 </div>
 </section>
 <section class="summary">
@@ -105,15 +106,21 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static int</code></div>
+<div class="col-first even-row-color"><code>static final int</code></div>
 <div class="col-second even-row-color"><code><a href="#DEFAULT_BUS" class="member-name-link">DEFAULT_BUS</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Default bus to use for the I2C connection.</div>
+</div>
 <div class="col-first odd-row-color"><code>static final byte[]</code></div>
 <div class="col-second odd-row-color"><code><a href="#HIGH" class="member-name-link">HIGH</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">The value of "HIGH" in the Arduino.</div>
+</div>
 <div class="col-first even-row-color"><code>static final byte[]</code></div>
 <div class="col-second even-row-color"><code><a href="#LOW" class="member-name-link">LOW</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">The value of "LOW" in the Arduino.</div>
+</div>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-me.autobot.lib.serial.I2CConnection">Fields inherited from class&nbsp;me.autobot.lib.serial.<a href="I2CConnection.html" title="class in me.autobot.lib.serial">I2CConnection</a></h3>
@@ -131,7 +138,9 @@ loadScripts(document, 'script');</script>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,int,int)" class="member-name-link">SensorHubI2CConnection</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
  int&nbsp;bus,
  int&nbsp;device)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new I2C connection to the default Arduino code with the given bus and device address.</div>
+</div>
 </div>
 </section>
 </li>
@@ -149,36 +158,54 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#generateId(int,int)" class="member-name-link">generateId</a><wbr>(int&nbsp;bus,
  int&nbsp;device)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Generates an ID for the I2C connection for the Pi4J context.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="SensorHubI2CConnection.html" title="class in me.autobot.lib.serial">SensorHubI2CConnection</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getOrCreateConnection(java.lang.String,int,int)" class="member-name-link">getOrCreateConnection</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
  int&nbsp;bus,
  int&nbsp;device)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Gets or creates a connection to the I2C device with the given ID, bus, and device.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ping()" class="member-name-link">ping</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Pings the I2C device.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#readPin(int)" class="member-name-link">readPin</a><wbr>(int&nbsp;index)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sends a request to read the value of a specific pin.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupReadThread()" class="member-name-link">setupReadThread</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Creates a new reading thread that reads data from the I2C device.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#subscribeSensor(me.autobot.lib.robot.Sensor,int...)" class="member-name-link">subscribeSensor</a><wbr>(<a href="../robot/Sensor.html" title="class in me.autobot.lib.robot">Sensor</a>&nbsp;sensor,
  int...&nbsp;pins)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Subscribes the given sensor to the given sensor pins.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#subscribeToPin(int)" class="member-name-link">subscribeToPin</a><wbr>(int&nbsp;index)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#subscribeToPin(int)" class="member-name-link">subscribeToPin</a><wbr>(int&nbsp;pin)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sends a request to subscribe to a specific pin.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#writeToPin(int,byte%5B%5D)" class="member-name-link">writeToPin</a><wbr>(int&nbsp;index,
  byte[]&nbsp;value)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Writes a byte list to a specific pin.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#writeToPin(int,float)" class="member-name-link">writeToPin</a><wbr>(int&nbsp;index,
  float&nbsp;value)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Writes a value to a specific pin.</div>
+</div>
 </div>
 </div>
 </div>
@@ -203,7 +230,16 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="DEFAULT_BUS">
 <h3>DEFAULT_BUS</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">DEFAULT_BUS</span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">DEFAULT_BUS</span></div>
+<div class="block">Default bus to use for the I2C connection.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../constant-values.html#me.autobot.lib.serial.SensorHubI2CConnection.DEFAULT_BUS">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -212,6 +248,7 @@ loadScripts(document, 'script');</script>
 <h3>HIGH</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">byte[]</span>&nbsp;<span class="element-name">HIGH</span></div>
+<div class="block">The value of "HIGH" in the Arduino.</div>
 </div>
 </section>
 </li>
@@ -220,6 +257,7 @@ loadScripts(document, 'script');</script>
 <h3>LOW</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">byte[]</span>&nbsp;<span class="element-name">LOW</span></div>
+<div class="block">The value of "LOW" in the Arduino.</div>
 </div>
 </section>
 </li>
@@ -238,6 +276,13 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SensorHubI2CConnection</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
  int&nbsp;bus,
  int&nbsp;device)</span></div>
+<div class="block">Creates a new I2C connection to the default Arduino code with the given bus and device address.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>id</code> - The ID of the I2C connection.</dd>
+<dd><code>bus</code> - The bus of the I2C connection.</dd>
+<dd><code>device</code> - The device address of the I2C connection.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -255,6 +300,14 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">generateId</span><wbr><span class="parameters">(int&nbsp;bus,
  int&nbsp;device)</span></div>
+<div class="block">Generates an ID for the I2C connection for the Pi4J context.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>bus</code> - The bus of the I2C connection.</dd>
+<dd><code>device</code> - The device of the I2C connection.</dd>
+<dt>Returns:</dt>
+<dd>The ID of the I2C connection.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -265,6 +318,15 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="SensorHubI2CConnection.html" title="class in me.autobot.lib.serial">SensorHubI2CConnection</a></span>&nbsp;<span class="element-name">getOrCreateConnection</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
  int&nbsp;bus,
  int&nbsp;device)</span></div>
+<div class="block">Gets or creates a connection to the I2C device with the given ID, bus, and device.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>id</code> - The ID of the I2C device. Uses this as reference for the Pi4J context.</dd>
+<dd><code>bus</code> - The bus of the I2C device.</dd>
+<dd><code>device</code> - The device of the I2C device.</dd>
+<dt>Returns:</dt>
+<dd>The I2C connection to the device.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -274,6 +336,12 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">subscribeSensor</span><wbr><span class="parameters">(<a href="../robot/Sensor.html" title="class in me.autobot.lib.robot">Sensor</a>&nbsp;sensor,
  int...&nbsp;pins)</span></div>
+<div class="block">Subscribes the given sensor to the given sensor pins.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>sensor</code> - The sensor to subscribe.</dd>
+<dd><code>pins</code> - The pins to subscribe the sensor to.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -282,6 +350,18 @@ loadScripts(document, 'script');</script>
 <h3>setupReadThread</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setupReadThread</span>()</div>
+<div class="block">Creates a new reading thread that reads data from the I2C device.
+ This is a separate thread that runs in the background.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Thread.html" title="class or interface in java.lang" class="external-link"><code>Thread</code></a></li>
+<li><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link"><code>Runnable</code></a></li>
+<li><a href="I2CConnection.html#read(int)"><code>I2CConnection.read(int)</code></a></li>
+</ul>
+</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -290,6 +370,7 @@ loadScripts(document, 'script');</script>
 <h3>ping</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">ping</span>()</div>
+<div class="block">Pings the I2C device. Won't return anything, but will let the device know that the Pi is still connected.</div>
 </div>
 </section>
 </li>
@@ -298,6 +379,11 @@ loadScripts(document, 'script');</script>
 <h3>readPin</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">readPin</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<div class="block">Sends a request to read the value of a specific pin.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>index</code> - The index of the pin to read.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -305,7 +391,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="subscribeToPin(int)">
 <h3>subscribeToPin</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">subscribeToPin</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">subscribeToPin</span><wbr><span class="parameters">(int&nbsp;pin)</span></div>
+<div class="block">Sends a request to subscribe to a specific pin.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>pin</code> - The pin to subscribe to.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -315,6 +406,18 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">writeToPin</span><wbr><span class="parameters">(int&nbsp;index,
  float&nbsp;value)</span></div>
+<div class="block">Writes a value to a specific pin. The value is a float.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>index</code> - The index of the pin to write to.</dd>
+<dd><code>value</code> - The value to write to the pin.</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="I2CConnection.html#write(byte%5B%5D)"><code>I2CConnection.write(byte[])</code></a></li>
+</ul>
+</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -324,6 +427,12 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">writeToPin</span><wbr><span class="parameters">(int&nbsp;index,
  byte[]&nbsp;value)</span></div>
+<div class="block">Writes a byte list to a specific pin. Should be 4 bytes long (a float!)</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>index</code> - The index of the pin to write to.</dd>
+<dd><code>value</code> - The byte list (length=4) to write to the pin.</dd>
+</dl>
 </div>
 </section>
 </li>

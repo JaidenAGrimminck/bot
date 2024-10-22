@@ -90,6 +90,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SimpleMap2d</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">A simple 2D map that can be used to detect obstacles.</div>
 </div>
 </section>
 <section class="summary">
@@ -103,7 +104,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">SimpleMap2d</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">A simple 2D map that can be used to detect obstacles.</div>
+</div>
 </div>
 </section>
 </li>
@@ -122,10 +125,14 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createMap(me.autobot.lib.math.coordinates.Vector2d,me.autobot.lib.math.coordinates.Vector2d,int)" class="member-name-link">createMap</a><wbr>(<a href="../coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;topLeft,
  <a href="../coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;bottomRight,
  int&nbsp;decimals)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Creates a 2D array map of the obstacles in the map.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="../coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getObstacles()" class="member-name-link">getObstacles</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns a list of detected "obstacles" (points) on the map.</div>
+</div>
 </div>
 </div>
 </div>
@@ -148,6 +155,7 @@ loadScripts(document, 'script');</script>
 <h3>SimpleMap2d</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SimpleMap2d</span>()</div>
+<div class="block">A simple 2D map that can be used to detect obstacles.</div>
 </div>
 </section>
 </li>
@@ -164,6 +172,11 @@ loadScripts(document, 'script');</script>
 <h3>getObstacles</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&gt;</span>&nbsp;<span class="element-name">getObstacles</span>()</div>
+<div class="block">Returns a list of detected "obstacles" (points) on the map.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>A list of detected "obstacles" (points) on the map.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -174,6 +187,15 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int[][]</span>&nbsp;<span class="element-name">createMap</span><wbr><span class="parameters">(<a href="../coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;topLeft,
  <a href="../coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;bottomRight,
  int&nbsp;decimals)</span></div>
+<div class="block">Creates a 2D array map of the obstacles in the map.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>topLeft</code> - The top left corner of the map.</dd>
+<dd><code>bottomRight</code> - The bottom right corner of the map.</dd>
+<dd><code>decimals</code> - The number of decimals to use for the map.</dd>
+<dt>Returns:</dt>
+<dd>A 2D array map of the obstacles in the map.</dd>
+</dl>
 </div>
 </section>
 </li>

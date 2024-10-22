@@ -20,6 +20,10 @@ import java.util.TimerTask;
 public class EvolutionTracker {
     private static EvolutionTracker instance;
 
+    /**
+     * Gets the instance of the EvolutionTracker
+     * @return The instance of the EvolutionTracker
+     * */
     public EvolutionTracker getInstance() {
         return instance;
     }
@@ -87,6 +91,7 @@ public class EvolutionTracker {
 
     /**
      * Gets how much time is left in a generation.
+     * @return The time left in the generation
      * */
     public int getTimeLeft() {
         return (int) (genTime - (System.currentTimeMillis() - currentGenStart));
@@ -227,6 +232,7 @@ public class EvolutionTracker {
     /**
      * Gets how well a robot is performing
      * @param index The index of the robot
+     * @return The score of the robot
      * */
     public double getScore(int index) {
         int onGoal = this.onGoal[index];
@@ -262,10 +268,10 @@ public class EvolutionTracker {
 
     /**
      * Stops a robot.
-     * @param i
+     * @param i The index of the robot to stop.
      */
     public void stop(int i) {
-        aiSpeeds[i] = 5;
+        aiSpeeds[i] = 0;
         aiRotations[i] = Rotation2d.zero();
     }
 
@@ -295,6 +301,9 @@ public class EvolutionTracker {
         genRunning = true;
     }
 
+    /**
+     * Sends the score information to the websocket client
+     * */
     public void sendScoreInfo() {
         if (wsClientRef == null) {
             return;

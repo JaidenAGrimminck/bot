@@ -92,6 +92,16 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Server</span>
 <span class="extends-implements">extends fi.iki.elonen.NanoHTTPD</span></div>
+<div class="block">A nanoHTTPD server that can be used to serve a webpage.
+ Is used for the REST API. See the WSServer for the websocket server.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="WSServer.html" title="class in me.autobot.server"><code>WSServer</code></a></li>
+</ul>
+</dd>
+</dl>
 </div>
 </section>
 <section class="summary">
@@ -123,7 +133,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">Server</a><wbr>(int&nbsp;port)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Starts the NanoHTTPD server on the given port</div>
+</div>
 </div>
 </section>
 </li>
@@ -140,7 +152,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#startServer(int)" class="member-name-link">startServer</a><wbr>(int&nbsp;port)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Starts the NanoHTTPD server on the given port.</div>
+</div>
 </div>
 </div>
 </div>
@@ -166,6 +180,11 @@ loadScripts(document, 'script');</script>
 <h3>Server</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Server</span><wbr><span class="parameters">(int&nbsp;port)</span></div>
+<div class="block">Starts the NanoHTTPD server on the given port</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>port</code> - The port to start the server on.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -182,6 +201,11 @@ loadScripts(document, 'script');</script>
 <h3>startServer</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">startServer</span><wbr><span class="parameters">(int&nbsp;port)</span></div>
+<div class="block">Starts the NanoHTTPD server on the given port.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>port</code> - The port to start the server on.</dd>
+</dl>
 </div>
 </section>
 </li>

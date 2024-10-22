@@ -1,6 +1,8 @@
 # Bot
 
-[![Documentation Status](https://readthedocs.org/projects/jaidens-bot-docs/badge/?version=latest)](https://jaidens-bot-docs.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/jaidens-bot-docs/badge/?version=latest)](https://jaidens-bot-docs.readthedocs.io/en/latest/?badge=latest) • [**Javadoc**](https://jaidenagrimminck.github.io/bot/controlling/docs/javadoc/index.html)
+
+
 
 This is both a library and the code for a robot I'm building.
 
@@ -40,6 +42,10 @@ git clone https://github.com/JaidenAGrimminck/bot.git
 In the `controlling` folder, run `./gradlew clean` then `./gradlew build`.
 
 Then to run, run `./gradlew run`.
+
+### Docs
+
+[See the Java Docs **here**!](https://jaidenagrimminck.github.io/bot/controlling/docs/javadoc/index.html)
 
 
 ## Site

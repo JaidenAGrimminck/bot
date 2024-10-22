@@ -90,6 +90,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">OSDetector</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Helper class for detecting the operating system of the user.</div>
 </div>
 </section>
 <section class="summary">
@@ -103,7 +104,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">OSDetector</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new OSDetector...but this shouldn't happen.</div>
+</div>
 </div>
 </section>
 </li>
@@ -120,13 +123,19 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#usingLinux()" class="member-name-link">usingLinux</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns true if the user is using a Linux OS.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#usingMacOS()" class="member-name-link">usingMacOS</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns true if the user is using a Mac OS.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#usingWindows()" class="member-name-link">usingWindows</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns true if the user is using a Windows OS.</div>
+</div>
 </div>
 </div>
 </div>
@@ -149,6 +158,8 @@ loadScripts(document, 'script');</script>
 <h3>OSDetector</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">OSDetector</span>()</div>
+<div class="block">Creates a new OSDetector...but this shouldn't happen. Throws an error.
+ Please use the static methods instead.</div>
 </div>
 </section>
 </li>
@@ -165,6 +176,11 @@ loadScripts(document, 'script');</script>
 <h3>usingMacOS</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">usingMacOS</span>()</div>
+<div class="block">Returns true if the user is using a Mac OS.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true if the user is using a Mac OS.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -173,6 +189,11 @@ loadScripts(document, 'script');</script>
 <h3>usingWindows</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">usingWindows</span>()</div>
+<div class="block">Returns true if the user is using a Windows OS.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true if the user is using a Windows OS.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -181,6 +202,11 @@ loadScripts(document, 'script');</script>
 <h3>usingLinux</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">usingLinux</span>()</div>
+<div class="block">Returns true if the user is using a Linux OS.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true if the user is using a Linux OS.</dd>
+</dl>
 </div>
 </section>
 </li>

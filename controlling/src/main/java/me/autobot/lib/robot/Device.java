@@ -6,12 +6,19 @@ import java.util.ArrayList;
 import me.autobot.lib.logging.Log;
 import me.autobot.lib.logging.Logger;
 
+/**
+ * Some sort of device that can be attached to a robot.
+ * */
 public class Device implements Logger {
 
-    public static ArrayList<Device> devices = new ArrayList<>();
+    /**
+     * List of all devices.
+     * */
+    protected static ArrayList<Device> devices = new ArrayList<>();
 
     /**
      * Registers a device.
+     * @param device The device to register.
      * */
     public static void registerDevice(Device device) {
         devices.add(device);
@@ -49,6 +56,7 @@ public class Device implements Logger {
 
     /**
      * Reports the voltage of the device to be logged and stored.
+     * @param voltage The voltage of the device.
      * */
     private void reportVoltage(double voltage) {
         this.voltage = voltage;
@@ -56,6 +64,7 @@ public class Device implements Logger {
 
     /**
      * Reports the current of the device to be logged and stored.
+     * @param current The current of the device.
      * */
     private void reportCurrent(double current) {
         this.current = current;
@@ -63,6 +72,8 @@ public class Device implements Logger {
 
     /**
      * Sets a property of the device.
+     * @param key The key of the property.
+     * @param value The value of the property.
      * */
     public void setProperty(String key, double value) {
         properties.put(key, value);
@@ -70,6 +81,7 @@ public class Device implements Logger {
 
     /**
      * Returns the properties of the device.
+     * @return The properties of the device.
      * */
     public HashMap<String, Double> getProperties() {
         return properties;
@@ -77,6 +89,7 @@ public class Device implements Logger {
 
     /**
      * Gets the properties of the device in a string format.
+     * @return The properties of the device in a string format.
      * */
     @Log(as="properties")
     private String getPropertyString() {
@@ -91,6 +104,8 @@ public class Device implements Logger {
 
     /**
      * Get a property of the device.
+     * @param key The key of the property.
+     * @return The value of the property.
      * */
     public double getProperty(String key) {
         return properties.get(key);
@@ -98,6 +113,7 @@ public class Device implements Logger {
 
     /**
      * Get the voltage of the device (if applicable).
+     * @return The voltage of the device.
      * */
     public double getVoltage() {
         return voltage;
@@ -105,6 +121,7 @@ public class Device implements Logger {
 
     /**
      * Get the current of the device (if applicable).
+     * @return The current of the device.
      * */
     public double getCurrent() {
         return current;
@@ -120,6 +137,7 @@ public class Device implements Logger {
 
     /**
      * Set the parent of the device, i.e what robot the device is attached to.
+     * @param parent The parent of the device.
      * */
     public void setParent(Robot parent) {
         this.parent = parent;
@@ -143,6 +161,7 @@ public class Device implements Logger {
 
     /**
      * Get the parent of the device.
+     * @return The parent of the device.
      * */
     protected Robot getParent() {
         return parent;

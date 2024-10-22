@@ -100,6 +100,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Sensor</span>
 <span class="extends-implements">extends <a href="Device.html" title="class in me.autobot.lib.robot">Device</a></span></div>
+<div class="block">A device that's used to sense the environment around the robot.</div>
 </div>
 </section>
 <section class="summary">
@@ -121,13 +122,19 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int)" class="member-name-link">Sensor</a><wbr>(int&nbsp;address,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int)" class="member-name-link">Sensor</a><wbr>(int&nbsp;identifier,
+ int&nbsp;address,
  int&nbsp;sensorChannels)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int,int,int)" class="member-name-link">Sensor</a><wbr>(int&nbsp;address,
+<div class="col-last even-row-color">
+<div class="block">Creates a new sensor with the given address and number of sensor channels.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int,int,int,int)" class="member-name-link">Sensor</a><wbr>(int&nbsp;identifier,
+ int&nbsp;address,
  int&nbsp;bus,
  int&nbsp;sensorChannels)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a new sensor with the given address, bus, and number of sensor channels.</div>
+</div>
 </div>
 </section>
 </li>
@@ -144,14 +151,20 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#attachRelativePosition(me.autobot.lib.math.coordinates.Vector3d)" class="member-name-link">attachRelativePosition</a><wbr>(<a href="../math/coordinates/Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;relativePosition)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Attaches the relative position of the sensor to the center of the robot.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#attachRelativePosition(me.autobot.lib.math.coordinates.Vector3d,me.autobot.lib.math.rotation.Rotation3d)" class="member-name-link">attachRelativePosition</a><wbr>(<a href="../math/coordinates/Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;relativePosition,
  <a href="../math/rotation/Rotation3d.html" title="class in me.autobot.lib.math.rotation">Rotation3d</a>&nbsp;relativeRotation)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Attaches the relative position and rotation of the sensor to the center of the robot.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#changeUpdateInterval(long)" class="member-name-link">changeUpdateInterval</a><wbr>(long&nbsp;interval)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Changes the update interval of the sensor for the subscribers.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#connectToI2C(int)" class="member-name-link">connectToI2C</a><wbr>(int&nbsp;pin)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -159,42 +172,77 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAddress()" class="member-name-link">getAddress</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>byte</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getParentAddress()" class="member-name-link">getParentAddress</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../math/coordinates/Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRelativePosition()" class="member-name-link">getRelativePosition</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../math/rotation/Rotation3d.html" title="class in me.autobot.lib.math.rotation">Rotation3d</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRelativeRotation()" class="member-name-link">getRelativeRotation</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Sensor.html" title="class in me.autobot.lib.robot">Sensor</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSensor(int,int)" class="member-name-link">getSensor</a><wbr>(int&nbsp;robotAddr,
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the I2C address of the sensor hub.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getIdentifier()" class="member-name-link">getIdentifier</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the identifier of the sensor.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>byte</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getParentAddress()" class="member-name-link">getParentAddress</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the address/identifier of the parent robot.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../math/coordinates/Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRelativePosition()" class="member-name-link">getRelativePosition</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the relative position to the center of the robot.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../math/rotation/Rotation3d.html" title="class in me.autobot.lib.math.rotation">Rotation3d</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRelativeRotation()" class="member-name-link">getRelativeRotation</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the relative rotation to the center of the robot.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Sensor.html" title="class in me.autobot.lib.robot">Sensor</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSensor(int,int)" class="member-name-link">getSensor</a><wbr>(int&nbsp;identifier,
+ int&nbsp;robotAddr)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Gets the sensor object with the specific identifier and robot address.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="Sensor.html" title="class in me.autobot.lib.robot">Sensor</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSensors(int,int)" class="member-name-link">getSensors</a><wbr>(int&nbsp;robotAddr,
  int&nbsp;address)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Gets the sensor objects connected to the specific sensor hub address on the specific robot.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double[]</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSensorValues()" class="member-name-link">getSensorValues</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the raw sensor values.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double[]</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getValues()" class="member-name-link">getValues</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the processed sensor values.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSensorValue(int,double)" class="member-name-link">setSensorValue</a><wbr>(int&nbsp;index,
  double&nbsp;value)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set a specific sensor value.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSensorValues(double...)" class="member-name-link">setSensorValues</a><wbr>(double...&nbsp;values)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the sensor values.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#simulateValues(double%5B%5D)" class="member-name-link">simulateValues</a><wbr>(double[]&nbsp;values)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Plugs in fake sensor values for simulation.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#subscribe(me.autobot.server.WSClient)" class="member-name-link">subscribe</a><wbr>(<a href="../../server/WSClient.html" title="class in me.autobot.server">WSClient</a>&nbsp;client)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Subscribes a client to the sensor to recieve updates.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unsubscribe(me.autobot.server.WSClient)" class="member-name-link">unsubscribe</a><wbr>(<a href="../../server/WSClient.html" title="class in me.autobot.server">WSClient</a>&nbsp;client)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Unsubscribes a client from the sensor.</div>
+</div>
 </div>
 </div>
 </div>
@@ -216,21 +264,38 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(int,int)">
+<section class="detail" id="&lt;init&gt;(int,int,int)">
 <h3>Sensor</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Sensor</span><wbr><span class="parameters">(int&nbsp;address,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Sensor</span><wbr><span class="parameters">(int&nbsp;identifier,
+ int&nbsp;address,
  int&nbsp;sensorChannels)</span></div>
+<div class="block">Creates a new sensor with the given address and number of sensor channels.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>identifier</code> - The identifier of the sensor. Could be any number, should be unique to all other sensors on the robot.</dd>
+<dd><code>address</code> - The address of the sensor hub on the I2C bus.</dd>
+<dd><code>sensorChannels</code> - The number of output channels the sensor has.</dd>
+</dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(int,int,int)">
+<section class="detail" id="&lt;init&gt;(int,int,int,int)">
 <h3>Sensor</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Sensor</span><wbr><span class="parameters">(int&nbsp;address,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Sensor</span><wbr><span class="parameters">(int&nbsp;identifier,
+ int&nbsp;address,
  int&nbsp;bus,
  int&nbsp;sensorChannels)</span></div>
+<div class="block">Creates a new sensor with the given address, bus, and number of sensor channels.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>identifier</code> - The identifier of the sensor. Could be any number, should be unique to all other sensors on the robot.</dd>
+<dd><code>address</code> - The address of the sensor hub on the I2C bus.</dd>
+<dd><code>bus</code> - The bus of the sensor hub on the I2C bus.</dd>
+<dd><code>sensorChannels</code> - The number of output channels the sensor has.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -243,11 +308,36 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="getSensors(int,int)">
+<h3>getSensors</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="Sensor.html" title="class in me.autobot.lib.robot">Sensor</a>&gt;</span>&nbsp;<span class="element-name">getSensors</span><wbr><span class="parameters">(int&nbsp;robotAddr,
+ int&nbsp;address)</span></div>
+<div class="block">Gets the sensor objects connected to the specific sensor hub address on the specific robot.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>robotAddr</code> - The address of the robot.</dd>
+<dd><code>address</code> - The address of the sensor hub.</dd>
+<dt>Returns:</dt>
+<dd>The sensor objects connected to the specific sensor hub address on the specific robot.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="getSensor(int,int)">
 <h3>getSensor</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Sensor.html" title="class in me.autobot.lib.robot">Sensor</a></span>&nbsp;<span class="element-name">getSensor</span><wbr><span class="parameters">(int&nbsp;robotAddr,
- int&nbsp;address)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Sensor.html" title="class in me.autobot.lib.robot">Sensor</a></span>&nbsp;<span class="element-name">getSensor</span><wbr><span class="parameters">(int&nbsp;identifier,
+ int&nbsp;robotAddr)</span></div>
+<div class="block">Gets the sensor object with the specific identifier and robot address.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>identifier</code> - The identifier of the sensor.</dd>
+<dd><code>robotAddr</code> - The address of the robot.</dd>
+<dt>Returns:</dt>
+<dd>The sensor object with the specific identifier and robot address.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -257,6 +347,10 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">connectToI2C</span><wbr><span class="parameters">(int&nbsp;pin)</span></div>
 <div class="block">Connects the sensor to the I2C bus.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>pin</code> - The pin to connect the sensor to.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -265,6 +359,11 @@ loadScripts(document, 'script');</script>
 <h3>changeUpdateInterval</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">changeUpdateInterval</span><wbr><span class="parameters">(long&nbsp;interval)</span></div>
+<div class="block">Changes the update interval of the sensor for the subscribers.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>interval</code> - The new update interval of the sensor subscribers.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -273,6 +372,11 @@ loadScripts(document, 'script');</script>
 <h3>getSensorValues</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double[]</span>&nbsp;<span class="element-name">getSensorValues</span>()</div>
+<div class="block">Returns the raw sensor values.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The raw sensor values.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -281,6 +385,11 @@ loadScripts(document, 'script');</script>
 <h3>getValues</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double[]</span>&nbsp;<span class="element-name">getValues</span>()</div>
+<div class="block">Returns the processed sensor values.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The processed sensor values.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -289,6 +398,24 @@ loadScripts(document, 'script');</script>
 <h3>getAddress</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getAddress</span>()</div>
+<div class="block">Returns the I2C address of the sensor hub.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The I2C address of the sensor hub.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getIdentifier()">
+<h3>getIdentifier</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getIdentifier</span>()</div>
+<div class="block">Returns the identifier of the sensor.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The identifier of the sensor.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -297,6 +424,11 @@ loadScripts(document, 'script');</script>
 <h3>simulateValues</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">simulateValues</span><wbr><span class="parameters">(double[]&nbsp;values)</span></div>
+<div class="block">Plugs in fake sensor values for simulation.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>values</code> - The values to simulate.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -305,6 +437,11 @@ loadScripts(document, 'script');</script>
 <h3>getRelativePosition</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../math/coordinates/Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a></span>&nbsp;<span class="element-name">getRelativePosition</span>()</div>
+<div class="block">Gets the relative position to the center of the robot.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The relative position to the center of the robot.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -313,6 +450,11 @@ loadScripts(document, 'script');</script>
 <h3>getRelativeRotation</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../math/rotation/Rotation3d.html" title="class in me.autobot.lib.math.rotation">Rotation3d</a></span>&nbsp;<span class="element-name">getRelativeRotation</span>()</div>
+<div class="block">Gets the relative rotation to the center of the robot.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The relative rotation to the center of the robot.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -321,6 +463,11 @@ loadScripts(document, 'script');</script>
 <h3>attachRelativePosition</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">attachRelativePosition</span><wbr><span class="parameters">(<a href="../math/coordinates/Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;relativePosition)</span></div>
+<div class="block">Attaches the relative position of the sensor to the center of the robot.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>relativePosition</code> - The relative position of the sensor to the center of the robot.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -330,6 +477,12 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">attachRelativePosition</span><wbr><span class="parameters">(<a href="../math/coordinates/Vector3d.html" title="class in me.autobot.lib.math.coordinates">Vector3d</a>&nbsp;relativePosition,
  <a href="../math/rotation/Rotation3d.html" title="class in me.autobot.lib.math.rotation">Rotation3d</a>&nbsp;relativeRotation)</span></div>
+<div class="block">Attaches the relative position and rotation of the sensor to the center of the robot.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>relativePosition</code> - The relative position of the sensor to the center of the robot.</dd>
+<dd><code>relativeRotation</code> - The relative rotation of the sensor to the center of the robot.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -337,7 +490,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setSensorValues(double...)">
 <h3>setSensorValues</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSensorValues</span><wbr><span class="parameters">(double...&nbsp;values)</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSensorValues</span><wbr><span class="parameters">(double...&nbsp;values)</span></div>
+<div class="block">Set the sensor values.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>values</code> - The values to set the sensor to.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -347,6 +505,12 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSensorValue</span><wbr><span class="parameters">(int&nbsp;index,
  double&nbsp;value)</span></div>
+<div class="block">Set a specific sensor value.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>index</code> - The index of the sensor value to set.</dd>
+<dd><code>value</code> - The value to set the sensor to.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -355,6 +519,11 @@ loadScripts(document, 'script');</script>
 <h3>subscribe</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">subscribe</span><wbr><span class="parameters">(<a href="../../server/WSClient.html" title="class in me.autobot.server">WSClient</a>&nbsp;client)</span></div>
+<div class="block">Subscribes a client to the sensor to recieve updates.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>client</code> - The client to subscribe.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -363,6 +532,11 @@ loadScripts(document, 'script');</script>
 <h3>unsubscribe</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">unsubscribe</span><wbr><span class="parameters">(<a href="../../server/WSClient.html" title="class in me.autobot.server">WSClient</a>&nbsp;client)</span></div>
+<div class="block">Unsubscribes a client from the sensor.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>client</code> - The client to unsubscribe.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -371,6 +545,11 @@ loadScripts(document, 'script');</script>
 <h3>getParentAddress</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte</span>&nbsp;<span class="element-name">getParentAddress</span>()</div>
+<div class="block">Returns the address/identifier of the parent robot.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The address/identifier of the parent robot.</dd>
+</dl>
 </div>
 </section>
 </li>

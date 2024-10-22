@@ -5,6 +5,9 @@ import me.autobot.lib.math.Mathf;
 import me.autobot.lib.robot.Motor;
 import me.autobot.lib.serial.SensorHubI2CConnection;
 
+/**
+ * The servo motor class. This class is used to control a servo motor via the I2C bus.
+ * */
 public class Servo extends Motor {
     @Log
     private double speed = 0;
@@ -19,6 +22,7 @@ public class Servo extends Motor {
 
     /**
      * Creates a new servo with the given address on the default I2C bus.
+     * @param address The I2C address of the controller.
      * */
     public Servo(int address) {
         super(address);
@@ -26,13 +30,16 @@ public class Servo extends Motor {
 
     /**
      * Creates a new servo with the given address on the given I2C bus.
+     * @param address The I2C address of the controller.
+     * @param bus The I2C bus the controller is connected to.
      * */
     public Servo(int address, int bus) {
         super(address, bus);
     }
 
     /**
-     * Connects the servo to the I2C bus.
+     * Connects the servo to the I2C bus. This is assuming that the bot has the <a href="https://github.com/JaidenAGrimminck/bot/blob/main/controlling/arduino-scripts/readwriter/readwriter.ino">standard interpreter</a>
+     * for the Arduino. If you're using a different interpreter, you'll need to change this method or create a different subclass.
      * @param pin The pin to connect the servo to.
      * */
     @Override
@@ -76,6 +83,15 @@ public class Servo extends Motor {
     public void setSpeed(double speed) {
         //map the value to 0, 180
         this.setRawSpeed(Mathf.map(speed, -1, 1, 0, 180));
+    }
+
+    /**
+     * Stops the servo via setting the speed to 90 (halfway point).
+     * */
+    @Override
+    public void stop() {
+        this.speed = 90;
+        reportSpeed();
     }
 
     /**

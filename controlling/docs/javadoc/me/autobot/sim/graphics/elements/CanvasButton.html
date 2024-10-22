@@ -92,6 +92,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">CanvasButton</span>
 <span class="extends-implements">extends <a href="CanvasElement.html" title="class in me.autobot.sim.graphics.elements">CanvasElement</a></span></div>
+<div class="block">A button that can be drawn on a canvas.</div>
 </div>
 </section>
 <section class="summary">
@@ -107,7 +108,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#title" class="member-name-link">title</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">The title of the button.</div>
+</div>
 </div>
 </section>
 </li>
@@ -125,7 +128,9 @@ loadScripts(document, 'script');</script>
  int&nbsp;height,
  <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title,
  <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;action)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new CanvasButton with the given position, size, title, and action.</div>
+</div>
 </div>
 </section>
 </li>
@@ -144,24 +149,32 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#adjustText(int,int,int)" class="member-name-link">adjustText</a><wbr>(int&nbsp;fontSize,
  int&nbsp;leftPadding,
  int&nbsp;topPadding)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adjusts the text of the button.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#draw(java.awt.Graphics,me.autobot.lib.math.coordinates.Int2)" class="member-name-link">draw</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/java/awt/Graphics.html" title="class or interface in java.awt" class="external-link">Graphics</a>&nbsp;g,
  <a href="../../../lib/math/coordinates/Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a>&nbsp;mousePosition)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Draw the element on the canvas.</div>
+<div class="block">Draws the button on the canvas.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isInside(me.autobot.lib.math.coordinates.Int2)" class="member-name-link">isInside</a><wbr>(<a href="../../../lib/math/coordinates/Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a>&nbsp;point)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks if the given point is inside the button.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#run()" class="member-name-link">run</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Run the action of the button.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CanvasButton.html" title="class in me.autobot.sim.graphics.elements">CanvasButton</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStyle(java.awt.Color,java.awt.Color,java.awt.Color)" class="member-name-link">setStyle</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/java/awt/Color.html" title="class or interface in java.awt" class="external-link">Color</a>&nbsp;backgroundColor,
  <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/java/awt/Color.html" title="class or interface in java.awt" class="external-link">Color</a>&nbsp;textColor,
  <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/java/awt/Color.html" title="class or interface in java.awt" class="external-link">Color</a>&nbsp;hoverColor)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the style of the button.</div>
+</div>
 </div>
 </div>
 </div>
@@ -184,6 +197,7 @@ loadScripts(document, 'script');</script>
 <h3>title</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">title</span></div>
+<div class="block">The title of the button.</div>
 </div>
 </section>
 </li>
@@ -205,6 +219,16 @@ loadScripts(document, 'script');</script>
  int&nbsp;height,
  <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title,
  <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;action)</span></div>
+<div class="block">Creates a new CanvasButton with the given position, size, title, and action.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>x</code> - The x position of the button.</dd>
+<dd><code>y</code> - The y position of the button.</dd>
+<dd><code>width</code> - The width of the button.</dd>
+<dd><code>height</code> - The height of the button.</dd>
+<dd><code>title</code> - The title of the button.</dd>
+<dd><code>action</code> - The action to run when the button is clicked.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -223,6 +247,15 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CanvasButton.html" title="class in me.autobot.sim.graphics.elements">CanvasButton</a></span>&nbsp;<span class="element-name">setStyle</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/java/awt/Color.html" title="class or interface in java.awt" class="external-link">Color</a>&nbsp;backgroundColor,
  <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/java/awt/Color.html" title="class or interface in java.awt" class="external-link">Color</a>&nbsp;textColor,
  <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/java/awt/Color.html" title="class or interface in java.awt" class="external-link">Color</a>&nbsp;hoverColor)</span></div>
+<div class="block">Sets the style of the button.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>backgroundColor</code> - The background color of the button.</dd>
+<dd><code>textColor</code> - The text color of the button.</dd>
+<dd><code>hoverColor</code> - The color of the button when the mouse is hovering over it.</dd>
+<dt>Returns:</dt>
+<dd>The button object.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -233,6 +266,15 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CanvasButton.html" title="class in me.autobot.sim.graphics.elements">CanvasButton</a></span>&nbsp;<span class="element-name">adjustText</span><wbr><span class="parameters">(int&nbsp;fontSize,
  int&nbsp;leftPadding,
  int&nbsp;topPadding)</span></div>
+<div class="block">Adjusts the text of the button.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>fontSize</code> - The font size of the text.</dd>
+<dd><code>leftPadding</code> - The left padding of the text.</dd>
+<dd><code>topPadding</code> - The top padding of the text.</dd>
+<dt>Returns:</dt>
+<dd>The button object.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -242,13 +284,13 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">draw</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/java/awt/Graphics.html" title="class or interface in java.awt" class="external-link">Graphics</a>&nbsp;g,
  <a href="../../../lib/math/coordinates/Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a>&nbsp;mousePosition)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="CanvasElement.html#draw(java.awt.Graphics,me.autobot.lib.math.coordinates.Int2)">CanvasElement</a></code></span></div>
-<div class="block">Draw the element on the canvas.</div>
+<div class="block">Draws the button on the canvas. Called internally by the canvas.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="CanvasElement.html#draw(java.awt.Graphics,me.autobot.lib.math.coordinates.Int2)">draw</a></code>&nbsp;in class&nbsp;<code><a href="CanvasElement.html" title="class in me.autobot.sim.graphics.elements">CanvasElement</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>g</code> - The graphics object to draw on.</dd>
+<dd><code>mousePosition</code> - The position of the mouse.</dd>
 </dl>
 </div>
 </section>
@@ -258,6 +300,13 @@ loadScripts(document, 'script');</script>
 <h3>isInside</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isInside</span><wbr><span class="parameters">(<a href="../../../lib/math/coordinates/Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a>&nbsp;point)</span></div>
+<div class="block">Checks if the given point is inside the button.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>point</code> - The point to check. This should be the mouse position.</dd>
+<dt>Returns:</dt>
+<dd>Whether the point is inside the button.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -266,6 +315,15 @@ loadScripts(document, 'script');</script>
 <h3>run</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">run</span>()</div>
+<div class="block">Run the action of the button.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link"><code>Runnable</code></a></li>
+</ul>
+</dd>
+</dl>
 </div>
 </section>
 </li>

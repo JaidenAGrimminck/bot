@@ -4,6 +4,18 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+
+/**
+ * A class that logs the values of fields and methods annotated with @Log.
+ * This class is meant to be extended by other classes that want to log their values.
+ * Do not use this class directly.
+ * Usage:
+ *
+ *
+ * <code>
+ *     public class MyClass extends Logger { ... }
+ * </code>
+ * */
 public interface Logger {
     //get all @Log annotated fields and methods
 

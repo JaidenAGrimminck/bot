@@ -23,39 +23,91 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+
+/**
+ * The simulation canvas is a JPanel that is used to draw the simulation.
+ * */
 public class SimCanvas extends JPanel {
+    /**
+     * The frame to draw the canvas on.
+     * */
     private JFrame frame;
 
+    /**
+     * Creates a new simulation canvas.
+     * @param frame The frame to draw the canvas on.
+     * */
     public SimCanvas(JFrame frame) {
         this.frame = frame;
         new Thread(this::run).start();
     }
 
-    double scale = 0.001;
 
-    boolean up = false;
-    boolean down = false;
-    boolean left = false;
-    boolean right = false;
+    /**
+     * If the up key is pressed.
+     * */
+    private boolean up = false;
+    /**
+     * If the down key is pressed.
+     * */
+    private boolean down = false;
+    /**
+     * If the left key is pressed.
+     * */
+    private boolean left = false;
+    /**
+     * If the right key is pressed.
+     * */
+    private boolean right = false;
 
-    boolean rotR = false;
-    boolean rotL = false;
+    /**
+     * If the rotation right key is pressed.
+     * */
+    private boolean rotR = false;
+    /**
+     * If the rotation left key is pressed.
+     * */
+    private boolean rotL = false;
 
-    boolean mapEnabled = true;
-    boolean knownPointsEnabled = true;
+    /**
+     * Enables the block map to be drawn.
+     * */
+    private boolean mapEnabled = true;
+    /**
+     * Whether to display known points ("recorded" points) or not.
+     * */
+    private boolean knownPointsEnabled = true;
 
-    int speed = 10;
-    double turnSpeed = Math.PI / 100;
+    /**
+     * Speed of the robot.
+     * */
+    private int speed = 10;
+    /**
+     * Turn speed of the robot.
+     * */
+    private double turnSpeed = Math.PI / 100;
 
 
     // for the robot ai controls
-
+    /**
+     * Number of AI robots.
+     * */
     final static public int numberOfAIRobots = 10;
 
+    /**
+     * The evolution tracker of the simulation.
+     * */
     private EvolutionTracker evoTracker;
 
+    /**
+     * A map of obstacles.
+     * @see Map2d
+     * */
     public static Map2d obstaclesMap = new Map2d();
 
+    /**
+     * Startup of the simulation canvas.
+     * */
     public void run() {
         evoTracker = new EvolutionTracker(Robot.getRobots());
 
@@ -220,6 +272,10 @@ public class SimCanvas extends JPanel {
         }
     }
 
+    /**
+     * Gets the preferred size of the canvas.
+     * @return The preferred size of the canvas.
+     * */
     @Override
     public Dimension getPreferredSize() {
         if (isPreferredSizeSet()) {
@@ -228,12 +284,25 @@ public class SimCanvas extends JPanel {
         return new Dimension(800, 600);
     }
 
+    /**
+     * List of elements on the canvas
+     * */
     private ArrayList<CanvasElement> elements = new ArrayList<>();
 
+    /**
+     * The mouse position.
+     * */
     private Int2 mousePosition = Int2.zero();
 
+    /**
+     * Just used for debugging purposes.
+     * */
     public static String debugStr = "";
 
+    /**
+     * The paint method of the canvas, draws it every frame.
+     * @param g The graphics object to draw with.
+     * */
     public void paint(Graphics g) {
         if (Robot.getRobots().isEmpty()) return;
 
@@ -318,7 +387,7 @@ public class SimCanvas extends JPanel {
                 if (sensor instanceof UltrasonicSensor) {
                     UltrasonicSensor us = (UltrasonicSensor) sensor;
                     g2d.setColor(Color.BLUE);
-                    if (us.getAddress() == 0x01) {
+                    if (us.getIdentifier() == 0x01) {
                         g2d.setColor(Color.RED);
                     }
                     g2d.fillOval((int) (us.getRelativePosition().getX() - 5), (int) (us.getRelativePosition().getY() - 5), 10, 10);

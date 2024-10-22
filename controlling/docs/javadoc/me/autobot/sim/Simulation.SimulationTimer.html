@@ -96,6 +96,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public static class </span><span class="element-name type-name-label">Simulation.SimulationTimer</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/Timer.html" title="class or interface in java.util" class="external-link">Timer</a></span></div>
+<div class="block">A timer that keeps track of the simulation time.</div>
 </div>
 </section>
 <section class="summary">
@@ -109,7 +110,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">SimulationTimer</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new simulation timer.</div>
+</div>
 </div>
 </section>
 </li>
@@ -126,16 +129,24 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#adjustMultiplier(double)" class="member-name-link">adjustMultiplier</a><wbr>(double&nbsp;multiplier)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adjusts the multiplier of the simulation timer.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMultiplier()" class="member-name-link">getMultiplier</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the time multiplier of the simulation timer.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pause()" class="member-name-link">pause</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Pauses the simulation timer.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Starts the simulation timer.</div>
+</div>
 </div>
 </div>
 </div>
@@ -161,6 +172,7 @@ loadScripts(document, 'script');</script>
 <h3>SimulationTimer</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SimulationTimer</span>()</div>
+<div class="block">Creates a new simulation timer.</div>
 </div>
 </section>
 </li>
@@ -177,6 +189,7 @@ loadScripts(document, 'script');</script>
 <h3>start</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">start</span>()</div>
+<div class="block">Starts the simulation timer.</div>
 </div>
 </section>
 </li>
@@ -185,6 +198,12 @@ loadScripts(document, 'script');</script>
 <h3>adjustMultiplier</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">adjustMultiplier</span><wbr><span class="parameters">(double&nbsp;multiplier)</span></div>
+<div class="block">Adjusts the multiplier of the simulation timer.
+ This can be used to speed up or slow down the simulation.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>multiplier</code> - The multiplier to adjust the simulation by.</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -193,6 +212,7 @@ loadScripts(document, 'script');</script>
 <h3>pause</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">pause</span>()</div>
+<div class="block">Pauses the simulation timer.</div>
 </div>
 </section>
 </li>
@@ -201,6 +221,11 @@ loadScripts(document, 'script');</script>
 <h3>getMultiplier</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getMultiplier</span>()</div>
+<div class="block">Gets the time multiplier of the simulation timer.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The time multiplier of the simulation timer.</dd>
+</dl>
 </div>
 </section>
 </li>

@@ -11,16 +11,41 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * A testing canvas for the simulation.
+ * */
 public class SimCanvasTesting extends JFrame {
+    /**
+     * start/not
+     * */
     boolean start = false;
 
+    //TODO: remove
+
+    /**
+     * sensor
+     * */
     UltrasonicSensor sensor;
 
+    /**
+     * sim canvas. testing.
+     * */
+    public SimCanvasTesting() {
+
+    }
+
+    /**
+     * time v
+     * */
     double t = 0;
 
+    /**
+     * Paints.
+     * @param g The graphics object.
+     * */
     public void paint_(Graphics g) {
         if (!start) {
-            sensor = new UltrasonicSensor(0x04);
+            sensor = new UltrasonicSensor(0x04, 1);
 
 
             start = true;
