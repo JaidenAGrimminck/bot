@@ -553,6 +553,10 @@ bool processEvent() {
         //n=pin, n+1=device address
         subscribedTo[currentlySubscribed++] = pin;
         subscribedTo[currentlySubscribed++] = signature;
+        
+        Serial.print("[LOG] Subscribed sensor at pin ");
+        Serial.print(pin);
+        Serial.println("!");
     }
 
     return true;
