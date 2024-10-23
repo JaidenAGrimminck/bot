@@ -151,7 +151,7 @@ public class SensorHubI2CConnection extends I2CConnection {
      * @param pin The pin to subscribe to.
      * */
     public void subscribeToPin(int pin) {
-        write(new byte[] {(byte) 0xA3, (byte) pin, THIS_DEVICE_ADDRESS});
+        write(new byte[] {(byte) 0xA3, (byte) pin, (byte) THIS_DEVICE_ADDRESS});
     }
 
     /**

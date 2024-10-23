@@ -16,7 +16,7 @@ public class I2CConnection {
      * Verboseness level for I2C errors.
      * 0=none, 1=notify there's an error, 2=print stack trace
      * */
-    public static int i2cVerboseLevel = 0;
+    public static int i2cVerboseLevel = 2;
 
     /** The address of this device, what the signature will be so I2C devices will know to reply to the pi! (I mean they will, but depending on expansion etc it'll be good to have for now...)*/
     protected static final int THIS_DEVICE_ADDRESS = 0x01;
