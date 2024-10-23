@@ -65,8 +65,6 @@ public class SensorHubI2CConnection extends I2CConnection {
      * */
     public SensorHubI2CConnection(String id, int bus, int device) {
         super(id, bus, device);
-
-        setupReadThread();
     }
 
     /**
@@ -79,6 +77,8 @@ public class SensorHubI2CConnection extends I2CConnection {
         for (int pin : pins) {
             subscribeToPin(pin);
         }
+
+        setupReadThread();
     }
 
     /**

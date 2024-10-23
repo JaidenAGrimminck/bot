@@ -540,7 +540,10 @@ bool processEvent() {
 
         return true;
     } else if (currentMessage[0] == 0xA3) {
+        Serial.println("attempting to subscribe?");
         if (lessThan(3)) return;
+
+        Serial.println("recieved all data!");
 
         byte pin = currentMessage[1];
         byte signature = currentMessage[2];
