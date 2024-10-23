@@ -52,7 +52,7 @@ public class UltrasonicSensor extends Sensor {
         //connect to the I2C bus
         SensorHubI2CConnection.getOrCreateConnection(
                 SensorHubI2CConnection.generateId(getBus(), getAddress()), getBus(), getAddress()
-        ).subscribeSensor(this, pin);
+        ).ping(); //.subscribeSensor(this, pin);
     }
 
     /**
