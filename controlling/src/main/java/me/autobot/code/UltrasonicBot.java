@@ -23,6 +23,10 @@ public class UltrasonicBot extends Robot {
     protected void setup() {
         sensor = new UltrasonicSensor(1, 0x12);
         sensor.connectToI2C(6);
+
+        getDevices().forEach(device -> {
+            device.setParent(this);
+        });
     }
 
     /**
