@@ -541,6 +541,11 @@ bool processEvent() {
         return true;
     } else if (currentMessage[0] == 0xA3) {
         Serial.println("attempting to subscribe?");
+        Serial.print(currentMessage[0]);
+        Serial.print(" ");
+        Serial.print(currentMessage[1]);
+        Serial.print(" ");
+        Serial.print(currentMessage[2]);
         if (lessThan(3)) return;
 
         Serial.println("recieved all data!");

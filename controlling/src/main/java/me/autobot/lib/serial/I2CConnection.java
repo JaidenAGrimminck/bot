@@ -85,7 +85,7 @@ public class I2CConnection {
 
         for (int i = 0; i < length; i++) {
             try {
-                data[i] = device.readByte();
+                data[i] = 0x00;//device.readByte();
             } catch (Exception e) {
                 data[i] = 0x00;
             }
