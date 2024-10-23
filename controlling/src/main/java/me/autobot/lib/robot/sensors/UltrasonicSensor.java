@@ -62,6 +62,7 @@ public class UltrasonicSensor extends Sensor {
     public Vector2d getEstimatedAbsPosition() {
         Vector2d pos = getParent().getPosition();
 
+        //get flat position
         Vector2d relativePos = this.getRelativePosition().toXY();
 
         Rotation2d robotRotation = this.getParent().getRotation();

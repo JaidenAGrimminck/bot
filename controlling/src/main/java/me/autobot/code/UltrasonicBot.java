@@ -1,5 +1,6 @@
 package me.autobot.code;
 
+import me.autobot.lib.math.Unit;
 import me.autobot.lib.robot.Robot;
 import me.autobot.lib.robot.sensors.UltrasonicSensor;
 
@@ -33,6 +34,6 @@ public class UltrasonicBot extends Robot {
      * */
     @Override
     protected void loop() {
-        System.out.println("Distance: " + sensor.getDistance());
+        System.out.println("Distance: " + sensor.getDistance().getValue(Unit.Type.CENTIMETER));
     }
 }
