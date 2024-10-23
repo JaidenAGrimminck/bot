@@ -330,6 +330,15 @@ public class Robot implements Logger {
         return devices;
     }
 
+    /**
+     * Registers all the devices of the robot.
+     * This should be called after assigning all the devices to the robot, but BEFORE connecting them to I2C.
+     * */
+    protected void registerAllDevices() {
+        getDevices().forEach(device -> {
+            device.setParent(this);
+        });
+    }
 
     /**
      * Gets the size of the robot.
