@@ -75,7 +75,6 @@ public class SensorHubI2CConnection extends I2CConnection {
     public void subscribeSensor(Sensor sensor, int... pins) {
         subscribedSensors.put(Mathf.allPos(pins), sensor);
         for (int pin : pins) {
-            System.out.println("Subscribing to pin " + pin);
             subscribeToPin(pin);
         }
 
