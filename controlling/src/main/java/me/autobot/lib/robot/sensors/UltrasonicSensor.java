@@ -5,6 +5,7 @@ import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.robot.Sensor;
+import me.autobot.lib.serial.SensorHubI2CConnection;
 import me.autobot.sim.Simulation;
 
 import java.util.ArrayList;
@@ -31,6 +32,27 @@ public class UltrasonicSensor extends Sensor {
     public UltrasonicSensor(int identifier, int address) {
         super(identifier, address, 1);
         setSensorValues(0);
+    }
+
+    /**
+     * Connects the ultrasonic sensor to the I2C bus.
+     * @param pin The echo pin on the sensor hub.
+     * */
+    @Override
+    public void connectToI2C(int pin) {
+        if (getParent() == null) {
+            throw new IllegalStateException("Cannot connect sensor to I2C bus without a parent.");
+        }
+
+        if (inSimulation()) {
+            //ignore this if we are in simulation
+            return;
+        }
+
+        //connect to the I2C bus
+        SensorHubI2CConnection.getOrCreateConnection(
+                SensorHubI2CConnection.generateId(getBus(), getAddress()), getBus(), getAddress()
+        ).subscribeSensor(this, pin);
     }
 
     /**

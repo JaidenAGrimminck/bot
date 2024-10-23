@@ -8,17 +8,17 @@
 /**
 This is the number of devices that are connected to the Arduino.
 **/
-#define NUM_DEVICES 2
+#define NUM_DEVICES 1
 
 /**
 This is the number of servos connected to the Arduino. This is NOT independent of the above variable.
 **/
-#define NUM_SERVOS 1
+#define NUM_SERVOS 0
 
 /**
 This is the number of ping devices there are. This is NOT independent of the above variable.
 **/
-#define PING_DEVICES 0
+#define PING_DEVICES 1
 
 /**
 NOTICE: In order to use this device, before uploading you MUST set the following variable, 
@@ -98,8 +98,7 @@ byte EEPROM_SIM[] = {
     NUM_DEVICES, // # of devices
     0, 0, 0, 0, 0, 0,
     //devices
-    0x03, 0x01, 0x0C, 0x01, //pin device at port 12 (led)
-    0x02, 0x02, 0x08 //pwm device at port 8 (servo)
+    0x03, 0x03, 0x06, 0x07, //ultrasonic sensor connected to pin 6 and 7.
 };
 
 /**

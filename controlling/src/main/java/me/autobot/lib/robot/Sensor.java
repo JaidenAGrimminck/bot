@@ -202,6 +202,14 @@ public class Sensor extends Device {
     }
 
     /**
+     * Returns the I2C bus of the sensor hub.
+     * @return The I2C bus of the sensor hub.
+     * */
+    public int getBus() {
+        return bus;
+    }
+
+    /**
      * Returns the identifier of the sensor.
      * @return The identifier of the sensor.
      * */
