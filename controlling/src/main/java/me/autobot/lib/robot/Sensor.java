@@ -152,7 +152,7 @@ public class Sensor extends Device {
                     WSClient client = subscribers.get(i);
                     try {
                         if (client.isOpen())
-                            client.sendSensorData(getParentAddress(), (byte) address, getValues());
+                            client.sendSensorData(getParentAddress(), (byte) getIdentifier(), getValues());
                         else
                             toRemove.add(client);
                     } catch (Exception e) {

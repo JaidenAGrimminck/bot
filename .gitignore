@@ -13,3 +13,6 @@ site/node_modules
 .*
 
 *.pt
+
+
+controlling/ips.txt

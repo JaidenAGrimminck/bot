@@ -70,13 +70,3 @@ def create_model(input_size=5, output_size=2):
         tf.keras.layers.Dense(output_size, activation='softmax')  # Softmax for probability distribution
     ])
     return model
-
-# Create the initial model
-# model = create_model()
-#
-# # Example input (8 distance values)
-# input_data = np.random.rand(1, 8)
-#
-# # Get the action probabilities
-# action_probs = model.predict(input_data)
-# print("Action Probabilities:", action_probs)

@@ -441,8 +441,6 @@ public class WSClient extends NanoWSD.WebSocket {
         //[0] -> address
         //[1] -> 0x00 for processed, 0x01 for raw
 
-        //todo: fix this!!!
-
         if (payload.length < 3) { notifyError(Error.InvalidPayloadLength); return; }
 
         int robotAddr = payload[0];
@@ -469,14 +467,15 @@ public class WSClient extends NanoWSD.WebSocket {
 
         int nDoubles = returnPayload.length;
 
-        int preLength = 4;
+        int preLength = 5;
         //encode doubles to byte list
         byte[] encodedDoubles = new byte[(nDoubles * Double.BYTES) + preLength];
 
         encodedDoubles[0] = (byte) 0xC0; //response
         encodedDoubles[1] = (byte) 0x01; //sensor data
-        encodedDoubles[2] = (byte) sensor.getIdentifier();
-        encodedDoubles[3] = (byte) nDoubles;
+        encodedDoubles[2] = (byte) sensor.getParentAddress();
+        encodedDoubles[3] = (byte) sensor.getIdentifier();
+        encodedDoubles[4] = (byte) nDoubles;
 
         ByteBuffer bbuf = ByteBuffer.allocate(nDoubles * Double.BYTES);
 
