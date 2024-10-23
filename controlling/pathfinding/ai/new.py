@@ -18,6 +18,10 @@ actions = [
 #     0xA0 # no action
 # ]
 
+
+"""
+Creates all agents and appends them to the agents list
+"""
 def create():
     global agents
     for i in range(agentsN):
@@ -26,9 +30,16 @@ def create():
         agents.append(newagent)
 
 
+"""
+Normalizes the sensor values to be between 0 and 1
+:param sensorValues: the sensor values to normalize
+"""
 def normalizeState(sensorValues):
     return np.clip(np.divide(np.array(sensorValues), 256), 0, 1)
 
+"""
+Predicts the action for each agent and sends it to the server
+"""
 def act():
     global agents
 
@@ -91,7 +102,11 @@ def act():
     return robot_actions
 
 
-
+"""
+Called when a robot collides with another robot (or not, just called whenever checking the collision)
+:param v: the values of the collision
+:param robotAddr: the address of the robot that collided
+"""
 def onCollide(v, robotAddr):
     if len(agents) == 0:
         return
@@ -102,6 +117,9 @@ def onCollide(v, robotAddr):
 
             print("Robot " + str(robotAddr) + " crashed")
 
+"""
+Called when the server is ready to start the simulation
+"""
 def finishStartup():
     global agents
 
@@ -122,11 +140,17 @@ def finishStartup():
     # loop update
     threading.Thread(target=loop).start()
 
+"""
+Main loop.
+"""
 def loop():
     while True:
         update()
         threading.Event().wait(0.1)
 
+"""
+Updates the agents
+"""
 def update():
     if len(agents) == 0:
         return
@@ -142,6 +166,9 @@ def update():
 
         ws.send(0xB0, [i, action[i]])
 
+"""
+Called when a generation finishes
+"""
 def onGenFinish(scores):
     top_score = max(scores)
     top_score_index = scores.index(top_score)
@@ -157,6 +184,9 @@ def onGenFinish(scores):
 
     print("ready for next gen.")
 
+"""
+Called when the websocket disconnects
+"""
 def onDisconnect():
     print("Disconnected from server")
 

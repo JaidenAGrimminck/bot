@@ -19,7 +19,11 @@ onFinishMethod = lambda: None
 onDisconnectMethod = lambda: None
 onGenerationFinishMethod = lambda scores: None
 
-# This function will be called when a message is received from the server
+"""
+This function will be called when a message is received from the server.
+:param ws: The WebSocket connection
+:param message: The message received from the server
+"""
 def on_message(ws, message):
     global timeSinceLastHeartbeat
 
@@ -115,19 +119,36 @@ def on_message(ws, message):
 
 
 
-
+"""
+Sets the method that will be called when the websocket disconnects.
+:param method: The method to call when the websocket disconnects
+"""
 def setDisconnectMethod(method):
     global onDisconnectMethod
     onDisconnectMethod = method
 
+"""
+Sets the method that will be called when the generation finishes.
+:param method: The method to call when the generation finishes
+"""
 def setGenerationFinishMethod(method=lambda scores: None):
     global onGenerationFinishMethod
     onGenerationFinishMethod = method
 
+"""
+Called when an error occurs with the WebSocket connection.
+:param ws: The WebSocket connection
+"""
 def on_error(ws, error):
     print(f"Error ?? : {error}")
     print(f"Last payload: {lastPayload}")
 
+"""
+Called when the WebSocket connection is closed.
+:param ws: The WebSocket connection
+:param close_status_code: The status code of the close
+:param close_msg: The message of the close
+"""
 def on_close(ws, close_status_code, close_msg):
     print(f"WebSocket closed with message: {close_msg}, code: {close_status_code}")
 
@@ -138,6 +159,10 @@ def on_close(ws, close_status_code, close_msg):
     if close_status_code == 1000:
         onDisconnectMethod()
 
+"""
+Called when the WebSocket connection is opened.
+:param ws: The WebSocket connection
+"""
 def on_open(ws):
     global wscon
 
@@ -182,7 +207,11 @@ def start_websocket(onFinish=lambda: None):
 
 
 lastPayload = []
-# sends a payload of bytes to the websocket
+
+"""
+Sends a payload of bytes to the websocket
+:param payload: The payload to send
+"""
 def sendPayload(payload=[]):
     global lastPayload
 
@@ -194,8 +223,12 @@ def sendPayload(payload=[]):
 
     wscon.send(payload)
 
-
-# sends a one-time request to get sensor info from the server
+"""
+Sends a one-time request to get sensor info from the server
+:param robotAddress: The address of the robot
+:param sensorAddress: The address of the sensor
+:param raw: Whether to get raw sensor data
+"""
 def getSensorInfo(robotAddress, sensorAddress, raw):
     raw_bt = 0x00
 
@@ -212,7 +245,12 @@ def getSensorInfo(robotAddress, sensorAddress, raw):
 
     sendPayload(payload)
 
-# sends a request to subscribe to a sensor
+"""
+Sends a request to subscribe to a sensor
+:param robotAddress: The address of the robot
+:param sensorAddress: The address of the sensor
+:param unsubscribe: Whether to unsubscribe from the sensor or not
+"""
 def subscribe(robotAddress, sensorAddress, unsubscribe=False):
     subscribe_bit = 0x01
 
@@ -229,11 +267,23 @@ def subscribe(robotAddress, sensorAddress, unsubscribe=False):
 
     sendPayload(payload)
 
+"""
+Listens for sensor data from a robot and adds a method to be called when data is received
+:param robotAddress: The address of the robot
+:param sensorAddress: The address of the sensor
+:param method: The method to call when data is received
+"""
 def listen(robotAddress, sensorAddress, method):
     subscribe(robotAddress, sensorAddress)
 
     listenWithoutSubscribing(robotAddress, sensorAddress, method)
 
+"""
+Adds a method to be called when sensor data is received without subscribing to the sensor
+:param robotAddress: The address of the robot
+:param sensorAddress: The address of the sensor
+:param method: The method to call when data is received
+"""
 def listenWithoutSubscribing(robotAddress, sensorAddress, method):
     global listeners
 
@@ -243,7 +293,11 @@ def listenWithoutSubscribing(robotAddress, sensorAddress, method):
         listeners[robotAddress][sensorAddress] = []
     listeners[robotAddress][sensorAddress].append(method)
 
-# sends a message to the server to call a callable/listener
+"""
+Sends a message to the server to call a callable/listener
+:param listenerAddress: The address of the listener
+:param payload: The payload to send
+"""
 def send(listenerAddress, payload=None):
     if payload is None:
         payload = []
@@ -258,6 +312,9 @@ def send(listenerAddress, payload=None):
 
 ran = False
 
+"""
+Called when the server has sent back a response confirming full connection.
+"""
 def onConfirmedConnection():
     global ran
     if ran:
