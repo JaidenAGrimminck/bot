@@ -3,32 +3,43 @@ Usage
 
 .. _installation:
 
+Prerequisites
+-------------
+
+To use the project, first you need a few prerequisites:
+
+- Git
+- `Python 3.12 or higher <https://www.python.org/>`_
+- `Java 20 or higher <https://www.java.com/download/>`_
+- `NodeJS 20 or higher <https://nodejs.org/en/download/>`_ (with a compatible version of npm)
+
+And if you're actually planning to build this:
+
+- `Arduino IDE <https://www.arduino.cc/en/software>`_
+- A compatible microcontroller
+- Raspberry Pi (that can run Java 20, Python 3.12, etc)
+
 Installation
 ------------
 
-To use Lumache, first install it using pip:
+Once you have all of these installed, you can install the project with:
 
 .. code-block:: console
 
-   (.venv) $ pip install lumache
+   (~) $ git clone https://github.com/JaidenAGrimminck/bot.git
+   (~) $ cd bot
 
-Creating recipes
-----------------
+Controlling Code Setup
+----------------------
 
-To retrieve a list of random ingredients,
-you can use the ``lumache.get_random_ingredients()`` function:
+To get started on the controlling code, we can go ahead and do the following steps:
 
-.. autofunction:: lumache.get_random_ingredients
+.. code-block:: console
 
-The ``kind`` parameter should be either ``"meat"``, ``"fish"``,
-or ``"veggies"``. Otherwise, :py:func:`lumache.get_random_ingredients`
-will raise an exception.
+   (~/bot) $ cd controlling
+   (~/bot/controlling) $ ./gradlew clean
+   (~/bot/controlling) $ ./gradlew build
 
-.. autoexception:: lumache.InvalidKindError
+This will build the controlling code and prepare it for deployment.
 
-For example:
-
->>> import lumache
->>> lumache.get_random_ingredients()
-['shells', 'gorgonzola', 'parsley']
-
+To continue learning how to use the controlling code, check out the :ref:`controlling_get_started` section.
