@@ -318,6 +318,9 @@ void init_devices() {
 
             pingReference[pingReferenceIndex++] = ping;
 
+            pinMode(trig, OUTPUT);
+            pinMode(echo, INPUT);
+
             Serial.print("[LOG] Added 4 pin ultrasonic sensor to port ");
             Serial.println((int) echo);
         }
@@ -364,11 +367,15 @@ void loop() {
         delayMicroseconds(5); //quick delay
     }
 
+    //Serial.println(currentDistance[0]);
+
     for (int i = 0; i < MAX_SUBSCRIPTIONS * 2; i += 2) {
         byte pin = subscribedTo[i];
         byte device_addr = subscribedTo[i + 1];
 
-        if (pin == 0x00) continue; //empty, not in use
+        if (pin == 0x00) { //empty, not in use
+            break;
+        }
 
         byte rbuff[7];
 
@@ -382,25 +389,27 @@ void loop() {
             int in = findPingDeviceIndex(pin);
             if (in == -1) continue;
 
-            double d = 1.0 * currentDistance[in];
+            float d = 1.0 * currentDistance[in];
             
             byte n[4];
 
             //copy to pre-array
-            memcpy(&d, &n, 4);
+            memcpy(n, &d, 4);
 
             // little-endian to big-endian conversion of pre-array
             reverseArray(n, 4);
 
             //copy then to buffer chunk
-            memcpy(&n, &rbuff[2], 4);
+            for (int i = 0; i < 4; i++) {
+                rbuff[i + 2] = n[i];
+            }
         }
         
         //then copy buffer chunk over to the output buffer
-        memcpy(&rbuff, &outputBuffer[currentBufferByte], 7);
-
         //keep track of how much was added (3 info bytes, 4 bytes for an int)
-        currentBufferByte += 7;
+        for (int i = 0; i < 7; i++) {
+            outputBuffer[currentBufferByte++] = rbuff[i];
+        }
     }
 }
 
@@ -595,17 +604,15 @@ void requestEvent() {
         return;
     }
 
-    byte firstSixteen[16];
+    //Lol, work-around to this method interupting the loop().... we just run it :)
+    loop();
 
-    //copy the first 16 bytes
-    memcpy(&outputBuffer, firstSixteen, 16);
+    for (int i = 0; i < 16; i++) {
+        Wire.write(outputBuffer[i]);
+    }
 
     //shift the output buffer back 16 bytes
     shiftOutputBuffer(16);
-
-    for (int i = 0; i < 16; i++) {
-        Wire.write(firstSixteen[i]);
-    }
 }
 
 
@@ -613,13 +620,20 @@ void requestEvent() {
 Shifts the output buffer by n bytes (removes the first n bytes and moves the rest of the array from index n to 0)
 */
 void shiftOutputBuffer(int nbytes) {
-    byte newarr[OUTPUT_BUFFER] = {0};
+    for (int i = 0; i < OUTPUT_BUFFER; i++) {
+        if (i + nbytes >= OUTPUT_BUFFER) {
+            outputBuffer[i] = 0;
+        } else {
+            outputBuffer[i] = outputBuffer[i + nbytes];
+        }
+    }
 
-    //copy to new array
-    memcpy(&newarr[0], &outputBuffer[nbytes], sizeof(outputBuffer) - (sizeof(byte) * nbytes));
+    //shift it back that many bytes.
+    currentBufferByte -= nbytes;
 
-    //then copy it back to the output buffer
-    memcpy(&outputBuffer, &newarr, sizeof(newarr));
+    if (currentBufferByte < 0) {
+        currentBufferByte = 0;
+    }
 }
 
 /** -- I2C Methods **/

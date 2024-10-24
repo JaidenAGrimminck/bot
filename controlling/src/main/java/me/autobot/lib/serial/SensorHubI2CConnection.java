@@ -16,6 +16,12 @@ public class SensorHubI2CConnection extends I2CConnection {
     public static final int DEFAULT_BUS = 1;
 
     /**
+     * How often to request data from the Arduino.
+     * This is in milliseconds.
+     * */
+    public static final int REQUEST_TIMING = 20;
+
+    /**
      * The value of "HIGH" in the Arduino.
      * */
     public static final byte[] HIGH = new byte[] {(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF };
@@ -94,6 +100,10 @@ public class SensorHubI2CConnection extends I2CConnection {
                     while (true) {
                         byte[] data = read(16);
                         if (data != null) {
+                            for (int i = 0; i < data.length; i++) {
+                                System.out.print(data[i] + " ");
+                            }
+                            System.out.println();
                             if (data[0] == (byte) 0xA1 || data[0] == (byte) 0xA3) {
                                 byte rpin = data[1];
 
@@ -119,7 +129,7 @@ public class SensorHubI2CConnection extends I2CConnection {
                         }
 
                         try {
-                            Thread.sleep(10);
+                            Thread.sleep(REQUEST_TIMING);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
