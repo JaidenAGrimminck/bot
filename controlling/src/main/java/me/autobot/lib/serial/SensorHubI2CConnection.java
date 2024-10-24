@@ -100,10 +100,6 @@ public class SensorHubI2CConnection extends I2CConnection {
                     while (true) {
                         byte[] data = read(16);
                         if (data != null) {
-                            for (int i = 0; i < data.length; i++) {
-                                System.out.print(data[i] + " ");
-                            }
-                            System.out.println();
                             if (data[0] == (byte) 0xA1 || data[0] == (byte) 0xA3) {
                                 byte rpin = data[1];
 

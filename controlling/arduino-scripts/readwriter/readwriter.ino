@@ -608,15 +608,11 @@ void requestEvent() {
     loop();
 
     for (int i = 0; i < 16; i++) {
-        Serial.print(outputBuffer[i]);
-        Serial.print(" ");
         Wire.write(outputBuffer[i]);
     }
 
     //shift the output buffer back 16 bytes
     shiftOutputBuffer(16);
-
-    Serial.println(",");
 }
 
 
