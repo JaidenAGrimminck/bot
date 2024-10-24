@@ -6,6 +6,7 @@ import com.pi4j.io.i2c.I2C;
 import com.pi4j.io.i2c.I2CConfig;
 import com.pi4j.io.i2c.I2CProvider;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 /**
@@ -81,17 +82,9 @@ public class I2CConnection {
      * @return The data read from the I2C device.
      * */
     public byte[] read(int length) {
-        byte[] data = new byte[length];
+        ByteBuffer buff = device.readByteBuffer(length);
 
-        for (int i = 0; i < length; i++) {
-            try {
-                data[i] = device.readByte();
-            } catch (Exception e) {
-                data[i] = 0x00;
-            }
-        }
-
-        return data;
+        return buff.array();
     }
 
     /**
