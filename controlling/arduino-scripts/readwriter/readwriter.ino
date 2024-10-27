@@ -21,6 +21,11 @@ This is the number of ping devices there are. This is NOT independent of the abo
 #define PING_DEVICES 1
 
 /**
+This defines if we're using I2C or via Serial for our messages.
+*/
+#define USE_I2C false
+
+/**
 NOTICE: In order to use this device, before uploading you MUST set the following variable, 
 otherwise the code will NOT work. Do not set it less than 0x08, it won't be able to form a connection. Any number from 0x08 to 0xFF is fine.
 
@@ -123,6 +128,7 @@ int currentlySubscribed = 0;
 //response buffer for the 
 byte outputBuffer[OUTPUT_BUFFER];
 int currentBufferByte = 0;
+bool allowWriteToBuffer = false;
 
 //variables for the setup error if it occurs.
 bool errorSetup = false;
@@ -144,7 +150,7 @@ void setup() {
     //Begin serial at baud 9600
     Serial.begin(9600);
 
-    print("Begun serial.");
+    log("Begun serial.");
     
     //read the set i2c address for the device
     byte address = read(0);
@@ -164,14 +170,14 @@ void setup() {
             }
 
             //once done, save that i2c address.
-            print("Writing to EEPROM to update the I2C address for the first time.");
+            log("Writing to EEPROM to update the I2C address for the first time.");
             write(0, I2C_ADDRESS);
         }
     } else if (address != I2C_ADDRESS) {
         warn("I2C address in code does not match saved address in EEPROM.");
 
         if (PRIORITIZE_EEPROM_I2C) {
-            print("Updating I2C address in code to one saved in EEPROM");
+            log("Updating I2C address in code to one saved in EEPROM");
             //if the address in eeprom is = 0x01, that's a major issue.
             //to fix, just need to reload the code as described below to remove the 0x01 from the EEPROM and update it.
             if (address < 0x08) {
@@ -182,7 +188,7 @@ void setup() {
             //set the global i2c address to the address read.
             I2C_ADDRESS = address;
         } else {
-            print("Updating I2C address in EEPROM to new address...");
+            log("Updating I2C address in EEPROM to new address...");
 
             //if the i2c address in code is less than 0x08, ignore it.
             if (I2C_ADDRESS < 0x08) {
@@ -199,18 +205,22 @@ void setup() {
     }
     
     //connect to i2c
-    print("Connecting to I2C...");
+    log("Connecting to I2C...");
     Wire.begin(address);
 
     //register events
     Wire.onReceive(recieveEvent);
     Wire.onRequest(requestEvent);
 
-    print("Initializing devices...");
+    log("Initializing devices...");
     init_devices();
 
     //done.
-    print("Successfully started I2C and initialized devices, now on the lookout for new messages.");
+    log("Successfully started I2C and initialized devices, now on the lookout for new messages.");
+
+    if (!USE_I2C) {
+        Serial.println("01010");
+    }
 }
 
 /**
@@ -273,26 +283,26 @@ void init_devices() {
             byte pin = read(on_byte + 2);
             byte inoutR = read(on_byte + 3);
 
-            Serial.print("[LOG] Registering a PIN device at pin ");
-            Serial.print((int) pin);
-            Serial.print(" with type ");
+            logp("Registering a PIN device at pin ");
+            print((int) pin);
+            print(" with type ");
             bool in = inoutR == 0x00;
 
             deviceReference[deviceReferenceIndex++] = pin;
 
             if (!in) {
-                Serial.print("OUT");
+                print("OUT");
 
                 deviceReference[deviceReferenceIndex++] = 0x01;
             } else {
-                Serial.print("IN");
+                print("IN");
 
                 deviceReference[deviceReferenceIndex++] = 0x02;
             }
 
             pinMode(pin, inoutR); //INPUT = 0x00 and OUTPUT = 0x01, so we can just pass it in since that's what we have already
 
-            Serial.println("!");
+            println("!");
         } else if (deviceType == 0x02) {
             byte pin = read(on_byte + 2);
 
@@ -302,8 +312,8 @@ void init_devices() {
             servos[servoReferenceIndex].attach(pin);
             servoReference[servoReferenceIndex++] = pin;
             
-            Serial.print("[LOG] Added servo to port ");
-            Serial.println((int) pin);
+            logp("Added servo to port ");
+            println((int) pin);
         } else if (deviceType == 0x03) {
             byte echo = read(on_byte + 2);
             byte trig = read(on_byte + 3);
@@ -321,8 +331,8 @@ void init_devices() {
             pinMode(trig, OUTPUT);
             pinMode(echo, INPUT);
 
-            Serial.print("[LOG] Added 4 pin ultrasonic sensor to port ");
-            Serial.println((int) echo);
+            print("[LOG] Added 4 pin ultrasonic sensor to port ");
+            println((int) echo);
         }
 
         on_byte += next_n_bytes + 1;
@@ -400,16 +410,22 @@ void loop() {
             reverseArray(n, 4);
 
             //copy then to buffer chunk
-            for (int i = 0; i < 4; i++) {
-                rbuff[i + 2] = n[i];
+            for (int j = 0; j < 4; j++) {
+                rbuff[j + 2] = n[j];
             }
         }
         
         //then copy buffer chunk over to the output buffer
         //keep track of how much was added (3 info bytes, 4 bytes for an int)
-        for (int i = 0; i < 7; i++) {
-            outputBuffer[currentBufferByte++] = rbuff[i];
+        if (allowWriteToBuffer) {
+            for (int j = 0; j < 7; j++) {
+                outputBuffer[currentBufferByte++] = rbuff[j];
+            }
         }
+    }
+
+    if (allowWriteToBuffer) {
+        allowWriteToBuffer = false;
     }
 }
 
@@ -494,7 +510,7 @@ bool processEvent() {
         if (lessThan(2)) return false;
 
         if (currentMessage[1] == 0x00) {
-            print("Pinged!");
+            log("Pinged!");
         } else {
             incorrectArgs();
         }
@@ -524,27 +540,27 @@ bool processEvent() {
             if (dtype == 0x01) {
                 if (currentMessage[2] == 0xFF) {
                     digitalWrite(pin, HIGH);
-                    print("Writing HIGH to a device!");
+                    log("Writing HIGH to a device!");
                 } else {
                     digitalWrite(pin, LOW);
-                    print("Writing LOW to a device!");
+                    log("Writing LOW to a device!");
                 }
             } else if (dtype == 0x03) {
                 for (int i = 0; i < NUM_SERVOS; i++) {
                     if (servoReference[i] == pin) {
                         servos[i].write((int) d);
 
-                        Serial.print("[LOG] Writing ");
-                        Serial.print(d);
-                        Serial.print(" to servo on port ");
-                        Serial.println((int) pin);
+                        logp("Writing ");
+                        print(d);
+                        print(" to servo on port ");
+                        println((int) pin);
                     }
                 }
             }
         } else {
             errp("Requested device ");
-            Serial.print((int) pin);
-            Serial.println(" does not exist.");
+            print((int) pin);
+            println(" does not exist.");
         }
 
         return true;
@@ -563,9 +579,9 @@ bool processEvent() {
         subscribedTo[currentlySubscribed++] = pin;
         subscribedTo[currentlySubscribed++] = signature;
         
-        Serial.print("[LOG] Subscribed sensor at pin ");
-        Serial.print(pin);
-        Serial.println("!");
+        print("[LOG] Subscribed sensor at pin ");
+        print(pin);
+        println("!");
     }
 
     return true;
@@ -613,6 +629,10 @@ void requestEvent() {
 
     //shift the output buffer back 16 bytes
     shiftOutputBuffer(16);
+
+    if (currentBufferByte == 0) {
+        allowWriteToBuffer = true;
+    }
 }
 
 
@@ -707,7 +727,7 @@ Prints an error to the serial.
 **/
 void err(String err) {
     String totMsg = "[ERROR] " + err;
-    Serial.println(totMsg);
+    println(totMsg);
 }
 
 /**
@@ -715,7 +735,7 @@ Prints a partial error to the serial.
 **/
 void errp(String err) {
     String totMsg = "[ERROR] " + err;
-    Serial.print(totMsg);
+    print(totMsg);
 }
 
 /**
@@ -723,16 +743,45 @@ Prints a warning to the serial.
 **/
 void warn(String warn) {
     String totMsg = "[WARNING] " + warn;
-    Serial.println(totMsg);
+    println(totMsg);
 }
 
 /**
-Prints a message to the serial.
+Logs a message to the serial.
 **/
-void print(String msg) {
+void log(String msg) {
     String totMsg = "[LOG] " + msg;
-    Serial.println(totMsg);
+    println(totMsg);
 }
+
+/**
+Logs a partial message to the serial.
+**/
+void logp(String msg) {
+    String totMsg = "[LOG]" + msg;
+    print(totMsg);
+}
+
+void print(String msg) {
+    if (!USE_I2C) return;
+    Serial.print(msg);
+}
+
+void print(int n) {
+    if (!USE_I2C) return;
+    Serial.print(n);
+}
+
+void println(String msg) {
+    if (!USE_I2C) return;
+    Serial.println(msg);
+}
+
+void println(int n) {
+    if (!USE_I2C) return;
+    Serial.println(n);
+}
+
 
 /** Helper Methods **/
 

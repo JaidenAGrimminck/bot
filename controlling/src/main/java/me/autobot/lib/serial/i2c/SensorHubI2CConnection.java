@@ -1,4 +1,4 @@
-package me.autobot.lib.serial;
+package me.autobot.lib.serial.i2c;
 
 import me.autobot.lib.math.Mathf;
 import me.autobot.lib.robot.Sensor;

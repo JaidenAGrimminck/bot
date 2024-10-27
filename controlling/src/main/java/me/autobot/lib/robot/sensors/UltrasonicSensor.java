@@ -5,7 +5,7 @@ import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.robot.Sensor;
-import me.autobot.lib.serial.SensorHubI2CConnection;
+import me.autobot.lib.serial.i2c.SensorHubI2CConnection;
 import me.autobot.sim.Simulation;
 
 import java.util.ArrayList;

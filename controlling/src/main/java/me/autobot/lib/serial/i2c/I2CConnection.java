@@ -1,4 +1,4 @@
-package me.autobot.lib.serial;
+package me.autobot.lib.serial.i2c;
 
 import com.pi4j.Pi4J;
 import com.pi4j.context.Context;

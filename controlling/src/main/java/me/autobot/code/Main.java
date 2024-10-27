@@ -1,12 +1,6 @@
 package me.autobot.code;
 
-import me.autobot.lib.math.Mathf;
-import me.autobot.lib.serial.SensorHubI2CConnection;
-import me.autobot.sim.AStarTest;
 import me.autobot.sim.Simulation;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * The main entry point to the program.
