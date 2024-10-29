@@ -6,6 +6,7 @@ import gui
 import utils
 import numpy as np
 import time
+import run
 from neural_network import NeuralNetwork
 
 starting_pos = (80,938)
@@ -22,8 +23,7 @@ actions = [
 ]
 
 ROTATION_SPEED = 1# pi / 15
-SPEED = 5
-
+SPEED = 2
 
 class Robot:
     def __init__(self, x, y, r, model=None):
@@ -31,7 +31,8 @@ class Robot:
         if model is not None:
             self.agent.load(model)
             print("loaded model " + model)
-        self.agent.randomize()
+        else:
+            self.agent.randomize()
 
         self.position = (x, y)
 
@@ -183,11 +184,12 @@ class Robot:
 
             random_num = floor(np.random.rand() * 1000)
 
-            # save model
-            self.agent.save("model" + str(random_num) + ".npy")
-
             print("I made it!!!")
-            print("saved my model as " + "model" + str(random_num) + ".npy")
+
+            # save model
+            if run.do_evolution:
+                self.agent.save("model" + str(random_num) + ".npy")
+                print("saved my model as " + "model" + str(random_num) + ".npy")
 
     def getScore(self):
         if (self.finished):

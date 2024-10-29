@@ -51,6 +51,26 @@ Then to run, run `./gradlew run`.
 
 https://github.com/user-attachments/assets/2ca01d5b-e024-48c7-ad41-b3f7e0f1c308
 
+*example video of a trained bot navigating a course with 3 distance sensors*
+
+### Prerequisites (for the training)
+
+Need `python3.12` to run this program, alongside the `numpy` and `pygame` libraries.
+
+### To use
+
+If you haven't already, clone the repo via
+```bash
+git clone https://github.com/JaidenAGrimminck/bot.git
+```
+
+In the `training/local-train` folder for the repo, run `python3 -m pip install requirements.txt`
+
+To run, run via `python3 run.py`.
+
+### Training
+
+The default behavior of this is to run the presaved models in the folder. If you want to train a new model, set `do_evolution` to `True`. Set the `total_num_robots` to how many robots you want per generation.
 
 ## Site
 

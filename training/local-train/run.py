@@ -13,6 +13,7 @@ step = 1
 MAX_STEPS = 500
 
 do_evolution = False
+total_num_robots = 50
 
 def draw(pygame, canvas):
     
@@ -99,12 +100,13 @@ def draw_robots(pygame=None, canvas=None):
 if __name__ == "__main__":
     print("Running")
 
-    # 80, 938
-    for i in range(0):
-        my_robots.append(robot.Robot(80, 938, -math.pi + 0.00001))
-        my_robots[i].reset()
-
-    my_robots.append(robot.Robot(80, 938, -math.pi + 0.00001, "model419.npy"))
+    if do_evolution:
+        # 80, 938
+        for i in range(total_num_robots):
+            my_robots.append(robot.Robot(80, 938, -math.pi + 0.00001))
+            my_robots[i].reset()
+    else:
+        my_robots.append(robot.Robot(80, 938, -math.pi + 0.00001, "model483.npy"))
 
     environment.setup()
     
