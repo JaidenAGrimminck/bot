@@ -49,7 +49,7 @@ Then to run, run `./gradlew run`.
 
 ## Training
 
-https://github.com/JaidenAGrimminck/bot/raw/refs/heads/main/readme/site/videos/training.mp4
+[![training video](https://github.com/JaidenAGrimminck/bot/raw/refs/heads/main/readme/site/videos/training.mp4)][https://github.com/JaidenAGrimminck/bot/raw/refs/heads/main/readme/site/videos/training.mp4]
 
 ## Site
 
