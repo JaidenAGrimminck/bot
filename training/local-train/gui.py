@@ -1,8 +1,6 @@
 import pygame
 import threading
 
-pygame.init()
-
 canvas = None
 
 listeners = []
@@ -19,10 +17,14 @@ keys = {
 WIDTH = 600
 HEIGHT = 600
 
-font = pygame.font.Font('freesansbold.ttf', 32)
+font = None
 
 def setup():
     global canvas
+
+    pygame.init()
+
+    font = pygame.font.Font('freesansbold.ttf', 18)
     
     canvas = pygame.display.set_mode((WIDTH, HEIGHT))
 
@@ -33,7 +35,7 @@ def setup():
     clock = pygame.time.Clock()
 
     while not done:
-        clock.tick(60)
+        #clock.tick(60)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -91,4 +93,5 @@ def set_interval(func, sec):
     return t
 
 if __name__ == "__main__":
-    setup()
+    #setup()
+    pass

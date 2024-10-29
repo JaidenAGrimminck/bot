@@ -12,6 +12,12 @@ class Projection:
 def hypot(x,y):
     return sqrt(x * x + y * y)
 
+def distance(p1, p2):
+    return hypot(p1[0] - p2[0], p1[1] - p2[1])
+
+def clamp(val, min_, max_):
+    return max(min(val, max_), min_)
+
 def projectPolygon(polygon, axis):
     min_ = inf
     max_ = -inf

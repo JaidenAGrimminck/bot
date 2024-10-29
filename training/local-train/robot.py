@@ -1,14 +1,19 @@
-from math import cos, sin, pi
+from math import cos, sin, pi, floor
 from environment import scale, view_position
 import environment
 import sensor
 import gui
 import utils
 import numpy as np
-import agent
+import time
+from neural_network import NeuralNetwork
 
-starting_pos = (938,80)
+starting_pos = (80,938)
 starting_rot = pi
+
+starting_checkpoint = -1
+
+times = []
 
 actions = [
     "LEFT",
@@ -16,12 +21,17 @@ actions = [
     "RIGHT"
 ]
 
-ROTATION_SPEED = pi / 100
+ROTATION_SPEED = 1# pi / 15
 SPEED = 5
 
+
 class Robot:
-    def __init__(self, x, y, r):
-        self.agent = agent.Agent(3, 3)
+    def __init__(self, x, y, r, model=None):
+        self.agent = NeuralNetwork([3, 4, 3, 2])
+        if model is not None:
+            self.agent.load(model)
+            print("loaded model " + model)
+        self.agent.randomize()
 
         self.position = (x, y)
 
@@ -51,6 +61,8 @@ class Robot:
 
         self.sensor_values = []
         self.inCollision = False
+        self.hasCrashed = False
+        self.finished = False
 
         for i in range(len(self.sensors)):
             self.sensor_values.append(0)
@@ -103,15 +115,27 @@ class Robot:
             
     def update_sensors(self):
         self.inCollision = self.colliding()
+        
+        self.hasCrashed = self.inCollision
         for i in range(len(self.sensors)):
             self.sensor_values[i] = self.sensors[i].getDistance()
 
     def step(self):
-        # update sensors
-        self.update_sensors()
+        a= time.time()
 
         if self.inCollision:
             return
+
+        # update sensors
+        self.update_sensors()
+        b = time.time()
+
+        times.append(b - a)
+
+        if self.inCollision:
+            return
+
+        self.checkAndUpdateScore()
 
         # normalize sensors
         normal_sensors = []
@@ -121,29 +145,82 @@ class Robot:
             )
 
         # use model to predict action
-        values = self.agent.predict(normal_sensors)
+        values = self.agent.predict(np.array(normal_sensors).reshape(1, -1))[0]
+
+        # print(values)
+        # # do probabilistic check of the action
+        # action = np.random.choice(actions, p=values[0])
         
-        # do probabilistic check of the action
-        action = np.random.choice(actions, p=values[0])
-        
-        # perform action
-        if action == "LEFT":
-            self.rotation -= ROTATION_SPEED
-        elif action == "RIGHT":
-            self.rotation += ROTATION_SPEED
+        # # perform action
+        # if action == "LEFT":
+        #     self.rotation -= ROTATION_SPEED
+        # elif action == "RIGHT":
+        #     self.rotation += ROTATION_SPEED
+
+        speed = values[1] * SPEED
+        self.rotation += (values[0] - 0.5) * ROTATION_SPEED
 
         # move forward
-        newPosX, newPosY = rotatePoint(0, SPEED, self.rotation)
+        newPosX, newPosY = rotatePoint(0, speed, self.rotation)
         newPosX += self.position[0]
         newPosY += self.position[1]
         
         # update position
         self.position = (newPosX, newPosY)
 
+    def checkAndUpdateScore(self):
+        nextCheckpoint = environment.rewards[self.checkpoint]
+
+        if utils.distance(self.position, nextCheckpoint) < environment.reward_thresh:
+            self.points += 100
+            self.checkpoint += 1
+            print("i reached a checkpoint! " + str(self.checkpoint))
+        
+        if self.checkpoint == len(environment.rewards):
+            self.points += 10000000
+            self.inCollision = True
+            self.finished = True
+
+            random_num = floor(np.random.rand() * 1000)
+
+            # save model
+            self.agent.save("model" + str(random_num) + ".npy")
+
+            print("I made it!!!")
+            print("saved my model as " + "model" + str(random_num) + ".npy")
+
+    def getScore(self):
+        if (self.finished):
+            return 10000000
+        
+        p1 = None
+        if self.checkpoint == 0:
+            p1 = starting_pos
+        else:
+            p1 = environment.rewards[self.checkpoint - 1]
+        
+        p2 = environment.rewards[self.checkpoint]
+
+        maxDist = utils.distance(p1, p2)
+        currentDist = utils.distance(self.position, p2) - (environment.reward_thresh / 2)
+
+        discount = 0
+
+        if self.hasCrashed:
+            discount = 20
+
+        return ((self.checkpoint - utils.clamp(starting_checkpoint, 0, 10000) + (1 - (currentDist / maxDist))) * 100) - discount
 
     def reset(self):
-        self.position = starting_pos
-        self.rotation = starting_rot + 0.000001
+        p = starting_pos
+        if starting_checkpoint > -1:
+            p = environment.rewards[starting_checkpoint]
+
+        self.position = (int(p[0]), int(p[1]))
+        self.rotation = float(starting_rot) + 0.000001
+        self.inCollision = False
+        self.finished = False
+        self.checkpoint = int(starting_checkpoint)
 
     def draw(self, pygame, canvas):
         speed = 5

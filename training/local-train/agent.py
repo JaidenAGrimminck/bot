@@ -93,6 +93,9 @@ class Agent:
         self.inputs[address] = n
         pass
 
+    def saveModel(self, path):
+        self.model.save(path)
+
 """
 Creates a new model
 """
@@ -104,5 +107,3 @@ def create_model(input_size=3, output_size=3):
         tf.keras.layers.Dense(output_size, activation='softmax')  # Softmax for probability distribution
     ])
     return model
-
-create_model()

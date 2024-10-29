@@ -140,7 +140,12 @@ rewards = [
     (974, 878)
 ]
 
-reward_thresh = 70
+starting_rots = [
+    180,
+    90
+]
+
+reward_thresh = 100
 
 view_position = (0,0)
 scale = 0.5
