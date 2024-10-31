@@ -1,6 +1,7 @@
 #include <EEPROM.h>
 #include <Wire.h>
 #include <Servo.h>
+#include <PWM.h>
 
 //some advanced constants.
 #define MAX_MESSAGE_SIZE 25
@@ -18,7 +19,17 @@ This is the number of servos connected to the Arduino. This is NOT independent o
 /**
 This is the number of ping devices there are. This is NOT independent of the above variable.
 **/
-#define PING_DEVICES 1
+#define PING_DEVICES 0
+
+/**
+This is whether to use 
+*/
+#define USE_FREQUENCY_PWM false
+
+/**
+Frequency used for the PWM (if enabled above)
+*/
+#define FREQUENCY 20000 //20kHz
 
 /**
 This defines if we're using I2C or via Serial for our messages.
@@ -67,8 +78,9 @@ where the # is the index in the chunk of bytes representing the device.
  - device types:
  - (0x00 ignore)
  - 0x01 -> PIN DEVICE
- - 0x02 -> PWM DEVICE
+ - 0x02 -> PWM (SERVO) DEVICE
  - 0x03 -> PING (ULTRASONIC) DEVICE
+ - 0x04 -> PWM (pwmWrite) DEVICE
 2, ..., n: Specific flags and info for device, see below:
 
 -- PIN DEVICE: --
@@ -77,12 +89,15 @@ where the # is the index in the chunk of bytes representing the device.
  - 0x01 for out
  - 0x00 for in
 
--- PWM DEVICE: --
+-- PWM (SERVO) DEVICE: --
 2: Pin number
 
 -- PING (ULTRASONIC) DEVICE: --
 2: Pin number for echo (this is also used as reference by I2C)
 3: Pin number for trigger
+
+-- PWM (pwmWrite) DEVICE --
+2: Pin number
 
 If this is used for testing and likely will need to be constantly changed, enable the following boolean: */
 
@@ -103,7 +118,7 @@ byte EEPROM_SIM[] = {
     NUM_DEVICES, // # of devices
     0, 0, 0, 0, 0, 0,
     //devices
-    0x03, 0x03, 0x06, 0x07, //ultrasonic sensor connected to pin 6 and 7.
+    0x02, 0x04, 0x0A,
 };
 
 /**
@@ -114,7 +129,7 @@ If you want to look at the I2C formatting for sending/recieving, look at [---- I
 
 //variables for the subscription system
 //if the following subscription variable is too little, you can increase it 
-#define MAX_SUBSCRIPTIONS 10
+#define MAX_SUBSCRIPTIONS 1
 //TODO: move this into the eeprom
 
 //ordered list of subscriptions, L=2n. n=pin, n+1=subscribed device address
@@ -147,6 +162,10 @@ void setupError(String msg) {
 }
 
 void setup() {
+    if (USE_FREQUENCY_PWM) {
+        InitTimersSafe();
+    }
+
     //Begin serial at baud 9600
     Serial.begin(9600);
 
@@ -232,8 +251,9 @@ Every two bytes is a reference to the number of devices.
 - (0x00: DOES NOT EXIST) [used for reference]
 - 0x01: PIN OUT
 - 0x02: PIN IN
-- 0x03: PWM OUT
+- 0x03: PWM (servo) OUT
 - 0x04: PING
+- 0x05: PWM (for pwmWrite) OUT
 **/
 byte deviceReference[NUM_DEVICES * 2];
 int deviceReferenceIndex = 0;
@@ -331,8 +351,28 @@ void init_devices() {
             pinMode(trig, OUTPUT);
             pinMode(echo, INPUT);
 
-            print("[LOG] Added 4 pin ultrasonic sensor to port ");
+            logp("Added 4 pin ultrasonic sensor to port ");
             println((int) echo);
+        } else if (deviceType == 0x04) {
+            byte motor = read(on_byte + 2);
+
+            bool success = SetPinFrequencySafe(motor, FREQUENCY);
+
+            if (success) {
+                logp("Successfully added motor to port ");
+                println((int) motor);
+            } else {
+                errp("Issue setting frequency on pin ");
+                println((int) motor);
+
+                errorSetup = true;
+                errorMsg = "Issue setting pin frequency safe.";
+
+                return;
+            }
+
+            deviceReference[deviceReferenceIndex++] = motor;
+            deviceReference[deviceReferenceIndex++] = 0x05;
         }
 
         on_byte += next_n_bytes + 1;
@@ -556,6 +596,15 @@ bool processEvent() {
                         println((int) pin);
                     }
                 }
+            } else if (dtype == 0x05) {
+                int speed = (int) d;
+
+                pwmWrite(pin, speed);
+
+                logp("Writing ");
+                print(d);
+                print(" to PWM on port ");
+                println((int) pin);
             }
         } else {
             errp("Requested device ");

@@ -415,7 +415,7 @@ public class WSClient extends NanoWSD.WebSocket {
         int sensorAddress = payload[1];
         int subscribe = payload[2];
 
-        Sensor sensor = Sensor.getSensor(robotAddr, sensorAddress);
+        Sensor sensor = Sensor.getSensor(sensorAddress, robotAddr);
 
         if (sensor == null) {
             notifyError(Error.SensorNotFound);
@@ -447,7 +447,7 @@ public class WSClient extends NanoWSD.WebSocket {
         int address = payload[1];
         int processed = payload[2];
 
-        Sensor sensor = Sensor.getSensor(robotAddr, address);
+        Sensor sensor = Sensor.getSensor(address, robotAddr);
 
         if (sensor == null) {
             notifyError(Error.SensorNotFound);

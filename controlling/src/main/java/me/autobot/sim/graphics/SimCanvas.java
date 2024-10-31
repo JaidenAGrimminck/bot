@@ -21,6 +21,7 @@ import me.autobot.sim.graphics.elements.CanvasElement;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 
@@ -92,7 +93,7 @@ public class SimCanvas extends JPanel {
     /**
      * Number of AI robots.
      * */
-    final static public int numberOfAIRobots = 10;
+    final static public int numberOfAIRobots = 1;
 
     /**
      * The evolution tracker of the simulation.
@@ -167,6 +168,36 @@ public class SimCanvas extends JPanel {
             }
         });
 
+        WSClient.registerCallable(0xB6, new RunnableWithArgs() {
+            @Override
+            public void run(Object... args) {
+                int[] data = (int[]) args[0];
+
+                double firstDouble = 0;
+                double secondDouble = 0;
+
+                // convert the first 8 bytes of the data to a double
+                ByteBuffer buffer = ByteBuffer.allocate(8);
+                for (int i = 0; i < 8; i++) {
+                    buffer.put((byte) data[i]);
+                }
+                buffer.flip();
+                firstDouble = buffer.getDouble();
+
+                // convert the second 8 bytes of the data to a double
+                buffer = ByteBuffer.allocate(8);
+                for (int i = 8; i < 16; i++) {
+                    buffer.put((byte) data[i]);
+                }
+                buffer.flip();
+                secondDouble = buffer.getDouble();
+
+                int robotID = 0x00;
+                evoTracker.setSpeed(robotID, secondDouble);
+                evoTracker.setRotation(robotID, Rotation2d.fromRadians(firstDouble));
+            }
+        });
+
         ActionListener mousepress = e -> {
             elements.forEach(element -> {
                 if (element instanceof CanvasButton) {
@@ -236,7 +267,7 @@ public class SimCanvas extends JPanel {
         frame.addKeyListener(keyListener);
 
         try {
-            Simulation.getInstance().environment.obstacles = MapLoader.mapToObjects(MapLoader.loadMap("/Users/jgrimminck/Documents/coding projects/bot/controlling/src/maps/map.txt"), 20);
+            Simulation.getInstance().environment.obstacles = MapLoader.mapToObjects(MapLoader.loadMap("/Users/jgrimminck/Documents/coding projects/bot-project/bot/controlling/src/maps/classic_map.txt"), 20);
 
             Simulation.getInstance().environment.obstacles.add(
                     new Box2d(

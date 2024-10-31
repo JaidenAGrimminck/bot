@@ -336,6 +336,10 @@ public class Robot implements Logger {
      * */
     protected void registerAllDevices() {
         getDevices().forEach(device -> {
+            if (device == null) {
+                System.out.println("[WARNING] Device is null, skipping registration!");
+                return;
+            }
             device.setParent(this);
         });
     }

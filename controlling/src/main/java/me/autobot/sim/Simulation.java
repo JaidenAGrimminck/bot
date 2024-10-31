@@ -24,6 +24,13 @@ public class Simulation {
     public Environment environment;
 
     /**
+     * The main entry point to the simulation program.
+     * */
+    public static void main(String[] args) {
+        start();
+    }
+
+    /**
      * Starts the simulation.
      * */
     public static void start() {

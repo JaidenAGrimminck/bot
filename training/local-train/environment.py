@@ -126,18 +126,19 @@ class Box2d:
 
 env = []
 rewards = [
-    (92, 616),
-    (116, 212),
-    (316, 86),
-    (482, 218),
-    (460, 556),
-    (434, 824),
-    (576, 710),
-    (644, 228),
-    (838, 114),
-    (936, 308),
-    (872, 624),
-    (974, 878)
+    # (92, 616),
+    # (116, 212),
+    # (316, 86),
+    # (482, 218),
+    # (460, 556),
+    # (434, 824),
+    # (576, 710),
+    # (644, 228),
+    # (838, 114),
+    # (936, 308),
+    # (872, 624),
+    # (974, 878),
+    (0,0)
 ]
 
 starting_rots = [
@@ -178,7 +179,7 @@ def loadObstacles(path, boxSize):
 def setup():
     global env, MAP_WIDTH, MAP_HEIGHT
 
-    env, MAP_WIDTH, MAP_HEIGHT = loadObstacles("map.txt", 10)
+    env, MAP_WIDTH, MAP_HEIGHT = loadObstacles("map3.txt", 10)
 
     env.append(
         Box2d(-10,-10,10,MAP_HEIGHT + 10)

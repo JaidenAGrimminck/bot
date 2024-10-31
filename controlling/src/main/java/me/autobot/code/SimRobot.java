@@ -33,16 +33,9 @@ public class SimRobot extends Robot {
     private Motor bottomRightMotor;
 
     private UltrasonicSensor frontSensor;
-    private UltrasonicSensor backSensor;
-
-    private UltrasonicSensor leftSensor;
-    private UltrasonicSensor rightSensor;
 
     private UltrasonicSensor topLeftSensor;
     private UltrasonicSensor topRightSensor;
-    private UltrasonicSensor bottomLeftSensor;
-    private UltrasonicSensor bottomRightSensor;
-
     private CollisionSensor collisionSensor;
 
     /**
@@ -59,7 +52,7 @@ public class SimRobot extends Robot {
                         .reset()
         );
 
-        topLeftMotor = new Motor(0x1);
+        topLeftMotor = new Motor(0x01);
         topRightMotor = new Motor(0x01);
         bottomLeftMotor = new Motor(0x01);
         bottomRightMotor = new Motor(0x01);
@@ -69,27 +62,16 @@ public class SimRobot extends Robot {
 
         frontSensor = new UltrasonicSensor(0x01, 0x01);
         frontSensor.attachRelativePosition(new Vector3d(0d, 30d, 0d), Rotation3d.fromDegrees(90, 90));
-        backSensor = new UltrasonicSensor(0x02, 0x01);
-        backSensor.attachRelativePosition(new Vector3d(0d, -30d, 0d), Rotation3d.fromDegrees(270, 90));
-        leftSensor = new UltrasonicSensor(0x03, 0x01);
-        leftSensor.attachRelativePosition(new Vector3d(-20d, 0d, 0d), Rotation3d.fromDegrees(180, 90));
-        rightSensor = new UltrasonicSensor(0x04, 0x01);
-        rightSensor.attachRelativePosition(new Vector3d(20d, 0d, 0d), Rotation3d.fromDegrees(0, 90));
 
-        topLeftSensor = new UltrasonicSensor(0x05, 0x01);
+        topLeftSensor = new UltrasonicSensor(0x03, 0x01);
         topLeftSensor.attachRelativePosition(new Vector3d(-20d, 30d, 0d), Rotation3d.fromDegrees(135, 90));
-        topRightSensor = new UltrasonicSensor(0x06, 0x01);
+        topRightSensor = new UltrasonicSensor(0x02, 0x01);
         topRightSensor.attachRelativePosition(new Vector3d(20d, 30d, 0d), Rotation3d.fromDegrees(45, 90));
-        bottomLeftSensor = new UltrasonicSensor(0x07, 0x01);
-        bottomLeftSensor.attachRelativePosition(new Vector3d(-20d, -30d, 0d), Rotation3d.fromDegrees(225, 90));
-        bottomRightSensor = new UltrasonicSensor(0x08, 0x01);
-        bottomRightSensor.attachRelativePosition(new Vector3d(20d, -30d, 0d), Rotation3d.fromDegrees(315, 90));
 
         //used primarily for simulation purposes
         collisionSensor = new CollisionSensor(0xC7, 0x02);
 
-        //just incase simulation, we can do this to ensure that multiple robots can be created for ai etc
-        getDevices().forEach(device -> device.setParent(this));
+        this.registerAllDevices();
     }
 
     @Override
