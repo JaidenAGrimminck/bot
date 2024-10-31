@@ -24,7 +24,10 @@ git clone https://github.com/JaidenAGrimminck/bot.git
 
 # Media
 
-https://github.com/user-attachments/assets/37841cb5-004d-4f34-badf-83c4c523104a
+
+
+https://github.com/user-attachments/assets/e8538c88-3dbe-4262-9000-22e12cc6994f
+
 *an example of the simulator using cross-platform control (network in Python, simulator in Java). video sped up 4x*
 
 # Components
