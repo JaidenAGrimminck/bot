@@ -5,6 +5,7 @@ import com.pi4j.context.Context;
 import com.pi4j.io.i2c.I2C;
 import com.pi4j.io.i2c.I2CConfig;
 import com.pi4j.io.i2c.I2CProvider;
+import me.autobot.lib.serial.Connection;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Creates a connection to an I2C device.
  * */
-public class I2CConnection {
+public class I2CConnection extends Connection {
     /**
      * Verboseness level for I2C errors.
      * 0=none, 1=notify there's an error, 2=print stack trace

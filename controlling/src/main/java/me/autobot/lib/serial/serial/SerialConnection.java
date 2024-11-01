@@ -4,8 +4,9 @@ import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 import me.autobot.lib.math.Mathf;
+import me.autobot.lib.serial.Connection;
 
-public class SerialConnection {
+public class SerialConnection extends Connection {
     /**
      * Verbose level for serial errors.
      * 0=none, 1=notify there's an error, 2=print stack trace
@@ -28,8 +29,9 @@ public class SerialConnection {
         this.commPort = commPort;
 
         port = SerialPort.getCommPort(commPort);
+
         port.setComPortParameters(this.baudRate, Byte.SIZE, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
-        port.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 0, 0);
+        port.setComPortTimeouts(SerialPort.TIMEOUT_NONBLOCKING, 0, 0);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             port.closePort();
@@ -39,7 +41,11 @@ public class SerialConnection {
             throw new IllegalStateException("Could not open serial port.");
         }
 
-        port.addDataListener(new SerialListener());
+        Thread otherThread = new Thread(() -> {
+            port.addDataListener(new SerialListener());
+        });
+
+        otherThread.start();
     }
 
     /**
@@ -64,7 +70,6 @@ public class SerialConnection {
         public void serialEvent(SerialPortEvent event) {
             if (event.getEventType() == SerialPort.LISTENING_EVENT_DATA_RECEIVED) {
                 byte[] data = event.getReceivedData();
-
                 onSerialData(data);
             }
         }

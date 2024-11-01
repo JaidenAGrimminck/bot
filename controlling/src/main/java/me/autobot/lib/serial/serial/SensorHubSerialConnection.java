@@ -1,5 +1,7 @@
 package me.autobot.lib.serial.serial;
 
+import me.autobot.lib.math.Mathf;
+import me.autobot.lib.robot.Sensor;
 import me.autobot.lib.serial.i2c.SensorHubI2CConnection;
 
 import java.nio.ByteBuffer;
@@ -11,7 +13,7 @@ import java.util.HashMap;
 public class SensorHubSerialConnection extends SerialConnection {
 
     /** The address of this device, what the signature will be so I2C devices will know to reply to the pi! (I mean they will, but depending on expansion etc it'll be good to have for now...)*/
-    protected static final int THIS_DEVICE_ADDRESS = 0x01;
+    public static final int THIS_DEVICE_ADDRESS = 0x01;
 
     // A list of the connections that have been made, indexed by the device address
     private static HashMap<String, SensorHubSerialConnection> connections = new HashMap<>();
@@ -30,6 +32,8 @@ public class SensorHubSerialConnection extends SerialConnection {
             return connection;
         }
     }
+
+    private HashMap<int[], Sensor> subscribedSensors = new HashMap<>();
 
     /**
      * Creates a new serial connection with the given baud rate and comm port.
@@ -65,6 +69,105 @@ public class SensorHubSerialConnection extends SerialConnection {
      * */
     public void ping() {
         write(new byte[] {(byte) 0xFF, 0x00});
+    }
+
+    /**
+     * Sends a request to subscribe to a specific pin.
+     * @param pin The pin to subscribe to.
+     * */
+    public void subscribeToPin(int pin) {
+        write(new byte[] {(byte) 0xA3, (byte) pin, (byte) THIS_DEVICE_ADDRESS});
+    }
+
+    /**
+     * Subscribes the given sensor to the given sensor pins.
+     * @param sensor The sensor to subscribe.
+     * @param pins The pins to subscribe the sensor to.
+     * */
+    public void subscribeSensor(Sensor sensor, int... pins) {
+        subscribedSensors.put(Mathf.allPos(pins), sensor);
+        for (int pin : pins) {
+            subscribeToPin(pin);
+        }
+    }
+
+    private boolean adjForDistance = false;
+
+    public SensorHubSerialConnection adj() {
+        adjForDistance = true;
+        return this;
+    }
+
+
+    String recieved = "";
+
+    @Override
+    protected void onSerialData(byte[] data) {
+        if (!adjForDistance) return;
+
+        //temp fix, make more reliable later. seems like if an error is called, it doesn't report to main thread.
+
+        //convert the data to a string
+        String rawstr = new String(data);
+
+        recieved += rawstr;
+
+        String str = "";
+        if (recieved.contains(".")) {
+            str = recieved.substring(0, recieved.indexOf("."));
+            recieved = recieved.substring(recieved.indexOf(".") + 1);
+        } else return;
+
+
+        //split the string by the delimiter
+        String[] parts = str.split(" ");
+
+
+        if (parts.length % 2 != 0) {
+            return;
+        }
+
+        for (int i = 0; i < parts.length; i+=2) {
+            int pin = Integer.parseInt(parts[i]);
+            float value = Float.parseFloat(parts[i + 1]);
+
+            for (int[] pins : subscribedSensors.keySet()) {
+                int p_index = 0;
+                for (int p : pins) {
+                    if (p == pin) {
+                        subscribedSensors.get(pins).setSensorValue(p_index, value);
+                    }
+
+                    p_index++;
+                }
+            }
+        }
+
+
+//        // Override this method to handle serial data
+//        if (data[0] == (byte) 0xA1 || data[0] == (byte) 0xA3) {
+//            byte rpin = data[1];
+//
+//            float value = ByteBuffer.wrap(data, 2, Float.BYTES).getFloat();
+//            byte deviceSignature = data[2 + Float.BYTES]; //ignore this
+//
+//            int pin = Mathf.allPos(rpin);
+//
+//            for (int[] pins : subscribedSensors.keySet()) {
+//                int p_index = 0;
+//                for (int p : pins) {
+//                    if (p == pin) {
+//                        subscribedSensors.get(pins).setSensorValue(p_index, value);
+//                    }
+//
+//                    p_index++;
+//                }
+//            }
+//
+//            System.out.println("recieved update " + pin + ": " + value);
+//        }
+//
+//        System.out.println(data);
     }
 
     /**

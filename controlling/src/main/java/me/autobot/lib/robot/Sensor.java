@@ -138,6 +138,14 @@ public class Sensor extends Device {
     }
 
     /**
+     * Connects the sensor via Serial
+     * @param port The port to connect to.
+     */
+    public void connectToSerial(String port) {
+        // do nothing
+    }
+
+    /**
      * Starts the update timer for any sensor subscribers.
      * */
     private void startUpdateTimer() {

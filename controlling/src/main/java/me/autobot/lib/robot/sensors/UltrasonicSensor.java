@@ -6,6 +6,7 @@ import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.robot.Sensor;
 import me.autobot.lib.serial.i2c.SensorHubI2CConnection;
+import me.autobot.lib.serial.serial.SensorHubSerialConnection;
 import me.autobot.sim.Simulation;
 
 import java.util.ArrayList;
@@ -53,6 +54,25 @@ public class UltrasonicSensor extends Sensor {
         SensorHubI2CConnection.getOrCreateConnection(
                 SensorHubI2CConnection.generateId(getBus(), getAddress()), getBus(), getAddress()
         ).subscribeSensor(this, pin);
+    }
+
+    /**
+     * Connects the ultrasonic sensor to the serial port.
+     * @param port The port to connect to.
+     */
+    public void connectToSerial(int pin, String port) {
+        if (getParent() == null) {
+            throw new IllegalStateException("Cannot connect sensor to serial without a parent.");
+        }
+
+        if (inSimulation()) {
+            //ignore this if we are in simulation
+            return;
+        }
+
+        SensorHubSerialConnection.getOrCreateConnection(
+                9600, port
+        ).adj().subscribeSensor(this, pin);
     }
 
     /**

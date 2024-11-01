@@ -113,16 +113,17 @@ but to not waste EEPROM cycles, you may want to just update it in the EEPROM_SIM
 **/
 
 byte EEPROM_SIM[] = {
-    //general
+    // -- general --
     I2C_ADDRESS, // i2c address
     NUM_DEVICES, // # of devices
     0, 0, 0, 0, 0, 0,
-    //devices
+    // -- devices --
+    //The motor controllers data eeprom
     0x02, 0x04, 0x09, // top right/left motor
     0x02, 0x04, 0x0A, // back right/left motor
     0x03, 0x01, 0x08, 0x01, // top right/left direction
     0x03, 0x01, 0x0B, 0x01, // back right/left direction
-    0x03, 0x01, 0x0D, 0x01, // LED
+    0x03, 0x01, 0x0D, 0x01, // LED   
 };
 
 /**

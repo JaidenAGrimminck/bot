@@ -1,5 +1,5 @@
 
-#define N_PINGS 1
+#define N_PINGS 3
 
 struct Ping {
     int trigger;
@@ -17,6 +17,12 @@ void setup() {
     pingReference[0].echo = 6;
     pingReference[0].trigger = 7;
     
+    pingReference[1].echo = 8;
+    pingReference[1].trigger = 9;
+
+    pingReference[2].echo = 10;
+    pingReference[2].trigger = 11;
+    
 
     for (int i = 0; i < N_PINGS; i++) {
         Ping pd = pingReference[i];
@@ -26,10 +32,12 @@ void setup() {
     }
 
     Serial.begin(9600);
-    Serial.println("started!");
+    //Serial.println("started!");
 }
 
 void loop() {
+    String msg = "";
+
     // put your main code here, to run repeatedly:
     for (int i = 0; i < N_PINGS; i++) {
         Ping pd = pingReference[i];
@@ -53,37 +61,53 @@ void loop() {
         currentDistance[i] = distance;
 
         delayMicroseconds(5); //quick delay
-    }
-
-    byte l[N_PINGS * 5];
-
-    //loop above has slight delay, so we'll just do it at once.
-    for (int i = 0; i < N_PINGS * 5; i += 5) {
-        double d = 1.0 * currentDistance[i];
         
-        byte n[4];
-
-        //copy to pre-array
-        memcpy(n, &d, 4);
-
-        reverseArray(n, 4);
-
-        for (int j = 0; j < 4; j++) {
-            l[i + j] = n[j];
+        msg += pd.echo;
+        msg += " ";
+        msg += currentDistance[i];
+        if (i < N_PINGS - 1) {
+            msg += " ";
         }
-
-        l[i + 4] = 0x00;
     }
 
-    //convert over to char[]/string
-    char t[N_PINGS*5];
+    msg += ".";
 
-    for (int i = 0; i < N_PINGS * 5; i++) {
-        t[i] = (char) l[i];
-    }
+    // msg += " ";
+    // msg += "\n"
 
-    //write
-    Serial.write(t);
+    Serial.print(msg);
+
+
+    // //0xA3, pin, distance, distance, distance, distance, device_addr
+    // byte l[N_PINGS * 7];
+
+    // //loop above has slight delay, so we'll just do it at once.
+    // for (int i = 0; i < N_PINGS * 5; i += 5) {
+    //     double d = 1.0 * currentDistance[i];
+        
+    //     byte n[4];
+
+    //     //copy to pre-array
+    //     memcpy(n, &d, 4);
+
+    //     reverseArray(n, 4);
+
+    //     l[i] = 0xA3;
+    //     l[i + 1] = pingReference[i].echo;
+    //     for (int j = 0; j < 4; j++) {
+    //         l[i + 2 + j] = n[j];
+    //     }
+    //     l[i + 6] = 0x00;
+    // }
+
+    // //convert over to char[]/string
+    // char t[N_PINGS*7];
+
+    // for (int i = 0; i < N_PINGS * 7; i++) {
+    //     Serial.write(l[i]);
+    // }
+
+    delay(100);
 }
 
 void reverseArray(byte* arr, int length) {
