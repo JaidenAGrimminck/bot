@@ -59,17 +59,17 @@ public class MainBot extends Robot {
         //initialize the motors and set their max speeds to 0.5
         topLeft = new HoverboardWheel(0x01, 0x01);
         topLeft.setMaxSpeed(0.5);
-        topLeft.invert();
 
         bottomLeft = new HoverboardWheel(0x02, 0x01);
         bottomLeft.setMaxSpeed(0.5);
+        bottomLeft.invert();
 
         topRight = new HoverboardWheel(0x03, 0x02);
         topRight.setMaxSpeed(0.5);
-        topRight.invert();
 
         bottomRight = new HoverboardWheel(0x04, 0x02);
         bottomRight.setMaxSpeed(0.5);
+        bottomRight.invert();
 
         //register devices
         registerAllDevices();
@@ -147,6 +147,8 @@ public class MainBot extends Robot {
 
                 aiSpeed = secondDouble;
                 aiRotation = firstDouble;
+
+                //System.out.println(aiSpeed + ", " + aiRotation);
             }
         });
     }
@@ -186,8 +188,12 @@ public class MainBot extends Robot {
             //get movements as vector (to simulate a "controller")
             Vector2d movement = polar.toVector();
 
+            //System.out.println(aiSpeed + ", " + aiRotation + " -> " + movement);
+
             // to arcade drive
             Vector2d speeds = arcadeDrive(movement.getY(), movement.getX());
+
+            //System.out.println(aiSpeed + " -> " + movement.getY());
 
             double multiplier = 100d / 255;
 

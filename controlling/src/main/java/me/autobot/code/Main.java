@@ -24,7 +24,7 @@ public class Main {
     public static void main(String[] args) {
      //   new MainBot();
 
-        new UltrasonicBot();
+        new MainBot();
 
 
 //        System.out.println("Connection making.");

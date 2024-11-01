@@ -100,13 +100,16 @@ def draw_robots(pygame=None, canvas=None):
 if __name__ == "__main__":
     print("Running")
 
+    while (input("start?") != "y"):
+        pass
+
     if do_evolution:
         # 80, 938
         for i in range(total_num_robots):
             my_robots.append(robot.Robot(80, 938, -math.pi + 0.00001))
             my_robots[i].reset()
     else:
-        my_robots.append(robot.Robot(80, 938, -math.pi + 0.00001, "model483.npy"))
+        my_robots.append(robot.Robot(80, 938, -math.pi + 0.00001, "model483.npy", True))
 
     environment.setup()
     

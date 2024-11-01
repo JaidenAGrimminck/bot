@@ -7,6 +7,8 @@ import utils
 import numpy as np
 import time
 import run
+import ws
+import struct
 from neural_network import NeuralNetwork
 
 starting_pos = (80,938)
@@ -26,13 +28,19 @@ ROTATION_SPEED = 1# pi / 15
 SPEED = 2
 
 class Robot:
-    def __init__(self, x, y, r, model=None):
+    def __init__(self, x, y, r, model=None, send_moves=False):
         self.agent = NeuralNetwork([3, 4, 3, 2])
+        self.preloaded = False
+        self.send_moves = send_moves
         if model is not None:
             self.agent.load(model)
             print("loaded model " + model)
+            self.preloaded = True
         else:
             self.agent.randomize()
+
+        if send_moves:
+            ws.start_websocket()
 
         self.position = (x, y)
 
@@ -160,6 +168,26 @@ class Robot:
 
         speed = values[1] * SPEED
         self.rotation += (values[0] - 0.5) * ROTATION_SPEED
+
+
+        if (self.send_moves):
+            # convert first double to a byte
+            first_double = struct.pack('>d', values[0])
+            second_double = struct.pack('>d', values[1])
+
+            # send the action to the server
+            payload = [
+                0x01,
+                0x02,
+                0xB6,
+            ]
+
+            for i in range(8):
+                payload.append(first_double[i])
+            for i in range(8):
+                payload.append(second_double[i])
+
+            ws.sendPayload(payload)
 
         # move forward
         newPosX, newPosY = rotatePoint(0, speed, self.rotation)

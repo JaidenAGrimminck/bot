@@ -179,7 +179,7 @@ def loadObstacles(path, boxSize):
 def setup():
     global env, MAP_WIDTH, MAP_HEIGHT
 
-    env, MAP_WIDTH, MAP_HEIGHT = loadObstacles("map3.txt", 10)
+    env, MAP_WIDTH, MAP_HEIGHT = loadObstacles("map2.txt", 10)
 
     env.append(
         Box2d(-10,-10,10,MAP_HEIGHT + 10)
