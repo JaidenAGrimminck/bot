@@ -1,0 +1,36 @@
+
+.panel-controls {
+    display: flex;
+    height: 300px;
+    width: 600px;
+}
+
+.controls-left-side {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 300px;
+}
+
+.controls-left-side > canvas {
+    user-select: none;
+}
+
+.controls-right-side {
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#controls-stop {
+    padding: 20px;
+    background-color: #f44336;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#controls-stop:hover {
+    background-color: #d32f2f;
+}

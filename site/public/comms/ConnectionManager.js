@@ -31,6 +31,20 @@ function setRobotInfo(ip, port) {
     robotInfo.port = port;
 }
 
+function connectToRobot() {
+    socket.emit("robot-connection", {
+        host: robotInfo.ip,
+        port: robotInfo.port,
+        https: false
+    })
+}
+
+function sendPayload(payload=[]) {
+    socket.emit('robot-payload', {
+        payload
+    })
+}
+
 function addConnectionUpdateListener(listener) {
     connectionUpdateListeners.push(listener);
 }

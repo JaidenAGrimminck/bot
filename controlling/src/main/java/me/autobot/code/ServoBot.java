@@ -22,7 +22,7 @@ public class ServoBot extends Robot {
      * */
     @Override
     protected void setup() {
-        servo = new Servo(0x12);
+        servo = new Servo(0x01, 0x12);
 
         getDevices().forEach(device -> {
             device.setParent(this);

@@ -3,6 +3,7 @@ package me.autobot.lib.serial.serial;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
+import me.autobot.lib.math.Mathf;
 
 public class SerialConnection {
     /**
@@ -75,6 +76,10 @@ public class SerialConnection {
      * */
     protected void onSerialData(byte[] data) {
         // Override this method to handle serial data
+        for (byte datum : data) {
+            System.out.print(Mathf.allPos(datum) + " ");
+        }
+        System.out.println();
     }
 
     /***

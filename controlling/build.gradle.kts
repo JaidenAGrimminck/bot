@@ -58,7 +58,8 @@ dependencies {
     implementation("org.nanohttpd:nanohttpd:2.3.1")
     implementation("org.nanohttpd:nanohttpd-websocket:2.3.1")
 
-    implementation("com.fazecast:jSerialComm:1.3.10");
+    //just implement all files in lib folder implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation(files("libs/jSerialComm-2.6.2.jar"))
 }
 
 //apply(plugin = "org.ros2.tools.gradle")

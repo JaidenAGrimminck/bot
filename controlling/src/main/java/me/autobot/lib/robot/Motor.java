@@ -23,27 +23,33 @@ public class Motor extends Device {
     private final int deviceAddress; //i2c address
     private final int bus;
 
+    private int identifier;
+
     /**
      * Creates a new motor with the given I2C address (and default I2C bus).
+     * @param identifier The identifier of the motor.
      * @param address The I2C address of the motor controller.
      * */
-    public Motor(int address) {
+    public Motor(int identifier, int address) {
         super();
 
         this.deviceAddress = address;
         this.bus = SensorHubI2CConnection.default_bus;
+        this.identifier = identifier;
     }
 
     /**
      * Creates a new motor with the given I2C address and bus.
+     * @param identifier The identifier of the motor.
      * @param address The I2C address of the motor controller.
      * @param bus The I2C bus the motor controller is connected to.
      * */
-    public Motor(int address, int bus) {
+    public Motor(int identifier, int address, int bus) {
         super();
 
         this.deviceAddress = address;
         this.bus = bus;
+        this.identifier = identifier;
     }
 
     /**
@@ -63,6 +69,15 @@ public class Motor extends Device {
         }
 
         System.out.println("Motor subclass must implement #connectToI2C! (This is a placeholder)");
+    }
+
+    /**
+     * Connects the motor to the Serial.
+     * This must be overridden by subclasses, it will throw a warning if not.
+     * @param port The port to connect to.
+     * */
+    public void connectToSerial(String port) {
+        System.out.println("Motor subclass must implement #connectToSerial! (This is a placeholder)");
     }
 
     /**
@@ -147,5 +162,13 @@ public class Motor extends Device {
      */
     public boolean isInverted() {
         return isInverted;
+    }
+
+    /**
+     * Returns the identifier of the motor.
+     * @return The identifier of the motor.
+     * */
+    public int getIdentifier() {
+        return identifier;
     }
 }

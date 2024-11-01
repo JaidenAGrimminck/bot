@@ -22,19 +22,21 @@ public class Servo extends Motor {
 
     /**
      * Creates a new servo with the given address on the default I2C bus.
+     * @param identifier The identifier of the servo.
      * @param address The I2C address of the controller.
      * */
-    public Servo(int address) {
-        super(address);
+    public Servo(int identifier, int address) {
+        super(identifier, address);
     }
 
     /**
      * Creates a new servo with the given address on the given I2C bus.
+     * @param identifier The identifier of the servo.
      * @param address The I2C address of the controller.
      * @param bus The I2C bus the controller is connected to.
      * */
-    public Servo(int address, int bus) {
-        super(address, bus);
+    public Servo(int identifier, int address, int bus) {
+        super(identifier, address, bus);
     }
 
     /**

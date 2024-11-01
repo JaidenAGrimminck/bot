@@ -9,7 +9,7 @@
 /**
 This is the number of devices that are connected to the Arduino.
 **/
-#define NUM_DEVICES 1
+#define NUM_DEVICES 5
 
 /**
 This is the number of servos connected to the Arduino. This is NOT independent of the above variable.
@@ -24,7 +24,7 @@ This is the number of ping devices there are. This is NOT independent of the abo
 /**
 This is whether to use 
 */
-#define USE_FREQUENCY_PWM false
+#define USE_FREQUENCY_PWM true
 
 /**
 Frequency used for the PWM (if enabled above)
@@ -118,7 +118,11 @@ byte EEPROM_SIM[] = {
     NUM_DEVICES, // # of devices
     0, 0, 0, 0, 0, 0,
     //devices
-    0x02, 0x04, 0x0A,
+    0x02, 0x04, 0x09, // top right/left motor
+    0x02, 0x04, 0x0A, // back right/left motor
+    0x03, 0x01, 0x08, 0x01, // top right/left direction
+    0x03, 0x01, 0x0B, 0x01, // back right/left direction
+    0x03, 0x01, 0x0D, 0x01, // LED
 };
 
 /**
@@ -238,7 +242,7 @@ void setup() {
     log("Successfully started I2C and initialized devices, now on the lookout for new messages.");
 
     if (!USE_I2C) {
-        Serial.println("01010");
+        //Serial.println(10101);
     }
 }
 
@@ -379,6 +383,9 @@ void init_devices() {
     }
 }
 
+/** -- I2C Events -- **/
+int currentMessageIndex = 0;
+byte currentMessage[MAX_MESSAGE_SIZE];
 
 //used in calculating the ultrasonic sensor.
 int distance;
@@ -467,6 +474,21 @@ void loop() {
     if (allowWriteToBuffer) {
         allowWriteToBuffer = false;
     }
+
+    if (!USE_I2C) {
+        if (Serial.available() > 0) {
+            //digitalWrite(13, LOW);
+
+            byte c = Serial.read();
+            currentMessage[currentMessageIndex++] = c;
+
+            if (currentMessageIndex == MAX_MESSAGE_SIZE) {
+                currentMessageIndex--;
+            }
+
+            if (processEvent()) clearCurrentMessage();
+        }
+    }
 }
 
 /**
@@ -521,10 +543,6 @@ void loop() {
 10: This I2C Signature (I2C_ADDRESS)
 
 **/
-
-/** -- I2C Events -- **/
-int currentMessageIndex = 0;
-byte currentMessage[MAX_MESSAGE_SIZE];
 
 /**
 Called whenever bytes are recieved from the I2C bus.

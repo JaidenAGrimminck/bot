@@ -19,14 +19,15 @@
     </script>
 
     <script src="/require.js"></script>
-    <req-use elements="panel" id="n"> </req-use>
+    <req-use elements="panel,controls" id="n"> </req-use>
 </head>
 <body>
+    <c-controls></c-controls>
+    <br/>
     <info-panel type="status" size="4x2"></info-panel>
     <br/>
     <!---->
     <info-panel type="number" size="2x2" title="Backend Speed" monitor="backendInfo.status.down" units="ms"></info-panel>
     <br/>
-    <info-panel type="log" size="6x3"></info-panel>
 </body>
 </html>

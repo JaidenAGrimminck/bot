@@ -11,8 +11,11 @@ import me.autobot.lib.robot.Robot;
 import me.autobot.lib.robot.Sensor;
 import me.autobot.lib.robot.sensors.CollisionSensor;
 import me.autobot.lib.robot.sensors.UltrasonicSensor;
+import me.autobot.lib.tools.RunnableWithArgs;
+import me.autobot.server.WSClient;
 import me.autobot.sim.graphics.SimCanvas;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 /**
@@ -52,10 +55,10 @@ public class SimRobot extends Robot {
                         .reset()
         );
 
-        topLeftMotor = new Motor(0x01);
-        topRightMotor = new Motor(0x01);
-        bottomLeftMotor = new Motor(0x01);
-        bottomRightMotor = new Motor(0x01);
+        topLeftMotor = new Motor(0x01, 0x01);
+        topRightMotor = new Motor(0x02, 0x01);
+        bottomLeftMotor = new Motor(0x03, 0x01);
+        bottomRightMotor = new Motor(0x04, 0x01);
 
         bottomRightMotor.invert();
         topRightMotor.invert();
@@ -72,6 +75,32 @@ public class SimRobot extends Robot {
         collisionSensor = new CollisionSensor(0xC7, 0x02);
 
         this.registerAllDevices();
+
+        WSClient.registerCallable(0xD5, new RunnableWithArgs() {
+            @Override
+            public void run(Object... args) {
+                //convert first 8 bytes to a double
+                int[] data = (int[]) args[0];
+
+                // convert the first 8 bytes of the data to a double
+                ByteBuffer buffer = ByteBuffer.allocate(8);
+                for (int i = 0; i < 8; i++) {
+                    buffer.put((byte) data[i]);
+                }
+                buffer.flip();
+                double x = buffer.getDouble(); //first double is x
+
+                // convert the second 8 bytes of the data to a double
+                buffer = ByteBuffer.allocate(8);
+                for (int i = 8; i < 16; i++) {
+                    buffer.put((byte) data[i]);
+                }
+                buffer.flip();
+                double y = buffer.getDouble(); //first double is y
+
+
+            }
+        });
     }
 
     @Override
