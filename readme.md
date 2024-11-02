@@ -39,6 +39,7 @@ https://github.com/user-attachments/assets/e8538c88-3dbe-4262-9000-22e12cc6994f
 
 *an example of the simulator using cross-platform control (network in Python, simulator in Java). video sped up 4x*
 
+
 # Components
 
 Since this repo is made up of several different components, this section details the different parts of the repo individually.
