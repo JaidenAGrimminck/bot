@@ -7,10 +7,13 @@
   <sub><sup><i>A robot that I made that I also made into a library.</i></sup></sub>
 </h1>
 
+<p align="center">
+<a href="https://jaidens-bot-docs.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/jaidens-bot-docs/badge/?version=latest"></a> <a href="https://jaidenagrimminck.github.io/bot/controlling/docs/javadoc/index.html"><img src="https://raw.githubusercontent.com/JaidenAGrimminck/bot/cf6fc489d826319fb710ff51c7d928d198525188/readme/images/javadoc.svg" width="86px"></a>
+<br/>
+<br/>
+This repo is both a library and the code for a robot I'm building.
+</p>
 
-[![Documentation Status](https://readthedocs.org/projects/jaidens-bot-docs/badge/?version=latest)](https://jaidens-bot-docs.readthedocs.io/en/latest/?badge=latest) • <a href="https://jaidenagrimminck.github.io/bot/controlling/docs/javadoc/index.html"><img src="https://raw.githubusercontent.com/JaidenAGrimminck/bot/6981846ed2fb8589a6a49f881e1b939f0614df00/readme/images/javadoc.svg" width="86px"></a>
-
-This is both a library and the code for a robot I'm building.
 
 ## Prerequisites
 
