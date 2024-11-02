@@ -8,7 +8,7 @@
 </h1>
 
 
-[![Documentation Status](https://readthedocs.org/projects/jaidens-bot-docs/badge/?version=latest)](https://jaidens-bot-docs.readthedocs.io/en/latest/?badge=latest) • <a href="https://jaidenagrimminck.github.io/bot/controlling/docs/javadoc/index.html"><img src="https://github.com/JaidenAGrimminck/bot/blob/main/readme/images/javadoc.svg?raw=true" width="86px"></a>
+[![Documentation Status](https://readthedocs.org/projects/jaidens-bot-docs/badge/?version=latest)](https://jaidens-bot-docs.readthedocs.io/en/latest/?badge=latest) • <a href="https://jaidenagrimminck.github.io/bot/controlling/docs/javadoc/index.html"><img src="https://raw.githubusercontent.com/JaidenAGrimminck/bot/6981846ed2fb8589a6a49f881e1b939f0614df00/readme/images/javadoc.svg" width="86px"></a>
 
 This is both a library and the code for a robot I'm building.
 
