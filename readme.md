@@ -1,6 +1,14 @@
-# Bot
+<h1 align="center">
+  <br>
+  <img src="https://github.com/JaidenAGrimminck/bot/blob/main/readme/images/bot.jpg?raw=true" alt="bot image" width="300">
+  <br>
+  <b>bot</b>
+  <br>
+  <sub><sup><i>A robot that I made that I also made into a library.</i></sup></sub>
+</h1>
 
-[![Documentation Status](https://readthedocs.org/projects/jaidens-bot-docs/badge/?version=latest)](https://jaidens-bot-docs.readthedocs.io/en/latest/?badge=latest) • [**Javadoc**](https://jaidenagrimminck.github.io/bot/controlling/docs/javadoc/index.html)
+
+[![Documentation Status](https://readthedocs.org/projects/jaidens-bot-docs/badge/?version=latest)](https://jaidens-bot-docs.readthedocs.io/en/latest/?badge=latest) • ![![Javadoc Status](https://jaidenagrimminck.github.io/bot/controlling/docs/javadoc/index.html)](https://github.com/JaidenAGrimminck/bot/blob/main/readme/images/javadoc)
 
 
 
