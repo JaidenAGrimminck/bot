@@ -25,6 +25,7 @@ public class Simulation {
 
     /**
      * The main entry point to the simulation program.
+     * @param args The arguments passed to the program.
      * */
     public static void main(String[] args) {
         start();

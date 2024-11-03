@@ -58,6 +58,7 @@ public class UltrasonicSensor extends Sensor {
 
     /**
      * Connects the ultrasonic sensor to the serial port.
+     * @param pin The echo pin on the sensor hub.
      * @param port The port to connect to.
      */
     public void connectToSerial(int pin, String port) {

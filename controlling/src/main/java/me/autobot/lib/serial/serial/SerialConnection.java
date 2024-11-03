@@ -6,6 +6,9 @@ import com.fazecast.jSerialComm.SerialPortEvent;
 import me.autobot.lib.math.Mathf;
 import me.autobot.lib.serial.Connection;
 
+/**
+ * Serial connection class.
+ * */
 public class SerialConnection extends Connection {
     /**
      * Verbose level for serial errors.
@@ -113,6 +116,7 @@ public class SerialConnection extends Connection {
 
     /**
      * Gets the baud rate of the serial connection.
+     * @return The baud rate of the serial connection.
      */
     public int getBaudRate() {
         return baudRate;

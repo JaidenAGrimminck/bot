@@ -20,6 +20,7 @@ public class SensorHubSerialConnection extends SerialConnection {
 
     /**
      * Gets or creates a connection to the serial device with the given ID, bus, and device.
+     * @param baudRate The baud rate of the serial connection.
      * @param commPort The serial port of the device.
      * @return The serial connection to the device.
      * */
@@ -93,6 +94,10 @@ public class SensorHubSerialConnection extends SerialConnection {
 
     private boolean adjForDistance = false;
 
+    /**
+     * Temporary fix for the distance sensor. Will be removed later.
+     * @return This object.
+     * */
     public SensorHubSerialConnection adj() {
         adjForDistance = true;
         return this;
@@ -101,6 +106,10 @@ public class SensorHubSerialConnection extends SerialConnection {
 
     String recieved = "";
 
+    /**
+     * Called when serial data is received.
+     * @param data The data that was received.
+     * */
     @Override
     protected void onSerialData(byte[] data) {
         if (!adjForDistance) return;

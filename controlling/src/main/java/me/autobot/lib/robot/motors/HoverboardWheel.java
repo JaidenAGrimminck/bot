@@ -23,6 +23,8 @@ public class HoverboardWheel extends Motor {
 
     /**
      * Creates a new HoverboardWheel with the given I2C address (and default I2C bus).
+     * @param identifier The identifier of the motor.
+     * @param address The address of the motor.
      * */
     public HoverboardWheel(int identifier, int address) {
         super(identifier, address);
@@ -30,17 +32,30 @@ public class HoverboardWheel extends Motor {
 
     /**
      * Creates a new HoverboardWheel with the given I2C address and bus.
+     * @param identifier The identifier of the motor.
+     * @param address The address of the motor.
+     * @param bus The bus of the motor.
      * */
     public HoverboardWheel(int identifier, int address, int bus) {
         super(identifier, address, bus);
     }
 
+    /**
+     * Do not use this method, use the one with the directionPin and speedPin instead.
+     * @param port The port to connect to.
+     * */
     @Override
     public void connectToSerial(String port) {
         throw new RuntimeException("HoverboardWheel needs ");
     }
 
     //ports: /dev/cu.wchusbserial.10, /dev/cu.wchusbserial.110
+    /**
+     * Connects the motor to the serial port.
+     * @param port The port to connect to. Example: "/dev/cu.wchusbserial.10"
+     * @param directionPin The pin to use for the direction.
+     * @param speedPin The pin to use for the speed.
+     * */
     public void connectToSerial(String port, int directionPin, int speedPin) {
         if (this.inSimulation()) {
             return;
@@ -56,6 +71,10 @@ public class HoverboardWheel extends Motor {
         connectionRef = SensorHubSerialConnection.getOrCreateConnection(9600, port);
     }
 
+    /**
+     * Sets the speed of the motor.
+     * @param speed The speed of the motor.
+     * */
     @Override
     public void setSpeed(double speed) {
         this.speed = (isInverted() ? -1 : 1) * Mathf.clamp(speed, -maxSpeed, maxSpeed);
@@ -63,6 +82,9 @@ public class HoverboardWheel extends Motor {
         reportSpeed();
     }
 
+    /**
+     * Reports the speed of the motor to the connection.
+     * */
     @Override
     protected void reportSpeed() {
         if (inSimulation()) {

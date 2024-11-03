@@ -11,10 +11,11 @@ me.autobot.lib.robot
 me.autobot.lib.robot.motors
 me.autobot.lib.robot.sensors
 me.autobot.lib.serial
+me.autobot.lib.serial.i2c
+me.autobot.lib.serial.serial
 me.autobot.lib.tools
 me.autobot.server
 me.autobot.sim
 me.autobot.sim.evolution
 me.autobot.sim.graphics
 me.autobot.sim.graphics.elements
-me.autobot.sim.testing
