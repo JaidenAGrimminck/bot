@@ -3,8 +3,6 @@
   <img src="https://github.com/JaidenAGrimminck/bot/blob/main/readme/images/bot.jpg?raw=true" alt="bot image" width="300">
   <br>
   <b>bot</b>
-  <br>
-  <sub><sup><i>A robot that I made that I also made into a library.</i></sup></sub>
 </h1>
 
 <p align="center">
@@ -12,16 +10,22 @@
 <br/>
 <br/>
 This repo is both a library and the code for a robot I'm building.
+Made by Jaiden.
 </p>
 
+
+## About
+
+This project is supposed to be sort of a capstone projcet for my senior year of high school... but on a personal level (rather than for school).
+It's a fun project that I'm having a great time exploring all sorts of areas from robotics to neural networks.
 
 ## Prerequisites
 
 For everything, the following prerequisites are needed:
 
-- Python 3.12
-- npm >v9.6.7
-- Java >19
+- Python `3.12`
+- npm >= `v9.6.7`
+- Java >= `19`
 
 For individual components, look at each of the component sections in this readme for their own prerequisites.
 
@@ -39,6 +43,9 @@ https://github.com/user-attachments/assets/e8538c88-3dbe-4262-9000-22e12cc6994f
 
 *an example of the simulator using cross-platform control (network in Python, simulator in Java). video sped up 4x*
 
+
+
+*an quick video of the bot being cadded*
 
 # Components
 
@@ -78,13 +85,22 @@ Need `python3.12` to run this program, alongside the `numpy` and `pygame` librar
 ### To use
 
 If you haven't already, clone the repo via
+
 ```bash
 git clone https://github.com/JaidenAGrimminck/bot.git
 ```
 
-In the `training/local-train` folder for the repo, run `python3 -m pip install requirements.txt`
+In the `training/local-train` folder for the repo, run:
 
-To run, run via `python3 run.py`.
+```bash
+python3 -m pip install requirements.txt
+```
+
+To run, run via:
+
+```bash
+python3 run.py
+```
 
 ### Training
 
