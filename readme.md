@@ -43,9 +43,9 @@ https://github.com/user-attachments/assets/e8538c88-3dbe-4262-9000-22e12cc6994f
 
 *an example of the simulator using cross-platform control (network in Python, simulator in Java). video sped up 4x*
 
+https://github.com/user-attachments/assets/dc79bd12-5eaf-474f-9298-c895303d357c
 
-
-*an quick video of the bot being cadded*
+*a quick video of the bot being cadded*
 
 # Components
 
