@@ -8,6 +8,7 @@ me.autobot.lib.odometry
 me.autobot.lib.os
 me.autobot.lib.pathing
 me.autobot.lib.robot
+me.autobot.lib.robot.drivebase
 me.autobot.lib.robot.motors
 me.autobot.lib.robot.sensors
 me.autobot.lib.serial

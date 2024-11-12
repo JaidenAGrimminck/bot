@@ -4,6 +4,7 @@ import me.autobot.lib.math.coordinates.Polar;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.robot.Robot;
+import me.autobot.lib.robot.drivebase.ArcadeDrive;
 import me.autobot.lib.robot.motors.HoverboardWheel;
 import me.autobot.lib.tools.RunnableWithArgs;
 import me.autobot.server.WSClient;
@@ -34,6 +35,8 @@ public class MainBot extends Robot {
     private HoverboardWheel bottomLeft;
 
     private HoverboardWheel bottomRight;
+
+    private ArcadeDrive arcadeDrive;
 
     private Vector2d joystick = new Vector2d(0, 0);
 
@@ -152,6 +155,8 @@ public class MainBot extends Robot {
                 //System.out.println(aiSpeed + ", " + aiRotation);
             }
         });
+
+        arcadeDrive = new ArcadeDrive(topLeft, topRight, bottomLeft, bottomRight);
     }
 
     private boolean switch_flag = false;
@@ -168,12 +173,7 @@ public class MainBot extends Robot {
 
             if (joystickUpdated) {
                 if (Math.abs(joystick.getY()) > 0.05) {
-                    Vector2d speeds = arcadeDrive(joystick.getY(), joystick.getX());
-
-                    topLeft.setSpeed(speeds.getX() * multiplier);
-                    bottomLeft.setSpeed(speeds.getX() * multiplier);
-                    topRight.setSpeed(speeds.getY() * multiplier);
-                    bottomRight.setSpeed(speeds.getY() * multiplier);
+                    arcadeDrive.drive(joystick.getY(), joystick.getX(), multiplier);
                 } else {
                     topLeft.setSpeed(0);
                     bottomLeft.setSpeed(0);
@@ -189,56 +189,7 @@ public class MainBot extends Robot {
             //get movements as vector (to simulate a "controller")
             Vector2d movement = polar.toVector();
 
-            //System.out.println(aiSpeed + ", " + aiRotation + " -> " + movement);
-
-            // to arcade drive
-            Vector2d speeds = arcadeDrive(movement.getY(), movement.getX());
-
-            //System.out.println(aiSpeed + " -> " + movement.getY());
-
-            double multiplier = 100d / 255;
-
-            topLeft.setSpeed(speeds.getX() * multiplier);
-            bottomLeft.setSpeed(speeds.getX() * multiplier);
-
-            topRight.setSpeed(speeds.getY() * multiplier);
-            bottomRight.setSpeed(speeds.getY() * multiplier);
+            arcadeDrive.drive(movement.getY(), movement.getX(), 100d / 255);
         }
-    }
-
-    /**
-     * Translates arcade drive to motor speeds.
-     * @param speed The speed of the robot.
-     * @param rot The rotation of the robot.
-     * @return The motor speeds. (x=left, y=right)
-     * */
-    protected Vector2d arcadeDrive(double speed, double rot) {
-        double max = Math.max(Math.abs(speed), Math.abs(rot));
-
-        double leftMotorSpeed;
-        double rightMotorSpeed;
-
-        double total = speed + rot;
-        double diff = speed - rot;
-
-        if (speed > 0.0) {
-            if (rot > 0.0) {
-                leftMotorSpeed = max;
-                rightMotorSpeed = diff;
-            } else {
-                leftMotorSpeed = total;
-                rightMotorSpeed = max;
-            }
-        } else {
-            if (rot > 0.0) {
-                leftMotorSpeed = total;
-                rightMotorSpeed = -max;
-            } else {
-                leftMotorSpeed = -max;
-                rightMotorSpeed = diff;
-            }
-        }
-
-        return new Vector2d(leftMotorSpeed, rightMotorSpeed);
     }
 }

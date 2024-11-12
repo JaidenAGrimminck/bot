@@ -92,8 +92,8 @@ running = True
 while True:
 
     for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                done = True
+        if event.type == pygame.QUIT:
+            break
     
     # get x and y values
     right_status = right_joycon.get_status()
@@ -139,7 +139,3 @@ while True:
 
 
     pygame.display.flip()
-
-
-
-print(callibrations)

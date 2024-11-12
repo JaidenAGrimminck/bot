@@ -104,9 +104,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Gets the angle between this vector and another vector.</div>
 </dd>
-<dt><a href="me/autobot/code/MainBot.html#arcadeDrive(double,double)" class="member-name-link">arcadeDrive(double, double)</a> - Method in class me.autobot.code.<a href="me/autobot/code/MainBot.html" title="class in me.autobot.code">MainBot</a></dt>
+<dt><a href="me/autobot/lib/robot/drivebase/ArcadeDrive.html#arcadeDrive(double,double)" class="member-name-link">arcadeDrive(double, double)</a> - Method in class me.autobot.lib.robot.drivebase.<a href="me/autobot/lib/robot/drivebase/ArcadeDrive.html" title="class in me.autobot.lib.robot.drivebase">ArcadeDrive</a></dt>
 <dd>
 <div class="block">Translates arcade drive to motor speeds.</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/drivebase/ArcadeDrive.html" class="type-name-link" title="class in me.autobot.lib.robot.drivebase">ArcadeDrive</a> - Class in <a href="me/autobot/lib/robot/drivebase/package-summary.html">me.autobot.lib.robot.drivebase</a></dt>
+<dd>
+<div class="block">A drivebase that uses arcade drive.</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/drivebase/ArcadeDrive.html#%3Cinit%3E(me.autobot.lib.robot.Motor,me.autobot.lib.robot.Motor,me.autobot.lib.robot.Motor,me.autobot.lib.robot.Motor)" class="member-name-link">ArcadeDrive(Motor, Motor, Motor, Motor)</a> - Constructor for class me.autobot.lib.robot.drivebase.<a href="me/autobot/lib/robot/drivebase/ArcadeDrive.html" title="class in me.autobot.lib.robot.drivebase">ArcadeDrive</a></dt>
+<dd>
+<div class="block">Creates a new ArcadeDrive object.</div>
 </dd>
 <dt><a href="me/autobot/lib/logging/Log.html#as()" class="member-name-link">as()</a> - Element in annotation interface me.autobot.lib.logging.<a href="me/autobot/lib/logging/Log.html" title="annotation interface in me.autobot.lib.logging">Log</a></dt>
 <dd>
@@ -362,6 +370,18 @@ loadScripts(document, 'script');</script>
 <dt><a href="me/autobot/sim/graphics/elements/CanvasElement.html#draw(java.awt.Graphics,me.autobot.lib.math.coordinates.Int2)" class="member-name-link">draw(Graphics, Int2)</a> - Method in class me.autobot.sim.graphics.elements.<a href="me/autobot/sim/graphics/elements/CanvasElement.html" title="class in me.autobot.sim.graphics.elements">CanvasElement</a></dt>
 <dd>
 <div class="block">Draw the element on the canvas.</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/drivebase/ArcadeDrive.html#drive(double,double)" class="member-name-link">drive(double, double)</a> - Method in class me.autobot.lib.robot.drivebase.<a href="me/autobot/lib/robot/drivebase/ArcadeDrive.html" title="class in me.autobot.lib.robot.drivebase">ArcadeDrive</a></dt>
+<dd>
+<div class="block">Drives the robot with the given speed and rotation.</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/drivebase/TankDrive.html#drive(double,double)" class="member-name-link">drive(double, double)</a> - Method in class me.autobot.lib.robot.drivebase.<a href="me/autobot/lib/robot/drivebase/TankDrive.html" title="class in me.autobot.lib.robot.drivebase">TankDrive</a></dt>
+<dd>
+<div class="block">Drives the robot with the given speed and rotation.</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/drivebase/ArcadeDrive.html#drive(double,double,double)" class="member-name-link">drive(double, double, double)</a> - Method in class me.autobot.lib.robot.drivebase.<a href="me/autobot/lib/robot/drivebase/ArcadeDrive.html" title="class in me.autobot.lib.robot.drivebase">ArcadeDrive</a></dt>
+<dd>
+<div class="block">Drives the robot with the given speed and rotation.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:E">E</h2>
@@ -1087,6 +1107,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="me/autobot/lib/robot/package-summary.html">me.autobot.lib.robot</a> - package me.autobot.lib.robot</dt>
 <dd>&nbsp;</dd>
+<dt><a href="me/autobot/lib/robot/drivebase/package-summary.html">me.autobot.lib.robot.drivebase</a> - package me.autobot.lib.robot.drivebase</dt>
+<dd>&nbsp;</dd>
 <dt><a href="me/autobot/lib/robot/motors/package-summary.html">me.autobot.lib.robot.motors</a> - package me.autobot.lib.robot.motors</dt>
 <dd>&nbsp;</dd>
 <dt><a href="me/autobot/lib/robot/sensors/package-summary.html">me.autobot.lib.robot.sensors</a> - package me.autobot.lib.robot.sensors</dt>
@@ -1318,10 +1340,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="me/autobot/lib/math/coordinates/Box2d.html#raycastDistance(me.autobot.lib.math.coordinates.Vector2d,me.autobot.lib.math.coordinates.Vector2d)" class="member-name-link">raycastDistance(Vector2d, Vector2d)</a> - Method in class me.autobot.lib.math.coordinates.<a href="me/autobot/lib/math/coordinates/Box2d.html" title="class in me.autobot.lib.math.coordinates">Box2d</a></dt>
 <dd>
 <div class="block">Figures out the distance between the box and a point looking in a certain direction.</div>
-</dd>
-<dt><a href="me/autobot/lib/serial/Connection.html#read()" class="member-name-link">read()</a> - Method in class me.autobot.lib.serial.<a href="me/autobot/lib/serial/Connection.html" title="class in me.autobot.lib.serial">Connection</a></dt>
-<dd>
-<div class="block">Reads data from the connection.</div>
 </dd>
 <dt><a href="me/autobot/lib/serial/i2c/I2CConnection.html#read(int)" class="member-name-link">read(int)</a> - Method in class me.autobot.lib.serial.i2c.<a href="me/autobot/lib/serial/i2c/I2CConnection.html" title="class in me.autobot.lib.serial.i2c">I2CConnection</a></dt>
 <dd>
@@ -1906,6 +1924,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="me/autobot/lib/math/rotation/Rotation3d.html#tan()" class="member-name-link">tan()</a> - Method in class me.autobot.lib.math.rotation.<a href="me/autobot/lib/math/rotation/Rotation3d.html" title="class in me.autobot.lib.math.rotation">Rotation3d</a></dt>
 <dd>
 <div class="block">Returns the tangent multiplied of the angles.</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/drivebase/TankDrive.html" class="type-name-link" title="class in me.autobot.lib.robot.drivebase">TankDrive</a> - Class in <a href="me/autobot/lib/robot/drivebase/package-summary.html">me.autobot.lib.robot.drivebase</a></dt>
+<dd>
+<div class="block">A drivebase that uses tank drive</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/drivebase/TankDrive.html#%3Cinit%3E(me.autobot.lib.robot.Motor,me.autobot.lib.robot.Motor,me.autobot.lib.robot.Motor,me.autobot.lib.robot.Motor)" class="member-name-link">TankDrive(Motor, Motor, Motor, Motor)</a> - Constructor for class me.autobot.lib.robot.drivebase.<a href="me/autobot/lib/robot/drivebase/TankDrive.html" title="class in me.autobot.lib.robot.drivebase">TankDrive</a></dt>
+<dd>
+<div class="block">Creates a new TankDrive object.</div>
 </dd>
 <dt><a href="me/autobot/lib/serial/i2c/I2CConnection.html#THIS_DEVICE_ADDRESS" class="member-name-link">THIS_DEVICE_ADDRESS</a> - Static variable in class me.autobot.lib.serial.i2c.<a href="me/autobot/lib/serial/i2c/I2CConnection.html" title="class in me.autobot.lib.serial.i2c">I2CConnection</a></dt>
 <dd>
