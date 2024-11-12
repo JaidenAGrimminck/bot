@@ -9,13 +9,6 @@ public class Connection {
      * @param data The data to write.
      */
     protected void write(byte[] data) {
-
-    }
-
-    /**
-     * Reads data from the connection.
-     */
-    public void read() {
-
+        // Override this method to write data to the connection
     }
 }
