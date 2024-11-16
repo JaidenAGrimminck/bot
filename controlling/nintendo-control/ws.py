@@ -8,6 +8,8 @@ listeners = {}
 
 socket = None
 
+connected = False
+
 WEBSOCKET_URL = "ws://localhost:8080"
 
 def on_message(ws, message):
@@ -40,7 +42,10 @@ def on_message(ws, message):
 Called when the connection is successful
 """
 def onConnection():
+    global connected
     print('Successfully registered and connected.')
+
+    connected = True
 
     pass
 
@@ -142,7 +147,7 @@ def sendJoystickValues(x, y):
     # send the action to the server
     payload = [
         0x02,
-        0xB6,
+        0xD5,
     ]
 
     for i in range(8):
@@ -162,14 +167,15 @@ def loop():
     while True:
         threading.Event().wait(0.1)
 
-def start():
+def start(keepAlive=True):
     start_websocket()
 
     threading.Thread(target=loop).start()
 
-    while True:
-        time.sleep(1)
-        pass
+    if keepAlive:
+        while True:
+            time.sleep(1)
+            pass
 
 if __name__ == "__main__":
     start()

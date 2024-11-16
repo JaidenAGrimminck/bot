@@ -226,7 +226,7 @@ public class WSClient extends NanoWSD.WebSocket {
      * */
     @Override
     protected void onMessage(NanoWSD.WebSocketFrame message) {
-        if (message.getBinaryPayload()[0] == (byte) 0xFF && message.getBinaryPayload()[1] == (byte) 0x01) {
+        if (message.getBinaryPayload()[0] == (byte) 0xFF && message.getBinaryPayload()[1] == (byte) 0x01 && activated) {
             onPong(message); //pong!
             return;
         }

@@ -1,0 +1,172 @@
+.view {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: row;
+
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.side {
+    background-color: #E3E3E3;
+    height: 100%;
+    width: 400px;
+    min-width: 225px;
+
+    overflow: scroll;
+}
+
+.side-size-adjuster {
+    position: absolute;
+
+    height: 25px;
+    width: 12px;
+
+    top: calc(50% - 10px);
+    left: calc(400px - 7px);
+
+    cursor: ew-resize;
+
+    /* no drag */
+    user-select: none;
+
+    border-radius: 5px;
+
+    background-color: #f1f1f1;
+    border: 1px solid #d3d3d3;
+
+    /* make background-color and border have 0.2s transition */
+    transition: background-color 0.2s, border 0.2s;
+}
+
+.side-size-adjuster:hover {
+    opacity: 1;
+    background-color: #ffffff;
+    border: 1px solid #e4e4e4;
+}
+
+.side-size-adjuster > img {
+    user-select: none;
+    pointer-events: none;
+}
+
+.main {
+    background-color: #ffffff;
+    height: 100%;
+    width: calc(100% - 400px);
+    overflow: hidden;
+}
+
+.view-side-item-content {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.view-side-item {
+    padding: 2px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.view-side-item-content > img {
+    margin-right: 10px;
+}
+
+.side-item-title {
+    /* italics */
+    font-style: italic;
+    font-size: 1em;
+}
+
+.sideitem-container {
+    padding: 10px;
+}
+
+.cc-hidden {
+    display: none;
+}
+
+.view-side-item-children-container {
+    margin-left: 28px;
+}
+
+.selected {
+    background-color: rgba(0, 116, 255, 0.65);
+    border-radius: 5px;
+}
+
+.main-title {
+    font-weight: bold;
+    padding: 1px;
+}
+
+.main-top-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.main-options {
+    display: flex;
+}
+
+.main-options > img {
+    cursor: pointer;
+    margin-right: 5px;
+    padding: 1px;
+}
+
+.main-options > img:hover {
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+.main-options > div {
+    margin-right: 10px;
+}
+
+.main-top-bar-selection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1px;
+    width: 100%;
+}
+
+.main-top-bar-selection > div {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    cursor: pointer;
+    border-left: 1px solid #d3d3d3;
+    background-color: #f1f1f1;
+
+    transition: background-color 0.2s;
+}
+
+.main-top-bar-selection > div:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-left: none;
+}
+
+.main-top-bar-selection > div:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.main-top-bar-selection > div > img {
+    margin-right: 5px;
+}
+
+.main-top-bar-selection > div:hover {
+    background-color: #e4e4e4;
+}
+
+view-top-bar {
+    width: 100%;
+}

@@ -5,6 +5,7 @@ import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.robot.Robot;
 import me.autobot.lib.robot.drivebase.ArcadeDrive;
+import me.autobot.lib.robot.drivebase.TankDrive;
 import me.autobot.lib.robot.motors.HoverboardWheel;
 import me.autobot.lib.tools.RunnableWithArgs;
 import me.autobot.server.WSClient;
@@ -28,7 +29,7 @@ public class MainBot extends Robot {
         public static final int BACK_RIGHT_MOTOR_DIRECTION = 0x0B;
     }
 
-    private final boolean manualControl = false;
+    private final boolean manualControl = true;
 
     private HoverboardWheel topLeft;
     private HoverboardWheel topRight;
@@ -36,7 +37,7 @@ public class MainBot extends Robot {
 
     private HoverboardWheel bottomRight;
 
-    private ArcadeDrive arcadeDrive;
+    private TankDrive arcadeDrive;
 
     private Vector2d joystick = new Vector2d(0, 0);
 
@@ -156,7 +157,7 @@ public class MainBot extends Robot {
             }
         });
 
-        arcadeDrive = new ArcadeDrive(topLeft, topRight, bottomLeft, bottomRight);
+        arcadeDrive = new TankDrive(topLeft, topRight, bottomLeft, bottomRight);
     }
 
     private boolean switch_flag = false;
@@ -172,8 +173,11 @@ public class MainBot extends Robot {
             double multiplier = 100d / 255;
 
             if (joystickUpdated) {
-                if (Math.abs(joystick.getY()) > 0.05) {
-                    arcadeDrive.drive(joystick.getY(), joystick.getX(), multiplier);
+                if (Math.abs(joystick.getY()) > 0.05 || Math.abs(joystick.getX()) > 0.05) {
+                    //arcadeDrive.drive(joystick.getY(), joystick.getX(), multiplier);
+                    arcadeDrive.drive(joystick.getX() * multiplier, joystick.getY() * multiplier);
+
+                    //System.out.println("Driving at speeds " + joystick.getX() * multiplier + ", " + joystick.getY() * multiplier);
                 } else {
                     topLeft.setSpeed(0);
                     bottomLeft.setSpeed(0);
@@ -189,7 +193,7 @@ public class MainBot extends Robot {
             //get movements as vector (to simulate a "controller")
             Vector2d movement = polar.toVector();
 
-            arcadeDrive.drive(movement.getY(), movement.getX(), 100d / 255);
+           // arcadeDrive.drive(movement.getY(), movement.getX(), 100d / 255);
         }
     }
 }

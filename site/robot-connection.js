@@ -24,7 +24,7 @@ class RobotConnection {
         this.ws.on('message', this.onMessage.bind(this));
         this.ws.on('error', (e) => {
             this.wsLog("" + e);
-            console.log(e);
+            //console.log(e);
             this.open = false;
         })
     }

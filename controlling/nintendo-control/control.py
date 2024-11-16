@@ -2,6 +2,7 @@ from pyjoycon import JoyCon, get_R_id, get_L_id
 import time
 from math import floor
 import pygame
+import ws
 
 right_joycon_id = get_R_id()
 right_joycon = JoyCon(*right_joycon_id)
@@ -32,6 +33,8 @@ left_profile = {
 }
 
 threshold = 0.2
+
+lastSent = (0,0)
 
 def map(n, start1, stop1, start2, stop2):
     return ((n-start1)/(stop1-start1))*(stop2-start2)+start2
@@ -89,6 +92,8 @@ pygame.display.set_caption("Controls")
 # Run until the user asks to quit
 running = True
 
+ws.start(False)
+
 while True:
 
     for event in pygame.event.get():
@@ -137,5 +142,28 @@ while True:
     pygame.draw.rect(screen, (125, 125, 125), (12.5 + 125 - 125 * threshold, 25 + 125 - 125 * threshold, 250 * threshold, 250 * threshold), 2)
     pygame.draw.rect(screen, (125, 125, 125), (12.5 + 125 + 275 - 125 * threshold, 25 + 125 - 125 * threshold, 250 * threshold, 250 * threshold), 2)
 
+    # check if within threshold, if so, snap to 0
+    if abs(x1) < threshold:
+        x1 = 0
+    if abs(y1) < threshold:
+        y1 = 0
+    if abs(x2) < threshold:
+        x2 = 0
+    if abs(y2) < threshold:
+        y2 = 0
+
+    if r_button and l_button and ws.connected and lastSent != (y1, y2):
+        ws.sendJoystickValues(y1, y2)
+
+        lastSent = (y1, y2)
+    elif (not r_button or not l_button) and ws.connected and lastSent != (0,0):
+        ws.sendJoystickValues(0, 0)
+
+        lastSent
+
+    # check if a button is pressed
+    if right_status["buttons"]["right"]["a"]:
+        ws.sendJoystickValues(0,0)
+        
 
     pygame.display.flip()
