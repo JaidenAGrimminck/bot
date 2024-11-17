@@ -86,7 +86,7 @@ The convention for the WS server is as follows (for sending TO the server):
 | `0x11`, (1), (2), (3)          | Listener | This is for subscribing to a sensor value to be sent to the client every frame. (1) is the robot address, (2) is the sensor identifier, and (3) is whether to subscribe (`0x01`) or unsubscribe (`0x00`). |
 | `0x01`, (1), (2), (3)          | Listener | This returns a sensor value to the client for a one-time request. (1) is the robot address, (2) is the sensor identifier, and (3) is if it's processed (`0x00`) or raw (`0x01`).                          |
 
-> [!WARNING]
+> [!IMPORTANT]
 > If the client is registed as a passive device (that is, `0x03` is used in the registration), the client must attach `0x01` or `0x02` at the beginning of every message to the server to indicate if it's a speaker (`0x01`) or listener (`0x02`). (Does not apply if the type of the message above is blank.)
 
 Additionally, for the server to send TO the client, the following convention is used:
@@ -96,23 +96,7 @@ Additionally, for the server to send TO the client, the following convention is 
 | `0xFF`, `0xFF`                     | This is the confirmation for the initial registration and that it was successful.                                                                                                                                               |
 | `0xC0`, `0x01`, (1), (2), (3), ... | This is a response to either a one-time request or subscription to sensor data. (1) is the robot address, (2) is the sensor identifier, and (3) is n, the number of doubles sent, followed by n 8-byte chunks (each a double).  |
 
-> [!NOTE]
-> Java stores doubles as 8 bytes in big-endian format. In Python, this should be the same, but in JavaScript, doubles are stored as 8 bytes in little-endian format. Here are some examples of conversion:
-> 
-> **Python:**
-> ```python
-> import struct
-> doubleList = next8Bytes() # The 8 bytes that represent the double
-> double = struct.unpack('>d', bytes(value))[0]
-> ```
-> **JavaScript:**
-> ```javascript
-> let doubleList = next8Bytes(); // The 8 bytes that represent the double
-> doubleList = doubleList.reverse(); // Convert from big-endian to little-endian
-> const double = new Float64Array(new Uint8Array(doubleList).buffer)[0];
-> ```
-
-> [!NOTE]
+> [!IMPORTANT]
 > The above lists DO NOT cover every response, as users can add their own custom responses. The above lists are just the default responses.
 > Here's an example of a custom response:
 > ```java
@@ -130,6 +114,23 @@ Additionally, for the server to send TO the client, the following convention is 
 >     }
 > });
 > ```
+
+> [!NOTE]
+> Java stores doubles as 8 bytes in big-endian format. In Python, this should be the same, but in JavaScript, doubles are stored as 8 bytes in little-endian format. Here are some examples of conversion:
+> 
+> **Python:**
+> ```python
+> import struct
+> doubleList = next8Bytes() # The 8 bytes that represent the double
+> double = struct.unpack('>d', bytes(value))[0]
+> ```
+> **JavaScript:**
+> ```javascript
+> let doubleList = next8Bytes(); // The 8 bytes that represent the double
+> doubleList = doubleList.reverse(); // Convert from big-endian to little-endian
+> const double = new Float64Array(new Uint8Array(doubleList).buffer)[0];
+> ```
+
 
 ## Training
 
