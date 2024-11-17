@@ -75,6 +75,22 @@ class ViewTopBar extends HTMLElement {
 
     async connectedCallback() {
         this.innerHTML = (await RawElement("view//viewtopbar", false));
+
+        const children = this.querySelector(".main-top-bar-selection").children;
+
+        for (let i = 0; i < children.length; i++) {
+            children[i].addEventListener("click", this.select.bind(this));
+        }
+    }
+
+    async select(e) {
+        let children = this.querySelector(".main-top-bar-selection").children;
+
+        for (let i = 0; i < children.length; i++) {
+            children[i].classList.remove("top-bar-selected");
+        }
+
+        e.target.classList.add("top-bar-selected");
     }
 }
 

@@ -72,6 +72,23 @@ Then to run, run `./gradlew run`.
 
 [See the Java Docs **here**!](https://jaidenagrimminck.github.io/bot/controlling/docs/javadoc/index.html)
 
+### WS Server
+
+The WS server is hosted on the robot at port `::8080`.
+
+The convention for the WS server is as follows (for sending TO the server):
+
+| Bytes                          | Type     | Description                                                                                                                                                                                               |
+|--------------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `0xFF`, `0x01`                 |          | This is for pinging the server. The server will not respond to this, but it will keep the connection alive.                                                                                               |
+| `0xFF`, (1), `0x00`            |          | **This should be the very first thing sent.** (1) can be `0x01` for a speaker, `0x02` for a listener, `0x03` for a speaker and listener (passive device). This is for registering the client.             |
+| `0x02`, (1), ...               | Speaker  | This is for custom events to be called, where (1) is the event address. Any payloads come after (1).                                                                                                      |
+| `0x11`, (1), (2), (3)          | Listener | This is for subscribing to a sensor value to be sent to the client every frame. (1) is the robot address, (2) is the sensor identifier, and (3) is whether to subscribe (`0x01`) or unsubscribe (`0x00`). |
+| `0x01`, (1), (2), (3)          | Listener | This returns a sensor value to the client for a one-time request. (1) is the robot address, (2) is the sensor identifier, and (3) is if it's processed (`0x00`) or raw (`0x01`).                          |
+
+> [!WARNING]
+> If the client is registed as a passive device (that is, `0x03` is used in the registration), the client must attach `0x01` or `0x02` at the beginning of every message to the server to indicate if it's a speaker (`0x01`) or listener (`0x02`). (Does not apply if the type is blank.)
+
 ## Training
 
 https://github.com/user-attachments/assets/2ca01d5b-e024-48c7-ad41-b3f7e0f1c308

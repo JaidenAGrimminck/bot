@@ -177,7 +177,7 @@ public class MainBot extends Robot {
                     //arcadeDrive.drive(joystick.getY(), joystick.getX(), multiplier);
                     arcadeDrive.drive(joystick.getX() * multiplier, joystick.getY() * multiplier);
 
-                    //System.out.println("Driving at speeds " + joystick.getX() * multiplier + ", " + joystick.getY() * multiplier);
+                    //System.out.println("Driving at speeds=" + joystick.getX() * multiplier + ", " + joystick.getY() * multiplier);
                 } else {
                     topLeft.setSpeed(0);
                     bottomLeft.setSpeed(0);
