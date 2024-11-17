@@ -89,6 +89,29 @@ The convention for the WS server is as follows (for sending TO the server):
 > [!WARNING]
 > If the client is registed as a passive device (that is, `0x03` is used in the registration), the client must attach `0x01` or `0x02` at the beginning of every message to the server to indicate if it's a speaker (`0x01`) or listener (`0x02`). (Does not apply if the type is blank.)
 
+Additionally, for the server to send TO the client, the following convention is used:
+
+| Bytes                              | Description                                                                                                                                                                                                                     |
+|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `0xFF`, `0xFF`                     | This is the confirmation for the initial registration and that it was successful.                                                                                                                                               |
+| `0xC0`, `0x01`, (1), (2), (3), ... | This is a response to either a one-time request or subscription to sensor data. (1) is the robot address, (2) is the sensor identifier, and (3) is n, the number of doubles sent, followed by n 8-byte chunks (each a double).  |
+
+> [!NOTE]
+> Java stores doubles as 8 bytes in big-endian format. In Python, this should be the same, but in JavaScript, doubles are stored as 8 bytes in little-endian format. Here are some examples of conversion:
+> 
+> **Python:**
+> ```python
+> import struct
+> doubleList = next8Bytes() # The 8 bytes that represent the double
+> double = struct.unpack('>d', bytes(value))[0]
+> ```
+> **JavaScript:**
+> ```javascript
+> let doubleList = next8Bytes(); // The 8 bytes that represent the double
+> doubleList = doubleList.reverse(); // Convert from big-endian to little-endian
+> const double = new Float64Array(new Uint8Array(doubleList).buffer)[0];
+> ```
+
 ## Training
 
 https://github.com/user-attachments/assets/2ca01d5b-e024-48c7-ad41-b3f7e0f1c308
