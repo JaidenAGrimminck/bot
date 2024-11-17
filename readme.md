@@ -87,7 +87,7 @@ The convention for the WS server is as follows (for sending TO the server):
 | `0x01`, (1), (2), (3)          | Listener | This returns a sensor value to the client for a one-time request. (1) is the robot address, (2) is the sensor identifier, and (3) is if it's processed (`0x00`) or raw (`0x01`).                          |
 
 > [!WARNING]
-> If the client is registed as a passive device (that is, `0x03` is used in the registration), the client must attach `0x01` or `0x02` at the beginning of every message to the server to indicate if it's a speaker (`0x01`) or listener (`0x02`). (Does not apply if the type is blank.)
+> If the client is registed as a passive device (that is, `0x03` is used in the registration), the client must attach `0x01` or `0x02` at the beginning of every message to the server to indicate if it's a speaker (`0x01`) or listener (`0x02`). (Does not apply if the type of the message above is blank.)
 
 Additionally, for the server to send TO the client, the following convention is used:
 
@@ -110,6 +110,25 @@ Additionally, for the server to send TO the client, the following convention is 
 > let doubleList = next8Bytes(); // The 8 bytes that represent the double
 > doubleList = doubleList.reverse(); // Convert from big-endian to little-endian
 > const double = new Float64Array(new Uint8Array(doubleList).buffer)[0];
+> ```
+
+> [!NOTE]
+> The above lists DO NOT cover every response, as users can add their own custom responses. The above lists are just the default responses.
+> Here's an example of a custom response:
+> ```java
+> // When a speaker sends the message: [0x02, 0xD5, 0x01/0x00]
+> WSClient.registerCallable(0xD5, new RunnableWithArgs() {
+>     @Override
+>     public void run(Object... args) {
+>         // Do something with the args
+>         int[] args = Mathf.allPos((int[]) args[0]); // Convert the args from -128 to 127 to 0 to 255
+>         if (args[0] == 0x00) {
+>             System.out.println("Hello world!");
+>         } else if (args[0] == 0x01) {
+>            System.out.println("Goodbye world!");
+>         }
+>     }
+> });
 > ```
 
 ## Training
