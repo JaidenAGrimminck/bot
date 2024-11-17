@@ -106,10 +106,14 @@ Additionally, for the server to send TO the client, the following convention is 
 >     public void run(Object... args) {
 >         // Do something with the args
 >         int[] args = Mathf.allPos((int[]) args[0]); // Convert the args from -128 to 127 to 0 to 255
+>         WSClient client = (WSClient) args[1]; // Get the client
+> 
 >         if (args[0] == 0x00) {
 >             System.out.println("Hello world!");
+>             client.send(new byte[] { 0x03, 0x01 }); // Send a custom response back to the client
 >         } else if (args[0] == 0x01) {
->            System.out.println("Goodbye world!");
+>             System.out.println("Goodbye world!");
+>             client.send(new byte[] { 0x03, 0x00 }); // Send a custom response back to the client
 >         }
 >     }
 > });
