@@ -1,5 +1,6 @@
 package me.autobot.code;
 
+import me.autobot.lib.controls.Joycon;
 import me.autobot.lib.math.coordinates.Polar;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
@@ -45,6 +46,8 @@ public class MainBot extends Robot {
     private double aiRotation = 0;
 
     private boolean joystickUpdated = false;
+
+    private Joycon joycon;
 
     /**
      * Creates a new MainBot.
@@ -97,34 +100,7 @@ public class MainBot extends Robot {
                 Config.BACK_RIGHT_MOTOR_DIRECTION, Config.BACK_RIGHT_MOTOR
         );
 
-        WSClient.registerCallable(0xD5, new RunnableWithArgs() {
-            @Override
-            public void run(Object... args) {
-                //convert first 8 bytes to a double
-                int[] data = (int[]) args[0];
-
-                // convert the first 8 bytes of the data to a double
-                ByteBuffer buffer = ByteBuffer.allocate(8);
-                for (int i = 0; i < 8; i++) {
-                    buffer.put((byte) data[i]);
-                }
-                buffer.flip();
-                double x = buffer.getDouble(); //first double is x
-
-                // convert the second 8 bytes of the data to a double
-                buffer = ByteBuffer.allocate(8);
-                for (int i = 8; i < 16; i++) {
-                    buffer.put((byte) data[i]);
-                }
-                buffer.flip();
-                double y = buffer.getDouble(); //first double is y
-
-                joystick.setX(x);
-                joystick.setY(y);
-
-                joystickUpdated = true;
-            }
-        });
+        joycon = Joycon.getJoycon((byte) 0xB5);
 
         WSClient.registerCallable(0xB6, new RunnableWithArgs() {
             @Override

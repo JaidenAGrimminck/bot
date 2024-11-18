@@ -46,15 +46,18 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 
+    //pi4j plugins for pi gpio and linux fs
     implementation("com.pi4j:pi4j-ktx:2.4.0") // Kotlin DSL
     implementation("com.pi4j:pi4j-core:2.3.0")
     implementation("com.pi4j:pi4j-plugin-raspberrypi:2.3.0")
     implementation("com.pi4j:pi4j-plugin-pigpio:2.3.0")
     implementation("com.pi4j:pi4j-plugin-linuxfs:2.3.0")
 
+    //slf4j for logging
     implementation("org.slf4j:slf4j-simple:2.0.16")
     implementation("org.slf4j:slf4j-api:2.0.16")
 
+    //nanohttpd for webserver
     implementation("org.nanohttpd:nanohttpd:2.3.1")
     implementation("org.nanohttpd:nanohttpd-websocket:2.3.1")
 

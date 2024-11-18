@@ -1,4 +1,5 @@
 me.autobot.code
+me.autobot.lib.controls
 me.autobot.lib.logging
 me.autobot.lib.math
 me.autobot.lib.math.coordinates
@@ -14,6 +15,8 @@ me.autobot.lib.robot.sensors
 me.autobot.lib.serial
 me.autobot.lib.serial.i2c
 me.autobot.lib.serial.serial
+me.autobot.lib.systems.actions
+me.autobot.lib.systems.mechanisms
 me.autobot.lib.tools
 me.autobot.server
 me.autobot.sim

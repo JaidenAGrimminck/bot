@@ -16,7 +16,7 @@ Made by Jaiden.
 
 ## About
 
-This project is supposed to be sort of a capstone projcet for my senior year of high school... but on a personal level (rather than for school).
+This project is supposed to be sort of a capstone project for my senior year of high school... but on a personal level (rather than for school).
 It's a fun project that I'm having a great time exploring all sorts of areas from robotics to neural networks.
 
 ## Prerequisites
@@ -172,7 +172,7 @@ The default behavior of this is to run the presaved models in the folder. If you
 
 ## Site
 
-The site/frontend is what can be used to diagnose the robot's current status, condition, and remotely control/edit the robot via the page. The site is built ontop of `express` and `socket.io`, allowing for fast and live communication with backend components that communicate with the robot via ROS/sockets.
+The site/frontend is what can be used to diagnose the robot's current status, condition, and remotely control/edit the robot via the page. The site is built on top of `express` and `socket.io`, allowing for fast and live communication with backend components that communicate with the robot via ROS/sockets.
 
 The site is fully modular as well, similar to React but very lightweight in comparison, taking <4MB for the `node-modules`, allowing for easier deployment onto something like a Raspberry Pi.
 
@@ -215,11 +215,11 @@ If the file depends on an element, for example `panel` depends on the component 
 
 ### Panel
 
-The panel component is a veritile component that contains many different functions, such as displaying the status of the robot, making a graph, the log of the robot, or access to the shell.
+The panel component is a versatile component that contains many different functions, such as displaying the status of the robot, making a graph, the log of the robot, or access to the shell.
 
 #### Status
 
-The status panel displays the status of the robot. Currently it just displays the connection speed between the frontend and the backend, and between the robot (but the robot isn't built yet, so just 0 for now).
+The status panel displays the status of the robot. Currently, it just displays the connection speed between the frontend and the backend, and between the robot (but the robot isn't built yet, so just 0 for now).
 
 ![status](readme/site/images/status.png)
 

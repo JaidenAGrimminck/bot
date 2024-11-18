@@ -22,46 +22,6 @@ public class Main {
      * @param args The arguments passed to the program.
      * */
     public static void main(String[] args) {
-     //   new MainBot();
-
-        new MainBot();
-
-
-//        System.out.println("Connection making.");
-//        SensorHubSerialConnection connection = SensorHubSerialConnection.getOrCreateConnection(9600, "/dev/cu.usbserial-10");
-//        System.out.println("Connection established.");
-//
-//        Runnable run = () -> {
-//            while (!connection.open()) {
-//                try {
-//                    Thread.sleep(10);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//
-//            try {
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//
-//            System.out.println("Connection opened.");
-//            connection.ping();
-//
-//            connection.writeToPin(13, SensorHubSerialConnection.HIGH);
-//            System.out.println("Data written.");
-//
-//            try {
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//
-//            connection.writeToPin(13, SensorHubSerialConnection.LOW);
-//        };
-//
-//        Thread thread = new Thread(run);
-//        thread.start();
+        new Main();
     }
 }

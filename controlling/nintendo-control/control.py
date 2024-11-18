@@ -3,6 +3,7 @@ import time
 from math import floor
 import pygame
 import ws
+import struct
 
 right_joycon_id = get_R_id()
 right_joycon = JoyCon(*right_joycon_id)
@@ -82,6 +83,116 @@ def printMapped(x,y):
                 print(" ", end="")
         print()
 
+
+def sendJoystick(l_state, r_state):
+    payload = []
+
+    # takes in a list of 34 bytes.
+    # first 2 bytes are the buttons
+    # next 32 bytes are the joysticks
+
+    # to keep the data at a minimum, use the standard of 1kb per second.
+    # this means 30 updates per second, should be plenty for a controller.
+
+    # first byte
+    # 0b 0000 0000 EXPANDED:
+    # 0: a
+    # 1: b
+    # 2: x
+    # 3: y
+    # 4: l
+    # 5: r
+    # 6: zl
+    # 7: zr
+    buttons = 0b00000000
+
+    buttons |= r_state["buttons"]["right"]["a"] << 0
+    buttons |= r_state["buttons"]["right"]["b"] << 1
+    buttons |= r_state["buttons"]["right"]["x"] << 2
+    buttons |= r_state["buttons"]["right"]["y"] << 3
+    buttons |= l_state["buttons"]["left"]["l"] << 4
+    buttons |= r_state["buttons"]["right"]["r"] << 5
+    buttons |= l_state["buttons"]["left"]["zl"] << 6
+    buttons |= r_state["buttons"]["right"]["zr"] << 7
+
+    payload.append(buttons)
+
+    # second byte
+    # 0b 0000 0000 EXPANDED:
+    # 0: minus
+    # 1: plus
+    # 2: leftStick
+    # 3: rightStick
+    # 4: dpadLeft
+    # 5: dpadRight
+    # 6: dpadUp
+    # 7: dpadDown
+
+    buttons = 0b00000000
+
+    buttons |= l_state["buttons"]["shared"]["minus"] << 0
+    buttons |= l_state["buttons"]["shared"]["plus"] << 1
+    buttons |= l_state["buttons"]["shared"]["l-stick"] << 2
+    buttons |= l_state["buttons"]["shared"]["r-stick"] << 3
+    buttons |= l_state["buttons"]["left"]["left"] << 4
+    buttons |= l_state["buttons"]["left"]["right"] << 5
+    buttons |= l_state["buttons"]["left"]["up"] << 6
+    buttons |= l_state["buttons"]["left"]["down"] << 7
+
+    payload.append(buttons)
+
+    # third byte
+    # 0b 0000 0000 EXPANDED:
+    # 0: rightSl
+    # 1: rightSr
+    # 2: leftSl
+    # 3: leftSr
+    # 4: home
+    # 5: capture
+    # 6: chargingGrip
+    # 7: unused
+
+    buttons = 0b00000000
+
+    buttons |= r_state["buttons"]["right"]["sl"] << 0
+    buttons |= r_state["buttons"]["right"]["sr"] << 1
+    buttons |= l_state["buttons"]["left"]["sl"] << 2
+    buttons |= l_state["buttons"]["left"]["sr"] << 3
+    buttons |= l_state["buttons"]["shared"]["home"] << 4
+    buttons |= l_state["buttons"]["shared"]["capture"] << 5
+    buttons |= l_state["buttons"]["shared"]["charging-grip"] << 6
+    buttons |= 0 << 7
+
+    payload.append(buttons)
+
+    # then, the rest of the data is the joysticks values (each a double (8 bytes) and 4 doubles for the 2 joysticks)
+    # 8 byte chunks:
+    # 0: left x
+    # 1: left y
+    # 2: right x
+    # 3: right y
+
+    left, right = calculateJoysticks(l_state, r_state)
+
+    left_x, left_y = left
+    right_x, right_y = right
+
+    left_x = struct.pack('>d', left_x)
+    left_y = struct.pack('>d', left_y)
+    right_x = struct.pack('>d', right_x)
+    right_y = struct.pack('>d', right_y)
+
+    for i in range(8):
+        payload.append(left_x[i])
+    for i in range(8):
+        payload.append(left_y[i])
+    for i in range(8):
+        payload.append(right_x[i])
+    for i in range(8):
+        payload.append(right_y[i])
+
+    ws.sendPayload(payload)    
+
 pygame.init()
 
 # Set up the drawing window
@@ -152,18 +263,6 @@ while True:
     if abs(y2) < threshold:
         y2 = 0
 
-    if r_button and l_button and ws.connected and lastSent != (y1, y2):
-        ws.sendJoystickValues(y1, y2)
-
-        lastSent = (y1, y2)
-    elif (not r_button or not l_button) and ws.connected and lastSent != (0,0):
-        ws.sendJoystickValues(0, 0)
-
-        lastSent
-
-    # check if a button is pressed
-    if right_status["buttons"]["right"]["a"]:
-        ws.sendJoystickValues(0,0)
-        
+    sendJoystick(left_status, right_status)
 
     pygame.display.flip()
