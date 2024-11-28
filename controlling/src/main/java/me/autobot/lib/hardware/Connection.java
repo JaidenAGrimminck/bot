@@ -1,4 +1,4 @@
-package me.autobot.lib.serial;
+package me.autobot.lib.hardware;
 
 /**
  * A connection to some device.

@@ -28,6 +28,16 @@ public class Vector2d {
     }
 
     /**
+     * Rotates a value by a rotation, creating a vector.
+     * @param value The value to rotate.
+     * @param rotation The rotation to rotate the value by.
+     * @return The rotated value as a vector.
+     * */
+    public static Vector2d rotateValue(double value, Rotation2d rotation) {
+        return new Vector2d(value * rotation.cos(), value * rotation.sin());
+    }
+
+    /**
      * Creates a new vector from cartesian coordinates.
      * @param x The x coordinate
      * @param y The y coordinate

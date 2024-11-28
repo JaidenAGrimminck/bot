@@ -2,7 +2,7 @@ package me.autobot.lib.robot;
 
 import me.autobot.lib.math.coordinates.Vector3d;
 import me.autobot.lib.math.rotation.Rotation3d;
-import me.autobot.lib.serial.i2c.SensorHubI2CConnection;
+import me.autobot.lib.hardware.i2c.SensorHubI2CConnection;
 import me.autobot.server.WSClient;
 
 import java.util.ArrayList;
@@ -17,23 +17,6 @@ public class Sensor extends Device {
     private static ArrayList<Sensor> sensors = new ArrayList<>();
 
     /**
-     * Gets the sensor objects connected to the specific sensor hub address on the specific robot.
-     * @param robotAddr The address of the robot.
-     * @param address The address of the sensor hub.
-     * @return The sensor objects connected to the specific sensor hub address on the specific robot.
-     * */
-    public static ArrayList<Sensor> getSensors(int robotAddr, int address) {
-        ArrayList<Sensor> nl = new ArrayList<>();
-        for (Sensor sensor : sensors) {
-            if (sensor.getAddress() == address && sensor.getParentAddress() == robotAddr) {
-                nl.add(sensor);
-            }
-        }
-
-        return nl;
-    }
-
-    /**
      * Gets the sensor object with the specific identifier and robot address.
      * @param identifier The identifier of the sensor.
      * @param robotAddr The address of the robot.
@@ -41,7 +24,7 @@ public class Sensor extends Device {
      * */
     public static Sensor getSensor(int identifier, int robotAddr) {
         for (Sensor sensor : sensors) {
-            if (sensor.identifier == identifier && sensor.getParentAddress() == robotAddr) {
+            if (sensor.identifier == identifier && sensor.getParentIdentification() == robotAddr) {
                 return sensor;
             }
         }
@@ -52,14 +35,19 @@ public class Sensor extends Device {
     private double[] sensorValues;
     private final int sensorChannels;
 
+
     private Vector3d relativePosition;
 
     private Rotation3d relativeRotation;
 
+    // any websocket clients that are subscribed to this sensor
     private ArrayList<WSClient> subscribers;
 
-    private final int address;
-    private final int bus;
+    // for I2C connection
+    private int address;
+    private int bus;
+
+    // identifier for in general
 
     private final int identifier;
 
@@ -70,42 +58,15 @@ public class Sensor extends Device {
     /**
      * Creates a new sensor with the given address and number of sensor channels.
      * @param identifier The identifier of the sensor. Could be any number, should be unique to all other sensors on the robot.
-     * @param address The address of the sensor hub on the I2C bus.
      * @param sensorChannels The number of output channels the sensor has.
      * */
-    public Sensor(int identifier, int address, int sensorChannels) {
+    public Sensor(int identifier, int sensorChannels) {
         super();
 
         this.sensorChannels = sensorChannels;
         this.bus = SensorHubI2CConnection.default_bus;
 
         sensorValues = new double[sensorChannels];
-
-        this.address = address;
-
-        sensors.add(this);
-
-        this.identifier = identifier;
-
-        startUpdateTimer();
-    }
-
-    /**
-     * Creates a new sensor with the given address, bus, and number of sensor channels.
-     * @param identifier The identifier of the sensor. Could be any number, should be unique to all other sensors on the robot.
-     * @param address The address of the sensor hub on the I2C bus.
-     * @param bus The bus of the sensor hub on the I2C bus.
-     * @param sensorChannels The number of output channels the sensor has.
-     * */
-    public Sensor(int identifier, int address, int bus, int sensorChannels) {
-        super();
-
-        this.sensorChannels = sensorChannels;
-        this.bus = bus;
-
-        sensorValues = new double[sensorChannels];
-
-        this.address = address;
 
         sensors.add(this);
 
@@ -118,7 +79,10 @@ public class Sensor extends Device {
      * Connects the sensor to the I2C bus.
      * @param pin The pin to connect the sensor to.
      * **/
-    public void connectToI2C(int pin) {
+    public void connectToI2C(int address, int bus, int pin) {
+        this.address = address;
+        this.bus = bus;
+
         if (this.getParent() == null) {
             throw new IllegalStateException("Cannot connect sensor to I2C bus without a parent.");
         }
@@ -160,7 +124,7 @@ public class Sensor extends Device {
                     WSClient client = subscribers.get(i);
                     try {
                         if (client.isOpen())
-                            client.sendSensorData(getParentAddress(), (byte) getIdentifier(), getValues());
+                            client.sendSensorData(getParentIdentification(), (byte) getIdentifier(), getValues());
                         else
                             toRemove.add(client);
                     } catch (Exception e) {
@@ -323,10 +287,20 @@ public class Sensor extends Device {
     }
 
     /**
+     * Sets the Bus and Address of the sensor (for I2C communication).
+     * @param bus The bus to set the sensor to.
+     * @param address The address to set the sensor to.
+     * */
+    protected void setBusAndAddress(int bus, int address) {
+        this.bus = bus;
+        this.address = address;
+    }
+
+    /**
      * Returns the address/identifier of the parent robot.
      * @return The address/identifier of the parent robot.
      * */
-    public byte getParentAddress() {
+    public byte getParentIdentification() {
         return this.getParent().getIdentification();
     }
 }

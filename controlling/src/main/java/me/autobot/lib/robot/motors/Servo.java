@@ -3,7 +3,7 @@ package me.autobot.lib.robot.motors;
 import me.autobot.lib.logging.Log;
 import me.autobot.lib.math.Mathf;
 import me.autobot.lib.robot.Motor;
-import me.autobot.lib.serial.i2c.SensorHubI2CConnection;
+import me.autobot.lib.hardware.i2c.SensorHubI2CConnection;
 
 /**
  * The servo motor class. This class is used to control a servo motor via the I2C bus.

@@ -1,10 +1,9 @@
-package me.autobot.lib.serial.serial;
+package me.autobot.lib.hardware.serial;
 
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
-import me.autobot.lib.math.Mathf;
-import me.autobot.lib.serial.Connection;
+import me.autobot.lib.hardware.Connection;
 
 /**
  * Serial connection class.
@@ -84,10 +83,6 @@ public class SerialConnection extends Connection {
      * */
     protected void onSerialData(byte[] data) {
         // Override this method to handle serial data
-        for (byte datum : data) {
-            System.out.print(Mathf.allPos(datum) + " ");
-        }
-        System.out.println();
     }
 
     /***
@@ -96,6 +91,20 @@ public class SerialConnection extends Connection {
      */
     protected void write(byte[] data) {
         port.writeBytes(data, data.length);
+    }
+
+    /**
+     * Writes the given data to the serial port.
+     * @param data The data to write to the serial port.
+     * */
+    public void write(int[] data) {
+        byte[] bytes = new byte[data.length];
+
+        for (int i = 0; i < data.length; i++) {
+            bytes[i] = (byte) data[i];
+        }
+
+        write(bytes);
     }
 
     /**

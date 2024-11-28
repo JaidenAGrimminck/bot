@@ -3,7 +3,7 @@ package me.autobot.lib.robot;
 import me.autobot.lib.logging.Log;
 import me.autobot.lib.logging.Logger;
 import me.autobot.lib.math.Clock;
-import me.autobot.lib.math.Geometry;
+import me.autobot.lib.math.objects.Geometry;
 import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;

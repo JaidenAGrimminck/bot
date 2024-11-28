@@ -1,8 +1,8 @@
-package me.autobot.lib.serial.serial;
+package me.autobot.lib.hardware.serial;
 
 import me.autobot.lib.math.Mathf;
 import me.autobot.lib.robot.Sensor;
-import me.autobot.lib.serial.i2c.SensorHubI2CConnection;
+import me.autobot.lib.hardware.i2c.SensorHubI2CConnection;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;

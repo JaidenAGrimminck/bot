@@ -94,6 +94,19 @@ class ViewTopBar extends HTMLElement {
     }
 }
 
+class VariablesView extends HTMLElement {
+    constructor() {
+        super();
+
+
+    }
+
+    async connectedCallback() {
+        this.innerHTML = (await RawElement("view//variablesview", false));
+        this.classList.add("variables-view");
+    }
+}
+
 class View extends HTMLElement {
     constructor() {
         super();
@@ -101,6 +114,13 @@ class View extends HTMLElement {
         this.adjustment = {
             selected: false
         }
+
+        this.bottomAdjustment = {
+            selected: false
+        }
+
+        this.sideMaxWidth = 0.50; // percentage
+        this.minSideWidth = 200;
     }
 
     async connectedCallback() {
@@ -110,12 +130,21 @@ class View extends HTMLElement {
         document.addEventListener("mousemove", this.adjustSize.bind(this));
         document.addEventListener("mouseup", this.endAdjustSize.bind(this));
         document.addEventListener("mouseleave", this.endAdjustSize.bind(this));
+        
+        //cheat to let element load first
+        setTimeout(() => {
+            this.querySelector(".bottom-size-adjuster").addEventListener("mousedown", this.initAdjustBottomSize.bind(this));
+            document.addEventListener("mousemove", this.adjustBottomSize.bind(this));
+            document.addEventListener("mouseup", this.endAdjustBottomSize.bind(this));
+            document.addEventListener("mouseleave", this.endAdjustBottomSize.bind(this));
+        }, 100)
 
         //when the window is resized, adjust the size of the side
         window.addEventListener("resize", () => {
             let sideWidth = this.querySelector(".side").getBoundingClientRect().width;
             this.querySelector(".side").style.width = sideWidth + "px";
             this.querySelector(".main").style.width = "calc(100% - " + sideWidth + "px)";
+            document.querySelector(".bottom-size-adjuster").style.left = "calc(" + sideWidth + "px + (100% - " + sideWidth + "px) / 2)";
         });
 
         //and add mouse up event listener to window
@@ -133,9 +162,19 @@ class View extends HTMLElement {
         let x = e.clientX;
         let y = e.clientY;
 
+        let maxWidth = window.innerWidth * this.sideMaxWidth;
+
+        if (x > maxWidth) {
+            x = maxWidth;
+        }
+        if (x < this.minSideWidth) {
+            x = this.minSideWidth;
+        }
+
         //adjust width to mouse position
         this.querySelector(".side").style.width = (x) + "px";
         this.querySelector(".main").style.width = "calc(100% - " + (x) + "px)";
+        document.querySelector(".bottom-size-adjuster").style.left = "calc(" + x + "px + (100% - " + x + "px) / 2)";
 
         //get new bounding box of side
         let sideBB = this.querySelector(".side").getBoundingClientRect();
@@ -149,8 +188,38 @@ class View extends HTMLElement {
         this.adjustment.selected = false;
         document.querySelector("body").style.cursor = "default";
     }
+
+    async initAdjustBottomSize(e) {
+        this.bottomAdjustment.selected = true;
+        document.querySelector("body").style.cursor = "ns-resize";
+    }
+
+    async adjustBottomSize(e) {
+        if (!this.bottomAdjustment.selected) return;
+
+        //get mouse position
+        let x = e.clientX;
+        let y = e.clientY;
+
+        let height = window.innerHeight - y;
+
+        if (height < 200) {
+            height = 200;
+        } else if (height > 400) {
+            height = 400;
+        }
+
+        this.querySelector(".bottom-size-adjuster").style.bottom = (height - 6) + "px";
+        this.querySelector(".variables-view").style.height = height + "px";
+    }
+
+    async endAdjustBottomSize() {
+        this.bottomAdjustment.selected = false;
+        document.querySelector("body").style.cursor = "default";
+    }
 }
 
 customElements.define("view-sideitem", ViewSideItem);
 customElements.define("info-view", View);
 customElements.define("view-top-bar", ViewTopBar);
+customElements.define("variables-view", VariablesView);

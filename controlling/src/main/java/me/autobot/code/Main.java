@@ -1,7 +1,5 @@
 package me.autobot.code;
 
-import me.autobot.lib.robot.sensors.UltrasonicSensor;
-import me.autobot.lib.serial.serial.SensorHubSerialConnection;
 import me.autobot.sim.Simulation;
 
 /**
@@ -22,6 +20,6 @@ public class Main {
      * @param args The arguments passed to the program.
      * */
     public static void main(String[] args) {
-        new Main();
+        new TestBot();
     }
 }

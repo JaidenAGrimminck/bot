@@ -2,7 +2,7 @@ package me.autobot.lib.robot;
 
 import me.autobot.lib.logging.Log;
 import me.autobot.lib.math.Mathf;
-import me.autobot.lib.serial.i2c.SensorHubI2CConnection;
+import me.autobot.lib.hardware.i2c.SensorHubI2CConnection;
 
 /**
  * A moving device that can be controlled by the robot, such as a motor.

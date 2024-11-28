@@ -5,8 +5,8 @@ import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.robot.Sensor;
-import me.autobot.lib.serial.i2c.SensorHubI2CConnection;
-import me.autobot.lib.serial.serial.SensorHubSerialConnection;
+import me.autobot.lib.hardware.i2c.SensorHubI2CConnection;
+import me.autobot.lib.hardware.serial.SensorHubSerialConnection;
 import me.autobot.sim.Simulation;
 
 import java.util.ArrayList;
@@ -28,10 +28,9 @@ public class UltrasonicSensor extends Sensor {
     /**
      * Creates a new ultrasonic sensor object.
      * @param identifier The identifier of the sensor.
-     * @param address The address of the sensor hub (i2c).
      * */
-    public UltrasonicSensor(int identifier, int address) {
-        super(identifier, address, 1);
+    public UltrasonicSensor(int identifier) {
+        super(identifier, 1);
         setSensorValues(0);
     }
 
@@ -40,7 +39,9 @@ public class UltrasonicSensor extends Sensor {
      * @param pin The echo pin on the sensor hub.
      * */
     @Override
-    public void connectToI2C(int pin) {
+    public void connectToI2C(int address, int bus, int pin) {
+        setBusAndAddress(bus, address);
+
         if (getParent() == null) {
             throw new IllegalStateException("Cannot connect sensor to I2C bus without a parent.");
         }
@@ -153,7 +154,7 @@ public class UltrasonicSensor extends Sensor {
 //                    object.inRay = true;
 //                }
 
-                object.flags.put(getParentAddress() + getAddress() + "hit", false);
+                object.flags.put(getParentIdentification() + getAddress() + "hit", false);
 
                 if (object.lineIntersects(absolutePos, ray) && object.raycastDistance(absolutePos, ray) < closestDistance) {
                     closestDistance = object.raycastDistance(absolutePos, ray);
@@ -166,7 +167,7 @@ public class UltrasonicSensor extends Sensor {
 //                    closestObject.inRay = true;
 //                    SimCanvas.debugStr = closestObject.getPosition().toString() + ", " + getRobot().getPosition().toString();
 //                }
-                closestObject.flags.put(getParentAddress() + getAddress() + "hit", true);
+                closestObject.flags.put(getParentIdentification() + getAddress() + "hit", true);
 
                 //if it does, return the distance to the object
                 return Unit.Type.CENTIMETER.c(closestObject.raycastDistance(absolutePos, ray) + (Math.random() * maxNoise.getValue(Unit.Type.CENTIMETER)));

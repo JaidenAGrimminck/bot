@@ -473,7 +473,7 @@ public class WSClient extends NanoWSD.WebSocket {
 
         encodedDoubles[0] = (byte) 0xC0; //response
         encodedDoubles[1] = (byte) 0x01; //sensor data
-        encodedDoubles[2] = (byte) sensor.getParentAddress();
+        encodedDoubles[2] = (byte) sensor.getParentIdentification();
         encodedDoubles[3] = (byte) sensor.getIdentifier();
         encodedDoubles[4] = (byte) nDoubles;
 

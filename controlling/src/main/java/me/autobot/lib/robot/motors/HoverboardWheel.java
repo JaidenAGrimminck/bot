@@ -2,7 +2,7 @@ package me.autobot.lib.robot.motors;
 
 import me.autobot.lib.math.Mathf;
 import me.autobot.lib.robot.Motor;
-import me.autobot.lib.serial.serial.SensorHubSerialConnection;
+import me.autobot.lib.hardware.serial.SensorHubSerialConnection;
 
 import java.nio.ByteBuffer;
 

@@ -24,9 +24,9 @@ public class UltrasonicBot extends Robot {
      * */
     @Override
     protected void setup() {
-        sensor = new UltrasonicSensor(1, 0x12);
-        sensor2 = new UltrasonicSensor(2, 0x12);
-        sensor3 = new UltrasonicSensor(3, 0x12);
+        sensor = new UltrasonicSensor(1);
+        sensor2 = new UltrasonicSensor(2);
+        sensor3 = new UltrasonicSensor(3);
 
         registerAllDevices();
 

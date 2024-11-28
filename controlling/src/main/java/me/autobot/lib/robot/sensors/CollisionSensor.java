@@ -11,8 +11,8 @@ public class CollisionSensor extends Sensor {
      * @param identifier The identifier of the sensor. Could be any number, should be unique to all other sensors on the robot.
      * @param address The address of the sensor hub on the I2C bus.
      * */
-    public CollisionSensor(int identifier, int address) {
-        super(identifier, address, 1);
+    public CollisionSensor(int identifier) {
+        super(identifier, 1);
         setSensorValues(0);
     }
 

@@ -1,4 +1,4 @@
-package me.autobot.lib.math;
+package me.autobot.lib.math.objects;
 
 import me.autobot.lib.math.coordinates.Projection;
 import me.autobot.lib.math.coordinates.Vector2d;

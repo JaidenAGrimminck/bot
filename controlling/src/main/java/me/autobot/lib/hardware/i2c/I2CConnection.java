@@ -1,14 +1,13 @@
-package me.autobot.lib.serial.i2c;
+package me.autobot.lib.hardware.i2c;
 
 import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
 import com.pi4j.io.i2c.I2C;
 import com.pi4j.io.i2c.I2CConfig;
 import com.pi4j.io.i2c.I2CProvider;
-import me.autobot.lib.serial.Connection;
+import me.autobot.lib.hardware.Connection;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 
 /**
  * Creates a connection to an I2C device.

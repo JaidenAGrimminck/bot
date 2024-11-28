@@ -63,16 +63,16 @@ public class SimRobot extends Robot {
         bottomRightMotor.invert();
         topRightMotor.invert();
 
-        frontSensor = new UltrasonicSensor(0x01, 0x01);
+        frontSensor = new UltrasonicSensor(0x01);
         frontSensor.attachRelativePosition(new Vector3d(0d, 30d, 0d), Rotation3d.fromDegrees(90, 90));
 
-        topLeftSensor = new UltrasonicSensor(0x03, 0x01);
+        topLeftSensor = new UltrasonicSensor(0x03);
         topLeftSensor.attachRelativePosition(new Vector3d(-20d, 30d, 0d), Rotation3d.fromDegrees(135, 90));
-        topRightSensor = new UltrasonicSensor(0x02, 0x01);
+        topRightSensor = new UltrasonicSensor(0x02);
         topRightSensor.attachRelativePosition(new Vector3d(20d, 30d, 0d), Rotation3d.fromDegrees(45, 90));
 
         //used primarily for simulation purposes
-        collisionSensor = new CollisionSensor(0xC7, 0x02);
+        collisionSensor = new CollisionSensor(0xC7);
 
         this.registerAllDevices();
 
