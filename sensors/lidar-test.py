@@ -7,10 +7,8 @@ if __name__ == "__main__":
     ports = ydlidar.lidarPortList()
     port = "/dev/ydlidar"
     for key, value in ports.items():
-        if "USB" in value:
-            continue
-        print(value)
         port = value
+    print("Connecting to port: ", port)
     laser.setlidaropt(ydlidar.LidarPropSerialPort, port)
     laser.setlidaropt(ydlidar.LidarPropSerialBaudrate, 128000)
     laser.setlidaropt(ydlidar.LidarPropLidarType, ydlidar.TYPE_TOF)
@@ -26,7 +24,9 @@ if __name__ == "__main__":
         while ret and ydlidar.os_isOk():
             r = laser.doProcessSimple(scan)
             if r:
-                print("Scan received[",scan.stamp,"]:",scan.points.size(),"ranges is [",1.0/scan.config.scan_time,"]Hz")
+                print("Scan received [",scan.stamp,"]: ",scan.points.size(),"ranges is [",1.0/scan.config.scan_time,"]Hz")
+                for point in scan.points:
+                    print("Angle[",point.angle,"], Distance:`",point.range,"], Intensity:",point.intensity)
             else :
                 print("Failed to get Lidar Data.")
         laser.turnOff()
