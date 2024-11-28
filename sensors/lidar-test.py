@@ -24,7 +24,10 @@ if __name__ == "__main__":
         while ret and ydlidar.os_isOk():
             r = laser.doProcessSimple(scan)
             if r:
-                print("Scan received [",scan.stamp,"]: ",scan.points.size(),"ranges is [",1.0/scan.config.scan_time,"]Hz")
+                scan_time = scan.config.scan_time
+                if scan_time == 0:
+                    scan_time = 1.0
+                print("Scan received [",scan.stamp,"]: ",scan.points.size(),"ranges is [",1.0/scan_time,"]Hz")
                 for point in scan.points:
                     print("Angle[",point.angle,"], Distance:`",point.range,"], Intensity:",point.intensity)
             else :

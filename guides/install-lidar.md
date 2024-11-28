@@ -73,6 +73,17 @@ Then, make sure to change `LidarPropSingleChannel` to `True` and `LidarPropSeria
 
 You may also want to set the port manually.
 
+Also, you'll have to add into the for-loop, after the `if r:`
+
+```python
+scan_time = scan.config.scan_time
+if scan_time == 0:
+    scan_time = 1.0
+print("Scan received [",scan.stamp,"]: ",scan.points.size(),"ranges is [",1.0/scan_time,"]Hz")
+```
+
+On the first message, the `scan_time` seems to return zero.
+
 Then, to run the file, run
 
 ```bash
