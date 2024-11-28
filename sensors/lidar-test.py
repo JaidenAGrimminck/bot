@@ -7,7 +7,9 @@ if __name__ == "__main__":
     ports = ydlidar.lidarPortList()
     port = "/dev/ydlidar"
     for key, value in ports.items():
-        print(value)
+        if "USB" in value:
+            continue
+        
         port = value
     laser.setlidaropt(ydlidar.LidarPropSerialPort, port)
     laser.setlidaropt(ydlidar.LidarPropSerialBaudrate, 512000)
