@@ -73,6 +73,9 @@ public class Matrix {
 
     /**
      * Gets the value at the given row and column
+     * @param row The row to get the value from
+     * @param col The column to get the value from
+     * @return The value at the given row and column
      * */
     public double get(int row, int col) {
         return matrix[row][col];
@@ -80,6 +83,9 @@ public class Matrix {
 
     /**
      * Sets the value at the given row and column
+     * @param row The row to set the value at
+     * @param col The column to set the value at
+     * @param value The value to set
      * */
     public void set(int row, int col, double value) {
         matrix[row][col] = value;
@@ -120,6 +126,11 @@ public class Matrix {
         return new Matrix(newMatrix);
     }
 
+    /**
+     * Subtracts the matrix from another matrix
+     * @param other The matrix to subtract
+     * @return The difference of the two matrices
+     * */
     public Matrix subtract(Matrix other) {
         if (getRows() != other.getRows() || getCols() != other.getCols()) {
             throw new IllegalArgumentException("Matrices must have the same dimensions to subtract them!");
@@ -164,6 +175,7 @@ public class Matrix {
     /**
      * Multiplies the matrix by a vector
      * @param v The vector to multiply by
+     * @return The product of the matrix and the vector
      * */
     public Matrix multiply(Vector v) {
         if (getCols() != v.size()) {

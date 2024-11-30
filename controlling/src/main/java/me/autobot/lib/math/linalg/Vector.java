@@ -46,6 +46,8 @@ public class Vector {
 
     /**
      * Sets the value at the given index.
+     * @param index The index to set the value for.
+     * @param value The value to set.
      * */
     public void set(int index, double value) {
         values[index] = value;
@@ -53,6 +55,8 @@ public class Vector {
 
     /**
      * Swaps the values at the given indices.
+     * @param index1 The first index.
+     * @param index2 The second index.
      * */
     public void swap(int index1, int index2) {
         double temp = values[index1];
@@ -62,6 +66,7 @@ public class Vector {
 
     /**
      * Gets the size of the vector.
+     * @return The size of the vector.
      * */
     public int size() {
         return values.length;
@@ -114,6 +119,7 @@ public class Vector {
 
     /**
      * Converts the vector to a matrix.
+     * @return The vector as a matrix.
      * */
     public Matrix toMatrix() {
         double[][] newValues = new double[values.length][1];

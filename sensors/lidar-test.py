@@ -5,10 +5,13 @@ if __name__ == "__main__":
     ydlidar.os_init()
     laser = ydlidar.CYdLidar()
     ports = ydlidar.lidarPortList()
+
     port = "/dev/ydlidar"
     for key, value in ports.items():
         port = value
+    
     print("Connecting to port: ", port)
+    
     laser.setlidaropt(ydlidar.LidarPropSerialPort, port)
     laser.setlidaropt(ydlidar.LidarPropSerialBaudrate, 128000)
     laser.setlidaropt(ydlidar.LidarPropLidarType, ydlidar.TYPE_TOF)

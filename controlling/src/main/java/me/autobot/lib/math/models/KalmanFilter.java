@@ -42,7 +42,6 @@ public class KalmanFilter {
     /**
      * Predicts the next state of the system given the control input.
      * @param controlInput The control input.
-     * @return The predicted state of the system.
      * */
     public void predict(Vector controlInput) {
         state = transition.multiply(state).add(control.multiply(controlInput));
@@ -56,7 +55,6 @@ public class KalmanFilter {
     /**
      * Updates the state of the system given the measurement input.
      * @param measurementInput The measurement input.
-     * @return The updated state of the system.
      * */
     public void update(Vector measurementInput) {
         Vector innovation = measurementInput.subtract(measurement.multiply(state));

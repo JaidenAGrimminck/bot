@@ -8,14 +8,25 @@ import java.util.ArrayList;
  * A mechanism that can be used on the robot.
  * */
 public class Mechanism {
+
+    /**
+     * List of all mechanisms.
+     * */
     private static ArrayList<Mechanism> mechanisms = new ArrayList<>();
 
+    /**
+     * If the mechanism is disabled.
+     * */
     protected boolean disabled = false;
 
+    /**
+     * The parent robot (of the mechanism, where the mechanism is attached to).
+     * */
     protected Robot parent;
 
     /**
      * Runs the init method on all mechanisms.
+     * @param robotRef The robot reference.
      * */
     public static void init_all(Robot robotRef) {
         for (Mechanism mechanism : mechanisms) {

@@ -78,6 +78,8 @@ public class Sensor extends Device {
     /**
      * Connects the sensor to the I2C bus.
      * @param pin The pin to connect the sensor to.
+     * @param address The address of the sensor.
+     * @param bus The bus to connect the sensor to.
      * **/
     public void connectToI2C(int address, int bus, int pin) {
         this.address = address;

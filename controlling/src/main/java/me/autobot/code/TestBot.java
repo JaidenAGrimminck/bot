@@ -8,6 +8,9 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.TimerTask;
 
+/**
+ * Bot for testing.
+ * */
 public class TestBot extends Robot {
 
 

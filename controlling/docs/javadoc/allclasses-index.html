@@ -91,7 +91,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Checks if the robot is in collision (used IN SIMULATION ONLY).</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/serial/Connection.html" title="class in me.autobot.lib.hardware">Connection</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/hardware/Connection.html" title="class in me.autobot.lib.hardware">Connection</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A connection to some device.</div>
 </div>
@@ -110,7 +110,7 @@ loadScripts(document, 'script');</script>
 
  TODO: generalize class.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/Geometry.html" title="class in me.autobot.lib.math">Geometry</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/objects/Geometry.html" title="class in me.autobot.lib.math.objects">Geometry</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A class containing geometry utility functions.</div>
 </div>
@@ -118,7 +118,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A hoverboard wheel motor.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/serial/i2c/I2CConnection.html" title="class in me.autobot.lib.hardware.i2c">I2CConnection</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/hardware/i2c/I2CConnection.html" title="class in me.autobot.lib.hardware.i2c">I2CConnection</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Creates a connection to an I2C device.</div>
 </div>
@@ -130,6 +130,22 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Nintendo Switch Joycon controller, both left and right combined into one class.</div>
 </div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/models/KalmanFilter.html" title="class in me.autobot.lib.math.models">KalmanFilter</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">A Kalman Filter is a mathematical model that uses a series of measurements observed over time, containing statistical noise and other inaccuracies, and produces estimates of unknown variables that tend to be more accurate than those based on a single measurement alone, by estimating a joint probability distribution over the variables for each timeframe.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/test/KalmanTest.html" title="class in me.autobot.test">KalmanTest</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Class to test the Kalman Filter.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/code/mechanisms/LIDAR.html" title="class in me.autobot.code.mechanisms">LIDAR</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">LIDAR Mechanism that can construct a terrain map from LIDAR data.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/code/mechanisms/LIDAR.WSLidarSensorConnection.Response.html" title="class in me.autobot.code.mechanisms">LIDAR.WSLidarSensorConnection.Response</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Response for the LIDAR sensor.</div>
+</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab7"><a href="me/autobot/lib/logging/Log.html" title="annotation interface in me.autobot.lib.logging">Log</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab7">
 <div class="block">Annotation to mark fields and methods that should be logged.</div>
@@ -138,25 +154,33 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">A class that logs the values of fields and methods annotated with @Log.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/code/Main.html" title="class in me.autobot.code">Main</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/linalg/LUDecomposition.html" title="class in me.autobot.lib.math.linalg">LUDecomposition</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">A LU Decomposition is a way of decomposing a matrix into the product of a lower triangular matrix and an upper triangular matrix.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/code/Main.html" title="class in me.autobot.code">Main</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The main entry point to the program.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/code/MainBot.html" title="class in me.autobot.code">MainBot</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/code/MainBot.html" title="class in me.autobot.code">MainBot</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Main robot class for the robot.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/map/Map2d.html" title="class in me.autobot.lib.math.map">Map2d</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/map/Map2d.html" title="class in me.autobot.lib.math.map">Map2d</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A class that represents a 2D map of locations/obstacles.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/sim/MapLoader.html" title="class in me.autobot.sim">MapLoader</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/sim/MapLoader.html" title="class in me.autobot.sim">MapLoader</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Loads maps for the simulator and converts them to Box2d objects.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/Mathf.html" title="class in me.autobot.lib.math">Mathf</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/Mathf.html" title="class in me.autobot.lib.math">Mathf</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A class that contains mathematical functions that are not included in the Math class.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/linalg/Matrix.html" title="class in me.autobot.lib.math.linalg">Matrix</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">A matrix is a rectangular array of numbers, symbols, or expressions, arranged in rows and columns.</div>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/systems/mechanisms/Mechanism.html" title="class in me.autobot.lib.systems.mechanisms">Mechanism</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
@@ -178,9 +202,17 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A projection of a shape onto an axis.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/objects/Rectangle.html" title="class in me.autobot.lib.math.objects">Rectangle</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Rectangle object with position, size, and rotation.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The general robot class.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/hardware/ros/ROSSubscription.html" title="class in me.autobot.lib.hardware.ros">ROSSubscription</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Object representing a ROS subscription.</div>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
@@ -198,15 +230,15 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A device that's used to sense the environment around the robot.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/serial/i2c/SensorHubI2CConnection.html" title="class in me.autobot.lib.hardware.i2c">SensorHubI2CConnection</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/hardware/i2c/SensorHubI2CConnection.html" title="class in me.autobot.lib.hardware.i2c">SensorHubI2CConnection</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">I2C connection to the <a href="https://github.com/JaidenAGrimminck/bot/blob/main/controlling/arduino-scripts/readwriter/readwriter.ino">configurable Arduino code</a> that's prebuilt for this library.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/serial/serial/SensorHubSerialConnection.html" title="class in me.autobot.lib.hardware.serial">SensorHubSerialConnection</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/hardware/serial/SensorHubSerialConnection.html" title="class in me.autobot.lib.hardware.serial">SensorHubSerialConnection</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Connects to the serial port of the sensor hub.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/serial/serial/SerialConnection.html" title="class in me.autobot.lib.hardware.serial">SerialConnection</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/hardware/serial/SerialConnection.html" title="class in me.autobot.lib.hardware.serial">SerialConnection</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Serial connection class.</div>
 </div>
@@ -258,21 +290,29 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A drivebase that uses tank drive</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/code/UltrasonicBot.html" title="class in me.autobot.code">UltrasonicBot</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/code/TestBot.html" title="class in me.autobot.code">TestBot</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Bot for testing.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/code/UltrasonicBot.html" title="class in me.autobot.code">UltrasonicBot</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A robot that uses an ultrasonic sensor.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/robot/sensors/UltrasonicSensor.html" title="class in me.autobot.lib.robot.sensors">UltrasonicSensor</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/robot/sensors/UltrasonicSensor.html" title="class in me.autobot.lib.robot.sensors">UltrasonicSensor</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">An ultrasonic sensor is a sensor that can detect the distance to the nearest object in front of it.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/Unit.html" title="class in me.autobot.lib.math">Unit</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/Unit.html" title="class in me.autobot.lib.math">Unit</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A class to represent a unit of measurement.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="me/autobot/lib/math/Unit.Type.html" title="enum class in me.autobot.lib.math">Unit.Type</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab3">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="me/autobot/lib/math/Unit.Type.html" title="enum class in me.autobot.lib.math">Unit.Type</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab3">
 <div class="block">The type of unit.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/linalg/Vector.html" title="class in me.autobot.lib.math.linalg">Vector</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Creates a new vector with the given values.</div>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/math/coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
@@ -298,8 +338,12 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A class representing a route for the WSClient.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/server/WSServer.html" title="class in me.autobot.server">WSServer</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/lib/hardware/ws/WSSensorConnection.html" title="class in me.autobot.lib.hardware.ws">WSSensorConnection</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">A sensor connection to a websocket.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="me/autobot/server/WSServer.html" title="class in me.autobot.server">WSServer</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A websocket server for the robot.</div>
 </div>
 </div>

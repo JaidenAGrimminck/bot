@@ -1,9 +1,18 @@
 me.autobot.code
+me.autobot.code.mechanisms
 me.autobot.lib.controls
+me.autobot.lib.hardware
+me.autobot.lib.hardware.i2c
+me.autobot.lib.hardware.ros
+me.autobot.lib.hardware.serial
+me.autobot.lib.hardware.ws
 me.autobot.lib.logging
 me.autobot.lib.math
 me.autobot.lib.math.coordinates
+me.autobot.lib.math.linalg
 me.autobot.lib.math.map
+me.autobot.lib.math.models
+me.autobot.lib.math.objects
 me.autobot.lib.math.rotation
 me.autobot.lib.odometry
 me.autobot.lib.os
@@ -12,9 +21,6 @@ me.autobot.lib.robot
 me.autobot.lib.robot.drivebase
 me.autobot.lib.robot.motors
 me.autobot.lib.robot.sensors
-me.autobot.lib.hardware
-me.autobot.lib.hardware.i2c
-me.autobot.lib.hardware.serial
 me.autobot.lib.systems.actions
 me.autobot.lib.systems.mechanisms
 me.autobot.lib.tools
@@ -23,3 +29,4 @@ me.autobot.sim
 me.autobot.sim.evolution
 me.autobot.sim.graphics
 me.autobot.sim.graphics.elements
+me.autobot.test

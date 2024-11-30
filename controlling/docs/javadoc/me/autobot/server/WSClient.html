@@ -114,6 +114,11 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">List of all the routes that the clients can use.</div>
 </div>
+<div class="col-first odd-row-color"><code>protected static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../lib/hardware/ws/WSSensorConnection.html" title="class in me.autobot.lib.hardware.ws">WSSensorConnection</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#sensorConnections" class="member-name-link">sensorConnections</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">List of all the sensor connections that the clients can use.</div>
+</div>
 </div>
 </section>
 </li>
@@ -176,19 +181,24 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Register a callable with an address (will be called by the client if specified).</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sendSensorData(byte,byte,double%5B%5D)" class="member-name-link">sendSensorData</a><wbr>(byte&nbsp;robotAddress,
- byte&nbsp;sensorAddress,
- double[]&nbsp;values)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sends sensor data to the client.</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#registerSensorConnection(me.autobot.lib.hardware.ws.WSSensorConnection)" class="member-name-link">registerSensorConnection</a><wbr>(<a href="../lib/hardware/ws/WSSensorConnection.html" title="class in me.autobot.lib.hardware.ws">WSSensorConnection</a>&nbsp;connection)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Register a sensor connection with the client.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sendValues(byte,byte,byte,byte...)" class="member-name-link">sendValues</a><wbr>(byte&nbsp;type,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sendSensorData(byte,byte,double%5B%5D)" class="member-name-link">sendSensorData</a><wbr>(byte&nbsp;robotAddress,
+ byte&nbsp;sensorAddress,
+ double[]&nbsp;values)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sends sensor data to the client.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sendValues(byte,byte,byte,byte...)" class="member-name-link">sendValues</a><wbr>(byte&nbsp;type,
  byte&nbsp;address,
  byte&nbsp;address2,
  byte...&nbsp;payload)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sends values to the client.</div>
 </div>
 </div>
@@ -216,6 +226,13 @@ loadScripts(document, 'script');</script>
 <h3>routes</h3>
 <div class="member-signature"><span class="modifiers">protected static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="WSClientRoute.html" title="class in me.autobot.server">WSClientRoute</a>&gt;</span>&nbsp;<span class="element-name">routes</span></div>
 <div class="block">List of all the routes that the clients can use.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="sensorConnections">
+<h3>sensorConnections</h3>
+<div class="member-signature"><span class="modifiers">protected static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../lib/hardware/ws/WSSensorConnection.html" title="class in me.autobot.lib.hardware.ws">WSSensorConnection</a>&gt;</span>&nbsp;<span class="element-name">sensorConnections</span></div>
+<div class="block">List of all the sensor connections that the clients can use.</div>
 </section>
 </li>
 </ul>
@@ -255,6 +272,17 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>address</code> - The address of the callable.</dd>
 <dd><code>runnable</code> - The runnable to run when the callable is called.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="registerSensorConnection(me.autobot.lib.hardware.ws.WSSensorConnection)">
+<h3>registerSensorConnection</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">registerSensorConnection</span><wbr><span class="parameters">(<a href="../lib/hardware/ws/WSSensorConnection.html" title="class in me.autobot.lib.hardware.ws">WSSensorConnection</a>&nbsp;connection)</span></div>
+<div class="block">Register a sensor connection with the client.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>connection</code> - The connection to register.</dd>
 </dl>
 </section>
 </li>

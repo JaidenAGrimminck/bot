@@ -119,8 +119,7 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int)" class="member-name-link">UltrasonicSensor</a><wbr>(int&nbsp;identifier,
- int&nbsp;address)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">UltrasonicSensor</a><wbr>(int&nbsp;identifier)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates a new ultrasonic sensor object.</div>
 </div>
@@ -139,7 +138,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#connectToI2C(int)" class="member-name-link">connectToI2C</a><wbr>(int&nbsp;pin)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#connectToI2C(int,int,int)" class="member-name-link">connectToI2C</a><wbr>(int&nbsp;address,
+ int&nbsp;bus,
+ int&nbsp;pin)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Connects the ultrasonic sensor to the I2C bus.</div>
 </div>
@@ -169,7 +170,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-me.autobot.lib.robot.Sensor">Methods inherited from class&nbsp;me.autobot.lib.robot.<a href="../Sensor.html" title="class in me.autobot.lib.robot">Sensor</a></h3>
-<code><a href="../Sensor.html#attachRelativePosition(me.autobot.lib.math.coordinates.Vector3d)">attachRelativePosition</a>, <a href="../Sensor.html#attachRelativePosition(me.autobot.lib.math.coordinates.Vector3d,me.autobot.lib.math.rotation.Rotation3d)">attachRelativePosition</a>, <a href="../Sensor.html#changeUpdateInterval(long)">changeUpdateInterval</a>, <a href="../Sensor.html#connectToSerial(java.lang.String)">connectToSerial</a>, <a href="../Sensor.html#getAddress()">getAddress</a>, <a href="../Sensor.html#getBus()">getBus</a>, <a href="../Sensor.html#getIdentifier()">getIdentifier</a>, <a href="../Sensor.html#getParentAddress()">getParentAddress</a>, <a href="../Sensor.html#getRelativePosition()">getRelativePosition</a>, <a href="../Sensor.html#getRelativeRotation()">getRelativeRotation</a>, <a href="../Sensor.html#getSensor(int,int)">getSensor</a>, <a href="../Sensor.html#getSensors(int,int)">getSensors</a>, <a href="../Sensor.html#getSensorValues()">getSensorValues</a>, <a href="../Sensor.html#setSensorValue(int,double)">setSensorValue</a>, <a href="../Sensor.html#setSensorValues(double...)">setSensorValues</a>, <a href="../Sensor.html#simulateValues(double%5B%5D)">simulateValues</a>, <a href="../Sensor.html#subscribe(me.autobot.server.WSClient)">subscribe</a>, <a href="../Sensor.html#unsubscribe(me.autobot.server.WSClient)">unsubscribe</a></code></div>
+<code><a href="../Sensor.html#attachRelativePosition(me.autobot.lib.math.coordinates.Vector3d)">attachRelativePosition</a>, <a href="../Sensor.html#attachRelativePosition(me.autobot.lib.math.coordinates.Vector3d,me.autobot.lib.math.rotation.Rotation3d)">attachRelativePosition</a>, <a href="../Sensor.html#changeUpdateInterval(long)">changeUpdateInterval</a>, <a href="../Sensor.html#connectToSerial(java.lang.String)">connectToSerial</a>, <a href="../Sensor.html#getAddress()">getAddress</a>, <a href="../Sensor.html#getBus()">getBus</a>, <a href="../Sensor.html#getIdentifier()">getIdentifier</a>, <a href="../Sensor.html#getParentIdentification()">getParentIdentification</a>, <a href="../Sensor.html#getRelativePosition()">getRelativePosition</a>, <a href="../Sensor.html#getRelativeRotation()">getRelativeRotation</a>, <a href="../Sensor.html#getSensor(int,int)">getSensor</a>, <a href="../Sensor.html#getSensorValues()">getSensorValues</a>, <a href="../Sensor.html#setBusAndAddress(int,int)">setBusAndAddress</a>, <a href="../Sensor.html#setSensorValue(int,double)">setSensorValue</a>, <a href="../Sensor.html#setSensorValues(double...)">setSensorValues</a>, <a href="../Sensor.html#simulateValues(double%5B%5D)">simulateValues</a>, <a href="../Sensor.html#subscribe(me.autobot.server.WSClient)">subscribe</a>, <a href="../Sensor.html#unsubscribe(me.autobot.server.WSClient)">unsubscribe</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-me.autobot.lib.robot.Device">Methods inherited from class&nbsp;me.autobot.lib.robot.<a href="../Device.html" title="class in me.autobot.lib.robot">Device</a></h3>
 <code><a href="../Device.html#emergencyStop()">emergencyStop</a>, <a href="../Device.html#emergencyStopAll()">emergencyStopAll</a>, <a href="../Device.html#enableSimulation()">enableSimulation</a>, <a href="../Device.html#getCurrent()">getCurrent</a>, <a href="../Device.html#getParent()">getParent</a>, <a href="../Device.html#getProperties()">getProperties</a>, <a href="../Device.html#getProperty(java.lang.String)">getProperty</a>, <a href="../Device.html#getVoltage()">getVoltage</a>, <a href="../Device.html#inSimulation()">inSimulation</a>, <a href="../Device.html#registerDevice(me.autobot.lib.robot.Device)">registerDevice</a>, <a href="../Device.html#setParent(me.autobot.lib.robot.Robot)">setParent</a>, <a href="../Device.html#setProperty(java.lang.String,double)">setProperty</a></code></div>
@@ -212,15 +213,13 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(int,int)">
+<section class="detail" id="&lt;init&gt;(int)">
 <h3>UltrasonicSensor</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">UltrasonicSensor</span><wbr><span class="parameters">(int&nbsp;identifier,
- int&nbsp;address)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">UltrasonicSensor</span><wbr><span class="parameters">(int&nbsp;identifier)</span></div>
 <div class="block">Creates a new ultrasonic sensor object.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>identifier</code> - The identifier of the sensor.</dd>
-<dd><code>address</code> - The address of the sensor hub (i2c).</dd>
 </dl>
 </section>
 </li>
@@ -233,15 +232,19 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="connectToI2C(int)">
+<section class="detail" id="connectToI2C(int,int,int)">
 <h3>connectToI2C</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">connectToI2C</span><wbr><span class="parameters">(int&nbsp;pin)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">connectToI2C</span><wbr><span class="parameters">(int&nbsp;address,
+ int&nbsp;bus,
+ int&nbsp;pin)</span></div>
 <div class="block">Connects the ultrasonic sensor to the I2C bus.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="../Sensor.html#connectToI2C(int)">connectToI2C</a></code>&nbsp;in class&nbsp;<code><a href="../Sensor.html" title="class in me.autobot.lib.robot">Sensor</a></code></dd>
+<dd><code><a href="../Sensor.html#connectToI2C(int,int,int)">connectToI2C</a></code>&nbsp;in class&nbsp;<code><a href="../Sensor.html" title="class in me.autobot.lib.robot">Sensor</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>pin</code> - The echo pin on the sensor hub.</dd>
+<dd><code>address</code> - The address of the sensor.</dd>
+<dd><code>bus</code> - The bus to connect the sensor to.</dd>
 </dl>
 </section>
 </li>

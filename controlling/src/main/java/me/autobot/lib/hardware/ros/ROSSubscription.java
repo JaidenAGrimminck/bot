@@ -16,6 +16,10 @@ public class ROSSubscription extends Connection {
         this.topic = topic;
     }
 
+    /**
+     * Gets the topic of the subscription.
+     * @return The topic of the subscription.
+     * */
     public String getTopic() {
         return topic;
     }

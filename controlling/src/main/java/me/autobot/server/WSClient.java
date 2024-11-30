@@ -2,6 +2,7 @@ package me.autobot.server;
 
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoWSD;
+import me.autobot.lib.hardware.ws.WSSensorConnection;
 import me.autobot.lib.robot.Sensor;
 import me.autobot.lib.tools.RunnableWithArgs;
 
@@ -120,6 +121,11 @@ public class WSClient extends NanoWSD.WebSocket {
     protected static ArrayList<WSClientRoute> routes = new ArrayList<>();
 
     /**
+     * List of all the sensor connections that the clients can use.
+     * */
+    protected static ArrayList<WSSensorConnection> sensorConnections = new ArrayList<>();
+
+    /**
      * Creates a new WSClient with a handshake.
      * @param handshake The handshake to create the client with.
      * */
@@ -169,6 +175,14 @@ public class WSClient extends NanoWSD.WebSocket {
      * */
     public static void registerCallable(int address, Runnable runnable) {
         callables.put(address, runnable);
+    }
+
+    /**
+     * Register a sensor connection with the client.
+     * @param connection The connection to register.
+     * */
+    public static void registerSensorConnection(WSSensorConnection connection) {
+        sensorConnections.add(connection);
     }
 
     /**
@@ -346,9 +360,34 @@ public class WSClient extends NanoWSD.WebSocket {
 
         if (payload.length < 1) { notifyError(Error.InvalidPayloadLength); return; }
 
-        if (payload[0] == (byte) 0x02) {
+        if (payload[0] == (byte) 0x01) {
+            handleSensorUpdate(Arrays.copyOfRange(payload, 1, payload.length), message);
+        } else if (payload[0] == (byte) 0x02) {
             handleCallable(Arrays.copyOfRange(payload, 1, payload.length), message);
         }
+    }
+
+    /**
+     * Handles a sensor update message.
+     * @param payload The payload of the message.
+     * @param message The message itself.
+     * */
+    private void handleSensorUpdate(int[] payload, NanoWSD.WebSocketFrame message) {
+        if (payload.length < 1) {
+            notifyError(Error.InvalidPayloadLength);
+            return;
+        }
+
+        int sensorConnectionAddress = payload[0];
+
+        WSSensorConnection connection = sensorConnections.stream().filter(c -> c.getId() == sensorConnectionAddress).findFirst().orElse(null);
+
+        if (connection == null) {
+            notifyError(Error.SensorNotFound);
+            return;
+        }
+
+        connection.onUpdate(Arrays.copyOfRange(payload, 1, payload.length));
     }
 
     /**

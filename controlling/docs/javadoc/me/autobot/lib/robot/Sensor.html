@@ -108,18 +108,10 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int)" class="member-name-link">Sensor</a><wbr>(int&nbsp;identifier,
- int&nbsp;address,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int)" class="member-name-link">Sensor</a><wbr>(int&nbsp;identifier,
  int&nbsp;sensorChannels)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates a new sensor with the given address and number of sensor channels.</div>
-</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int,int,int,int)" class="member-name-link">Sensor</a><wbr>(int&nbsp;identifier,
- int&nbsp;address,
- int&nbsp;bus,
- int&nbsp;sensorChannels)</code></div>
-<div class="col-last odd-row-color">
-<div class="block">Creates a new sensor with the given address, bus, and number of sensor channels.</div>
 </div>
 </div>
 </section>
@@ -152,7 +144,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Changes the update interval of the sensor for the subscribers.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#connectToI2C(int)" class="member-name-link">connectToI2C</a><wbr>(int&nbsp;pin)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#connectToI2C(int,int,int)" class="member-name-link">connectToI2C</a><wbr>(int&nbsp;address,
+ int&nbsp;bus,
+ int&nbsp;pin)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Connects the sensor to the I2C bus.</div>
 </div>
@@ -177,7 +171,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the identifier of the sensor.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>byte</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getParentAddress()" class="member-name-link">getParentAddress</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getParentIdentification()" class="member-name-link">getParentIdentification</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the address/identifier of the parent robot.</div>
 </div>
@@ -197,21 +191,21 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Gets the sensor object with the specific identifier and robot address.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="Sensor.html" title="class in me.autobot.lib.robot">Sensor</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSensors(int,int)" class="member-name-link">getSensors</a><wbr>(int&nbsp;robotAddr,
- int&nbsp;address)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Gets the sensor objects connected to the specific sensor hub address on the specific robot.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double[]</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSensorValues()" class="member-name-link">getSensorValues</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double[]</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSensorValues()" class="member-name-link">getSensorValues</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the raw sensor values.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double[]</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getValues()" class="member-name-link">getValues</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double[]</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getValues()" class="member-name-link">getValues</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the processed sensor values.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setBusAndAddress(int,int)" class="member-name-link">setBusAndAddress</a><wbr>(int&nbsp;bus,
+ int&nbsp;address)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the Bus and Address of the sensor (for I2C communication).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSensorValue(int,double)" class="member-name-link">setSensorValue</a><wbr>(int&nbsp;index,
@@ -260,33 +254,14 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(int,int,int)">
+<section class="detail" id="&lt;init&gt;(int,int)">
 <h3>Sensor</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Sensor</span><wbr><span class="parameters">(int&nbsp;identifier,
- int&nbsp;address,
  int&nbsp;sensorChannels)</span></div>
 <div class="block">Creates a new sensor with the given address and number of sensor channels.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>identifier</code> - The identifier of the sensor. Could be any number, should be unique to all other sensors on the robot.</dd>
-<dd><code>address</code> - The address of the sensor hub on the I2C bus.</dd>
-<dd><code>sensorChannels</code> - The number of output channels the sensor has.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(int,int,int,int)">
-<h3>Sensor</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Sensor</span><wbr><span class="parameters">(int&nbsp;identifier,
- int&nbsp;address,
- int&nbsp;bus,
- int&nbsp;sensorChannels)</span></div>
-<div class="block">Creates a new sensor with the given address, bus, and number of sensor channels.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>identifier</code> - The identifier of the sensor. Could be any number, should be unique to all other sensors on the robot.</dd>
-<dd><code>address</code> - The address of the sensor hub on the I2C bus.</dd>
-<dd><code>bus</code> - The bus of the sensor hub on the I2C bus.</dd>
 <dd><code>sensorChannels</code> - The number of output channels the sensor has.</dd>
 </dl>
 </section>
@@ -299,21 +274,6 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="getSensors(int,int)">
-<h3>getSensors</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="Sensor.html" title="class in me.autobot.lib.robot">Sensor</a>&gt;</span>&nbsp;<span class="element-name">getSensors</span><wbr><span class="parameters">(int&nbsp;robotAddr,
- int&nbsp;address)</span></div>
-<div class="block">Gets the sensor objects connected to the specific sensor hub address on the specific robot.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>robotAddr</code> - The address of the robot.</dd>
-<dd><code>address</code> - The address of the sensor hub.</dd>
-<dt>Returns:</dt>
-<dd>The sensor objects connected to the specific sensor hub address on the specific robot.</dd>
-</dl>
-</section>
-</li>
 <li>
 <section class="detail" id="getSensor(int,int)">
 <h3>getSensor</h3>
@@ -330,13 +290,17 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="connectToI2C(int)">
+<section class="detail" id="connectToI2C(int,int,int)">
 <h3>connectToI2C</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">connectToI2C</span><wbr><span class="parameters">(int&nbsp;pin)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">connectToI2C</span><wbr><span class="parameters">(int&nbsp;address,
+ int&nbsp;bus,
+ int&nbsp;pin)</span></div>
 <div class="block">Connects the sensor to the I2C bus.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>pin</code> - The pin to connect the sensor to.</dd>
+<dd><code>address</code> - The address of the sensor.</dd>
+<dd><code>bus</code> - The bus to connect the sensor to.</dd>
 </dl>
 </section>
 </li>
@@ -521,9 +485,22 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getParentAddress()">
-<h3>getParentAddress</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte</span>&nbsp;<span class="element-name">getParentAddress</span>()</div>
+<section class="detail" id="setBusAndAddress(int,int)">
+<h3>setBusAndAddress</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setBusAndAddress</span><wbr><span class="parameters">(int&nbsp;bus,
+ int&nbsp;address)</span></div>
+<div class="block">Sets the Bus and Address of the sensor (for I2C communication).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>bus</code> - The bus to set the sensor to.</dd>
+<dd><code>address</code> - The address to set the sensor to.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getParentIdentification()">
+<h3>getParentIdentification</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte</span>&nbsp;<span class="element-name">getParentIdentification</span>()</div>
 <div class="block">Returns the address/identifier of the parent robot.</div>
 <dl class="notes">
 <dt>Returns:</dt>

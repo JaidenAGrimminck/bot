@@ -5,7 +5,14 @@ import me.autobot.lib.math.linalg.Matrix;
 import me.autobot.lib.math.linalg.Vector;
 import me.autobot.lib.math.models.KalmanFilter;
 
+/**
+ * Class to test the Kalman Filter.
+ * */
 public class KalmanTest {
+    /**
+     * Main method to test the Kalman Filter.
+     * @param args The arguments to the program.
+     * */
     public static void main(String[] args) {
         double[][] matrixData = {
                 {4, 3, 0},
