@@ -1,4 +1,4 @@
-package me.autobot.code;
+package me.autobot.code.examples;
 
 import me.autobot.lib.math.Unit;
 import me.autobot.lib.robot.Robot;

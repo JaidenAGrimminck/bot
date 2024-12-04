@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://github.com/JaidenAGrimminck/bot/blob/main/readme/images/bot%20icon.svg?raw=true" alt="bot image" width="400">
+  <img src="https://github.com/JaidenAGrimminck/bot/blob/main/readme/images/icon.png?raw=true" alt="bot image" width="400">
   <br>
   <b>bot</b>
 </h1>
