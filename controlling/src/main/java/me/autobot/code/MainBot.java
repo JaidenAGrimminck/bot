@@ -145,31 +145,47 @@ public class MainBot extends Robot {
     protected void loop() {
         if (!clock().elapsed(2000)) return; //just give some time for the connections to start up before the robot starts moving.
 
-        if (manualControl) {
-            double multiplier = 100d / 255;
-
-            if (joystickUpdated) {
-                if (Math.abs(joystick.getY()) > 0.05 || Math.abs(joystick.getX()) > 0.05) {
-                    //arcadeDrive.drive(joystick.getY(), joystick.getX(), multiplier);
-                    arcadeDrive.drive(joystick.getX() * multiplier, joystick.getY() * multiplier);
-
-                    //System.out.println("Driving at speeds=" + joystick.getX() * multiplier + ", " + joystick.getY() * multiplier);
-                } else {
-                    topLeft.setSpeed(0);
-                    bottomLeft.setSpeed(0);
-                    topRight.setSpeed(0);
-                    bottomRight.setSpeed(0);
-                }
-                joystickUpdated = false;
+        if (clock().elapsedSince(2000)) {
+            if (!switch_flag) {
+                topLeft.setSpeed(0.5);
+                bottomLeft.setSpeed(0.5);
+                topRight.setSpeed(0.5);
+                bottomRight.setSpeed(0.5);
+                switch_flag = true;
+            } else {
+                topLeft.setSpeed(0);
+                bottomLeft.setSpeed(0);
+                topRight.setSpeed(0);
+                bottomRight.setSpeed(0);
+                switch_flag = false;
             }
-        } else {
-            //create a polar vector from the AI speed and rotation
-            Polar polar = new Polar(aiSpeed, Rotation2d.fromRadians(aiRotation));
-
-            //get movements as vector (to simulate a "controller")
-            Vector2d movement = polar.toVector();
-
-           // arcadeDrive.drive(movement.getY(), movement.getX(), 100d / 255);
         }
+
+//        if (manualControl) {
+//            double multiplier = 100d / 255;
+//
+//            if (joystickUpdated) {
+//                if (Math.abs(joystick.getY()) > 0.05 || Math.abs(joystick.getX()) > 0.05) {
+//                    //arcadeDrive.drive(joystick.getY(), joystick.getX(), multiplier);
+//                    arcadeDrive.drive(joystick.getX() * multiplier, joystick.getY() * multiplier);
+//
+//                    //System.out.println("Driving at speeds=" + joystick.getX() * multiplier + ", " + joystick.getY() * multiplier);
+//                } else {
+//                    topLeft.setSpeed(0);
+//                    bottomLeft.setSpeed(0);
+//                    topRight.setSpeed(0);
+//                    bottomRight.setSpeed(0);
+//                }
+//                joystickUpdated = false;
+//            }
+//        } else {
+//            //create a polar vector from the AI speed and rotation
+//            Polar polar = new Polar(aiSpeed, Rotation2d.fromRadians(aiRotation));
+//
+//            //get movements as vector (to simulate a "controller")
+//            Vector2d movement = polar.toVector();
+//
+//           // arcadeDrive.drive(movement.getY(), movement.getX(), 100d / 255);
+//        }
     }
 }

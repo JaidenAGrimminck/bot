@@ -28,6 +28,7 @@ public class Clock {
      * @return Whether the time has elapsed.
      * */
     public boolean elapsed(long time) {
+        lastTriggeredTime = getTimeElapsed();
         return getTimeElapsed() >= time;
     }
 

@@ -141,7 +141,7 @@ public class LIDAR extends Mechanism {
         lidarSensor.addResponse(new WSLidarSensorConnection.Response() {
             @Override
             public void onLidarData(Point[] points) {
-
+                LIDAR.this.onLidarData(points);
             }
         });
     }
@@ -151,6 +151,12 @@ public class LIDAR extends Mechanism {
      * */
     @Override
     protected void update() {
+
+    }
+
+    protected void onLidarData(Point[] points) {
+        // clear points
+        this.points.clear();
 
     }
 }

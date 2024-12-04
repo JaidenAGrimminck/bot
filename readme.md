@@ -19,6 +19,8 @@ Made by Jaiden.
 This project is supposed to be sort of a capstone project for my senior year of high school... but on a personal level (rather than for school).
 It's a fun project that I'm having a great time exploring all sorts of areas from robotics to neural networks.
 
+*Are you also a teenager and on Hackclub? See my progress [here!](https://hackclub.slack.com/archives/C083HATD5DX)*
+
 ## Prerequisites
 
 For everything, the following prerequisites are needed:
