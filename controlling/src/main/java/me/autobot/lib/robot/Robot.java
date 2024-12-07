@@ -8,19 +8,206 @@ import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.odometry.SimpleOdometry2d;
+import me.autobot.server.Server;
+import me.autobot.server.WSClient;
 import me.autobot.sim.Simulation;
+import org.reflections.Reflections;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.nio.ByteBuffer;
+import java.util.*;
 
 /**
  * The general robot class.
  * This can be extended to create a robot with sensors and motors.
  * **/
 public class Robot implements Logger {
+
+    /**
+     * List of all the robot classes.
+     * */
+    private static ArrayList<Class<? extends Robot>> robotClasses = new ArrayList<>();
+
+    /**
+     * Whether the robot selected can be started.
+     * */
+    private static boolean editable = true;
+
+    /**
+     * The current robot instance.
+     * */
+    private static Robot currentRobot;
+
+    /**
+     * Starts all the robots (adds them to the editable list available for selection).
+     * */
+    public static void start() {
+        // use dex loader to get all robots with @PlayableRobot annotations
+        Reflections reflections = new Reflections("me.autobot.code");
+        Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(PlayableRobot.class);
+
+        for (Class<?> clazz : annotated) {
+            if (Robot.class.isAssignableFrom(clazz)) {
+                robotClasses.add((Class<? extends Robot>) clazz);
+                System.out.println("[INFO] Added robot " + clazz.getSimpleName() + " to the list of robots.");
+            }
+        }
+
+        editable = true;
+
+        Server.start();
+    }
+
+    /**
+     * Starts a singular robot.
+     * @param robot The robot to start.
+     * */
+    public static void start(Robot robot) {
+        if (currentRobot != null) {
+            System.out.println("[WARNING] Robot already started, stopping current robot.");
+            currentRobot.stopLoop();
+        }
+
+        robotClasses.add(robot.getClass());
+
+        editable = false;
+
+        currentRobot = robot;
+
+        Server.start();
+    }
+
+    /**
+     * Starts a robot by index.
+     * @param index The index of the robot to start.
+     * */
+    public static void startRobot(int index) {
+        if (currentRobot != null) {
+            System.out.println("[WARNING] Robot already started, stopping current robot.");
+            currentRobot.stopLoop();
+        }
+
+        try {
+            Robot robot = robotClasses.get(index).getDeclaredConstructor().newInstance();
+            currentRobot = robot;
+            System.out.println("[INFO] Started robot " + robot.getClass().getSimpleName() + ".");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Stops the current robot.
+     * */
+    public static void disableRobot() {
+        if (currentRobot != null) {
+            currentRobot.stopLoop();
+            System.out.println("[INFO] Stopped current robot.");
+            currentRobot = null;
+        }
+    }
+
+    /**
+     * Pauses the current robot.
+     * */
+    public static void pauseRobot() {
+        if (currentRobot != null) {
+            currentRobot.setPaused(true);
+            System.out.println("[INFO] Paused current robot.");
+        }
+    }
+
+    /**
+     * Resumes the current robot.
+     * */
+    public static void resumeRobot() {
+        if (currentRobot != null) {
+            currentRobot.setPaused(false);
+            System.out.println("[INFO] Resumed current robot.");
+        }
+    }
+
+    private static ArrayList<WSClient> wsClients = new ArrayList<>();
+    private static Timer wsTimer = new Timer();
+
+    /**
+     * Subscribes a WSClients to the status of the robot.
+     * @param client The client to subscribe.
+     * @param subscribe Whether to subscribe or unsubscribe.
+     * */
+    public static void subscribeToStatus(WSClient client, boolean subscribe) {
+        if (subscribe) {
+            if (wsClients.isEmpty()) {
+                wsTimer.cancel();
+
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        //`0x6C`, (1), (2...9), (10), (11...26) | This is a response to a subscription to the robot status. (1) is the index of the current robot (`0xFF` means no robot selected), (2...5) is a long with the current robot clock, (6) is a bit, following: `[editable, playing(0)/paused(1), 1...7]` (7...26) is reserved (I forgot what I wanted to put there).     |
+                        byte[] data = new byte[26];
+                        data[0] = 0x6C;
+                        if (currentRobot == null) {
+                            data[1] = (byte) 0xFF;
+                        } else {
+                            data[1] = (byte) robotClasses.indexOf(currentRobot.getClass());
+                        }
+
+                        ByteBuffer buffer = ByteBuffer.allocate(8);
+                        if (currentRobot != null) buffer.putLong(currentRobot.clock().getTimeElapsed());
+                        else buffer.putLong(0);
+
+                        for (int i = 0; i < 8; i++) {
+                            data[i + 2] = buffer.get(i);
+                        }
+
+                        byte status = 0;
+                        if (editable) {
+                            status |= (byte) 0b10000000;
+                        }
+
+                        if (currentRobot != null) {
+                            if (currentRobot.paused) {
+                                status |= 0b01000000;
+                            }
+                        }
+
+                        data[10] = status;
+
+                        ArrayList<WSClient> toRemove = new ArrayList<>();
+
+                        for (WSClient client : wsClients) {
+                            if (!client.isOpen()) {
+                                toRemove.add(client);
+                                System.out.println("[INFO] Removed inactive client from robot status.");
+                            } else {
+                                try {
+                                    client.send(data);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        wsClients.removeAll(toRemove);
+                    }
+                };
+
+                wsTimer = new Timer();
+                wsTimer.schedule(task, 0, 100);
+            }
+
+            wsClients.add(client);
+
+            System.out.println("[INFO] Subscribed client to robot status.");
+        } else {
+            wsClients.remove(client);
+
+            if (wsClients.isEmpty()) {
+                wsTimer.cancel();
+            }
+        }
+    }
 
     //static methods
     private static boolean totalSimulation = false;
@@ -46,10 +233,22 @@ public class Robot implements Logger {
     }
 
     /**
-     * Gets the first robot / only robot if only one robot is created.
+     * Gets all robot classes.
+     * @return An array list of all robot classes.
+     */
+    public static ArrayList<Class<? extends Robot>> getRobotClasses() {
+        return robotClasses;
+    }
+
+    /**
+     * Gets the first robot / only robot if only one robot is created (for multi-robot simulations). If there is only one controlling robot, this will return that robot.
      * @return A robot instance.
      */
     public static Robot getInstance() {
+        if (currentRobot != null) {
+            return currentRobot;
+        }
+
         return robots.get(0);
     }
 
@@ -72,6 +271,8 @@ public class Robot implements Logger {
 
     private long timeCreated = 0;
 
+    private boolean paused = false;
+
     private Clock clock;
 
     /**
@@ -89,6 +290,8 @@ public class Robot implements Logger {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
+                if (paused) return;
+
                 loop();
             }
         };
@@ -127,6 +330,15 @@ public class Robot implements Logger {
      * */
     public byte getIdentification() {
         return identification;
+    }
+
+    /***
+     * Pauses the robot.
+     * @param paused Whether the robot should be paused.
+     * */
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+        this.clock.setPaused(paused);
     }
 
     /***
@@ -221,6 +433,22 @@ public class Robot implements Logger {
      * </code>
      * */
     protected void loop() {
+
+    }
+
+    /**
+     * Stop method.
+     * This method is called when the robot is stopped.
+     * Override this method with:
+     * <code>
+     *     &#64;Override
+     *     protected void stop() {
+     *     //your code here
+     *     //this code will be executed when the robot is stopped
+     *     }
+     * </code>
+     * */
+    protected void stop() {
 
     }
 
@@ -452,6 +680,7 @@ public class Robot implements Logger {
      * */
     public void stopLoop() {
         loopTimer.cancel();
+        stop();
     }
 
     /**

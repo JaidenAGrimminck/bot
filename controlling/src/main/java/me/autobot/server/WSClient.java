@@ -3,6 +3,9 @@ package me.autobot.server;
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoWSD;
 import me.autobot.lib.hardware.ws.WSSensorConnection;
+import me.autobot.lib.math.Mathf;
+import me.autobot.lib.robot.PlayableRobot;
+import me.autobot.lib.robot.Robot;
 import me.autobot.lib.robot.Sensor;
 import me.autobot.lib.tools.RunnableWithArgs;
 
@@ -74,10 +77,10 @@ public class WSClient extends NanoWSD.WebSocket {
         /**
          * The byte used to denote an error.
          * */
-        public static byte C = (byte) 0xEE;
+        public static final byte C = (byte) 0xEE;
 
-        private int code;
-        private String description;
+        private final int code;
+        private final String description;
 
         /**
          * Creates a new error with a code and a description.
@@ -139,7 +142,7 @@ public class WSClient extends NanoWSD.WebSocket {
      * @return The error string.
      * */
     private String getErrorString(Error reason) {
-        return Error.C + " ERROR CODE " + (reason.getCode()) + ": " + reason.getDescription();
+        return ((char) Mathf.allPos(Error.C)) + " ERROR CODE " + (Mathf.allPos(reason.getCode())) + ": " + reason.getDescription();
     }
 
     /**
@@ -174,7 +177,7 @@ public class WSClient extends NanoWSD.WebSocket {
      * @param runnable The runnable to run when the callable is called.
      * */
     public static void registerCallable(int address, Runnable runnable) {
-        callables.put(address, runnable);
+        callables.put(Mathf.allPos(address), runnable);
     }
 
     /**
@@ -309,6 +312,52 @@ public class WSClient extends NanoWSD.WebSocket {
         //end verbose message
         if (verbose) System.out.println("]");
 
+        // any message that isn't speaker/listener start here
+        if (payload[0] == (byte) 0x4A) { // get robot class list.
+            ArrayList<Class<? extends Robot>> robots = Robot.getRobotClasses();
+
+            byte[] robotReturnPayload = new byte[robots.size() * 2];
+
+            for (int i = 0; i < robots.size(); i++) {
+                PlayableRobot robotAnno = robots.get(i).getAnnotation(PlayableRobot.class);
+                robotReturnPayload[i * 2] = (byte) i;
+                robotReturnPayload[i * 2 + 1] = (byte) (robotAnno.disabled ? 0x00 : 0x01);
+            }
+
+            byte[] returnPayload = new byte[robotReturnPayload.length + 2];
+            returnPayload[0] = (byte) 0x4A;
+            returnPayload[1] = (byte) robots.size();
+
+            System.arraycopy(robotReturnPayload, 0, returnPayload, 2, robotReturnPayload.length);
+
+            try {
+                send(returnPayload);
+            } catch (IOException e) {
+                notifyError(Error.InternalError);
+                e.printStackTrace();
+            }
+
+            return;
+        } else if (payload[0] == 0x4B) { // enable/disable/etc robot
+            if (payload.length < 3) { notifyError(Error.InvalidPayloadLength); return; }
+
+            int robotIndex = payload[1];
+
+            int status = payload[2];
+
+            if (status == 0x01) {
+                Robot.startRobot(robotIndex);
+            } else if (status == 0x02) {
+                Robot.disableRobot();
+            } else if (status == 0x03){
+                Robot.pauseRobot();
+            } else if (status == 0x04) {
+                Robot.resumeRobot();
+            }
+
+            return;
+        }
+
         //get if it's a speaker
         boolean isSpeaker = (type == ClientType.Speaker);
 
@@ -430,11 +479,17 @@ public class WSClient extends NanoWSD.WebSocket {
 
         boolean isSensor = (payload[0] == (byte) 0x01);
         boolean subscribeToSensor = (payload[0] == (byte) 0x11);
-
+        boolean subscribeToRobot = (payload[0] == (byte) 0x4C);
         if (isSensor) {
             handleSensor(Arrays.copyOfRange(payload, 1, payload.length), message);
         } else if (subscribeToSensor) {
             handleSubscribe(Arrays.copyOfRange(payload, 1, payload.length), message);
+        } else if (subscribeToRobot) {
+            if (payload.length < 2) { notifyError(Error.InvalidPayloadLength); return; }
+
+            boolean subscribe = payload[1] == 0x01;
+
+            Robot.subscribeToStatus(this, subscribe);
         }
     }
 

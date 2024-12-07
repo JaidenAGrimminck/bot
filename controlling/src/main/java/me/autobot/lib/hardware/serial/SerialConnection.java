@@ -40,7 +40,7 @@ public class SerialConnection extends Connection {
         }));
 
         if (!open()) {
-            throw new IllegalStateException("Could not open serial port.");
+            throw new IllegalStateException("Could not open serial port " + commPort);
         }
 
         Thread otherThread = new Thread(() -> {

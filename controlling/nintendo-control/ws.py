@@ -10,7 +10,7 @@ socket = None
 
 connected = False
 
-WEBSOCKET_URL = "ws://localhost:8080"
+WEBSOCKET_URL = "ws://192.168.6.231:8080"
 
 def on_message(ws, message):
     global timeSinceLastHeartbeat

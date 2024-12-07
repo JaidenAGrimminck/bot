@@ -96,6 +96,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Adds a response to the LIDAR sensor.</div>
 </dd>
+<dt><a href="me/autobot/server/RESTServer.html#addRoute(java.lang.String,me.autobot.server.RESTServer.Route)" class="member-name-link">addRoute(String, RESTServer.Route)</a> - Method in class me.autobot.server.<a href="me/autobot/server/RESTServer.html" title="class in me.autobot.server">RESTServer</a></dt>
+<dd>
+<div class="block">Adds a route to the server.</div>
+</dd>
 <dt><a href="me/autobot/server/WSClientRoute.html#addToWSClient()" class="member-name-link">addToWSClient()</a> - Method in class me.autobot.server.<a href="me/autobot/server/WSClientRoute.html" title="class in me.autobot.server">WSClientRoute</a></dt>
 <dd>
 <div class="block">Adds the route to the WSClient.</div>
@@ -399,9 +403,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Disables the mechanism.</div>
 </dd>
+<dt><a href="me/autobot/lib/robot/PlayableRobot.html#disabled" class="member-name-link">disabled</a> - Static variable in annotation interface me.autobot.lib.robot.<a href="me/autobot/lib/robot/PlayableRobot.html" title="annotation interface in me.autobot.lib.robot">PlayableRobot</a></dt>
+<dd>
+<div class="block">If the robot is disabled or not.</div>
+</dd>
 <dt><a href="me/autobot/lib/systems/mechanisms/Mechanism.html#disabled" class="member-name-link">disabled</a> - Variable in class me.autobot.lib.systems.mechanisms.<a href="me/autobot/lib/systems/mechanisms/Mechanism.html" title="class in me.autobot.lib.systems.mechanisms">Mechanism</a></dt>
 <dd>
 <div class="block">If the mechanism is disabled.</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/Robot.html#disableRobot()" class="member-name-link">disableRobot()</a> - Static method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></dt>
+<dd>
+<div class="block">Stops the current robot.</div>
 </dd>
 <dt><a href="me/autobot/lib/math/coordinates/Int2.html#distance(me.autobot.lib.math.coordinates.Int2)" class="member-name-link">distance(Int2)</a> - Method in class me.autobot.lib.math.coordinates.<a href="me/autobot/lib/math/coordinates/Int2.html" title="class in me.autobot.lib.math.coordinates">Int2</a></dt>
 <dd>
@@ -673,7 +685,11 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="me/autobot/lib/robot/Robot.html#getInstance()" class="member-name-link">getInstance()</a> - Static method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></dt>
 <dd>
-<div class="block">Gets the first robot / only robot if only one robot is created.</div>
+<div class="block">Gets the first robot / only robot if only one robot is created (for multi-robot simulations).</div>
+</dd>
+<dt><a href="me/autobot/server/RESTServer.html#getInstance()" class="member-name-link">getInstance()</a> - Static method in class me.autobot.server.<a href="me/autobot/server/RESTServer.html" title="class in me.autobot.server">RESTServer</a></dt>
+<dd>
+<div class="block">Gets the instance of the REST server.</div>
 </dd>
 <dt><a href="me/autobot/server/WSServer.html#getInstance()" class="member-name-link">getInstance()</a> - Static method in class me.autobot.server.<a href="me/autobot/server/WSServer.html" title="class in me.autobot.server">WSServer</a></dt>
 <dd>
@@ -810,6 +826,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="me/autobot/lib/math/coordinates/Spherical.html#getRho()" class="member-name-link">getRho()</a> - Method in class me.autobot.lib.math.coordinates.<a href="me/autobot/lib/math/coordinates/Spherical.html" title="class in me.autobot.lib.math.coordinates">Spherical</a></dt>
 <dd>
 <div class="block">Returns the value of rho.</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/Robot.html#getRobotClasses()" class="member-name-link">getRobotClasses()</a> - Static method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></dt>
+<dd>
+<div class="block">Gets all robot classes.</div>
 </dd>
 <dt><a href="me/autobot/lib/robot/Robot.html#getRobots()" class="member-name-link">getRobots()</a> - Static method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></dt>
 <dd>
@@ -1519,6 +1539,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:N">N</h2>
 <dl class="index">
+<dt><a href="me/autobot/lib/robot/PlayableRobot.html#name()" class="member-name-link">name()</a> - Element in annotation interface me.autobot.lib.robot.<a href="me/autobot/lib/robot/PlayableRobot.html" title="annotation interface in me.autobot.lib.robot">PlayableRobot</a></dt>
+<dd>
+<div class="block">Name of the robot.</div>
+</dd>
 <dt><a href="me/autobot/lib/math/coordinates/Polar.html#normal()" class="member-name-link">normal()</a> - Method in class me.autobot.lib.math.coordinates.<a href="me/autobot/lib/math/coordinates/Polar.html" title="class in me.autobot.lib.math.coordinates">Polar</a></dt>
 <dd>
 <div class="block">Gets the normal of the vector, with the same magnitude (this implies a 90 degree rotation).</div>
@@ -1565,6 +1589,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="me/autobot/server/WSClient.html#onException(java.io.IOException)" class="member-name-link">onException(IOException)</a> - Method in class me.autobot.server.<a href="me/autobot/server/WSClient.html" title="class in me.autobot.server">WSClient</a></dt>
 <dd>
 <div class="block">Called when an exception occurs.</div>
+</dd>
+<dt><a href="me/autobot/code/mechanisms/LIDAR.html#onLidarData(me.autobot.code.mechanisms.LIDAR.Point%5B%5D)" class="member-name-link">onLidarData(LIDAR.Point[])</a> - Method in class me.autobot.code.mechanisms.<a href="me/autobot/code/mechanisms/LIDAR.html" title="class in me.autobot.code.mechanisms">LIDAR</a></dt>
+<dd>
+<div class="block">Called when the LIDAR sensor has new data.</div>
 </dd>
 <dt><a href="me/autobot/code/mechanisms/LIDAR.WSLidarSensorConnection.Response.html#onLidarData(me.autobot.code.mechanisms.LIDAR.Point%5B%5D)" class="member-name-link">onLidarData(LIDAR.Point[])</a> - Method in class me.autobot.code.mechanisms.<a href="me/autobot/code/mechanisms/LIDAR.WSLidarSensorConnection.Response.html" title="class in me.autobot.code.mechanisms">LIDAR.WSLidarSensorConnection.Response</a></dt>
 <dd>
@@ -1647,6 +1675,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Pauses the simulation timer.</div>
 </dd>
+<dt><a href="me/autobot/lib/robot/Robot.html#pauseRobot()" class="member-name-link">pauseRobot()</a> - Static method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></dt>
+<dd>
+<div class="block">Pauses the current robot.</div>
+</dd>
 <dt><a href="me/autobot/lib/math/coordinates/Vector2d.html#perpendicular()" class="member-name-link">perpendicular()</a> - Method in class me.autobot.lib.math.coordinates.<a href="me/autobot/lib/math/coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></dt>
 <dd>
 <div class="block">Gets the perpendicular vector of the vector.</div>
@@ -1658,6 +1690,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="me/autobot/lib/hardware/serial/SensorHubSerialConnection.html#ping()" class="member-name-link">ping()</a> - Method in class me.autobot.lib.hardware.serial.<a href="me/autobot/lib/hardware/serial/SensorHubSerialConnection.html" title="class in me.autobot.lib.hardware.serial">SensorHubSerialConnection</a></dt>
 <dd>
 <div class="block">Pings the serial device.</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/PlayableRobot.html" class="type-name-link" title="annotation interface in me.autobot.lib.robot">PlayableRobot</a> - Annotation Interface in <a href="me/autobot/lib/robot/package-summary.html">me.autobot.lib.robot</a></dt>
+<dd>
+<div class="block">Represents a robot that can be played.</div>
 </dd>
 <dt><a href="me/autobot/lib/controls/Joycon.html#plus" class="member-name-link">plus</a> - Variable in class me.autobot.lib.controls.<a href="me/autobot/lib/controls/Joycon.html" title="class in me.autobot.lib.controls">Joycon</a></dt>
 <dd>
@@ -1776,6 +1812,22 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="me/autobot/code/mechanisms/LIDAR.WSLidarSensorConnection.Response.html#%3Cinit%3E()" class="member-name-link">Response()</a> - Constructor for class me.autobot.code.mechanisms.<a href="me/autobot/code/mechanisms/LIDAR.WSLidarSensorConnection.Response.html" title="class in me.autobot.code.mechanisms">LIDAR.WSLidarSensorConnection.Response</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="me/autobot/server/RESTServer.html" class="type-name-link" title="class in me.autobot.server">RESTServer</a> - Class in <a href="me/autobot/server/package-summary.html">me.autobot.server</a></dt>
+<dd>
+<div class="block">REST server for the robot.</div>
+</dd>
+<dt><a href="me/autobot/server/RESTServer.html#%3Cinit%3E(int)" class="member-name-link">RESTServer(int)</a> - Constructor for class me.autobot.server.<a href="me/autobot/server/RESTServer.html" title="class in me.autobot.server">RESTServer</a></dt>
+<dd>
+<div class="block">Starts the server on the specified port.</div>
+</dd>
+<dt><a href="me/autobot/server/RESTServer.Route.html" class="type-name-link" title="class in me.autobot.server">RESTServer.Route</a> - Class in <a href="me/autobot/server/package-summary.html">me.autobot.server</a></dt>
+<dd>
+<div class="block">A route for the REST server.</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/Robot.html#resumeRobot()" class="member-name-link">resumeRobot()</a> - Static method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></dt>
+<dd>
+<div class="block">Resumes the current robot.</div>
+</dd>
 <dt><a href="me/autobot/lib/controls/Joycon.html#rightSl" class="member-name-link">rightSl</a> - Variable in class me.autobot.lib.controls.<a href="me/autobot/lib/controls/Joycon.html" title="class in me.autobot.lib.controls">Joycon</a></dt>
 <dd>
 <div class="block">Right joycon left sl button.</div>
@@ -1876,6 +1928,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a new Rotation3d with the given angles in radians.</div>
 </dd>
+<dt><a href="me/autobot/server/RESTServer.Route.html#%3Cinit%3E()" class="member-name-link">Route()</a> - Constructor for class me.autobot.server.<a href="me/autobot/server/RESTServer.Route.html" title="class in me.autobot.server">RESTServer.Route</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="me/autobot/server/WSClient.html#routes" class="member-name-link">routes</a> - Static variable in class me.autobot.server.<a href="me/autobot/server/WSClient.html" title="class in me.autobot.server">WSClient</a></dt>
 <dd>
 <div class="block">List of all the routes that the clients can use.</div>
@@ -1883,6 +1937,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="me/autobot/lib/tools/RunnableWithArgs.html#run()" class="member-name-link">run()</a> - Method in class me.autobot.lib.tools.<a href="me/autobot/lib/tools/RunnableWithArgs.html" title="class in me.autobot.lib.tools">RunnableWithArgs</a></dt>
 <dd>
 <div class="block">Runs the runnable.</div>
+</dd>
+<dt><a href="me/autobot/server/RESTServer.Route.html#run()" class="member-name-link">run()</a> - Method in class me.autobot.server.<a href="me/autobot/server/RESTServer.Route.html" title="class in me.autobot.server">RESTServer.Route</a></dt>
+<dd>
+<div class="block">Runs the route.</div>
 </dd>
 <dt><a href="me/autobot/sim/graphics/elements/CanvasButton.html#run()" class="member-name-link">run()</a> - Method in class me.autobot.sim.graphics.elements.<a href="me/autobot/sim/graphics/elements/CanvasButton.html" title="class in me.autobot.sim.graphics.elements">CanvasButton</a></dt>
 <dd>
@@ -1979,14 +2037,16 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Verbose level for serial errors.</div>
 </dd>
+<dt><a href="me/autobot/server/RESTServer.html#serve(fi.iki.elonen.NanoHTTPD.IHTTPSession)" class="member-name-link">serve(NanoHTTPD.IHTTPSession)</a> - Method in class me.autobot.server.<a href="me/autobot/server/RESTServer.html" title="class in me.autobot.server">RESTServer</a></dt>
+<dd>
+<div class="block">On request, serve the appropriate route.</div>
+</dd>
 <dt><a href="me/autobot/server/Server.html" class="type-name-link" title="class in me.autobot.server">Server</a> - Class in <a href="me/autobot/server/package-summary.html">me.autobot.server</a></dt>
 <dd>
-<div class="block">A nanoHTTPD server that can be used to serve a webpage.</div>
+<div class="block">Server for the robot.</div>
 </dd>
-<dt><a href="me/autobot/server/Server.html#%3Cinit%3E(int)" class="member-name-link">Server(int)</a> - Constructor for class me.autobot.server.<a href="me/autobot/server/Server.html" title="class in me.autobot.server">Server</a></dt>
-<dd>
-<div class="block">Starts the NanoHTTPD server on the given port</div>
-</dd>
+<dt><a href="me/autobot/server/Server.html#%3Cinit%3E()" class="member-name-link">Server()</a> - Constructor for class me.autobot.server.<a href="me/autobot/server/Server.html" title="class in me.autobot.server">Server</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="me/autobot/lib/robot/motors/Servo.html" class="type-name-link" title="class in me.autobot.lib.robot.motors">Servo</a> - Class in <a href="me/autobot/lib/robot/motors/package-summary.html">me.autobot.lib.robot.motors</a></dt>
 <dd>
 <div class="block">The servo motor class.</div>
@@ -2043,6 +2103,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="me/autobot/lib/robot/Device.html#setParent(me.autobot.lib.robot.Robot)" class="member-name-link">setParent(Robot)</a> - Method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Device.html" title="class in me.autobot.lib.robot">Device</a></dt>
 <dd>
 <div class="block">Set the parent of the device, i.e what robot the device is attached to.</div>
+</dd>
+<dt><a href="me/autobot/lib/math/Clock.html#setPaused(boolean)" class="member-name-link">setPaused(boolean)</a> - Method in class me.autobot.lib.math.<a href="me/autobot/lib/math/Clock.html" title="class in me.autobot.lib.math">Clock</a></dt>
+<dd>
+<div class="block">Sets if the timer is paused.</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/Robot.html#setPaused(boolean)" class="member-name-link">setPaused(boolean)</a> - Method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></dt>
+<dd>
+<div class="block">Pauses the robot.</div>
 </dd>
 <dt><a href="me/autobot/lib/math/rotation/Rotation3d.html#setPhi(double)" class="member-name-link">setPhi(double)</a> - Method in class me.autobot.lib.math.rotation.<a href="me/autobot/lib/math/rotation/Rotation3d.html" title="class in me.autobot.lib.math.rotation">Rotation3d</a></dt>
 <dd>
@@ -2279,6 +2347,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Create a new Spherical with a radius of 0 and an angle of 0 (theta and phi).</div>
 </dd>
+<dt><a href="me/autobot/lib/robot/Robot.html#start()" class="member-name-link">start()</a> - Static method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></dt>
+<dd>
+<div class="block">Starts all the robots (adds them to the editable list available for selection).</div>
+</dd>
+<dt><a href="me/autobot/server/Server.html#start()" class="member-name-link">start()</a> - Static method in class me.autobot.server.<a href="me/autobot/server/Server.html" title="class in me.autobot.server">Server</a></dt>
+<dd>
+<div class="block">Starts the server on ports (ws) 8080 and (rest) 8081.</div>
+</dd>
 <dt><a href="me/autobot/sim/evolution/EvolutionTracker.html#start()" class="member-name-link">start()</a> - Method in class me.autobot.sim.evolution.<a href="me/autobot/sim/evolution/EvolutionTracker.html" title="class in me.autobot.sim.evolution">EvolutionTracker</a></dt>
 <dd>
 <div class="block">Starts the evolution process</div>
@@ -2291,13 +2367,21 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Starts the simulation.</div>
 </dd>
+<dt><a href="me/autobot/server/Server.html#start(int,int)" class="member-name-link">start(int, int)</a> - Static method in class me.autobot.server.<a href="me/autobot/server/Server.html" title="class in me.autobot.server">Server</a></dt>
+<dd>
+<div class="block">Starts the server on the specified ports.</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/Robot.html#start(me.autobot.lib.robot.Robot)" class="member-name-link">start(Robot)</a> - Static method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></dt>
+<dd>
+<div class="block">Starts a singular robot.</div>
+</dd>
 <dt><a href="me/autobot/sim/evolution/EvolutionTracker.html#startNewGen()" class="member-name-link">startNewGen()</a> - Method in class me.autobot.sim.evolution.<a href="me/autobot/sim/evolution/EvolutionTracker.html" title="class in me.autobot.sim.evolution">EvolutionTracker</a></dt>
 <dd>
 <div class="block">Starts a new generation</div>
 </dd>
-<dt><a href="me/autobot/server/Server.html#startServer(int)" class="member-name-link">startServer(int)</a> - Static method in class me.autobot.server.<a href="me/autobot/server/Server.html" title="class in me.autobot.server">Server</a></dt>
+<dt><a href="me/autobot/lib/robot/Robot.html#startRobot(int)" class="member-name-link">startRobot(int)</a> - Static method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></dt>
 <dd>
-<div class="block">Starts the NanoHTTPD server on the given port.</div>
+<div class="block">Starts a robot by index.</div>
 </dd>
 <dt><a href="me/autobot/lib/robot/Robot.html#startSimulation()" class="member-name-link">startSimulation()</a> - Static method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></dt>
 <dd>
@@ -2310,6 +2394,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="me/autobot/lib/robot/motors/Servo.html#stop()" class="member-name-link">stop()</a> - Method in class me.autobot.lib.robot.motors.<a href="me/autobot/lib/robot/motors/Servo.html" title="class in me.autobot.lib.robot.motors">Servo</a></dt>
 <dd>
 <div class="block">Stops the servo via setting the speed to 90 (halfway point).</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/Robot.html#stop()" class="member-name-link">stop()</a> - Method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></dt>
+<dd>
+<div class="block">Stop method.</div>
 </dd>
 <dt><a href="me/autobot/lib/systems/mechanisms/Mechanism.html#stop()" class="member-name-link">stop()</a> - Method in class me.autobot.lib.systems.mechanisms.<a href="me/autobot/lib/systems/mechanisms/Mechanism.html" title="class in me.autobot.lib.systems.mechanisms">Mechanism</a></dt>
 <dd>
@@ -2354,6 +2442,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="me/autobot/lib/hardware/serial/SensorHubSerialConnection.html#subscribeToPin(int)" class="member-name-link">subscribeToPin(int)</a> - Method in class me.autobot.lib.hardware.serial.<a href="me/autobot/lib/hardware/serial/SensorHubSerialConnection.html" title="class in me.autobot.lib.hardware.serial">SensorHubSerialConnection</a></dt>
 <dd>
 <div class="block">Sends a request to subscribe to a specific pin.</div>
+</dd>
+<dt><a href="me/autobot/lib/robot/Robot.html#subscribeToStatus(me.autobot.server.WSClient)" class="member-name-link">subscribeToStatus(WSClient)</a> - Static method in class me.autobot.lib.robot.<a href="me/autobot/lib/robot/Robot.html" title="class in me.autobot.lib.robot">Robot</a></dt>
+<dd>
+<div class="block">Subscribes a WSClients to the status of the robot.</div>
 </dd>
 <dt><a href="me/autobot/lib/math/coordinates/Vector2d.html#subtract(me.autobot.lib.math.coordinates.Vector2d)" class="member-name-link">subtract(Vector2d)</a> - Method in class me.autobot.lib.math.coordinates.<a href="me/autobot/lib/math/coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></dt>
 <dd>

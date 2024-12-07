@@ -4,6 +4,7 @@ import me.autobot.lib.controls.Joycon;
 import me.autobot.lib.math.coordinates.Polar;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
+import me.autobot.lib.robot.PlayableRobot;
 import me.autobot.lib.robot.Robot;
 import me.autobot.lib.robot.drivebase.ArcadeDrive;
 import me.autobot.lib.robot.drivebase.TankDrive;
@@ -17,7 +18,11 @@ import java.nio.ByteBuffer;
 /**
  * Main robot class for the robot.
  * */
+@PlayableRobot(name = "Main Robot")
 public class MainBot extends Robot {
+    /**
+     * Config class for the robot.
+     * */
     private static class Config {
         public static final int TOP_LEFT_MOTOR = 0x09;
         public static final int BACK_LEFT_MOTOR = 0x0A;
@@ -61,19 +66,16 @@ public class MainBot extends Robot {
      * */
     @Override
     protected void setup() {
-        //start websocket client
-        WSServer.wsstart();
-
         //initialize the motors and set their max speeds to 0.5
         topLeft = new HoverboardWheel(0x01, 0x01);
         topLeft.setMaxSpeed(0.5);
 
         bottomLeft = new HoverboardWheel(0x02, 0x01);
         bottomLeft.setMaxSpeed(0.5);
-        bottomLeft.invert();
 
         topRight = new HoverboardWheel(0x03, 0x02);
         topRight.setMaxSpeed(0.5);
+        topRight.invert();
 
         bottomRight = new HoverboardWheel(0x04, 0x02);
         bottomRight.setMaxSpeed(0.5);
@@ -83,6 +85,9 @@ public class MainBot extends Robot {
         registerAllDevices();
 
         //connect devices to serial.
+        System.out.println("Connecting to serial ports...");
+
+        System.out.println("Attempting to connect to left side...");
         topLeft.connectToSerial("/dev/cu.usbserial-10",
                 Config.TOP_LEFT_MOTOR_DIRECTION, Config.TOP_LEFT_MOTOR
         );
@@ -92,6 +97,8 @@ public class MainBot extends Robot {
         );
 
         //right side is on a different port.
+        System.out.println("Attempting to connect to right side...");
+
         topRight.connectToSerial("/dev/cu.usbserial-110",
                 Config.TOP_RIGHT_MOTOR_DIRECTION, Config.TOP_RIGHT_MOTOR
         );
@@ -99,6 +106,8 @@ public class MainBot extends Robot {
         bottomRight.connectToSerial("/dev/cu.usbserial-110",
                 Config.BACK_RIGHT_MOTOR_DIRECTION, Config.BACK_RIGHT_MOTOR
         );
+
+        System.out.println("Connected to serial ports!");
 
         joycon = Joycon.getJoycon((byte) 0xB5);
 
@@ -133,7 +142,9 @@ public class MainBot extends Robot {
             }
         });
 
-        arcadeDrive = new TankDrive(topLeft, topRight, bottomLeft, bottomRight);
+        //arcadeDrive = new TankDrive(topLeft, topRight, bottomLeft, bottomRight);
+
+        System.out.println("Setup complete!");
     }
 
     private boolean switch_flag = false;
@@ -147,17 +158,19 @@ public class MainBot extends Robot {
 
         if (clock().elapsedSince(2000)) {
             if (!switch_flag) {
-                topLeft.setSpeed(0.5);
-                bottomLeft.setSpeed(0.5);
-                topRight.setSpeed(0.5);
-                bottomRight.setSpeed(0.5);
+                topLeft.setSpeed(0.1);
+                bottomLeft.setSpeed(0.1);
+//                topRight.setSpeed(0.1);
+//                bottomRight.setSpeed(0.1);
                 switch_flag = true;
+                System.out.println("Moving!");
             } else {
                 topLeft.setSpeed(0);
                 bottomLeft.setSpeed(0);
                 topRight.setSpeed(0);
                 bottomRight.setSpeed(0);
                 switch_flag = false;
+                System.out.println("Stopped!");
             }
         }
 

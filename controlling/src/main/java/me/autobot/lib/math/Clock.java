@@ -6,6 +6,8 @@ package me.autobot.lib.math;
 public class Clock {
     private long startTime;
     private long lastTriggeredTime;
+    private boolean paused = false;
+    private long pauseStartTime = 0;
 
     /**
      * Creates a new clock object.
@@ -19,6 +21,10 @@ public class Clock {
      * @return The time elapsed in milliseconds.
      * */
     public long getTimeElapsed() {
+        if (paused) {
+            return pauseStartTime - startTime;
+        }
+
         return System.currentTimeMillis() - startTime;
     }
 
@@ -28,7 +34,6 @@ public class Clock {
      * @return Whether the time has elapsed.
      * */
     public boolean elapsed(long time) {
-        lastTriggeredTime = getTimeElapsed();
         return getTimeElapsed() >= time;
     }
 
@@ -44,5 +49,21 @@ public class Clock {
         }
 
         return false;
+    }
+
+    /**
+     * Sets if the timer is paused.
+     * @param paused Whether the timer is paused.
+     * */
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+        if (paused) {
+            pauseStartTime = System.currentTimeMillis();
+        } else {
+            startTime += System.currentTimeMillis() - pauseStartTime;
+            lastTriggeredTime += System.currentTimeMillis() - pauseStartTime;
+
+            pauseStartTime = 0;
+        }
     }
 }

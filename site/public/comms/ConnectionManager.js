@@ -108,6 +108,29 @@ socket.on("heartbeat", (data) => {
     hr({ time: data.time });
 });
 
+window.robot_status = {};
+window.robot_classes = {};
+
+let robot_classes_listeners = [];
+
+socket.on("robot-status", (data) => {
+    window.robot_status = data;
+})
+
+socket.on("robot-classes", (data) => {
+    window.robot_classes = data;
+    robot_classes_listeners.forEach((listener) => {
+        listener(data);
+    });
+});
+
+function waitForRobotClasses(callback) {
+    robot_classes_listeners.push(callback);
+    if (window.robot_classes.length > 0) {
+        callback(window.robot_classes);
+    }
+}
+
 async function checkBackendConnection() {
     let t1 = Date.now();
 
@@ -125,6 +148,24 @@ async function checkBackendConnection() {
     let down = t2 - j.time;
 
     return { connected: true, up, down }
+}
+
+const ROBOT_STATES = {
+    START: "start",
+    STOP: "stop",
+    PAUSE: "pause",
+    RESUME: "resume"
+}
+
+function setRobotState(robotClass, state) {
+    if (Object.values(ROBOT_STATES).indexOf(state) == -1) {
+        throw new Error("Invalid state");
+    }
+
+    socket.emit("robot-state-update", {
+        robotClass,
+        state
+    });
 }
 
 let heartbeatStarted = false;

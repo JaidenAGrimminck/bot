@@ -71,6 +71,30 @@ class ViewSideItem extends HTMLElement {
 class ViewTopBar extends HTMLElement {
     constructor() {
         super();
+
+        this.views_id = {
+            "camera": "view-camera-container",
+            "drivebase": "view-drivebase-container",
+            "environment": "view-environment-container",
+            "map": "view-map-container",
+            "plot": "view-plot-container",
+            "telemetry": "view-telemetry-container",
+        }
+
+        this.last_selected_robot = null;
+        this.current_state = "disabled";
+
+        let last_robot_status = 0;
+
+        setTimeout(() => {
+            if (robot_status["last_update"] - last_robot_status > 3000) {
+                document.getElementById("live-view-container").innerHTML = `Live View <div class="live-dot">`;
+            } else {
+                document.getElementById("live-view-container").innerHTML = `Disconnected <div class="not-live-dot">`;
+            }
+
+            last_robot_status = Date.now();
+        }, 100);
     }
 
     async connectedCallback() {
@@ -81,14 +105,144 @@ class ViewTopBar extends HTMLElement {
         for (let i = 0; i < children.length; i++) {
             children[i].addEventListener("click", this.select.bind(this));
         }
+        
+        setTimeout(() => {
+            for (let key of Object.keys(this.views_id)) {
+                document.getElementById(this.views_id[key]).classList.add("cc-hidden");
+            }
+        })
+
+        waitForRobotClasses((data) => {
+            document.getElementById("robot-selection").innerHTML = "";
+
+            let no_option = document.createElement("option");
+            no_option.value = "none";
+            no_option.textContent = "No Robot Selected";
+
+            document.getElementById("robot-selection").appendChild(no_option);
+
+            let editable = window.robot_status["editable"];
+
+            let i = 0;
+            for (let robot_class of data) {
+                let option = document.createElement("option");
+                option.value = i;
+                option.textContent = robot_class.name;
+
+                if (robot_class.disabled || !editable) {
+                    option.disabled = true;
+                }
+
+                document.getElementById("robot-selection").appendChild(option);
+                i++;
+            }
+        })
+
+        document.getElementById("robot-selection").addEventListener("change", (e) => {
+            let robotIndex = e.target.value;
+
+            if (this.current_state != "disabled") {
+                //cancel event
+                e.target.value = this.last_selected_robot;
+                return;
+            }
+
+            if (robotIndex == "none") {
+                // set the play-pause to select
+                document.getElementById("play-pause").src = "/images/select.svg";
+                this.current_state = "disabled";
+            } else {
+                if (this.last_selected_robot == robotIndex) {
+                    return;
+                }
+
+                // set the play-pause to play
+                document.getElementById("play-pause").src = "/images/play.svg";
+                this.current_state = "disabled";
+            }
+
+            document.getElementById("stop").src = "/images/empty.svg";
+
+            this.last_selected_robot = robotIndex;
+        });
+
+        document.getElementById("play-pause").addEventListener("click", (e) => {
+            let robotIndex = document.getElementById("robot-selection").value;
+
+            if (robotIndex == "none") {
+                return;
+            }
+
+            let src = e.target.src;
+
+            if (src.includes("play")) {
+                e.target.src = "/images/pause.svg";
+                document.getElementById("stop").src = "/images/stop.svg";
+
+                if (this.current_state == "disabled") {
+                    setRobotState(robotIndex, ROBOT_STATES.START);
+                } else if (this.current_state == "pause") {
+                    setRobotState(robotIndex, ROBOT_STATES.RESUME);
+                }
+
+                this.current_state = "play";
+            } else if (src.includes("pause")) {
+                e.target.src = "/images/play.svg";
+
+                this.current_state = "pause";
+                setRobotState(robotIndex, ROBOT_STATES.PAUSE);
+                document.getElementById("stop").src = "/images/stop.svg";
+            }
+        });
+
+        document.getElementById("stop").addEventListener("click", (e) => {
+            let robotIndex = document.getElementById("robot-selection").value;
+
+            if (robotIndex == "none") {
+                return;
+            }
+
+            if (this.current_state == "disabled") {
+                return;
+            }
+
+            let src = e.target.src;
+
+            if (src.includes("stop")) {
+                e.target.src = "/images/empty.svg";
+                this.current_state = "disabled";
+                document.getElementById("play-pause").src = "/images/play.svg";
+
+                setRobotState(robotIndex, ROBOT_STATES.STOP);
+            }
+        })
     }
 
     async select(e) {
         let children = this.querySelector(".main-top-bar-selection").children;
 
+        let previousSelected = null;
         for (let i = 0; i < children.length; i++) {
+            //check if the child is the one that was clicked
+            if (children[i].classList.contains("top-bar-selected")) {
+                previousSelected = i;
+            }
             children[i].classList.remove("top-bar-selected");
         }
+
+        for (let key of Object.keys(this.views_id)) {
+            document.getElementById(this.views_id[key]).classList.add("cc-hidden");
+        }
+
+        if (previousSelected != null) {
+            if (children[previousSelected] == e.target) {
+                return;
+            }
+        }
+
+        let target_text = e.target.querySelector("span").textContent.toLowerCase().replace(" ", "");
+
+        document.getElementById(this.views_id[target_text]).classList.remove("cc-hidden");
 
         e.target.classList.add("top-bar-selected");
     }
@@ -130,21 +284,12 @@ class View extends HTMLElement {
         document.addEventListener("mousemove", this.adjustSize.bind(this));
         document.addEventListener("mouseup", this.endAdjustSize.bind(this));
         document.addEventListener("mouseleave", this.endAdjustSize.bind(this));
-        
-        //cheat to let element load first
-        setTimeout(() => {
-            this.querySelector(".bottom-size-adjuster").addEventListener("mousedown", this.initAdjustBottomSize.bind(this));
-            document.addEventListener("mousemove", this.adjustBottomSize.bind(this));
-            document.addEventListener("mouseup", this.endAdjustBottomSize.bind(this));
-            document.addEventListener("mouseleave", this.endAdjustBottomSize.bind(this));
-        }, 100)
 
         //when the window is resized, adjust the size of the side
         window.addEventListener("resize", () => {
             let sideWidth = this.querySelector(".side").getBoundingClientRect().width;
             this.querySelector(".side").style.width = sideWidth + "px";
             this.querySelector(".main").style.width = "calc(100% - " + sideWidth + "px)";
-            document.querySelector(".bottom-size-adjuster").style.left = "calc(" + sideWidth + "px + (100% - " + sideWidth + "px) / 2)";
         });
 
         //and add mouse up event listener to window
@@ -174,7 +319,6 @@ class View extends HTMLElement {
         //adjust width to mouse position
         this.querySelector(".side").style.width = (x) + "px";
         this.querySelector(".main").style.width = "calc(100% - " + (x) + "px)";
-        document.querySelector(".bottom-size-adjuster").style.left = "calc(" + x + "px + (100% - " + x + "px) / 2)";
 
         //get new bounding box of side
         let sideBB = this.querySelector(".side").getBoundingClientRect();
@@ -186,35 +330,6 @@ class View extends HTMLElement {
 
     async endAdjustSize() {
         this.adjustment.selected = false;
-        document.querySelector("body").style.cursor = "default";
-    }
-
-    async initAdjustBottomSize(e) {
-        this.bottomAdjustment.selected = true;
-        document.querySelector("body").style.cursor = "ns-resize";
-    }
-
-    async adjustBottomSize(e) {
-        if (!this.bottomAdjustment.selected) return;
-
-        //get mouse position
-        let x = e.clientX;
-        let y = e.clientY;
-
-        let height = window.innerHeight - y;
-
-        if (height < 200) {
-            height = 200;
-        } else if (height > 400) {
-            height = 400;
-        }
-
-        this.querySelector(".bottom-size-adjuster").style.bottom = (height - 6) + "px";
-        this.querySelector(".variables-view").style.height = height + "px";
-    }
-
-    async endAdjustBottomSize() {
-        this.bottomAdjustment.selected = false;
         document.querySelector("body").style.cursor = "default";
     }
 }

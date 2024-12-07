@@ -31,6 +31,23 @@ app.get('/require.js', (req, res) => {
 })
 
 io.on('connection', (socket) => {
+    const robotStatusListener = (data) => {
+        socket.emit('robot-status', Object.assign({
+            last_update: Date.now()
+        }, data));
+    }
+
+    const robotClassesListener = (data) => {
+        socket.emit('robot-classes', data);
+    }
+
+    robot.addEventListener('onRobotStatus', robotStatusListener);
+    robot.addEventListener('onRobotClasses', robotClassesListener);
+
+    setTimeout(() => {
+        socket.emit('robot-classes', robot.robotClasses)
+    }, 1000)
+
     socket.on('heartbeat', () => {
         socket.emit('heartbeat', { time: Date.now() });
     });
@@ -42,6 +59,10 @@ io.on('connection', (socket) => {
     socket.on('robot-payload', (data={payload: []}) => {
         robot.send(data.payload);
     });
+
+    socket.on("robot-state-update", (data={robotClass: "", state: ""}) => {
+        robot.setRobotState(data.robotClass, data.state);
+    })
 
     socket.on('subscribe', (data={robotAddress: 0x00, sensorAddress: 0x00}) => {
         robot.subscribe(data.robotAddress, data.sensorAddress);
@@ -62,6 +83,9 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         log.removeSocketListener(socket);
+
+        robot.removeEventListener('onRobotStatus', robotStatusListener);
+        robot.removeEventListener('onRobotClasses', robotClassesListener);
     });
 });
 

@@ -63,6 +63,12 @@ dependencies {
 
     //just implement all files in lib folder implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation(files("libs/jSerialComm-2.6.2.jar"))
+
+    // reflection for scanning classes
+    implementation("org.reflections:reflections:0.10.2")
+
+    // json for parsing json
+    implementation("com.google.code.gson:gson:2.8.9")
 }
 
 //apply(plugin = "org.ros2.tools.gradle")

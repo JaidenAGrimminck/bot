@@ -1,1 +1,1 @@
-view-plot,view-camera,view-drivebase,view-environment,view-map
+view-plot,view-camera,view-drivebase,view-environment,view-map,view-telemetry

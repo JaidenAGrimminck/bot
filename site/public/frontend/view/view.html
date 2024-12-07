@@ -22,10 +22,15 @@
         <div>
             <div class="main-top-bar">
                 <div class="main-title">
-                    <span class="main-title-text">Lorem ipsum dolor sit amet 182359</span> <span>—</span> <span class="main-title-source">consectetur</span>
+                    <span class="main-title-text">bot</span> <span>—</span> <span class="main-title-source" id="live-view-container" style="display: flex; align-items: center;"></span>
                 </div>
                 <div class="main-options">
-                    <img src="/images/play.svg" width="24px" height="auto">
+                    <select id="robot-selection">
+                        <option value="none">No Robot Selected</option>
+                    </select>
+                    <div></div>
+                    <img src="/images/select.svg" class="play" id="play-pause" width="24px" height="auto">
+                    <img src="/images/empty.svg" class="stop" id="stop" width="24px" height="auto">
                     <div></div>
                     <img src="/images/batteries/battery-alert.svg" width="24px" height="auto">
                     <img src="/images/plus.svg" width="24px" height="auto">
@@ -33,6 +38,26 @@
             </div>
             <div class="main-top-bar" style="width: 100%;">
                 <view-top-bar></view-top-bar>
+            </div>
+        </div>
+        <div class="view-containers">
+            <div id="view-plot-container">
+                <view-plot></view-plot>
+            </div>
+            <div id="view-camera-container">
+                <view-camera></view-camera>
+            </div>
+            <div id="view-drivebase-container">
+                <view-drivebase></view-drivebase>
+            </div>
+            <div id="view-environment-container">
+                <view-environment></view-environment>
+            </div>
+            <div id="view-map-container">
+                <view-map></view-map>
+            </div>
+            <div id="view-telemetry-container">
+                <view-telemetry></view-telemetry>
             </div>
         </div>
         <variables-view></variables-view>

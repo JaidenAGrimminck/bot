@@ -85,7 +85,10 @@ def printMapped(x,y):
 
 
 def sendJoystick(l_state, r_state):
-    payload = []
+    payload = [
+        0x02,
+        0xB5
+    ]
 
     # takes in a list of 34 bytes.
     # first 2 bytes are the buttons

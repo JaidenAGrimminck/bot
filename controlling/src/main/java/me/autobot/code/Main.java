@@ -1,5 +1,6 @@
 package me.autobot.code;
 
+import me.autobot.lib.robot.Robot;
 import me.autobot.sim.Simulation;
 
 /**
@@ -20,6 +21,6 @@ public class Main {
      * @param args The arguments passed to the program.
      * */
     public static void main(String[] args) {
-        new TestBot();
+        Robot.start(new TestBot());
     }
 }

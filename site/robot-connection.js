@@ -1,14 +1,17 @@
 const WebSocket = require('ws');
 
+const verboseConnection = false;
+
 class RobotConnection {
-    constructor(ip="localhost", port=8080, https=false) {
-        try {
-            this.ws = new WebSocket(`${https ? "wss" : "ws"}://${ip}:${port}`);
-        } catch (e) {
-            return;
-        }
-        
+    constructor(ip="localhost", port=8080, https=false, restartTimeout=5000) {     
+           
         this.open = false;
+
+        this.ip = ip;
+        this.port = port;
+        this.https = https;
+
+        this.restartTimeout = restartTimeout;
 
         this.openCallbacks = [];
 
@@ -16,17 +19,64 @@ class RobotConnection {
 
         this.sensorListeners = {};
 
+        this.robotClasses = [];
+
+        this.robotData = {
+            clock: 0, // clock of the robot
+            mode: "disabled", // play, pause, disabled
+            robot: -1, //robot index
+            editable: false, //editable
+        };
+
+        this.eventCallbacks = {
+            "onRobotStatus": [],
+            "onRobotClasses": []
+        };
+
+        this.wasConnected = true;
+        this.connect();
+
+    }
+
+    connect() {
+        try {
+            this.ws = new WebSocket(`${this.https ? "wss" : "ws"}://${this.ip}:${this.port}`);
+        } catch (e) {
+            setTimeout(() => {
+                this.register();
+            }, this.restartTimeout);
+            return;
+        }
+
         this.register();
     }
 
     register() {
-        this.ws.on('open', this.onOpen.bind(this));
+        this.ws.on('open', () => {
+            this.wasConnected = true;
+            this.onOpen.bind(this)();
+        });
         this.ws.on('message', this.onMessage.bind(this));
         this.ws.on('error', (e) => {
-            this.wsLog("" + e);
+            if ("" + e == "AggregateError") {
+                //set a timeout to try to reconnect
+                setTimeout(() => {
+                    this.connect();
+                }, this.restartTimeout);
+                if (verboseConnection) console.log("Error connecting to server, retrying in", this.restartTimeout, "ms");
+            }
             //console.log(e);
             this.open = false;
         })
+        this.ws.on('close', (e) => {
+            if (this.wasConnected) console.log("[WS] Connection closed", e);
+            this.open = false;
+            setTimeout(() => {
+                this.connect();
+            }, this.restartTimeout);
+            if (verboseConnection) console.log("Error connecting to server, retrying in", this.restartTimeout, "ms");
+            this.wasConnected = false;
+        });
     }
 
     /**
@@ -57,7 +107,7 @@ class RobotConnection {
      * Whenever data is recieved from the server, this function is called.
      * @param {Buffer} data
      */
-    onMessage(data) {
+    async onMessage(data) {
         if (data instanceof Buffer) {
             if (data.length == 2) {
                 if (data.at(0) == 0xFF && data.at(1) == 0xFF) {
@@ -114,6 +164,54 @@ class RobotConnection {
                     }
 
                 }
+            } else if (data.at(0) == 0x6C) {
+                let robotIndex = data.at(1);
+                if (robotIndex == 0xFF) robotIndex = -1;
+
+                // next 8 bytes is a long
+                let robotClock = data.readBigUInt64BE(2);
+
+                // convert to integer
+                robotClock = parseInt(robotClock.toString().replace("n", ""));
+
+                this.robotData.clock = robotClock;
+
+                let tellers = data.at(10);
+
+                const editable = (tellers & 0b10000000) >> 7;
+                const mode = (tellers & 0b01000000) >> 6;
+
+                this.robotData.mode = robotIndex == -1 ? "disabled" : (mode == 0 ? "playing" : "paused");
+                this.robotData.editable = editable == 0x01;
+                this.robotData.robot = robotIndex;
+
+                for (let callback of this.eventCallbacks["onRobotStatus"]) {
+                    callback(this.robotData);
+                }
+
+            } else if (data.at(0) == 0x4A) {
+                let n_robots = data.at(1);
+                this.robotClasses = new Array(n_robots);
+                console.log("[WS] Detected", n_robots, "playable robot classes.");
+
+                for (let i = 2; i < data.length; i += 2) {
+                    let robotID = data.at(i);
+                    let disabled = data.at(i + 1) == 0x00;
+                    this.robotClasses[robotID] = {
+                        disabled,
+                        name: "",
+                    }
+                }
+
+                const resp = await fetch(`http://${this.ip}:${this.port + 1}/api/v1/robots`);
+                const json = await resp.json();
+                for (let i = 0; i < json.length; i++) {
+                    this.robotClasses[i].name = json[i];
+                }
+
+                for (let callback of this.eventCallbacks["onRobotClasses"]) {
+                    callback(this.robotClasses);
+                }
             }
         }
 
@@ -129,6 +227,10 @@ class RobotConnection {
         for (let callback of this.openCallbacks) {
             callback(this);
         }
+
+        // subscribe to robot status
+        this.requestRobotClasses();
+        this.subscribeToRobotStatus();
     }
 
     /* -- API -- */
@@ -158,6 +260,49 @@ class RobotConnection {
             robotAddress,
             sensorAddress,
             unsubscribe ? 0x00 : 0x01,
+        ]);
+    }
+
+    setRobotState(robotClass, state) {
+        let robotIndex = parseInt(robotClass);
+        let mode = 0x00;
+        if (state == "disabled" || state == "stop") {
+            mode = 0x02;
+        } else if (state == "start") {
+            mode = 0x01;
+        } else if (state == "pause") {
+            mode = 0x03;
+        } else if (state == "resume") {
+            mode = 0x04;
+        }
+
+        console.log("Changing robot state to", state, "for robot", robotIndex);
+
+        this.ws.send([
+            0x4B,
+            robotIndex,
+            mode
+        ]);
+    }
+
+    /**
+     * Subscribes to robot status
+     * @param {boolean} unsubscribe Whether to unsubscribe or not
+     */
+    subscribeToRobotStatus(unsubscribe=false) {
+        this.ws.send([
+            0x02,
+            0x4C,
+            unsubscribe ? 0x00 : 0x01
+        ]);
+    }
+
+    /**
+     * Requests the robot classes 
+     * */
+    requestRobotClasses() {
+        this.ws.send([
+            0x4A,
         ]);
     }
 
@@ -192,6 +337,18 @@ class RobotConnection {
         if (!this.open) return;
         
         this.ws.send(payload);
+    }
+
+    addEventListener(event, callback) {
+        if (!this.eventCallbacks[event]) {
+            this.eventCallbacks[event] = [];
+        }
+        this.eventCallbacks[event].push(callback);
+    }
+
+    removeEventListener(event, callback) {
+        if (!this.eventCallbacks[event]) return;
+        this.eventCallbacks[event] = this.eventCallbacks[event].filter((a) => a != callback);
     }
 }
 

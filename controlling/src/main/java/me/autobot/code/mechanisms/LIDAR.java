@@ -154,6 +154,10 @@ public class LIDAR extends Mechanism {
 
     }
 
+    /**
+     * Called when the LIDAR sensor has new data.
+     * @param points The points from the LIDAR sensor.
+     * */
     protected void onLidarData(Point[] points) {
         // clear points
         this.points.clear();
