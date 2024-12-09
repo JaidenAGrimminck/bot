@@ -4,6 +4,7 @@ import me.autobot.lib.controls.Joycon;
 import me.autobot.lib.math.coordinates.Polar;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
+import me.autobot.lib.os.OSDetector;
 import me.autobot.lib.robot.PlayableRobot;
 import me.autobot.lib.robot.Robot;
 import me.autobot.lib.robot.drivebase.ArcadeDrive;
@@ -87,8 +88,17 @@ public class MainBot extends Robot {
         //connect devices to serial.
         System.out.println("Connecting to serial ports...");
 
+        String topLeftCommPort = "/dev/cu.usbserial-10";
+        String topRightCommPort = "/dev/cu.usbserial-110";
+
+        if (OSDetector.usingLinux()) { // if we're on the raspberry pis
+            System.out.println("Detected Linux, changing comm ports...");
+            topLeftCommPort = "/dev/ttyUSB0";
+            topRightCommPort = "/dev/ttyUSB1";
+        }
+
         System.out.println("Attempting to connect to left side...");
-        topLeft.connectToSerial("/dev/cu.usbserial-10",
+        topLeft.connectToSerial(topLeftCommPort,
                 Config.TOP_LEFT_MOTOR_DIRECTION, Config.TOP_LEFT_MOTOR
         );
 
@@ -99,11 +109,11 @@ public class MainBot extends Robot {
         //right side is on a different port.
         System.out.println("Attempting to connect to right side...");
 
-        topRight.connectToSerial("/dev/cu.usbserial-110",
+        topRight.connectToSerial(topRightCommPort,
                 Config.TOP_RIGHT_MOTOR_DIRECTION, Config.TOP_RIGHT_MOTOR
         );
 
-        bottomRight.connectToSerial("/dev/cu.usbserial-110",
+        bottomRight.connectToSerial(topRightCommPort,
                 Config.BACK_RIGHT_MOTOR_DIRECTION, Config.BACK_RIGHT_MOTOR
         );
 

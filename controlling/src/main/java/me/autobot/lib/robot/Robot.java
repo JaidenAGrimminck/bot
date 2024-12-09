@@ -8,6 +8,7 @@ import me.autobot.lib.math.coordinates.Box2d;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.odometry.SimpleOdometry2d;
+import me.autobot.lib.telemetry.SysoutMiddleman;
 import me.autobot.server.Server;
 import me.autobot.server.WSClient;
 import me.autobot.sim.Simulation;
@@ -43,6 +44,8 @@ public class Robot implements Logger {
      * Starts all the robots (adds them to the editable list available for selection).
      * */
     public static void start() {
+        SysoutMiddleman.start();
+
         // use dex loader to get all robots with @PlayableRobot annotations
         Reflections reflections = new Reflections("me.autobot.code");
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(PlayableRobot.class);
@@ -64,6 +67,8 @@ public class Robot implements Logger {
      * @param robot The robot to start.
      * */
     public static void start(Robot robot) {
+        SysoutMiddleman.start();
+
         if (currentRobot != null) {
             System.out.println("[WARNING] Robot already started, stopping current robot.");
             currentRobot.stopLoop();
@@ -132,7 +137,7 @@ public class Robot implements Logger {
     private static Timer wsTimer = new Timer();
 
     /**
-     * Subscribes a WSClients to the status of the robot.
+     * Subscribes a WSClient to the status of the robot.
      * @param client The client to subscribe.
      * @param subscribe Whether to subscribe or unsubscribe.
      * */
@@ -206,6 +211,108 @@ public class Robot implements Logger {
             if (wsClients.isEmpty()) {
                 wsTimer.cancel();
             }
+        }
+    }
+
+    private static ArrayList<WSClient> telemetryClients = new ArrayList<>();
+    private static Timer telemetryTimer = new Timer();
+    private static boolean setupTelemetryListeners = false;
+
+    /**
+     * Subscribes a WSClient to the telemetry of the robot.
+     * @param client The client to subscribe.
+     *               @see WSClient
+     * @param subscribe Whether to subscribe or unsubscribe.
+     * */
+    public static void subscribeToTelemetry(WSClient client, boolean subscribe) {
+        if (subscribe) {
+            if (!setupTelemetryListeners) {
+                //`0x6D`, (1), (2), ...
+                // This is a response to a subscription to the telemetry data,
+                // where (1) indicates whether the telemetry data is a start (`0x01`) or an update (`0x00`),
+                // and (2) is the type (0 = out, 1 = err).
+                //
+
+                SysoutMiddleman.Sysout.Listener listener = (msg) -> {
+                    byte[] data = new byte[msg.getMessage().length() * Character.BYTES + 3];
+                    data[0] = 0x6D;
+                    data[1] = 0x00;
+                    data[2] = (byte) msg.getType();
+
+                    ByteBuffer buffer = ByteBuffer.allocate(msg.getMessage().length() * Character.BYTES);
+                    for (char c : msg.getMessage().toCharArray()) {
+                        buffer.putChar(c);
+                    }
+
+                    for (int i = 0; i < buffer.position(); i++) {
+                        data[i + 3] = buffer.get(i);
+                    }
+
+                    ArrayList<WSClient> toRemove = new ArrayList<>();
+                    for (WSClient c : telemetryClients) {
+                        if (!c.isOpen()) {
+                            toRemove.add(c);
+                            System.out.println("[INFO] Removed inactive client from robot telemetry.");
+                        } else {
+                            try {
+                                c.send(data);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    telemetryClients.removeAll(toRemove);
+                };
+
+                SysoutMiddleman.Sysout.getOut().addListener(listener);
+                SysoutMiddleman.Sysout.getError().addListener(listener);
+
+                setupTelemetryListeners = true;
+            }
+
+            telemetryClients.add(client);
+
+            System.out.println("[INFO] Subscribed client to robot telemetry.");
+
+            // Send initial message
+            int payloadLen = 3;
+            for (int i = 0; i < SysoutMiddleman.getMessages().size(); i++) {
+                payloadLen += SysoutMiddleman.getMessages().get(i).getMessage().length() * Character.BYTES + 1;
+            }
+
+            byte[] payload = new byte[payloadLen];
+            payload[0] = 0x6D;
+            payload[1] = 0x01;
+            payload[2] = 0x00;
+
+            int index = 3;
+            for (int i = 0; i < SysoutMiddleman.getMessages().size(); i++) {
+                byte[] data = new byte[SysoutMiddleman.getMessages().get(i).getMessage().length() * Character.BYTES + 1];
+                data[0] = (byte) SysoutMiddleman.getMessages().get(i).getType();
+
+                ByteBuffer buffer = ByteBuffer.allocate(SysoutMiddleman.getMessages().get(i).getMessage().length() * Character.BYTES);
+                for (char c : SysoutMiddleman.getMessages().get(i).getMessage().toCharArray()) {
+                    buffer.putChar(c);
+                }
+
+                for (int j = 0; j < buffer.position(); j++) {
+                    data[j + 1] = buffer.get(j);
+                }
+
+                for (byte datum : data) {
+                    payload[index] = datum;
+                    index++;
+                }
+            }
+
+            try {
+                client.send(payload);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            telemetryClients.remove(client);
         }
     }
 

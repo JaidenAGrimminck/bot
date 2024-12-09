@@ -480,6 +480,8 @@ public class WSClient extends NanoWSD.WebSocket {
         boolean isSensor = (payload[0] == (byte) 0x01);
         boolean subscribeToSensor = (payload[0] == (byte) 0x11);
         boolean subscribeToRobot = (payload[0] == (byte) 0x4C);
+        boolean subscribeToTelemetry = (payload[0] == (byte) 0x4D);
+
         if (isSensor) {
             handleSensor(Arrays.copyOfRange(payload, 1, payload.length), message);
         } else if (subscribeToSensor) {
@@ -490,6 +492,12 @@ public class WSClient extends NanoWSD.WebSocket {
             boolean subscribe = payload[1] == 0x01;
 
             Robot.subscribeToStatus(this, subscribe);
+        } else if (subscribeToTelemetry) {
+            if (payload.length < 2) { notifyError(Error.InvalidPayloadLength); return; }
+
+            boolean subscribe = payload[1] == 0x01;
+
+            Robot.subscribeToTelemetry(this, subscribe);
         }
     }
 

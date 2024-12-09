@@ -42,8 +42,18 @@ io.on('connection', (socket) => {
         socket.emit('robot-classes', data);
     }
 
+    const telemetryUpdateListener = (data) => {
+        socket.emit('telemetry-update', data);
+    }
+
+    const telemetryStarterListener = (data) => {
+        socket.emit('telemetry-starter', data);
+    }
+
     robot.addEventListener('onRobotStatus', robotStatusListener);
     robot.addEventListener('onRobotClasses', robotClassesListener);
+    robot.addEventListener('onTelemetryUpdate', telemetryUpdateListener);
+    robot.addEventListener('onTelemetryStart', telemetryStarterListener);
 
     setTimeout(() => {
         socket.emit('robot-classes', robot.robotClasses)

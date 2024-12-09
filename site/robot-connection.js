@@ -31,7 +31,9 @@ class RobotConnection {
 
         this.eventCallbacks = {
             "onRobotStatus": [],
-            "onRobotClasses": []
+            "onRobotClasses": [],
+            "onTelemetryUpdate": [],
+            "onTelemetryStart": [],
         };
 
         this.wasConnected = true;
@@ -217,7 +219,7 @@ class RobotConnection {
                 for (let callback of this.eventCallbacks["onRobotClasses"]) {
                     callback(this.robotClasses);
                 }
-            }
+            } else if (data.at(0) == 0x00) {} //todo: implement telemetry updates
         }
 
     }
