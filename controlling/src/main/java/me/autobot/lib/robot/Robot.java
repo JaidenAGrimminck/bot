@@ -1,7 +1,7 @@
 package me.autobot.lib.robot;
 
-import me.autobot.lib.logging.Log;
-import me.autobot.lib.logging.Logger;
+import me.autobot.lib.telemetry.Log;
+import me.autobot.lib.telemetry.Logger;
 import me.autobot.lib.math.Clock;
 import me.autobot.lib.math.objects.Geometry;
 import me.autobot.lib.math.coordinates.Box2d;

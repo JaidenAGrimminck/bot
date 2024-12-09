@@ -1,6 +1,7 @@
 const WebSocket = require('ws');
 
 const verboseConnection = false;
+const reconnect = false;
 
 class RobotConnection {
     constructor(ip="localhost", port=8080, https=false, restartTimeout=5000) {     
@@ -60,17 +61,21 @@ class RobotConnection {
         this.ws.on('error', (e) => {
             if ("" + e == "AggregateError") {
                 //set a timeout to try to reconnect
-                setTimeout(() => {
-                    this.connect();
-                }, this.restartTimeout);
-                if (verboseConnection) console.log("Error connecting to server, retrying in", this.restartTimeout, "ms");
+                if (reconnect) {
+                    setTimeout(() => {
+                        this.connect();
+                    }, this.restartTimeout);
+                    if (verboseConnection) console.log("Error connecting to server, retrying in", this.restartTimeout, "ms");
+                }
             }
-            //console.log(e);
             this.open = false;
         })
         this.ws.on('close', (e) => {
             if (this.wasConnected) console.log("[WS] Connection closed", e);
             this.open = false;
+
+            if (!reconnect) return;
+
             setTimeout(() => {
                 this.connect();
             }, this.restartTimeout);

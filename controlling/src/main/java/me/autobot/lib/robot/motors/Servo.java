@@ -1,6 +1,6 @@
 package me.autobot.lib.robot.motors;
 
-import me.autobot.lib.logging.Log;
+import me.autobot.lib.telemetry.Log;
 import me.autobot.lib.math.Mathf;
 import me.autobot.lib.robot.Motor;
 import me.autobot.lib.hardware.i2c.SensorHubI2CConnection;

@@ -1,4 +1,4 @@
-package me.autobot.lib.logging;
+package me.autobot.lib.telemetry;
 
 /**
  * Annotation to mark fields and methods that should be logged.

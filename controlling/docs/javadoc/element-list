@@ -7,7 +7,7 @@ me.autobot.lib.hardware.i2c
 me.autobot.lib.hardware.ros
 me.autobot.lib.hardware.serial
 me.autobot.lib.hardware.ws
-me.autobot.lib.logging
+me.autobot.lib.telemetry
 me.autobot.lib.math
 me.autobot.lib.math.coordinates
 me.autobot.lib.math.linalg

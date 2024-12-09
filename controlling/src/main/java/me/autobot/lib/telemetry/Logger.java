@@ -1,4 +1,4 @@
-package me.autobot.lib.logging;
+package me.autobot.lib.telemetry;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

@@ -19,7 +19,7 @@ Made by Jaiden.
 This project is supposed to be sort of a capstone project for my senior year of high school... but on a personal level (rather than for school).
 It's a fun project that I'm having a great time exploring all sorts of areas from robotics to neural networks.
 
-*Are you also a teenager and on Hackclub? See my progress [here!](https://hackclub.slack.com/archives/C083HATD5DX)*
+*Are you also a teenager and on Hack Club? See my progress [here!](https://hackclub.slack.com/archives/C083HATD5DX)*
 
 ## Prerequisites
 
@@ -91,6 +91,7 @@ The convention for the WS server is as follows (for sending TO the server):
 | `0x4A`                |          | This is for getting what robot classes are able to be enabled/control.                                                                                                                                    |
 | `0x4B`, (1), (2)      |          | This is for setting what robot class to enable/control. (1) is the ID of the robot class, and (2) is a byte, denoting start (`0x01`), stop (`0x02`), pause (`0x03`), resume (`0x04`)                      |
 | `0x4C`, (1)           | Listener | This is for subscribing to the (current) robot status. (1) is whether to subscribe (`0x01`) or unsubscribe (`0x00`). (This does not work in multi-robot simulation.)                                      |
+| `0x4D`, (1)           | Listener | This is for subscribing to the telemetry data. (1) is whether to subscribe (`0x01`) or unsubscribe (`0x00`).                                                                                              |
 
 
 > [!IMPORTANT]
@@ -104,7 +105,9 @@ Additionally, for the server to send TO the client, the following convention is 
 | `0xC0`, `0x01`, (1), (2), (3), ...    | This is a response to either a one-time request or subscription to sensor data. (1) is the robot address, (2) is the sensor identifier, and (3) is n, the number of doubles sent, followed by n 8-byte chunks (each a double).                                                                                                    |
 | `0x4A`, (1), {(0), (1)}               | This is a response to a request for what robot classes are able to be enabled/control. (1) is the number of robot classes, and for each robot class, (0) is the ID and (1) is whether it is enabled/disabled. You'll<br/> have to use the REST API endpoint `GET /api/v1/robots` to check the names of each of them.              |
 | `0x6C`, (1), (2...9), (10), (11...26) | This is a response to a subscription to the robot status. (1) is the index of the current robot (`0xFF` means no robot selected), (2...9) is a long with the current robot clock, (10) is a bit, following (from MSB...LSB): `[editable, playing(0)/paused(1), ...]` (11...26) is reserved (I forgot what I wanted to put there). |
+| `0x6D`, (1), ...                      | This is a response to a subscription to the telemetry data, where (1) indicates whether the telemetry data is a start (`0x01`) or an update (`0x00`). Make sure to insert the starts at THE BEGINNING, as there is a small change that an update may occur before the start, leading to incorrect data.                           |
 | `0xEE`, (...)                         | This is an error code. The error message is the string following the error denote, `0xEE`.                                                                                                                                                                                                                                        |
+
 
 > [!IMPORTANT]
 > The above lists DO NOT cover every response, as users can add their own custom responses. The above lists are just the default responses.

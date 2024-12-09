@@ -3,8 +3,8 @@ package me.autobot.lib.robot;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-import me.autobot.lib.logging.Log;
-import me.autobot.lib.logging.Logger;
+import me.autobot.lib.telemetry.Log;
+import me.autobot.lib.telemetry.Logger;
 
 /**
  * Some sort of device that can be attached to a robot.
