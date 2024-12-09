@@ -102,7 +102,7 @@ public class MainBot extends Robot {
                 Config.TOP_LEFT_MOTOR_DIRECTION, Config.TOP_LEFT_MOTOR
         );
 
-        bottomLeft.connectToSerial("/dev/cu.usbserial-10",
+        bottomLeft.connectToSerial(topLeftCommPort,
                 Config.BACK_LEFT_MOTOR_DIRECTION, Config.BACK_LEFT_MOTOR
         );
 

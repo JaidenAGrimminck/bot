@@ -15,7 +15,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
-//"192.168.6.231"
+//"192.168.6.233"
 const robot = new RobotConnection("192.168.6.233", 8080, false);
 
 const log = new Log();
