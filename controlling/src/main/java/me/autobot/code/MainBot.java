@@ -121,38 +121,7 @@ public class MainBot extends Robot {
 
         joycon = Joycon.getJoycon((byte) 0xB5);
 
-        WSClient.registerCallable(0xB6, new RunnableWithArgs() {
-            @Override
-            public void run(Object... args) {
-                int[] data = (int[]) args[0];
-
-                double firstDouble = 0;
-                double secondDouble = 0;
-
-                // convert the first 8 bytes of the data to a double
-                ByteBuffer buffer = ByteBuffer.allocate(8);
-                for (int i = 0; i < 8; i++) {
-                    buffer.put((byte) data[i]);
-                }
-                buffer.flip();
-                firstDouble = buffer.getDouble();
-
-                // convert the second 8 bytes of the data to a double
-                buffer = ByteBuffer.allocate(8);
-                for (int i = 8; i < 16; i++) {
-                    buffer.put((byte) data[i]);
-                }
-                buffer.flip();
-                secondDouble = buffer.getDouble();
-
-                aiSpeed = secondDouble;
-                aiRotation = firstDouble;
-
-                //System.out.println(aiSpeed + ", " + aiRotation);
-            }
-        });
-
-        //arcadeDrive = new TankDrive(topLeft, topRight, bottomLeft, bottomRight);
+        arcadeDrive = new TankDrive(topLeft, topRight, bottomLeft, bottomRight);
 
         System.out.println("Setup complete!");
     }
@@ -166,41 +135,23 @@ public class MainBot extends Robot {
     protected void loop() {
         if (!clock().elapsed(2000)) return; //just give some time for the connections to start up before the robot starts moving.
 
-        if (clock().elapsedSince(2000)) {
-            if (!switch_flag) {
-                topLeft.setSpeed(0.1);
-                bottomLeft.setSpeed(0.1);
-//                topRight.setSpeed(0.1);
-//                bottomRight.setSpeed(0.1);
-                switch_flag = true;
-                System.out.println("Moving!");
+//        if (manualControl) {
+        double multiplier = 100d / 255;
+
+        if (joystickUpdated) {
+            if (Math.abs(joystick.getY()) > 0.05 || Math.abs(joystick.getX()) > 0.05) {
+                //arcadeDrive.drive(joystick.getY(), joystick.getX(), multiplier);
+                arcadeDrive.drive(joystick.getX() * multiplier, joystick.getY() * multiplier);
+
+                //System.out.println("Driving at speeds=" + joystick.getX() * multiplier + ", " + joystick.getY() * multiplier);
             } else {
                 topLeft.setSpeed(0);
                 bottomLeft.setSpeed(0);
                 topRight.setSpeed(0);
                 bottomRight.setSpeed(0);
-                switch_flag = false;
-                System.out.println("Stopped!");
             }
+            joystickUpdated = false;
         }
-
-//        if (manualControl) {
-//            double multiplier = 100d / 255;
-//
-//            if (joystickUpdated) {
-//                if (Math.abs(joystick.getY()) > 0.05 || Math.abs(joystick.getX()) > 0.05) {
-//                    //arcadeDrive.drive(joystick.getY(), joystick.getX(), multiplier);
-//                    arcadeDrive.drive(joystick.getX() * multiplier, joystick.getY() * multiplier);
-//
-//                    //System.out.println("Driving at speeds=" + joystick.getX() * multiplier + ", " + joystick.getY() * multiplier);
-//                } else {
-//                    topLeft.setSpeed(0);
-//                    bottomLeft.setSpeed(0);
-//                    topRight.setSpeed(0);
-//                    bottomRight.setSpeed(0);
-//                }
-//                joystickUpdated = false;
-//            }
 //        } else {
 //            //create a polar vector from the AI speed and rotation
 //            Polar polar = new Polar(aiSpeed, Rotation2d.fromRadians(aiRotation));
