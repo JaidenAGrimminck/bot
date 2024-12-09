@@ -138,20 +138,26 @@ public class MainBot extends Robot {
 //        if (manualControl) {
         double multiplier = 100d / 255;
 
-        if (joystickUpdated) {
-            if (Math.abs(joystick.getY()) > 0.05 || Math.abs(joystick.getX()) > 0.05) {
-                //arcadeDrive.drive(joystick.getY(), joystick.getX(), multiplier);
-                arcadeDrive.drive(joystick.getX() * multiplier, joystick.getY() * multiplier);
-
-                //System.out.println("Driving at speeds=" + joystick.getX() * multiplier + ", " + joystick.getY() * multiplier);
-            } else {
-                topLeft.setSpeed(0);
-                bottomLeft.setSpeed(0);
-                topRight.setSpeed(0);
-                bottomRight.setSpeed(0);
-            }
-            joystickUpdated = false;
+        if (joycon.a) {
+            topLeft.setSpeed(0);
+            bottomLeft.setSpeed(0);
+            topRight.setSpeed(0);
+            bottomRight.setSpeed(0);
+            return;
         }
+
+        if (Math.abs(joycon.leftStickY) > 0.05 || Math.abs(joycon.rightStickY) > 0.05) {
+            //arcadeDrive.drive(joystick.getY(), joystick.getX(), multiplier);
+            arcadeDrive.drive(joycon.leftStickY * multiplier, joycon.rightStickY * multiplier);
+
+            //System.out.println("Driving at speeds=" + joystick.getX() * multiplier + ", " + joystick.getY() * multiplier);
+        } else {
+            topLeft.setSpeed(0);
+            bottomLeft.setSpeed(0);
+            topRight.setSpeed(0);
+            bottomRight.setSpeed(0);
+        }
+
 //        } else {
 //            //create a polar vector from the AI speed and rotation
 //            Polar polar = new Polar(aiSpeed, Rotation2d.fromRadians(aiRotation));
