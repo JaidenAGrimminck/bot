@@ -32,9 +32,12 @@ app.get('/require.js', (req, res) => {
 })
 
 io.on('connection', (socket) => {
+    let lastUpdate = Date.now();
+
     const robotStatusListener = (data) => {
+        lastUpdate = Date.now();
         socket.emit('robot-status', Object.assign({
-            last_update: Date.now()
+            last_update: lastUpdate
         }, data));
     }
 
@@ -50,7 +53,17 @@ io.on('connection', (socket) => {
         socket.emit('telemetry-starter', data);
     }
 
+    const robotDisconnectListener = () => {
+        socket.emit('robot_disconnect', {
+            last_update: lastUpdate,
+            clock: 0,
+            mode: "disabled",
+            editable: false
+        });
+    }
+
     robot.addEventListener('onRobotStatus', robotStatusListener);
+    robot.addEventListener('onRobotDisconnect', robotDisconnectListener);
     robot.addEventListener('onRobotClasses', robotClassesListener);
     robot.addEventListener('onTelemetryUpdate', telemetryUpdateListener);
     robot.addEventListener('onTelemetryStart', telemetryStarterListener);

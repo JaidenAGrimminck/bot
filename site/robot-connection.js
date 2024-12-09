@@ -34,6 +34,7 @@ class RobotConnection {
             "onRobotClasses": [],
             "onTelemetryUpdate": [],
             "onTelemetryStart": [],
+            "onRobotDisconnect": [],
         };
 
         this.wasConnected = true;
@@ -73,7 +74,11 @@ class RobotConnection {
             this.open = false;
         })
         this.ws.on('close', (e) => {
-            if (this.wasConnected) console.log("[WS] Connection closed", e);
+            if (this.wasConnected) {
+                console.log("[WS] Connection closed", e);
+                this.eventCallbacks["onRobotDisconnect"].forEach((a) => a());
+            }
+            
             this.open = false;
 
             if (!reconnect) return;
