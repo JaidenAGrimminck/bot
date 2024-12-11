@@ -76,14 +76,20 @@ class ViewMap extends HTMLElement {
             let angle = point.angle;
             let distance = point.distance;
 
+            if (Math.abs(angle - (3 * Math.PI / 2)) < 0.05) {
+                console.log(distance);
+                this.ctx.fillStyle = "rgb(0,255,0)";
+            } else {
+                this.ctx.fillStyle = "rgb(0,0,0)";
+            }
+
             let x = Math.cos(angle) * distance;
             let y = Math.sin(angle) * distance;
 
             x *= 10;
             y *= 10;
 
-            this.ctx.fillStyle = "rgb(0,0,0)";
-            this.ctx.fillRect(x, y, 2, 2);
+            this.ctx.fillRect(x, y, 1, 1);
         }
 
         // draw circle at center
