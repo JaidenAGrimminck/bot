@@ -271,8 +271,16 @@ public class Mathf {
         buffer.put(b);
 
         if (reversed) {
-            buffer.rewind();
+            //reverse the buffer
+            byte[] reversedBytes = new byte[length];
+            for (int i = 0; i < length; i++) {
+                reversedBytes[i] = b[length - i - 1];
+            }
+            buffer = ByteBuffer.allocate(length);
+            buffer.put(reversedBytes);
         }
+        buffer.rewind();
+
         return buffer.getFloat();
     }
 }
