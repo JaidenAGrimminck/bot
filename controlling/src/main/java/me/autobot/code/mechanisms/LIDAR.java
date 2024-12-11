@@ -204,7 +204,7 @@ public class LIDAR extends Mechanism {
 
         byte[] point_payload = new byte[points.length * 12];
 
-        double avgDistance = 0;
+        //double avgDistance = 0;
 
         for (int i = 0; i < points.length; i++) {
             byte[] distance = ByteBuffer.allocate(4).putFloat(points[i].distance).array();
@@ -215,11 +215,10 @@ public class LIDAR extends Mechanism {
             System.arraycopy(angle, 0, point_payload, i * 12 + 4, 4);
             System.arraycopy(intensity, 0, point_payload, i * 12 + 8, 4);
 
-            avgDistance += points[i].distance;
+            //avgDistance += points[i].distance;
         }
 
-        avgDistance /= points.length;
-        System.out.println("Average distance: " + avgDistance);
+        //avgDistance /= points.length;
 
         byte[] finalPayload = new byte[point_payload.length + 4];
         System.arraycopy(point_payload, 0, finalPayload, 4, point_payload.length);

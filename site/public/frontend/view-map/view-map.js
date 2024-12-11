@@ -9,6 +9,8 @@ class ViewMap extends HTMLElement {
         this.properlyScaled = false;
 
         this.cmToPixelScale = 0.8;
+
+        this.drawRobot = false;
     }
 
     async connectedCallback() {
@@ -54,16 +56,42 @@ class ViewMap extends HTMLElement {
         this.ctx.fillStyle = "rgb(242,242,242)";
         this.ctx.fillRect(0, 0, this.map.width, this.map.height);
 
-        //draw robot in the center
-        this.ctx.fillStyle = "rgb(0,0,0)";
-        this.ctx.save();
-        // translate to center
-        this.ctx.translate(this.map.width / 2, this.map.height / 2);
-        this.ctx.rotate(0);
-        this.ctx.fillRect(-20 * this.cmToPixelScale, -30 * this.cmToPixelScale, 40 * this.cmToPixelScale, 60 * this.cmToPixelScale);
+        if (this.drawRobot) {
+            //draw robot in the center
+            this.ctx.fillStyle = "rgb(0,0,0)";
+            this.ctx.save();
+            // translate to center
+            this.ctx.translate(this.map.width / 2, this.map.height / 2);
+            this.ctx.rotate(0);
+            this.ctx.fillRect(-20 * this.cmToPixelScale, -30 * this.cmToPixelScale, 40 * this.cmToPixelScale, 60 * this.cmToPixelScale);
 
-        // reset translate
+            // reset translate
+            this.ctx.restore();
+        }
+
+        this.ctx.save();
+        this.ctx.translate(this.map.width / 2, this.map.height / 2);
+        
+        for (let point of lastLidarUpdate) {
+            let angle = point.angle;
+            let distance = point.distance;
+
+            let x = Math.cos(angle) * distance;
+            let y = Math.sin(angle) * distance;
+
+            x *= 10;
+            y *= 10;
+
+            this.ctx.fillStyle = "rgb(0,0,0)";
+            this.ctx.fillRect(x, y, 2, 2);
+        }
+
+        // draw circle at center
+        this.ctx.fillStyle = "rgb(255,0,0)";
+        this.ctx.fillRect(-2, -2, 4, 4);
+
         this.ctx.restore();
+        
     }
 }
 
