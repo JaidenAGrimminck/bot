@@ -1,6 +1,7 @@
 package me.autobot.code.mechanisms;
 
 import me.autobot.lib.hardware.ws.WSSensorConnection;
+import me.autobot.lib.math.Mathf;
 import me.autobot.lib.math.Unit;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.objects.Rectangle;
@@ -89,8 +90,8 @@ public class LIDAR extends Mechanism {
             // next 4 bytes is the range (float)
             float range = Float.intBitsToFloat(data[7] << 24 | data[8] << 16 | data[9] << 8 | data[10]);
 
-            // next 4 bytes is the number of points (unsigned int)
-            int numPoints = data[11] << 24 | data[12] << 16 | data[13] << 8 | data[14];
+            int numPoints = Mathf.getIntFromBytes(data, 11, 4, true);
+
 
             // copy the rest of the bytes to the point data
             int[] pointData = new int[data.length - 15];
@@ -105,9 +106,9 @@ public class LIDAR extends Mechanism {
 
             int onPoint = 0;
             for (int i = 0; i < pointData.length; i += Float.BYTES * 3) {
-                float rotation = Float.intBitsToFloat(pointData[i] << 24 | pointData[i + 1] << 16 | pointData[i + 2] << 8 | pointData[i + 3]);
-                float distance = Float.intBitsToFloat(pointData[i + 4] << 24 | pointData[i + 5] << 16 | pointData[i + 6] << 8 | pointData[i + 7]);
-                float intensity = Float.intBitsToFloat(pointData[i + 8] << 24 | pointData[i + 9] << 16 | pointData[i + 10] << 8 | pointData[i + 11]);
+                float rotation = Mathf.getFloatFromBytes(pointData, i, 4, true);
+                float distance = Mathf.getFloatFromBytes(pointData, i + 4, 4, true);
+                float intensity = Mathf.getFloatFromBytes(pointData, i + 8, 4, true);
 
                 points[onPoint] = new Point(distance, rotation, intensity);
 

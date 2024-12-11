@@ -2,6 +2,8 @@ package me.autobot.lib.math;
 
 import me.autobot.lib.math.coordinates.Vector2d;
 
+import java.nio.ByteBuffer;
+
 /**
  * A class that contains mathematical functions that are not included in the Math class.
  * **/
@@ -185,5 +187,84 @@ public class Mathf {
             pos[i] = allPos(n[i]);
         }
         return pos;
+    }
+
+
+    /**
+     * Slices a byte array.
+     * @param arr The array to slice.
+     * @param start The start index of the slice.
+     * @param end The end index of the slice.
+     * @return The sliced array.
+     * */
+    public static byte[] slice(byte[] arr, int start, int end) {
+        byte[] slice = new byte[end - start];
+        for (int i = start; i < end; i++) {
+            slice[i - start] = arr[i];
+        }
+        return slice;
+    }
+
+    /**
+     * Slices an int array.
+     * @param arr The array to slice.
+     * @param start The start index of the slice.
+     * @param end The end index of the slice.
+     * @return The sliced array.
+     * */
+    public static int[] slice(int[] arr, int start, int end) {
+        int[] slice = new int[end - start];
+        for (int i = start; i < end; i++) {
+            slice[i - start] = arr[i];
+        }
+        return slice;
+    }
+
+    /**
+     * Gets the integer value of a byte.
+     * @param bytes The byte to convert.
+     * @param offset The offset of the byte.
+     * @param length The length of the byte.
+     * @param reversed Whether the byte is reversed.
+     * @return The integer value of the byte.
+     * */
+    public static int getIntFromBytes(int[] bytes, int offset, int length, boolean reversed) {
+        byte[] b = new byte[length];
+        for (int i = 0; i < length; i++) {
+            b[i] = (byte) bytes[offset + i];
+        }
+
+        ByteBuffer buffer = ByteBuffer.allocate(length);
+
+        buffer.put(b);
+
+        if (reversed) {
+            buffer.rewind();
+        }
+        return buffer.getInt();
+    }
+
+    /**
+     * Gets the float value of a byte.
+     * @param bytes The byte to convert.
+     * @param offset The offset of the byte.
+     * @param length The length of the byte.
+     * @param reversed Whether the byte is reversed.
+     * @return The float value of the byte.
+     * */
+    public static float getFloatFromBytes(int[] bytes, int offset, int length, boolean reversed) {
+        byte[] b = new byte[length];
+        for (int i = 0; i < length; i++) {
+            b[i] = (byte) bytes[offset + i];
+        }
+
+        ByteBuffer buffer = ByteBuffer.allocate(length);
+
+        buffer.put(b);
+
+        if (reversed) {
+            buffer.rewind();
+        }
+        return buffer.getFloat();
     }
 }
