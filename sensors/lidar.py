@@ -39,7 +39,7 @@ def run_laser():
 
                 payload = [0xA5, 0x5A, 0x00]
 
-                payload.extend(struct.pack("I", int(last_scan_recieved)))
+                payload.extend(struct.pack("I", int(0)))
                 payload.extend(struct.pack("f", float(ranges)))
                 payload.extend(struct.pack("I", int(points)))
 
