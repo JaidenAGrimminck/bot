@@ -159,8 +159,10 @@ function addTelemetryUpdateListener(listener) {
     }
 }
 
+let lastLidarUpdate = [];
+
 socket.on('lidar-update', (data) => {
-    console.log(data)
+    lastLidarUpdate = data;
 })
 
 async function checkBackendConnection() {

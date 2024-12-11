@@ -18,6 +18,11 @@ def set_options():
     laser.setlidaropt(ydlidar.LidarPropSampleRate, 20)
     laser.setlidaropt(ydlidar.LidarPropSingleChannel, True)
 
+    laser.setlidaropt(ydlidar.LidarPropMaxAngle, 180.0);
+    laser.setlidaropt(ydlidar.LidarPropMinAngle, -180.0);
+    laser.setlidaropt(ydlidar.LidarPropMaxRange, 32.0);
+    laser.setlidaropt(ydlidar.LidarPropMinRange, 0.01);
+
 def run_laser():
     ret = laser.initialize()
 

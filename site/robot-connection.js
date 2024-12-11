@@ -290,7 +290,7 @@ class RobotConnection {
                     })
                 }
             } else if (data.at(0) == 0xA5) { // LIDAR update
-                const n_values = (data.length - 4) / 12;
+                const n_values = Math.floor((data.length - 4) / 12);
 
                 // struct:
                 // 4 bytes: distance
@@ -299,10 +299,13 @@ class RobotConnection {
 
                 let values = [];
                 for (let i = 0; i < n_values; i++) {
-                    let distance = new Float32Array(new Uint8Array(data.slice(4 + (i * 12), 8 + (i * 12)).buffer))[0];
-                    let angle = new Float32Array(new Uint8Array(data.slice(8 + (i * 12), 12 + (i * 12)).buffer))[0];
-                    let intensity = new Float32Array(new Uint8Array(data.slice(12 + (i * 12), 16 + (i * 12)).buffer))[0];
+                    // distance, angle, and intensity are all 4 bytes, and are floats
+                    let i12 = i * 12;
 
+                    let distance = data.slice(i12 + 4, i12 + 8).readFloatBE();
+                    let angle = data.slice((i12) + 8, i12 + 12).readFloatBE();
+                    let intensity = data.slice(i12 + 12, i12 + 16).readFloatBE();
+                    
                     values.push({
                         distance,
                         angle,
