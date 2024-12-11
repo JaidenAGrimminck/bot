@@ -6,7 +6,8 @@ import ydlidar
 from time import sleep
 
 PORT = "/dev/ttyUSB0"
-laser, ports = None
+laser = None
+ports = None
 
 def set_options():
     laser.setlidaropt(ydlidar.LidarPropSerialPort, port)

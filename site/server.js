@@ -15,8 +15,9 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
-//"192.168.6.233"
-const robot = new RobotConnection("localhost", 8080, false);
+//"192.168.6.233" - controller
+// 192.168.6.232 - one w/ lidar
+const robot = new RobotConnection("192.168.6.232", 8080, false);
 
 const log = new Log();
 
