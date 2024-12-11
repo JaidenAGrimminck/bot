@@ -1,5 +1,6 @@
 package me.autobot.lib.robot;
 
+import me.autobot.lib.systems.mechanisms.Mechanism;
 import me.autobot.lib.telemetry.Log;
 import me.autobot.lib.telemetry.Logger;
 import me.autobot.lib.math.Clock;
@@ -414,12 +415,16 @@ public class Robot implements Logger {
 
         this.setup();
 
+        Mechanism.init_all(this);
+
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
                 if (paused) return;
 
                 loop();
+
+                Mechanism.update_all();
             }
         };
 
@@ -808,6 +813,7 @@ public class Robot implements Logger {
     public void stopLoop() {
         loopTimer.cancel();
         stop();
+        Mechanism.stop_all();
     }
 
     /**
