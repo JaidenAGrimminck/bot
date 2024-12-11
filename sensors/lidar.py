@@ -43,10 +43,17 @@ def run_laser():
                 payload.extend(struct.pack("f", float(ranges)))
                 payload.extend(struct.pack("i", int(points))) # should be I, but this makes it easier on me lol
 
+                average = 0
+
                 for point in scan.points:
                     payload.extend(struct.pack("f", float(point.angle)))
                     payload.extend(struct.pack("f", float(point.range)))
                     payload.extend(struct.pack("f", float(point.intensity)))
+
+                    average += point.range
+                
+                average = average / points
+                print("Average: ", average)
                 
                 ws.updateWSSensor(0xDD, payload)
             else:
