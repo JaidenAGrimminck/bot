@@ -183,6 +183,11 @@ public class LIDAR extends Mechanism {
 
     }
 
+    @Override
+    protected void stop() {
+        // TODO: stop the LIDAR sensor
+    }
+
     /**
      * Called when the LIDAR sensor has new data.
      * @param points The points from the LIDAR sensor.

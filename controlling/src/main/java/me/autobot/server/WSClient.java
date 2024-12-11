@@ -463,7 +463,7 @@ public class WSClient extends NanoWSD.WebSocket {
 
             rwa.run((Object) args);
             rwa.run(this);
-            rwa.run(this, payload); //TODO: change this into a single call and remove redundant RunnableWithArgs.
+            rwa.run(this, Arrays.copyOfRange(payload, 1, payload.length)); //TODO: change this into a single call and remove redundant RunnableWithArgs.
         } else runnable.run();
     }
 
