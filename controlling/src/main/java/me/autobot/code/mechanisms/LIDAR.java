@@ -90,8 +90,7 @@ public class LIDAR extends Mechanism {
             // next 4 bytes is the range (float)
             float range = Float.intBitsToFloat(data[7] << 24 | data[8] << 16 | data[9] << 8 | data[10]);
 
-            int numPoints = Mathf.getIntFromBytes(data, 11, 4, true);
-
+            int numPoints = Mathf.getIntFromBytes(data, 11, 4, false);
 
             // copy the rest of the bytes to the point data
             int[] pointData = new int[data.length - 15];
@@ -106,9 +105,9 @@ public class LIDAR extends Mechanism {
 
             int onPoint = 0;
             for (int i = 0; i < pointData.length; i += Float.BYTES * 3) {
-                float rotation = Mathf.getFloatFromBytes(pointData, i, 4, true);
-                float distance = Mathf.getFloatFromBytes(pointData, i + 4, 4, true);
-                float intensity = Mathf.getFloatFromBytes(pointData, i + 8, 4, true);
+                float rotation = Mathf.getFloatFromBytes(pointData, i, 4, false);
+                float distance = Mathf.getFloatFromBytes(pointData, i + 4, 4, false);
+                float intensity = Mathf.getFloatFromBytes(pointData, i + 8, 4, false);
 
                 points[onPoint] = new Point(distance, rotation, intensity);
 
