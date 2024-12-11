@@ -168,4 +168,12 @@ public class MainBot extends Robot {
 //           // arcadeDrive.drive(movement.getY(), movement.getX(), 100d / 255);
 //        }
     }
+
+    @Override
+    protected void stop() {
+        topLeft.setSpeed(0);
+        bottomLeft.setSpeed(0);
+        topRight.setSpeed(0);
+        bottomRight.setSpeed(0);
+    }
 }

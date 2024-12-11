@@ -40,6 +40,8 @@ class RobotConnection {
         this.wasConnected = true;
         this.connect();
 
+
+        this.telemetry = [];
     }
 
     connect() {
@@ -224,7 +226,70 @@ class RobotConnection {
                 for (let callback of this.eventCallbacks["onRobotClasses"]) {
                     callback(this.robotClasses);
                 }
-            } else if (data.at(0) == 0x00) {} //todo: implement telemetry updates
+            } else if (data.at(0) == 0x6D) { // telemetry
+                const isStart = data.at(1) == 0x01;
+
+                if (isStart) { // telemetry start
+                    const messages = [];
+
+                    let addMessage = (msg, type) => {
+                        messages.push({
+                            msg,
+                            type
+                        });
+                    }
+                    
+                    let msgBuffer = [];
+                    let msgType = 0xFF;
+
+                    for (let i = 3; i < data.length; i++) {
+                        if (msgType == 0xFF) {
+                            msgType = data.at(i);
+                        } else {
+                            // if we reach \n, we have a message
+                            if (data.at(i) == 0x0A) {
+                                addMessage(Buffer.from(msgBuffer).toString(), msgType);
+                                msgBuffer = [];
+                                msgType = 0xFF;
+                            } else {
+                                msgBuffer.push(data.at(i));
+                            }
+                        }
+                    }
+
+                    for (let msg of messages) {
+                        //decode
+                        msg.msg = decodeURIComponent(escape(msg.msg));
+                    }
+
+                    for (let callback of this.eventCallbacks["onTelemetryStart"]) {
+                        callback(messages);
+                    }
+                    
+                    //insert into the beginning of the telemetry array
+                    this.telemetry.unshift(...messages);
+                } else { // telemetry update
+                    const type = data.at(2);
+
+                    let msgBuffer = [];
+                    
+                    for (let i = 3; i < data.length; i++) {
+                        msgBuffer.push(data.at(i));
+                    }
+
+                    //utf-8 decode
+                    let msg = Buffer.from(msgBuffer).toString();
+
+                    for (let callback of this.eventCallbacks["onTelemetryUpdate"]) {
+                        callback({msg, type});
+                    }
+
+                    this.telemetry.push({
+                        msg,
+                        type
+                    })
+                }
+            } //todo: implement telemetry updates
         }
 
     }
@@ -243,6 +308,7 @@ class RobotConnection {
         // subscribe to robot status
         this.requestRobotClasses();
         this.subscribeToRobotStatus();
+        this.subscribeToTelemetry();
     }
 
     /* -- API -- */
@@ -305,6 +371,18 @@ class RobotConnection {
         this.ws.send([
             0x02,
             0x4C,
+            unsubscribe ? 0x00 : 0x01
+        ]);
+    }
+
+    /**
+     * Subscribes to the telemetry
+     * @param {boolean} unsubscribe
+     */
+    subscribeToTelemetry(unsubscribe=false) {
+        this.ws.send([
+            0x02,
+            0x4D,
             unsubscribe ? 0x00 : 0x01
         ]);
     }

@@ -214,9 +214,30 @@ public class Robot implements Logger {
         }
     }
 
-    private static ArrayList<WSClient> telemetryClients = new ArrayList<>();
-    private static Timer telemetryTimer = new Timer();
+    private final static ArrayList<WSClient> telemetryClients = new ArrayList<>();
     private static boolean setupTelemetryListeners = false;
+
+    /**
+     * Removes all inactive clients from the telemetry list.
+     * */
+    public static void removeAllInactiveTelemetryClients() {
+        ArrayList<WSClient> toRemove = new ArrayList<>();
+
+        int n_removed = 0;
+
+        for (WSClient c : telemetryClients) {
+            if (!c.isOpen()) {
+                toRemove.add(c);
+                n_removed++;
+            }
+        }
+
+        telemetryClients.removeAll(toRemove);
+
+        if (n_removed > 0) {
+            System.out.println("[INFO] Removed " + n_removed + " inactive clients from robot telemetry.");
+        }
+    }
 
     /**
      * Subscribes a WSClient to the telemetry of the robot.
@@ -234,6 +255,8 @@ public class Robot implements Logger {
                 //
 
                 SysoutMiddleman.Sysout.Listener listener = (msg) -> {
+                    //if (telemetryClients.isEmpty()) return;
+
                     byte[] data = new byte[msg.getMessage().length() * Character.BYTES + 3];
                     data[0] = 0x6D;
                     data[1] = 0x00;
@@ -248,21 +271,16 @@ public class Robot implements Logger {
                         data[i + 3] = buffer.get(i);
                     }
 
-                    ArrayList<WSClient> toRemove = new ArrayList<>();
                     for (WSClient c : telemetryClients) {
-                        if (!c.isOpen()) {
-                            toRemove.add(c);
-                            System.out.println("[INFO] Removed inactive client from robot telemetry.");
-                        } else {
-                            try {
-                                c.send(data);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                        if (!c.isOpen()) continue;
+                        try {
+                            c.send(data);
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
 
-                    telemetryClients.removeAll(toRemove);
+                    removeAllInactiveTelemetryClients();
                 };
 
                 SysoutMiddleman.Sysout.getOut().addListener(listener);
@@ -304,6 +322,8 @@ public class Robot implements Logger {
                     payload[index] = datum;
                     index++;
                 }
+
+                //System.out.println("msg size: " + data.length + " - " + SysoutMiddleman.getMessages().get(i).getMessage());
             }
 
             try {

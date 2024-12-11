@@ -131,6 +131,34 @@ function waitForRobotClasses(callback) {
     }
 }
 
+window.telemetry = [];
+
+let telemetryUpdateListeners = [];
+
+socket.on("telemetry-starter", (data) => {
+    telemetry = data;
+    telemetryUpdateListeners.forEach((listener) => {
+        for (let d of data) {
+            listener(d);
+        }
+    });
+});
+
+socket.on("telemetry-update", (data) => {
+    //add to telemetry.
+    telemetry.push(data);
+    telemetryUpdateListeners.forEach((listener) => {
+        listener(data);
+    });
+});
+
+function addTelemetryUpdateListener(listener) {
+    telemetryUpdateListeners.push(listener);
+    if (telemetry.length > 0) {
+        listener(telemetry);
+    }
+}
+
 async function checkBackendConnection() {
     let t1 = Date.now();
 

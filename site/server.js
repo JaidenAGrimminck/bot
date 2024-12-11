@@ -16,7 +16,7 @@ const server = createServer(app);
 const io = new Server(server);
 
 //"192.168.6.233"
-const robot = new RobotConnection("192.168.6.233", 8080, false);
+const robot = new RobotConnection("localhost", 8080, false);
 
 const log = new Log();
 
@@ -70,6 +70,9 @@ io.on('connection', (socket) => {
 
     setTimeout(() => {
         socket.emit('robot-classes', robot.robotClasses)
+
+        //emit telemetry starter event.
+        socket.emit('telemetry-starter', robot.telemetry)
     }, 1000)
 
     socket.on('heartbeat', () => {

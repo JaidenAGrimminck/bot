@@ -77,6 +77,8 @@ public class SysoutMiddleman {
             public void onMessage(Message message);
         }
 
+        private static final int maxMessages = 1000;
+
         private static Sysout error;
         private static Sysout out;
 
@@ -136,6 +138,10 @@ public class SysoutMiddleman {
                 for (Listener listener : this.li) {
                     listener.onMessage(new Message(message, type));
                 }
+
+                while (messages.size() > maxMessages) {
+                    messages.remove(0);
+                }
             }
         }
 
@@ -150,9 +156,18 @@ public class SysoutMiddleman {
 
         /**
          * Adds a listener to the sysout.
+         * @param listener The listener to add.
          * */
         public void addListener(Listener listener) {
             li.add(listener);
+        }
+
+        /**
+         * Removes a listener from the sysout.
+         * @param listener The listener to remove.
+         * */
+        public void removeListener(Listener listener) {
+            li.remove(listener);
         }
     }
 

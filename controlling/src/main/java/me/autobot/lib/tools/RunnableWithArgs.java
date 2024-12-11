@@ -5,6 +5,7 @@ import me.autobot.server.WSClient;
 /**
  * A runnable that can take arguments.
  * */
+@Deprecated
 public class RunnableWithArgs implements Runnable {
 
     /**
@@ -35,6 +36,14 @@ public class RunnableWithArgs implements Runnable {
      * @param client The client to pass to the runnable.
      * */
     public void run(WSClient client) {
+
+    }
+
+    /**
+     * Runs the runnable with the websocket client (very specific, I know) and data.
+     * @param client The client to pass to the runnable.
+     * */
+    public void run(WSClient client, int[] data) {
 
     }
 }

@@ -61,7 +61,14 @@
     padding-right: 6px;
     padding-bottom: 10px;
 
+    display: flex;
+    flex-direction: column;
+
     font-size: 14px;
 
     scrollbar-color: rgb(116, 116, 115) rgb(56, 56, 55);
+}
+
+.telemetry-error {
+    color: rgb(213, 24, 24);
 }
