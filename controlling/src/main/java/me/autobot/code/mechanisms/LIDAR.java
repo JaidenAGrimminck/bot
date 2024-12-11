@@ -196,13 +196,15 @@ public class LIDAR extends Mechanism {
         // clear points
         this.points.clear();
 
-        System.out.println("LIDAR received " + points.length + " points.");
+        //System.out.println("LIDAR received " + points.length + " points.");
 
         if (subscribers.isEmpty()) {
             return;
         }
 
         byte[] point_payload = new byte[points.length * 12];
+
+        double avgDistance = 0;
 
         for (int i = 0; i < points.length; i++) {
             byte[] distance = ByteBuffer.allocate(4).putFloat(points[i].distance).array();
@@ -212,7 +214,12 @@ public class LIDAR extends Mechanism {
             System.arraycopy(distance, 0, point_payload, i * 12, 4);
             System.arraycopy(angle, 0, point_payload, i * 12 + 4, 4);
             System.arraycopy(intensity, 0, point_payload, i * 12 + 8, 4);
+
+            avgDistance += points[i].distance;
         }
+
+        avgDistance /= points.length;
+        System.out.println("Average distance: " + avgDistance);
 
         byte[] finalPayload = new byte[point_payload.length + 4];
         System.arraycopy(point_payload, 0, finalPayload, 4, point_payload.length);
