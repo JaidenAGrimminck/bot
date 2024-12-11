@@ -151,8 +151,10 @@ public class LIDAR extends Mechanism {
             public void run(WSClient client, int[] data) {
                 if (data[0] == 1) {
                     subscribers.add(client);
+                    System.out.println("[LIDAR] Subscribed client to LIDAR data.");
                 } else {
                     subscribers.remove(client);
+                    System.out.println("[LIDAR] Unsubscribed client from LIDAR data.");
                 }
             }
         });

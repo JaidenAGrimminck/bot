@@ -289,7 +289,31 @@ class RobotConnection {
                         type
                     })
                 }
-            } //todo: implement telemetry updates
+            } else if (data.at(0) == 0xA5) { // LIDAR update
+                const n_values = (data.length - 4) / 12;
+
+                // struct:
+                // 4 bytes: distance
+                // 4 bytes: angle
+                // 4 bytes: intensity
+
+                let values = [];
+                for (let i = 0; i < n_values; i++) {
+                    let distance = new Float32Array(new Uint8Array(data.slice(4 + (i * 12), 8 + (i * 12)).buffer))[0];
+                    let angle = new Float32Array(new Uint8Array(data.slice(8 + (i * 12), 12 + (i * 12)).buffer))[0];
+                    let intensity = new Float32Array(new Uint8Array(data.slice(12 + (i * 12), 16 + (i * 12)).buffer))[0];
+
+                    values.push({
+                        distance,
+                        angle,
+                        intensity
+                    });
+                }
+
+                for (let callback of this.sensorListeners[0xA5][0xA5]) {
+                    callback(values);
+                }
+            }
         }
 
     }
@@ -339,6 +363,20 @@ class RobotConnection {
             sensorAddress,
             unsubscribe ? 0x00 : 0x01,
         ]);
+    }
+
+    /**
+     * Subscribes to LIDAR (specialized) on the robot
+     * @param {number} 
+     * @param {*} state 
+     */
+    subscribeToLidar(unsubscribe=false) {
+        this.ws.send([
+            0x01,
+            0x02,
+            0xA5,
+            unsubscribe ? 0x00 : 0x01
+        ])
     }
 
     setRobotState(robotClass, state) {
@@ -403,7 +441,7 @@ class RobotConnection {
      * @param {number} sensorAddress
      * @param {boolean} unsubscribe
      */
-    listen(event=((list)=>{}), robotAddress=0, sensorAddress=0, unsubscribe=false) {
+    listen(event=((list)=>{}), robotAddress=0, sensorAddress=0, unsubscribe=false, send_subscribe=true) {
         if (unsubscribe) {
             if (this.sensorListeners[robotAddress]) {
                 if (this.sensorListeners[robotAddress][sensorAddress]) {
@@ -420,7 +458,7 @@ class RobotConnection {
             this.sensorListeners[robotAddress][sensorAddress].push(event);
         }
 
-        this.subscribe(robotAddress, sensorAddress, unsubscribe);
+        if (send_subscribe) this.subscribe(robotAddress, sensorAddress, unsubscribe);
     }
 
     send(payload=[]) {

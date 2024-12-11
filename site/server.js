@@ -96,6 +96,16 @@ io.on('connection', (socket) => {
         robot.subscribe(data.robotAddress, data.sensorAddress);
     });
 
+    socket.on('subscribe-lidar', () => {
+        console.log("[WS] Subscribing to lidar!");
+        
+        robot.subscribeToLidar();
+
+        robot.listen((data) => {
+            socket.emit('lidar-update', data);
+        }, 0xA5, 0xA5, false, false)
+    })
+
     //if ev starts with "ros", it's a ROS message, so send it over to ROS.js
     socket.on('ros', (data={data: {}, tag: ""}) => {
         try {
