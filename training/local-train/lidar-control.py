@@ -12,6 +12,8 @@ def act(points):
     left = points[1]
     right = points[2]
 
+    print(front)
+
     # straight, right, left
     distances = [
         front["distance"],
