@@ -136,6 +136,38 @@ class ViewTopBar extends HTMLElement {
                 document.getElementById("robot-selection").appendChild(option);
                 i++;
             }
+            
+            setTimeout(() => { // TODO: test this
+                // wait for a potential robot_status update
+                if (Object.keys(window.robot_status).length == 0) {
+                    return;
+                }
+
+                let robotIndex = window.robot_status["robot"];
+                let state = window.robot_status["mode"];
+
+                if (state == "playing") {
+                    //set the play-pause to pause
+                    document.getElementById("play-pause").src = "/images/pause.svg";
+                    this.current_state = "play";
+
+                    //set the stop to stop
+                    document.getElementById("stop").src = "/images/stop.svg";
+
+                    //switch the robot selection to the current robot
+                    document.getElementById("robot-selection").value = robotIndex;
+                } else if (state == "paused") {
+                    //set the play-pause to play
+                    document.getElementById("play-pause").src = "/images/play.svg";
+                    this.current_state = "pause";
+
+                    //set the stop to stop
+                    document.getElementById("stop").src = "/images/stop.svg";
+
+                    //switch the robot selection to the current robot
+                    document.getElementById("robot-selection").value = robotIndex;
+                }
+            }, 150);
         })
 
         document.getElementById("robot-selection").addEventListener("change", (e) => {

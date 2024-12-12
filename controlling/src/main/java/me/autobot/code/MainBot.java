@@ -24,7 +24,7 @@ public class MainBot extends Robot {
     /**
      * Config class for the robot.
      * */
-    private static class Config {
+    protected static class Config {
         public static final int TOP_LEFT_MOTOR = 0x09;
         public static final int BACK_LEFT_MOTOR = 0x0A;
         public static final int TOP_RIGHT_MOTOR = 0x09;

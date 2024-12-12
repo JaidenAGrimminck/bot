@@ -283,4 +283,30 @@ public class Mathf {
 
         return buffer.getFloat();
     }
+
+
+    /**
+     * Normalizes an angle to be between 0 and 2pi.
+     * @param radians The angle to normalize.
+     * @return The normalized angle.
+     */
+    public static double normalizeAngle(double radians) {
+        while (radians < 0) {
+            radians += 2 * Math.PI;
+        }
+        while (radians >= 2 * Math.PI) {
+            radians -= 2 * Math.PI;
+        }
+        return radians;
+    }
+
+    /**
+     * Returns if two numbers are equal within a certain tolerance.
+     * @param a The first number.
+     * @param b The second number.
+     * @param tolerance The tolerance.
+     */
+    public static boolean close(double a, double b, double tolerance) {
+        return Math.abs(a - b) < tolerance;
+    }
 }

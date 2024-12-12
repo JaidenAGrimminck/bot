@@ -109,7 +109,7 @@ if __name__ == "__main__":
             my_robots.append(robot.Robot(80, 938, -math.pi + 0.00001))
             my_robots[i].reset()
     else:
-        my_robots.append(robot.Robot(80, 938, -math.pi + 0.00001, "model483.npy", True))
+        my_robots.append(robot.Robot(80, 938, -math.pi + 0.00001, "model483.npy", False))
 
     environment.setup()
     

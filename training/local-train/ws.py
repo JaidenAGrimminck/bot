@@ -84,6 +84,24 @@ def on_message(ws, message):
                                 listener(sensors[robotAddress][sensorAddress].get_values(), robotAddress)
                             elif n_args == 3:
                                 listener(sensors[robotAddress][sensorAddress].get_values(), robotAddress, sensorAddress)
+    elif key == 0xA6:
+        # first four bytes are ignored
+
+        points = []
+
+        for i in range(3):
+            point = message[i*12 + 4:i*12 + 12 + 4]
+            distance = struct.unpack('>f', bytes(point[0:4]))[0]
+            angle = struct.unpack('>f', bytes(point[4:8]))[0]
+            intensity = struct.unpack('>f', bytes(point[8:12]))[0]
+
+            points.append([distance, angle, intensity])
+        
+            if str(0xA6) in listeners:
+                if str(0xA6) in listeners[str(0xA6)]:
+                    for listener in listeners[str(0xA6)][str(0xA6)]:
+                        listener(points)
+
 
 
 sensor_enum = {
@@ -109,9 +127,11 @@ def onConnection():
         pass
 
     # subscribe to the robot
-    listen(0x00, 0x01, lambda a: handleDist(sensor_enum["FRONT"], a)) #front side
-    listen(0x00, 0x02, lambda a: handleDist(sensor_enum["TOP_LEFT"], a)) #top left
-    listen(0x00, 0x03, lambda a: handleDist(sensor_enum["TOP_RIGHT"], a)) #right side
+    # listen(0x00, 0x01, lambda a: handleDist(sensor_enum["FRONT"], a)) #front side
+    # listen(0x00, 0x02, lambda a: handleDist(sensor_enum["TOP_LEFT"], a)) #top left
+    # listen(0x00, 0x03, lambda a: handleDist(sensor_enum["TOP_RIGHT"], a)) #right side
+
+    subscribeToLIDARSpecifics()
 
     pass
 
@@ -162,6 +182,21 @@ def sendPayload(payload=[]):
 
     socket.send(payload)
 
+def send_move(speed, rotation):
+    payload = [
+        0x01,
+        0x02,
+        0x09,
+    ]
+    
+    first_double = struct.pack('>d', rotation)
+    second_double = struct.pack('>d', speed)
+
+    payload.extend(first_double)
+    payload.extend(second_double)
+
+    sendPayload(payload)
+
 """
 Subscribe to a sensor
 :param robotAddress: The address of the robot
@@ -180,6 +215,17 @@ def subscribe(robotAddress, sensorAddress, unsubscribe=False):
         robotAddress, # address of robot
         sensorAddress, # address of sensor
         subscribe_bit # subscribe
+    ]
+
+    sendPayload(payload)
+
+def subscribeToLIDARSpecifics(unsubscribe=False):
+    payload = [
+        0x01,
+        0x02,
+        0xA5,
+        0x00,
+        0x00 if unsubscribe else 0x01
     ]
 
     sendPayload(payload)

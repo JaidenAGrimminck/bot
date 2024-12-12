@@ -3,6 +3,7 @@ package me.autobot.code.mechanisms;
 import me.autobot.lib.hardware.ws.WSSensorConnection;
 import me.autobot.lib.math.Mathf;
 import me.autobot.lib.math.Unit;
+import me.autobot.lib.math.coordinates.Polar;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.objects.Rectangle;
 import me.autobot.lib.math.rotation.Rotation2d;
@@ -17,9 +18,13 @@ import java.util.ArrayList;
  * LIDAR Mechanism that can construct a terrain map from LIDAR data.
  * */
 public class LIDAR extends Mechanism {
-    ArrayList<Rectangle> rectangles = new ArrayList<>();
+    private ArrayList<Rectangle> rectangles = new ArrayList<>();
 
-    ArrayList<Vector2d> points = new ArrayList<>();
+    private ArrayList<Vector2d> points = new ArrayList<>();
+
+    private Point straightAhead = new Point(0,0,0);
+    private Point frontLeft = new Point(0,0,0);
+    private Point frontRight = new Point(0,0,0);
 
     /**
      * LIDAR Point structure.
@@ -140,6 +145,7 @@ public class LIDAR extends Mechanism {
     private WSLidarSensorConnection lidarSensor;
 
     private static ArrayList<WSClient> subscribers = new ArrayList<>();
+    private static ArrayList<WSClient> specificSubscribers = new ArrayList<>();
 
 
     static {
@@ -149,6 +155,18 @@ public class LIDAR extends Mechanism {
         WSClient.registerCallable(0xA5, new RunnableWithArgs() {
             @Override
             public void run(WSClient client, int[] data) {
+                if (data.length > 1) {
+                    int specific = data[1];
+                    if (specific == 0x01) {
+                        specificSubscribers.add(client);
+                        System.out.println("[LIDAR] Subscribed client to specific LIDAR data.");
+                    } else if (specific == 0x00) {
+                        specificSubscribers.remove(client);
+                        System.out.println("[LIDAR] Unsubscribed client from specific LIDAR data.");
+                    }
+                    return;
+                }
+
                 if (data[0] == 1) {
                     subscribers.add(client);
                     System.out.println("[LIDAR] Subscribed client to LIDAR data.");
@@ -195,6 +213,60 @@ public class LIDAR extends Mechanism {
     protected void onLidarData(Point[] points) {
         // clear points
         this.points.clear();
+
+        for (Point point : points) {
+            // add the point to the list of points
+            //this.points.add(new Polar(point.distance, Rotation2d.fromRadians(point.angle)).toVector());
+
+            double normalizedAngle = Mathf.normalizeAngle(point.angle);
+
+            if (Mathf.close(normalizedAngle, 0, 0.001)) {
+                straightAhead = point;
+            } else if (Mathf.close(normalizedAngle, Math.PI / 4, 0.001)) {
+                frontRight = point;
+            } else if (Mathf.close(normalizedAngle,  7 * Math.PI / 4, 0.001)) {
+                frontLeft = point;
+            }
+        }
+
+        if (!specificSubscribers.isEmpty()) {
+            byte[] point_payload = new byte[3 * 12];
+
+            Point[] spec_points = new Point[] {straightAhead, frontLeft, frontRight};
+
+            for (int i = 0; i < 3; i++) {
+                byte[] distance = ByteBuffer.allocate(4).putFloat(spec_points[i].distance).array();
+                byte[] angle = ByteBuffer.allocate(4).putFloat(spec_points[i].angle).array();
+                byte[] intensity = ByteBuffer.allocate(4).putFloat(spec_points[i].intensity).array();
+
+                System.arraycopy(distance, 0, point_payload, i * 12, 4);
+                System.arraycopy(angle, 0, point_payload, i * 12 + 4, 4);
+                System.arraycopy(intensity, 0, point_payload, i * 12 + 8, 4);
+            }
+
+            byte[] finalPayload = new byte[point_payload.length + 4];
+
+            System.arraycopy(point_payload, 0, finalPayload, 4, point_payload.length);
+
+            finalPayload[0] = (byte) 0xA6;
+
+            ArrayList<WSClient> toRemove = new ArrayList<>();
+
+            for (WSClient client : specificSubscribers) {
+                if (!client.isOpen()) {
+                    toRemove.add(client);
+                    continue;
+                }
+
+                try {
+                    client.send(finalPayload);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            specificSubscribers.removeAll(toRemove);
+        }
 
         //System.out.println("LIDAR received " + points.length + " points.");
 
