@@ -89,17 +89,21 @@ def on_message(ws, message):
 
         points = []
 
+        print("mhm")
+
         for i in range(3):
             #print("check point")
 
-            point = message[i*12 + 4:i*12 + 12 + 4]
+            print(i)
+
+            point = message[(i*12 + 4):(i*12 + 12 + 4)]
             distance = struct.unpack('>f', bytes(point[0:4]))[0]
             angle = struct.unpack('>f', bytes(point[4:8]))[0]
             intensity = struct.unpack('>f', bytes(point[8:12]))[0]
 
             points.append([distance, angle, intensity])
 
-        
+        print('yes')
 
         if 0xA6 in listeners:
             if 0xA6 in listeners[0xA6]:
