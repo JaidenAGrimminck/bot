@@ -52,7 +52,7 @@ def run_laser():
 
                 for point in scan.points:
                     payload.extend(struct.pack("f", float(point.angle)))
-                    payload.extend(struct.pack("f", float(point.range)))
+                    payload.extend(struct.pack("f", float(point.range * 25)))
                     payload.extend(struct.pack("f", float(point.intensity)))
 
                     #average += point.range
