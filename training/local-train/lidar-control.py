@@ -14,15 +14,15 @@ def act(points):
 
     # straight, right, left
     distances = [
-        front[0],
-        left[0],
-        right[0]
+        front[0] - 20,
+        left[0] - 20,
+        right[0] - 20
     ]
 
     for i in range(len(distances)):
         if (distances[i] == None):
             distances[i] = None # redundant. but it skips some stuff.
-        elif (distances[i] == 0):
+        elif (distances[i] <= 0):
             distances[i] = None
         elif distances[i] > 300:
             distances[i] = None
@@ -35,7 +35,7 @@ def act(points):
     values = model.predict(np.array(distances).reshape(1, -1))[0]
 
     speed = values[1] * SPEED
-    rotation = (values[0] - 0.5) * ROTATION_SPEED
+    rotation = (values[0] - 0.5) * ROTATION_SPEED * 10
 
     print(speed, rotation)
 
