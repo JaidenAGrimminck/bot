@@ -41,7 +41,7 @@ if __name__ == "__main__":
     model = NeuralNetwork([3, 4, 3, 2])
     model.load("model483.npy")
 
-    ws.listenWithoutSubscribing(str(0xA6), str(0xA6), act)
+    ws.listenWithoutSubscribing(0xA6, 0xA6, act)
 
     while True:
         pass

@@ -98,10 +98,12 @@ def on_message(ws, message):
             intensity = struct.unpack('>f', bytes(point[8:12]))[0]
 
             points.append([distance, angle, intensity])
-    
-        if str(0xA6) in listeners:
-            if str(0xA6) in listeners[str(0xA6)]:
-                for listener in listeners[str(0xA6)][str(0xA6)]:
+
+        
+
+        if 0xA6 in listeners:
+            if 0xA6 in listeners[0xA6]:
+                for listener in listeners[0xA6][0xA6]:
                     listener(points)
 
 
