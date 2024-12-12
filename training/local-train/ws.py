@@ -89,12 +89,12 @@ def on_message(ws, message):
 
         points = []
 
-        print("mhm")
+        #print("mhm")
 
         for i in range(3):
             #print("check point")
 
-            print(i)
+            #print(i)
 
             point = message[(i*12 + 4):(i*12 + 12 + 4)]
             distance = struct.unpack('>f', bytes(point[0:4]))[0]
@@ -103,12 +103,16 @@ def on_message(ws, message):
 
             points.append([distance, angle, intensity])
 
-        print(listeners)
+        #print(listeners)
 
-        if 0xA6 in listeners:
-            if 0xA6 in listeners[0xA6]:
-                for listener in listeners[0xA6][0xA6]:
-                    listener(points)
+        listeners[0xA6][0xA6][0](points)
+
+        print("act!")
+
+        # if 0xA6 in listeners:
+        #     if 0xA6 in listeners[0xA6]:
+        #         for listener in listeners[0xA6][0xA6]:
+        #             listener(points)
 
 
 
