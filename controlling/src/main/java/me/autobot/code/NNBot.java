@@ -108,6 +108,8 @@ public class NNBot extends Robot {
             }
         });
 
+        lidar = new LIDAR();
+
         System.out.println("Attached move port at 0x09...");
 
         System.out.println("Setup complete!");

@@ -259,7 +259,12 @@ class RobotConnection {
 
                     for (let msg of messages) {
                         //decode
-                        msg.msg = decodeURIComponent(escape(msg.msg));
+                        try {
+                            msg.msg = decodeURIComponent(escape(msg.msg));
+                        } catch (e) {
+                            msg.msg = Buffer.from(msgBuffer).toString();
+                            msg.type = 0x01;
+                        }
                     }
 
                     for (let callback of this.eventCallbacks["onTelemetryStart"]) {
