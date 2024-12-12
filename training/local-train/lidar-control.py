@@ -12,10 +12,6 @@ def act(points):
     left = points[1]
     right = points[2]
 
-    print(front)
-    print(left)
-    print(right)
-
     # straight, right, left
     distances = [
         front[0],
@@ -40,6 +36,8 @@ def act(points):
 
     speed = values[1] * SPEED
     rotation = (values[0] - 0.5) * ROTATION_SPEED
+
+    print(speed, rotation)
 
     ws.send_move(speed, rotation)
 
