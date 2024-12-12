@@ -103,7 +103,7 @@ def on_message(ws, message):
 
             points.append([distance, angle, intensity])
 
-        print('yes')
+        print(listeners)
 
         if 0xA6 in listeners:
             if 0xA6 in listeners[0xA6]:
