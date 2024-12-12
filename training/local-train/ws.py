@@ -130,8 +130,8 @@ def onConnection():
     # listen(0x00, 0x01, lambda a: handleDist(sensor_enum["FRONT"], a)) #front side
     # listen(0x00, 0x02, lambda a: handleDist(sensor_enum["TOP_LEFT"], a)) #top left
     # listen(0x00, 0x03, lambda a: handleDist(sensor_enum["TOP_RIGHT"], a)) #right side
-
-    subscribeToLIDARSpecifics()
+    
+    threading.Thread(target=subscribeToLIDARSpecifics).start()
 
     pass
 
@@ -220,6 +220,8 @@ def subscribe(robotAddress, sensorAddress, unsubscribe=False):
     sendPayload(payload)
 
 def subscribeToLIDARSpecifics(unsubscribe=False):
+    time.sleep(0.1)
+
     payload = [
         0x01,
         0x02,
