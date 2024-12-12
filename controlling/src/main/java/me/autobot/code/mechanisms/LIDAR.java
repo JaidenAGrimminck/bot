@@ -220,8 +220,11 @@ public class LIDAR extends Mechanism {
 
             double normalizedAngle = Mathf.normalizeAngle(point.angle);
 
-            if (Mathf.close(normalizedAngle, 0, 0.001)) {
+            if (Mathf.close(normalizedAngle, 0.08, 0.03)) {
                 straightAhead = point;
+                if (straightAhead.distance == 0) {
+                    straightAhead.distance = 1000;
+                }
             } else if (Mathf.close(normalizedAngle, Math.PI / 4, 0.001)) {
                 frontRight = point;
             } else if (Mathf.close(normalizedAngle,  7 * Math.PI / 4, 0.001)) {
