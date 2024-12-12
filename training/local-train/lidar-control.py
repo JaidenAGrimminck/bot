@@ -35,7 +35,7 @@ def act(points):
     values = model.predict(np.array(distances).reshape(1, -1))[0]
 
     speed = values[1] * SPEED * 0.3
-    rotation = (values[0] - 0.5) * ROTATION_SPEED * 7
+    rotation = (values[0] - 0.5) * ROTATION_SPEED * 9
 
     print(speed, rotation)
 
