@@ -105,7 +105,7 @@ def on_message(ws, message):
 
         #print(listeners)
 
-        listeners[0xA6][0xA6][0](points)
+        listeners[166][166][0](points)
 
         print("act!")
 
