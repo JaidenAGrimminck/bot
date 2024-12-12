@@ -24,9 +24,11 @@ def act(points):
     ]
 
     for i in range(len(distances)):
-        if (distances[i] == 0):
+        if (distances[i] == None):
+            distances[i] = None # redundant. but it skips some stuff.
+        elif (distances[i] == 0):
             distances[i] = None
-        if distances[i] > 300:
+        elif distances[i] > 300:
             distances[i] = None
 
         if distances[i] == None:
