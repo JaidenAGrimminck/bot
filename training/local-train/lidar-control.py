@@ -14,9 +14,9 @@ def act(points):
 
     # straight, right, left
     distances = [
-        front[0] - 20,
-        left[0] - 20,
-        right[0] - 20
+        front[0] - 30,
+        left[0] - 30,
+        right[0] - 30
     ]
 
     for i in range(len(distances)):
