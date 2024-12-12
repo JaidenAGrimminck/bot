@@ -18,12 +18,14 @@ def act(points):
 
     # straight, right, left
     distances = [
-        front["distance"],
-        right["distance"],
-        left["distance"]
+        front[0],
+        right[0],
+        left[0]
     ]
 
     for i in range(len(distances)):
+        if (distances[i] == 0):
+            distances[i] = None
         if distances[i] > 300:
             distances[i] = None
 
