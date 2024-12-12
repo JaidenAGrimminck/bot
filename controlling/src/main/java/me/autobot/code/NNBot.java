@@ -117,6 +117,8 @@ public class NNBot extends Robot {
     protected void loop() {
         if (speed > 0.1) {
             arcadeDrive.drive(speed, rotation, 0.06);
+        } else {
+            arcadeDrive.drive(0, 0, 0);
         }
     }
 
