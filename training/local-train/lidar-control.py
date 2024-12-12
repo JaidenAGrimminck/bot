@@ -43,3 +43,6 @@ if __name__ == "__main__":
 
     ws.listenWithoutSubscribing(str(0xA6), str(0xA6), act)
 
+    while True:
+        pass
+
