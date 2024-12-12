@@ -40,7 +40,6 @@ git clone https://github.com/JaidenAGrimminck/bot.git
 # Media
 
 
-
 https://github.com/user-attachments/assets/e8538c88-3dbe-4262-9000-22e12cc6994f
 
 *an example of the simulator using cross-platform control (network in Python, simulator in Java). video sped up 4x*
@@ -48,6 +47,10 @@ https://github.com/user-attachments/assets/e8538c88-3dbe-4262-9000-22e12cc6994f
 https://github.com/user-attachments/assets/dc79bd12-5eaf-474f-9298-c895303d357c
 
 *a quick video of the bot being cadded*
+
+https://github.com/user-attachments/assets/dea046ce-516c-45cd-9a5e-2babb5d9fbf5
+
+*a video of the lidar working in the web dashboard*
 
 # Components
 
