@@ -75,8 +75,8 @@ class ViewMap extends HTMLElement {
             this.ctx.fillStyle = "rgb(0,0,0)";
             this.ctx.save();
             // translate to center
-            this.ctx.translate(this.map.width / 2, this.map.height / 2);
-            this.ctx.rotate(0);
+            this.ctx.translate(this.map.width / 4, this.map.height / 4);
+            this.ctx.rotate(Math.PI / 2);
             this.ctx.fillRect(-20 * this.cmToPixelScale, -30 * this.cmToPixelScale, 40 * this.cmToPixelScale, 60 * this.cmToPixelScale);
 
             // reset translate
@@ -84,7 +84,7 @@ class ViewMap extends HTMLElement {
         }
 
         this.ctx.save();
-        this.ctx.translate(this.map.width / 2, this.map.height / 2);
+        this.ctx.translate(this.map.width / 4, this.map.height / 4);
 
         this.ctx.fillStyle = "rgb(255,0,0)";
         
