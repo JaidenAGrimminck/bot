@@ -14,7 +14,7 @@ listeners = {}
 
 socket = None
 
-WEBSOCKET_URL = "ws://localhost:8080"
+WEBSOCKET_URL = "ws://192.168.6.233:8080"
 
 def on_message(ws, message):
     global timeSinceLastHeartbeat

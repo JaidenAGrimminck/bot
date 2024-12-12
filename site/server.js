@@ -17,7 +17,7 @@ const io = new Server(server);
 
 //"192.168.6.233" - controller
 // 192.168.6.232 - one w/ lidar
-const robot = new RobotConnection("192.168.6.232", 8080, false);
+const robot = new RobotConnection("192.168.6.233", 8080, false);
 
 const log = new Log();
 
