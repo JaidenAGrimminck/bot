@@ -21,6 +21,10 @@ It's a fun project that I'm having a great time exploring all sorts of areas fro
 
 *Are you also a teenager and on Hack Club? See my progress [here!](https://hackclub.slack.com/archives/C083HATD5DX)*
 
+> [!WARNING]
+> This project is in ACTIVE DEVELOPMENT. As such, docs may be out of date and some features may not work.
+> If you'd like something to be fixed, feel free to make an issue or contribute by making a pull request.
+
 ## Prerequisites
 
 For everything, the following prerequisites are needed:

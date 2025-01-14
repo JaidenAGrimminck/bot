@@ -4,37 +4,138 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>bot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <div class="start-screen-top">
-        <div class="side-by-side">
-            <div class="side-by-side-left">
-                <div>
-                <img src="/readme/images/icon.png" class="adjust-image">
+    <div class="svgs">
+        <img id="bot-image" src="assets/bot.png" alt="bot">
+        <img id="d-3d-display" src="assets/3d display.svg" alt="3d display">
+        <img id="first-line" src="assets/first.svg" alt="first line">
+        <img id="second-line" src="assets/second.svg" alt="second line">
+        <img id="third-line" src="assets/third.svg" alt="third line">
+        <img id="top-selector" src="assets/top selector.svg" alt="top selector">
+        <img id="menu-1" src="assets/menu 1.svg" alt="menu 1">
+        <img id="menu-2" src="assets/menu 2.svg" alt="menu 2">
+        <img id="active-menu" src="assets/active menu.svg" alt="active menu">
+        <img id="play" src="assets/play.svg" alt="play">
+        <img id="pause" src="assets/pause.svg" alt="pause">
+        <img id="stop" src="assets/stop.svg" alt="stop">
+        <img id="cursor-pointer" src="assets/cursor pointer.svg" alt="cursor pointer">
+        <img id="cursor-pointer-2" src="assets/cursor pointer 2.svg" alt="cursor pointer 2">
+        <img id="terminal-gradlew" src="assets/terminal gradlew.svg" alt="terminal gradlew">
+        <img id="terminal-yolo11" src="assets/terminal yolo11.svg" alt="terminal yolo11">
+        <img id="terminal-lidar" src="assets/terminal lidar.svg" alt="terminal lidar">
+    </div>
+
+    <div class="header">
+        <div class="title">
+            <span class="bold fs-36">bot</span>
+            <span class="fs-34">a dynamic robotics library</span>
+        </div>
+        <div class="get-started">
+            <span class="fs-20">get started with</span>
+            <div class="code">
+                <div id="copy-symbol" onclick="copy_command()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" id="copy_button"><title>content-copy</title><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="check_button" style="display: none;" fill="white"><title>check</title><path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" /></svg>
                 </div>
+                <span class="code-text">$ git clone https://github.com/JaidenAGrimminck/bot.git</span>
             </div>
-            <div class="side-by-side-right">
-                <p class="subsubtitle" style="padding: 20px;">
-                    a lightweight and highly versatile library for any robotics needs.<br/><br/>
-                    made by jaiden.
-                </p>
-                <div style="display: flex; flex-direction: row;"><p style="padding-right: 10px;">img 1</p> <p>img 2</p></div>
-            </div>
-        </div>
-        <div class="full section-margin">
-            <div class="flex-split subsubsubtitle">
-                <p>getting started</p>
-                <p>read the docs</p>
-                <p>javadoc</p>
-                <p>build your own robot</p>
+            <span class="fs-20">or visit the guides here</span>
+            <div class="guide-container">
+                <div class="top-guide-container">
+                    <div class="button" onclick="toGettingStarted()">getting started</div>
+                    <div class="button" onclick="toBuildBot()">build a bot</div>
+                </div>
+                <div class="button" onclick="toBuildlog()">see the full "bot" rover buildlog</div>
             </div>
         </div>
     </div>
-    <div class="start-screen-bottom">
-        <div class="view-media" style="cursor: pointer;">
-            <span>view media</span> <img width="24px" height="auto" src="/site/public/images/chevron-down.svg">
+    <div class="words">
+        <span>lightweight</span> <span>fast</span> <span>dynamic</span>
+    </div>
+    <div class="intro">
+        <div class="intro-text-box">
+            <span class="bold fs-34">integrate programs on the fly</span>
+            <span class="fs-24" style="width: 500px;">Select, choose, and debug routines on the fly with the logging framework all from your browser, allowing for a fast and easy work routine.</span>
+        </div>
+        <div class="site-explination">
+            <span class="bold fs-34">...all within 15mb. including packages.</span>
+            <span class="fs-24" style="margin-left: 19px;">
+                “Site,” the frontend dashboard of the bot is hosted within 15mb, making a super lightweight and highly versatile library, perfect for customization - think of the backend like ReactJS, without the mass amount of packages required. This program allows for a user to communicate effectively with the robot without downloading any software, except for their web browser (which if you're using this website right now, you probably have). Start the server, and get started within seconds.
+            </span>
         </div>
     </div>
+    <div class="websocket">
+        <div class="websocket-text-box">
+            <span class="bold fs-34">connect with literally any program.</span>
+            <span class="fs-24" style="width: 595px;">
+                Whether it be Tensorflow, a website, or even Minecraft, a connection is possible with a custom protocol that allows for fast and efficient communication over WebSocket.
+            </span>
+        </div>
+    </div>
+    <div class="ending">
+        <div class="ending-text">
+            <span class="fs-34 bold">Get started today.</span>
+        </div>
+        <div class="ending-button">
+            <div class="button" style="margin-top: 54px; width: 736px; height: 102px; border-radius: 40px;">
+                <span class="bold" style="color: black;" onclick="toGettingStarted()">
+                    GETTING STARTED
+                </span>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <span>
+            Made by <a href="https://github.com/jaidenagrimminck">Jaiden Grimminck</a> // <a href="https://github.com/jaidenagrimminck/bot">github</a> // <a href="https://jaidens-bot-docs.readthedocs.io">read the docs</a> // <a href="https://jaidenagrimminck.github.io/bot/controlling/docs/javadoc/index.html">javadoc</a>
+        </span>
+    </footer>
+
+    <script>
+        function toGettingStarted() {
+            window.location.href = "https://jaidens-bot-docs.readthedocs.io/en/latest/controlling_get_started.html";
+        }
+
+        function toBuildBot() {
+            alert("coming along... later")
+            //window.location.href = "https://jaidenagrimminck.github.io/bot/building-a-bot";
+        }
+
+        function toBuildlog() {
+            alert("coming soon!")
+            //window.location.href = "https://jaidenagrimminck.github.io/bot/buildlog";
+        }
+
+        let just_copied = false;
+
+        function copy_command() {
+            if (just_copied) {
+                return;
+            }
+
+            just_copied = true;
+
+            var copyText = document.createElement("input");
+            copyText.value = "git clone https://github.com/jaidenagrimminck/bot.git";
+            document.body.appendChild(copyText);
+            copyText.select();
+            document.execCommand("copy");
+            document.body.removeChild(copyText);
+
+            document.getElementById("copy_button").style.display = "none";
+            document.getElementById("check_button").style.display = "block";
+
+            setTimeout(() => {
+                document.getElementById("copy_button").style.display = "block";
+                document.getElementById("check_button").style.display = "none";
+                just_copied = false;
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
