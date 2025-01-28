@@ -71,7 +71,7 @@
         </div>
     </div>
     <div class="websocket">
-        <div class="websocket-text-box">
+        <div class="websocket-text-box" style="width: 600px;">
             <span class="bold fs-34">connect with literally any program.</span>
             <span class="fs-24" style="width: 595px;">
                 Whether it be Tensorflow, a website, or even Minecraft, a connection is possible with a custom protocol that allows for fast and efficient communication over WebSocket.
@@ -127,10 +127,12 @@
         function scale() {
             const scale = window.innerWidth / 1440;
 
-            document.getElementsByTagName("body")[0].style.transform = `scale(${scale}) translate(${-100 * (1 - (scale))}%, ${-100 * (1 - (scale))}%)`;
+            document.getElementsByTagName("body")[0].style.transform = `scale(${scale})`;
+            document.getElementsByTagName("body")[0].style.transformOrigin = "0 0";
         }
 
         window.onresize = scale;
+        document.addEventListener('DOMContentLoaded', scale);
         window.onload = () => {
             scale();
 
