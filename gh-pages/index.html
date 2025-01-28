@@ -48,10 +48,10 @@
             <span class="fs-20">or visit the guides here</span>
             <div class="guide-container">
                 <div class="top-guide-container">
-                    <div class="button" onclick="toGettingStarted()">getting started</div>
-                    <div class="button" onclick="toBuildBot()">build a bot</div>
+                    <a class="button" href="https://jaidens-bot-docs.readthedocs.io/en/latest/controlling_get_started.html">getting started</a>
+                    <a class="button" href="https://jaidens-bot-docs.readthedocs.io/en/latest/build_your_own.html">build a bot</a>
                 </div>
-                <div class="button" onclick="toBuildlog()">see the full "bot" rover buildlog</div>
+                <a class="button" href="https://jaidens-bot-docs.readthedocs.io/en/latest/build.html">see the full "bot" rover buildlog</a>
             </div>
         </div>
     </div>
@@ -83,11 +83,11 @@
             <span class="fs-34 bold">Get started today.</span>
         </div>
         <div class="ending-button">
-            <div class="button" style="margin-top: 54px; width: 736px; height: 102px; border-radius: 40px;">
-                <span class="bold" style="color: black;" onclick="toGettingStarted()">
+            <a class="button" style="margin-top: 54px; width: 736px; height: 102px; border-radius: 40px;" href="https://jaidens-bot-docs.readthedocs.io/en/latest/controlling_get_started.html">
+                <span class="bold" style="color: black;">
                     GETTING STARTED
                 </span>
-            </div>
+            </a>
         </div>
     </div>
     <footer>
@@ -97,20 +97,6 @@
     </footer>
 
     <script>
-        function toGettingStarted() {
-            window.location.href = "https://jaidens-bot-docs.readthedocs.io/en/latest/controlling_get_started.html";
-        }
-
-        function toBuildBot() {
-            alert("coming along... later")
-            //window.location.href = "https://jaidenagrimminck.github.io/bot/building-a-bot";
-        }
-
-        function toBuildlog() {
-            alert("coming soon!")
-            //window.location.href = "https://jaidenagrimminck.github.io/bot/buildlog";
-        }
-
         let just_copied = false;
 
         function copy_command() {
@@ -136,6 +122,16 @@
                 just_copied = false;
             }, 1000);
         }
+
+
+        function scale() {
+            const scale = window.innerWidth / 1440;
+
+            document.getElementsByTagName("body")[0].style.transform = `scale(${scale}) translate(${-100 * (1 - (scale))}%, ${-100 * (1 - (scale))}%)`;
+        }
+
+        window.onresize = scale;
+        window.onload = scale;
     </script>
 </body>
 </html>
