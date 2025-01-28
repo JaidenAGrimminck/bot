@@ -19,3 +19,4 @@ Contents
    controlling_get_started
    site_get_started
    build_your_own
+   build
