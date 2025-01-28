@@ -56,7 +56,7 @@
         </div>
     </div>
     <div class="words">
-        <span>lightweight</span> <span>fast</span> <span>dynamic</span>
+        <a href="https://github.com/JaidenAGrimminck/bot/blob/main/gh-pages/media/IMG_8157%20copy-1.jpg?raw=true">image 1</a> <a href="https://github.com/JaidenAGrimminck/bot/blob/main/gh-pages/media/IMG_8383%20copy.jpg?raw=true">image 2</a> <a href="?video=true">video 1</a>
     </div>
     <div class="intro">
         <div class="intro-text-box">
@@ -131,7 +131,23 @@
         }
 
         window.onresize = scale;
-        window.onload = scale;
+        window.onload = () => {
+            scale();
+
+            //check if the url has a video query
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has("video")) {
+                const video = document.createElement("video");
+                video.src = "https://github.com/JaidenAGrimminck/bot/raw/refs/heads/main/gh-pages/media/Untitled.mp4";
+                video.controls = true;
+                video.autoplay = true;
+                video.style.width = "100%";
+                video.style.height = "100%";
+                document.body.innerHTML = "";
+                document.body.appendChild(video);
+            }
+        };
+        
     </script>
 </body>
 </html>

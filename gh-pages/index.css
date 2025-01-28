@@ -159,6 +159,10 @@ body {
     justify-content: space-around;
 }
 
+.words > a {
+    color: white;
+}
+
 .svgs {
     position: absolute;
     z-index: 1;
