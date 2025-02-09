@@ -6,21 +6,23 @@ plugins {
 group = "me.autobot"
 version = "0.1"
 
-// buildscript {
-//     repositories {
-//         jcenter()
-//         mavenCentral()
-//         maven {
-//             url = uri("https://plugins.gradle.org/m2/")
-//         }
-//     }
-//     // dependencies {
-//     //     classpath("gradle.plugin.org.ros2.tools.gradle:ament:0.7.0")
-//     // }
-// }
+//buildscript {
+//    repositories {
+//        jcenter()
+//        mavenCentral()
+//        mavenLocal()
+//        maven {
+//            url = uri("https://plugins.gradle.org/m2/")
+//        }
+//    }
+//
+//    dependencies {
+//        classpath("gradle.plugin.org.ros2.tools.gradle:ament:0.7.0")
+//    }
+//}
 
 tasks.javadoc {
-    destinationDir = file("docs/javadoc")
+    setDestinationDir(file("docs/javadoc"))
 
     source = sourceSets.main.get().allJava
 
@@ -69,6 +71,8 @@ dependencies {
 
     // json for parsing json
     implementation("com.google.code.gson:gson:2.8.9")
+    implementation(kotlin("script-runtime"))
+
 }
 
 //apply(plugin = "org.ros2.tools.gradle")
