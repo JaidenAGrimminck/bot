@@ -13,6 +13,9 @@ import me.autobot.server.WSClient;
 
 import java.nio.ByteBuffer;
 
+/**
+ * Neural network bot.
+ * */
 @PlayableRobot(name = "Neural Network Bot")
 public class NNBot extends Robot {
 
@@ -30,6 +33,9 @@ public class NNBot extends Robot {
     double rotation = 0;
 
 
+    /**
+     * Sets up the robot.
+     * */
     @Override
     protected void setup() {
         //initialize the motors and set their max speeds to 0.5
@@ -115,6 +121,9 @@ public class NNBot extends Robot {
         System.out.println("Setup complete!");
     }
 
+    /**
+     * Runs the robot.
+     * */
     @Override
     protected void loop() {
         if (speed > 0.1) {
@@ -124,6 +133,9 @@ public class NNBot extends Robot {
         }
     }
 
+    /**
+     * Stops the robot.
+     * */
     @Override
     protected void stop() {
         //set all motors to 0

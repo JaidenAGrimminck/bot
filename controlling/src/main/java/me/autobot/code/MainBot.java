@@ -25,14 +25,38 @@ public class MainBot extends Robot {
      * Config class for the robot.
      * */
     protected static class Config {
+        /**
+         * Top left motor ID
+         * */
         public static final int TOP_LEFT_MOTOR = 0x09;
+        /**
+         * Back left motor ID
+         * */
         public static final int BACK_LEFT_MOTOR = 0x0A;
+        /**
+         * Top right motor ID
+         * */
         public static final int TOP_RIGHT_MOTOR = 0x09;
+        /**
+         * Back right motor ID
+         * */
         public static final int BACK_RIGHT_MOTOR = 0x0A;
 
+        /**
+         * Top left motor direction
+         * */
         public static final int TOP_LEFT_MOTOR_DIRECTION = 0x08;
+        /**
+         * Back left motor direction
+         * */
         public static final int BACK_LEFT_MOTOR_DIRECTION = 0x0B;
+        /**
+         * Top right motor direction
+         * */
         public static final int TOP_RIGHT_MOTOR_DIRECTION = 0x08;
+        /**
+         * Back right motor direction
+         * */
         public static final int BACK_RIGHT_MOTOR_DIRECTION = 0x0B;
     }
 

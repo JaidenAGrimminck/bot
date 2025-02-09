@@ -1,25 +1,26 @@
 plugins {
     id("java")
     id("application")
+    id("org.jetbrains.kotlin.jvm") version "1.7.20" // Use the appropriate version for your project
 }
 
 group = "me.autobot"
-version = "0.1"
+version = "0.2"
 
-//buildscript {
-//    repositories {
-//        jcenter()
-//        mavenCentral()
-//        mavenLocal()
-//        maven {
-//            url = uri("https://plugins.gradle.org/m2/")
-//        }
-//    }
-//
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        mavenLocal()
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
+    }
+
 //    dependencies {
 //        classpath("gradle.plugin.org.ros2.tools.gradle:ament:0.7.0")
 //    }
-//}
+}
 
 tasks.javadoc {
     setDestinationDir(file("docs/javadoc"))

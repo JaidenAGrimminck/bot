@@ -305,6 +305,7 @@ public class Mathf {
      * @param a The first number.
      * @param b The second number.
      * @param tolerance The tolerance.
+     * @return If the two numbers are equal within the tolerance.
      */
     public static boolean close(double a, double b, double tolerance) {
         return Math.abs(a - b) < tolerance;
