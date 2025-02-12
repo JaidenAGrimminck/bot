@@ -2,6 +2,7 @@ package me.autobot.server.topica;
 
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoWSD;
+import me.autobot.lib.math.Mathf;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
  * Topica, a topic based server that
  * */
 public class Topica extends NanoWSD.WebSocket {
+
+    private static final byte GET_RESPONSE = 0x01;
 
     private static Database database;
 
@@ -414,7 +417,63 @@ public class Topica extends NanoWSD.WebSocket {
      *  */
     @Override
     protected void onMessage(NanoWSD.WebSocketFrame message) {
+        byte[] payload = message.getBinaryPayload();
 
+        int[] data = Mathf.allPos(payload);
+
+        /**
+         * Byte Layout:
+         * 0: Method
+         *
+         * SET:
+         * 1-2: path length (max 65536)
+         * 3-n: path, where every 8 bytes is a character
+         * n+1-n+8: data length (max 2^64)
+         * n+9-n+9+data length: data
+         *
+         * GET:
+         *
+         * */
+
+        //first, get the method using the first byte
+        int method = data[0];
+
+        if (method == 0x00) { // GET
+            int pathLength = data[1] << 8 | data[2];
+
+            byte[] pathBytes = new byte[pathLength];
+            for (int i = 0; i < pathLength; i++) {
+                pathBytes[i] = (byte) data[i + 3];
+            }
+
+            String path = new String(pathBytes);
+
+            Database.Topic topic = database.getTopic(path);
+
+            if (topic != null) {
+                byte[] topicData = topic.getData();
+                int dataLength = topicData.length;
+
+                byte[] response = new byte[3 + dataLength];
+                response[0] = GET_RESPONSE;
+                response[1] = (byte) (dataLength >> 8);
+                response[2] = (byte) dataLength;
+
+                System.arraycopy(topicData, 0, response, 3, dataLength);
+
+                try {
+                    send(response);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                try {
+                    send(new byte[0]);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 
     /**

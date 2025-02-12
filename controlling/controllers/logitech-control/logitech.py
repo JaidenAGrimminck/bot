@@ -1,0 +1,46 @@
+from gamepad import Gamepad
+
+pad = Gamepad()
+
+tuning = { # neutral values
+    'left_x': {
+        'min': 0,
+        'neutral': 128,
+        'max': 255
+    },
+    'left_y': {
+        'min': 0,
+        'neutral': 128,
+        'max': 255
+    },
+    'right_x': {
+        'min': 0,
+        'neutral': 128,
+        'max': 255
+    },
+    'right_y': {
+        'min': 0,
+        'neutral': 128,
+        'max': 255
+    }
+}
+
+while True:
+    pad.read_gamepad()
+
+    if pad.changed:
+        raw_left_x = pad.get_analogL_x()
+        raw_left_y = pad.get_analogL_y()
+
+        raw_right_x = pad.get_analogR_x()
+        raw_right_y = pad.get_analogR_y()
+
+        left_x = (raw_left_x - tuning['left_x']['neutral']) / (tuning['left_x']['neutral'] - tuning['left_x']['min'])
+        left_y = (raw_left_y - tuning['left_y']['neutral']) / (tuning['left_y']['neutral'] - tuning['left_y']['min'])
+
+        right_x = (raw_right_x - tuning['right_x']['neutral']) / (tuning['right_x']['neutral'] - tuning['right_x']['min'])
+        right_y = (raw_right_y - tuning['right_y']['neutral']) / (tuning['right_y']['neutral'] - tuning['right_y']['min'])
+
+        #print("left_x: {0:3} left_y: {1:3} right_x: {2:3} right_y: {3:3}".format(left_x, left_y, right_x, right_y))
+
+        
