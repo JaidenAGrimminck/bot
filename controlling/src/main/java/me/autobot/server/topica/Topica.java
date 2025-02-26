@@ -2,11 +2,12 @@ package me.autobot.server.topica;
 
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoWSD;
+import kotlin.Pair;
 import me.autobot.lib.math.Mathf;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
+import java.util.*;
 
 
 /**
@@ -14,9 +15,63 @@ import java.util.ArrayList;
  * */
 public class Topica extends NanoWSD.WebSocket {
 
-    private static final byte GET_RESPONSE = 0x01;
+    private static final int DEFAULT_PORT = 5443; // tc, in unicode.
+
+    private static final byte GET_RESPONSE = 0b0001;
+    private static final byte SET_RESPONSE = 0b0010;
+    private static final byte SUBSCRIBE_RESPONSE = 0b0011;
+
+
+    public static final byte BYTE_TYPE = 0x01;
+    public static final byte SHORT_TYPE = 0x02;
+    public static final byte INT_TYPE = 0x03;
+    public static final byte LONG_TYPE = 0x04;
+    public static final byte FLOAT_TYPE = 0x05;
+    public static final byte DOUBLE_TYPE = 0x06;
+    public static final byte STRING_TYPE = 0x07;
+    public static final byte BOOLEAN_TYPE = 0x08;
+    public static final byte CUSTOM_TYPE = 0x09;
 
     private static Database database;
+    private static Server server;
+
+    private static int port = DEFAULT_PORT;
+
+    /**
+     * Assigns the port to a custom port.
+     * @param port The port to start the server on.
+     * */
+    public static void port(int port) {
+        Topica.port = port;
+    }
+
+    /**
+     * Creates a new Topica database.
+     * */
+    public static void createDatabase() {
+        database = new Database();
+        /*
+         * Verbose: for messages in the console when a new topic is made.
+         * */
+        new Database.Topic("/topica/verbose", true);
+        /*
+         * Strict: new topics cannot be created through the web interface, and must be created through the code.
+         * */
+        new Database.Topic("/topica/strict", false);
+    }
+
+    /**
+     * Starts a new Topica server on the default port or the custom port.
+     * */
+    public static void start() {
+        server = new Server(port);
+        try {
+            server.start();
+            System.out.println("[TOPICA] Topica instance server started on port " + port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Gets the database of the Topica server.
@@ -24,10 +79,6 @@ public class Topica extends NanoWSD.WebSocket {
      * */
     public static Database getDatabase() {
         return database;
-    }
-
-    static {
-        database = new Database();
     }
 
     /**
@@ -80,7 +131,7 @@ public class Topica extends NanoWSD.WebSocket {
              * Encodes the encodeable topic.
              * @return The encoded data.
              * */
-            public static byte[] encode() {
+            public default byte[] encode() {
                 return new byte[0];
             }
         }
@@ -104,6 +155,8 @@ public class Topica extends NanoWSD.WebSocket {
             private String path;
             private byte[] data;
 
+            private byte type;
+
             private ArrayList<UpdateCallback> callbacks;
 
             /**
@@ -113,15 +166,107 @@ public class Topica extends NanoWSD.WebSocket {
              * @param data The data of the topic as a byte array.
              *             This is the value of the topic.
              * */
-            public Topic(String path, byte[] data) {
+            public Topic(String path, byte type, byte[] data) {
                 this.path = path;
                 this.data = data;
+                this.type = type;
 
                 callbacks = new ArrayList<>();
 
                 if (Topica.getDatabase() != null) {
                     Topica.getDatabase().addTopic(this);
                 }
+            }
+
+            /**
+             * Creates a new topic from a int.
+             * @param path The path of the topic.
+             * @param data The data of the topic as an int.
+             */
+            public Topic(String path, int data) {
+                this(path, INT_TYPE, new byte[0]);
+
+                ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
+                buffer.putInt(data);
+                this.data = buffer.array();
+            }
+
+            /**
+             * Creates a new topic from a long.
+             * @param path The path of the topic.
+             * @param data The data of the topic as a long.
+             */
+            public Topic(String path, long data) {
+                this(path, LONG_TYPE, new byte[0]);
+
+                ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+                buffer.putLong(data);
+                this.data = buffer.array();
+            }
+
+            /**
+             * Creates a new topic from a float.
+             * @param path The path of the topic.
+             * @param data The data of the topic as a float.
+             */
+            public Topic(String path, float data) {
+                this(path, FLOAT_TYPE, new byte[0]);
+
+                ByteBuffer buffer = ByteBuffer.allocate(Float.BYTES);
+                buffer.putFloat(data);
+                this.data = buffer.array();
+            }
+
+            /**
+             * Creates a new topic from a double.
+             * @param path The path of the topic.
+             * @param data The data of the topic as a double.
+             */
+            public Topic(String path, double data) {
+                this(path, DOUBLE_TYPE, new byte[0]);
+
+                ByteBuffer buffer = ByteBuffer.allocate(Double.BYTES);
+                buffer.putDouble(data);
+                this.data = buffer.array();
+            }
+
+            /**
+             * Creates a new topic from a string.
+             * @param path The path of the topic.
+             * @param data The data of the topic as a string.
+             */
+            public Topic(String path, String data) {
+                this(path, STRING_TYPE, new byte[0]);
+
+                this.data = data.getBytes();
+            }
+
+            /**
+             * Creates a new topic from a boolean.
+             * @param path The path of the topic.
+             * @param data The data of the topic as a boolean.
+             */
+            public Topic(String path, boolean data) {
+                this.path = path;
+                this.type = BOOLEAN_TYPE;
+                this.data = new byte[] { (byte) (data ? 1 : 0) };
+
+                callbacks = new ArrayList<>();
+
+                if (Topica.getDatabase() != null) {
+                    Topica.getDatabase().addTopic(this);
+                }
+            }
+
+            /**
+             * Creates a new topic from a custom encodeable topic.
+             * @param path The path of the topic.
+             * @param data The data of the topic as a custom encodeable topic.
+             */
+            public Topic(String path, EncodeableTopic data) {
+                this(path, CUSTOM_TYPE, new byte[0]);
+
+                this.data = data.encode();
             }
 
             /**
@@ -307,6 +452,21 @@ public class Topica extends NanoWSD.WebSocket {
                 return (T) topic;
             }
 
+            /**
+             * Gets the type of the topic.
+             * @return The type of the topic.
+             * */
+            public byte getType() {
+                return type;
+            }
+
+            /**
+             * Get the name/path of the topic.
+             * @return The name/path of the topic.
+             * */
+            public String getName() {
+                return path;
+            }
         }
 
         private ArrayList<Topic> topics;
@@ -322,8 +482,12 @@ public class Topica extends NanoWSD.WebSocket {
          * Adds a topic to the database.
          * @param topic The topic to add.
          * */
-        public void addTopic(Topic topic) {
+        protected void addTopic(Topic topic) {
             topics.add(topic);
+
+            if (hasTopic("/topica/verbose") && getTopic("/topica/verbose").getAsBoolean()) {
+                System.out.println("[TOPICA] Added new topic: " + topic.getPath());
+            }
         }
 
         /**
@@ -347,6 +511,15 @@ public class Topica extends NanoWSD.WebSocket {
             }
 
             return null;
+        }
+
+        /**
+         * Checks if the topic exists or not
+         * @param path The path of the topic.
+         * @return True if the topic exists, false otherwise.
+         * */
+        public boolean hasTopic(String path) {
+            return getTopic(path) != null;
         }
     }
 
@@ -384,6 +557,10 @@ public class Topica extends NanoWSD.WebSocket {
         }
     }
 
+
+    // variables for the Topica class
+    private ArrayList<Pair<Timer, TimerTask>> subscriptions;
+
     /**
      * Creates a new Topica WebSocket connection.
      * @param handshakeRequest The handshake request.
@@ -397,7 +574,10 @@ public class Topica extends NanoWSD.WebSocket {
      * */
     @Override
     protected void onOpen() {
+        String remoteHost = this.getHandshakeRequest().getRemoteHostName();
+        String remotePort = this.getHandshakeRequest().getRemoteIpAddress();
 
+        System.out.println("Opened new Topica connection with " + remoteHost + ":" + remotePort);
     }
 
     /**
@@ -408,7 +588,16 @@ public class Topica extends NanoWSD.WebSocket {
      * */
     @Override
     protected void onClose(NanoWSD.WebSocketFrame.CloseCode code, String reason, boolean initiatedByRemote) {
+        //close all timers
+        for (Pair<Timer, TimerTask> pair : subscriptions) {
+            pair.component1().cancel();
+            pair.component2().cancel();
+        }
 
+        String remoteHost = this.getHandshakeRequest().getRemoteHostName();
+        String remotePort = this.getHandshakeRequest().getRemoteIpAddress();
+
+        System.out.println("[TOPICA] Closed Topica connection with " + remoteHost + ":" + remotePort);
     }
 
     /**
@@ -422,58 +611,175 @@ public class Topica extends NanoWSD.WebSocket {
         int[] data = Mathf.allPos(payload);
 
         /**
-         * Byte Layout:
-         * 0: Method
-         *
-         * SET:
-         * 1-2: path length (max 65536)
-         * 3-n: path, where every 8 bytes is a character
-         * n+1-n+8: data length (max 2^64)
-         * n+9-n+9+data length: data
-         *
-         * GET:
-         *
          * */
 
         //first, get the method using the first byte
-        int method = data[0];
+        int firstByte = data[0];
+        int secondByte = data[1];
 
-        if (method == 0x00) { // GET
-            int pathLength = data[1] << 8 | data[2];
+        // get the four msb of the first byte
+        int method = firstByte >> 4;
 
-            byte[] pathBytes = new byte[pathLength];
-            for (int i = 0; i < pathLength; i++) {
-                pathBytes[i] = (byte) data[i + 3];
-            }
+        // combine the four lsb of the first byte and the second byte
+        int pathLength = (firstByte & 0b00001111) << 8 | secondByte;
 
-            String path = new String(pathBytes);
-
-            Database.Topic topic = database.getTopic(path);
-
-            if (topic != null) {
-                byte[] topicData = topic.getData();
-                int dataLength = topicData.length;
-
-                byte[] response = new byte[3 + dataLength];
-                response[0] = GET_RESPONSE;
-                response[1] = (byte) (dataLength >> 8);
-                response[2] = (byte) dataLength;
-
-                System.arraycopy(topicData, 0, response, 3, dataLength);
-
-                try {
-                    send(response);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                try {
-                    send(new byte[0]);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+        // get the path
+        byte[] pathBytes = new byte[pathLength];
+        for (int i = 0; i < pathLength; i++) {
+            pathBytes[i] = (byte) data[i + 2];
         }
+
+        // decode pathBytes to utf-8 string
+        String path = new String(pathBytes);
+
+        if (method == GET_RESPONSE) {
+            sendTopicData(path);
+        } else if (method == SET_RESPONSE) {
+            int[] restOfPayload = new int[data.length - pathLength - 2];
+            for (int i = 0; i < restOfPayload.length; i++) {
+                restOfPayload[i] = data[i + pathLength + 2];
+            }
+
+            setTopicData(path, restOfPayload);
+        } else if (method == SUBSCRIBE_RESPONSE) {
+            int[] restOfPayload = new int[data.length - pathLength - 2];
+            for (int i = 0; i < restOfPayload.length; i++) {
+                restOfPayload[i] = data[i + pathLength + 2];
+            }
+
+            subscribeToTopic(path, restOfPayload);
+        }
+    }
+
+    protected void sendTopicData(String topic) {
+        byte[] pathLength = new byte[2];
+
+        // 4 msb to signify the method
+        pathLength[0] = GET_RESPONSE << 4;
+
+        // 12 lsb to signify the length of the path
+        pathLength[0] |= (byte) ((topic.length() >> 8) & 0b00001111);
+        pathLength[1] = (byte) (topic.length() & 0xFF);
+
+        // encode the path
+        byte[] encodedPath = topic.getBytes();
+
+        if (!database.hasTopic(topic)) {
+            // send an error message
+
+            return;
+        }
+
+        // get the topic data
+        Database.Topic dbTopic = database.getTopic(topic);
+
+        // get the data
+        byte[] data = dbTopic.getData();
+
+        byte type = dbTopic.getType();
+
+        ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
+        buffer.putInt(data.length);
+
+        byte[] payloadLength = buffer.array();
+
+        // payload goes:
+        /*
+        * Path Length
+        * Path
+        * Data Type
+        * Data Length
+        * Data
+        * */
+
+        byte[] payload = new byte[2 + encodedPath.length + 1 + Integer.BYTES + data.length];
+
+        // copy the path length
+        System.arraycopy(pathLength, 0, payload, 0, 2);
+
+        // copy the path
+        System.arraycopy(encodedPath, 0, payload, 2, encodedPath.length);
+
+        // copy the data type
+        payload[2 + encodedPath.length] = type;
+
+        // copy the data length
+        System.arraycopy(payloadLength, 0, payload, 2 + encodedPath.length + 1, Integer.BYTES);
+
+        // copy the data
+        System.arraycopy(data, 0, payload, 2 + encodedPath.length + 1 + Integer.BYTES, data.length);
+
+        try {
+            send(payload);
+        } catch (IOException ignored) {}
+    }
+
+    protected void setTopicData(String topic, int[] unusedPayload) {
+        /**
+         * In the unused payload:
+         * Data Type: 1 byte
+         * Data Length: 4 bytes
+         * Data: n bytes
+         * */
+
+        byte type = (byte) unusedPayload[0];
+
+        ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
+        for (int i = 0; i < Integer.BYTES; i++) {
+            buffer.put((byte) unusedPayload[i + 1]);
+        }
+
+        int dataLength = buffer.getInt();
+
+        byte[] data = new byte[dataLength];
+        for (int i = 0; i < dataLength; i++) {
+            data[i] = (byte) unusedPayload[i + Integer.BYTES + 1];
+        }
+
+        if (!database.hasTopic(topic)) {
+            if (database.hasTopic("/topica/strict") && database.getTopic("/topica/strict").getAsBoolean()) {
+                // send an error message
+                return;
+            }
+
+            new Database.Topic(topic, type, data);
+        } else {
+            Database.Topic dbTopic = database.getTopic(topic);
+            dbTopic.update(data);
+        }
+
+    }
+
+    protected void subscribeToTopic(String topic, int[] unusedPayload) {
+        // the 4 bytes are the interval, in ms
+        ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
+        for (int i = 0; i < Integer.BYTES; i++) {
+            buffer.put((byte) unusedPayload[i]);
+        }
+
+        int interval = buffer.getInt();
+
+        if (interval < 10) {
+            // send an error message
+            return;
+        }
+
+        if (!database.hasTopic(topic)) {
+            return;
+        }
+
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                sendTopicData(topic);
+            }
+        };
+
+        timer.scheduleAtFixedRate(task, interval, interval);
+
+        subscriptions.add(new Pair<>(timer, task));
     }
 
     /**
@@ -491,6 +797,5 @@ public class Topica extends NanoWSD.WebSocket {
      * */
     @Override
     protected void onException(IOException exception) {
-
     }
 }

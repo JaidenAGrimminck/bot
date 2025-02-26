@@ -12,6 +12,7 @@ import me.autobot.lib.odometry.SimpleOdometry2d;
 import me.autobot.lib.telemetry.SysoutMiddleman;
 import me.autobot.server.Server;
 import me.autobot.server.WSClient;
+import me.autobot.server.topica.Topica;
 import me.autobot.sim.Simulation;
 import org.reflections.Reflections;
 
@@ -45,6 +46,7 @@ public class Robot implements Logger {
      * Starts all the robots (adds them to the editable list available for selection).
      * */
     public static void start() {
+        Topica.createDatabase();
         SysoutMiddleman.start();
 
         // use dex loader to get all robots with @PlayableRobot annotations
@@ -61,6 +63,7 @@ public class Robot implements Logger {
         editable = true;
 
         Server.start();
+        Topica.start();
     }
 
     /**
@@ -68,6 +71,7 @@ public class Robot implements Logger {
      * @param robot The robot to start.
      * */
     public static void start(Robot robot) {
+        Topica.createDatabase();
         SysoutMiddleman.start();
 
         if (currentRobot != null) {
@@ -82,6 +86,7 @@ public class Robot implements Logger {
         currentRobot = robot;
 
         Server.start();
+        Topica.start();
     }
 
     /**

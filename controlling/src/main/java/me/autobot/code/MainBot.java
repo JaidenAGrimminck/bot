@@ -1,20 +1,12 @@
 package me.autobot.code;
 
-import me.autobot.lib.controls.Joycon;
-import me.autobot.lib.math.coordinates.Polar;
+import me.autobot.lib.controls.NintendoJoycon;
 import me.autobot.lib.math.coordinates.Vector2d;
-import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.os.OSDetector;
 import me.autobot.lib.robot.PlayableRobot;
 import me.autobot.lib.robot.Robot;
-import me.autobot.lib.robot.drivebase.ArcadeDrive;
 import me.autobot.lib.robot.drivebase.TankDrive;
 import me.autobot.lib.robot.motors.HoverboardWheel;
-import me.autobot.lib.tools.RunnableWithArgs;
-import me.autobot.server.WSClient;
-import me.autobot.server.WSServer;
-
-import java.nio.ByteBuffer;
 
 /**
  * Main robot class for the robot.
@@ -77,7 +69,7 @@ public class MainBot extends Robot {
 
     private boolean joystickUpdated = false;
 
-    private Joycon joycon;
+    private NintendoJoycon nintendoJoycon;
 
     /**
      * Creates a new MainBot.
@@ -143,7 +135,7 @@ public class MainBot extends Robot {
 
         System.out.println("Connected to serial ports!");
 
-        joycon = Joycon.getJoycon((byte) 0xB5);
+        nintendoJoycon = NintendoJoycon.getJoycon((byte) 0xB5);
 
         arcadeDrive = new TankDrive(topLeft, topRight, bottomLeft, bottomRight);
 
@@ -162,7 +154,7 @@ public class MainBot extends Robot {
 //        if (manualControl) {
         double multiplier = 100d / 255;
 
-        if (joycon.a) {
+        if (nintendoJoycon.a) {
             topLeft.setSpeed(0);
             bottomLeft.setSpeed(0);
             topRight.setSpeed(0);
@@ -170,9 +162,9 @@ public class MainBot extends Robot {
             return;
         }
 
-        if (Math.abs(joycon.leftStickY) > 0.05 || Math.abs(joycon.rightStickY) > 0.05) {
+        if (Math.abs(nintendoJoycon.leftStickY) > 0.05 || Math.abs(nintendoJoycon.rightStickY) > 0.05) {
             //arcadeDrive.drive(joystick.getY(), joystick.getX(), multiplier);
-            arcadeDrive.drive(joycon.leftStickY * multiplier * 0.2, joycon.rightStickY * multiplier * 0.2);
+            arcadeDrive.drive(nintendoJoycon.leftStickY * multiplier * 0.2, nintendoJoycon.rightStickY * multiplier * 0.2);
 
             //System.out.println("Driving at speeds=" + joystick.getX() * multiplier + ", " + joystick.getY() * multiplier);
         } else {

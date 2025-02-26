@@ -1,12 +1,10 @@
 package me.autobot.code;
 
 import me.autobot.code.mechanisms.LIDAR;
-import me.autobot.lib.controls.Joycon;
 import me.autobot.lib.os.OSDetector;
 import me.autobot.lib.robot.PlayableRobot;
 import me.autobot.lib.robot.Robot;
 import me.autobot.lib.robot.drivebase.ArcadeDrive;
-import me.autobot.lib.robot.drivebase.TankDrive;
 import me.autobot.lib.robot.motors.HoverboardWheel;
 import me.autobot.lib.tools.RunnableWithArgs;
 import me.autobot.server.WSClient;

@@ -1,14 +1,8 @@
 package me.autobot.code;
 
-import me.autobot.lib.controls.Joycon;
+import me.autobot.lib.controls.NintendoJoycon;
 import me.autobot.lib.robot.PlayableRobot;
 import me.autobot.lib.robot.Robot;
-import me.autobot.lib.hardware.serial.SerialConnection;
-import me.autobot.server.WSServer;
-
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.TimerTask;
 
 /**
  * Bot for testing.
@@ -16,11 +10,11 @@ import java.util.TimerTask;
 @PlayableRobot(name = "Test Bot")
 public class TestBot extends Robot {
 
-    private Joycon joycon;
+    private NintendoJoycon nintendoJoycon;
 
     @Override
     protected void setup() {
-        joycon = new Joycon((byte) 0xB5);
+        nintendoJoycon = new NintendoJoycon((byte) 0xB5);
     }
 
     @Override

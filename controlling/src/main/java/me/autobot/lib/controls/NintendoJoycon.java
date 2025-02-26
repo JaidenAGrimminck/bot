@@ -10,18 +10,18 @@ import java.util.HashMap;
 /**
  * Nintendo Switch Joycon controller, both left and right combined into one class.
  * */
-public class Joycon {
+public class NintendoJoycon implements Gamepad {
 
-    private static HashMap<Byte, Joycon> joycons = new HashMap<>();
+    private static HashMap<Byte, NintendoJoycon> joycons = new HashMap<>();
 
     /**
      * Gets the joycon with the given event byte. If it does not exist, it will create a new joycon.
      * @param eventByte The event byte to get the joycon for.
      * @return The joycon with the given event byte.
      * */
-    public static Joycon getJoycon(byte eventByte) {
+    public static NintendoJoycon getJoycon(byte eventByte) {
         if (!joycons.containsKey(eventByte)) {
-            new Joycon(eventByte);
+            new NintendoJoycon(eventByte);
         }
 
         return joycons.get(eventByte);
@@ -166,7 +166,7 @@ public class Joycon {
      * Creates a new SwitchJoycons object.
      * @param eventByte The event byte to listen for (in the event addresses).
      * */
-    public Joycon(byte eventByte) {
+    public NintendoJoycon(byte eventByte) {
         //Register callable that listens for the event byte for the joycon.
         WSClient.registerCallable(eventByte, new RunnableWithArgs() {
             @Override
@@ -278,6 +278,24 @@ public class Joycon {
 
         joycons.put(eventByte, this);
     }
-    
-    
+
+    @Override
+    public double getLeftX() {
+        return leftStickX;
+    }
+
+    @Override
+    public double getLeftY() {
+        return leftStickY;
+    }
+
+    @Override
+    public double getRightX() {
+        return rightStickX;
+    }
+
+    @Override
+    public double getRightY() {
+        return rightStickY;
+    }
 }
