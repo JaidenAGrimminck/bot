@@ -49,6 +49,10 @@ public class Topica extends NanoWSD.WebSocket {
      * Creates a new Topica database.
      * */
     public static void createDatabase() {
+        if (database != null) {
+            return;
+        }
+
         database = new Database();
         /*
          * Verbose: for messages in the console when a new topic is made.
@@ -78,6 +82,10 @@ public class Topica extends NanoWSD.WebSocket {
      * @return The database of the Topica server.
      * */
     public static Database getDatabase() {
+        if (database == null) {
+            createDatabase();
+        }
+
         return database;
     }
 
