@@ -8,6 +8,7 @@ const frontendRouter = require('./routes/frontend/CustomElementManager.js');
 const { handleROSRequest } = require("./routes/data/ROS.js");
 const Log = require('./log.js');
 const { RobotConnection } = require('./robot-connection.js');
+const { TopicaServer } = require("./topica.js");
 
 const port = process.env.PORT || 8123;
 
@@ -18,6 +19,7 @@ const io = new Server(server);
 //"192.168.6.233" - controller
 // 192.168.6.232 - one w/ lidar
 const robot = new RobotConnection("192.168.6.233", 8080, false);
+const topica = new TopicaServer("192.168.6.233", 5443);
 
 const log = new Log();
 
@@ -33,6 +35,15 @@ app.get('/require.js', (req, res) => {
 })
 
 io.on('connection', (socket) => {
+
+    socket.on("topica-get", (data={
+
+    }) => {
+
+    })
+
+    // --below is deprecated, but need to remove it later--
+
     let lastUpdate = Date.now();
 
     const robotStatusListener = (data) => {

@@ -1,5 +1,6 @@
 from topica import TopicaServer
 from gamepad import Gamepad
+import numpy as np
 import time
 
 #pad = Gamepad()
@@ -31,8 +32,8 @@ tuning = { # neutral values
 while True:
     #pad.read_gamepad()
 
-    #if pad.changed:
-    if True:
+    #if pad.changed:c
+    if server.open:
         # raw_left_x = pad.get_analogL_x()
         # raw_left_y = pad.get_analogL_y()
 
@@ -56,6 +57,6 @@ while True:
         server.set("/gamepad1/leftY", left_y)
         server.set("/gamepad1/rightX", right_x)
         server.set("/gamepad1/rightY", right_y)
-        server.set("/gamepad1/timestamp", time.time() * 1000)
+        server.set("/gamepad1/timestamp", np.int64(round(time.time() * 1000)))
 
-        
+        time.sleep(0.2)

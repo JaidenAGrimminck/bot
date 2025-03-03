@@ -1,5 +1,7 @@
-package me.autobot.code;
+package me.autobot.code.me;
 
+import me.autobot.lib.controls.Gamepad;
+import me.autobot.lib.controls.LogitechF310;
 import me.autobot.lib.controls.NintendoJoycon;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.os.OSDetector;
@@ -69,7 +71,7 @@ public class MainBot extends Robot {
 
     private boolean joystickUpdated = false;
 
-    private NintendoJoycon nintendoJoycon;
+    private Gamepad gamepad;
 
     /**
      * Creates a new MainBot.
@@ -135,7 +137,7 @@ public class MainBot extends Robot {
 
         System.out.println("Connected to serial ports!");
 
-        nintendoJoycon = NintendoJoycon.getJoycon((byte) 0xB5);
+        gamepad = new LogitechF310("/gamepad1");
 
         arcadeDrive = new TankDrive(topLeft, topRight, bottomLeft, bottomRight);
 
@@ -154,17 +156,17 @@ public class MainBot extends Robot {
 //        if (manualControl) {
         double multiplier = 100d / 255;
 
-        if (nintendoJoycon.a) {
-            topLeft.setSpeed(0);
-            bottomLeft.setSpeed(0);
-            topRight.setSpeed(0);
-            bottomRight.setSpeed(0);
-            return;
-        }
+//        if (nintendoJoycon.a) {
+//            topLeft.setSpeed(0);
+//            bottomLeft.setSpeed(0);
+//            topRight.setSpeed(0);
+//            bottomRight.setSpeed(0);
+//            return;
+//        }
 
-        if (Math.abs(nintendoJoycon.leftStickY) > 0.05 || Math.abs(nintendoJoycon.rightStickY) > 0.05) {
+        if (Math.abs(gamepad.getLeftY()) > 0.05 || Math.abs(gamepad.getRightY()) > 0.05) {
             //arcadeDrive.drive(joystick.getY(), joystick.getX(), multiplier);
-            arcadeDrive.drive(nintendoJoycon.leftStickY * multiplier * 0.2, nintendoJoycon.rightStickY * multiplier * 0.2);
+            arcadeDrive.drive(gamepad.getLeftY() * multiplier * 0.2, gamepad.getRightY() * multiplier * 0.2);
 
             //System.out.println("Driving at speeds=" + joystick.getX() * multiplier + ", " + joystick.getY() * multiplier);
         } else {

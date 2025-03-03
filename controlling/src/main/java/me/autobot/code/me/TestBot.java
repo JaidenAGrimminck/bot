@@ -1,4 +1,4 @@
-package me.autobot.code;
+package me.autobot.code.me;
 
 import me.autobot.lib.controls.NintendoJoycon;
 import me.autobot.lib.robot.PlayableRobot;

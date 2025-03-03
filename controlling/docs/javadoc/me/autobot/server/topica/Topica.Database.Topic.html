@@ -111,10 +111,51 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,byte%5B%5D)" class="member-name-link">Topic</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(byte,byte%5B%5D)" class="member-name-link">Topic</a><wbr>(byte&nbsp;type,
+ byte[]&nbsp;data)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Creates a dummy topic that cannot be added</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,boolean)" class="member-name-link">Topic</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ boolean&nbsp;data)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a new topic from a boolean.</div>
+</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,byte,byte%5B%5D)" class="member-name-link">Topic</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ byte&nbsp;type,
  byte[]&nbsp;data)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates a new topic.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,double)" class="member-name-link">Topic</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ double&nbsp;data)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a new topic from a double.</div>
+</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,float)" class="member-name-link">Topic</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ float&nbsp;data)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new topic from a float.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,int)" class="member-name-link">Topic</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ int&nbsp;data)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a new topic from a int.</div>
+</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,long)" class="member-name-link">Topic</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ long&nbsp;data)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new topic from a long.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,java.lang.String)" class="member-name-link">Topic</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;data)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a new topic from a string.</div>
+</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,me.autobot.server.topica.Topica.Database.EncodeableTopic)" class="member-name-link">Topic</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ <a href="Topica.Database.EncodeableTopic.html" title="interface in me.autobot.server.topica">Topica.Database.EncodeableTopic</a>&nbsp;data)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new topic from a custom encodeable topic.</div>
 </div>
 </div>
 </section>
@@ -176,9 +217,19 @@ loadScripts(document, 'script');</script>
 <div class="block">Gets the data of the topic as a custom encodeable topic.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPath()" class="member-name-link">getPath</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getName()" class="member-name-link">getName</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get the name/path of the topic.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPath()" class="member-name-link">getPath</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the path of the topic.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>byte</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getType()" class="member-name-link">getType</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the type of the topic.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeCallback(me.autobot.server.topica.Topica.Database.Topic.UpdateCallback)" class="member-name-link">removeCallback</a><wbr>(<a href="Topica.Database.Topic.UpdateCallback.html" title="interface in me.autobot.server.topica">Topica.Database.Topic.UpdateCallback</a>&nbsp;callback)</code></div>
@@ -243,9 +294,10 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.String,byte[])">
+<section class="detail" id="&lt;init&gt;(java.lang.String,byte,byte[])">
 <h3>Topic</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Topic</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ byte&nbsp;type,
  byte[]&nbsp;data)</span></div>
 <div class="block">Creates a new topic.</div>
 <dl class="notes">
@@ -254,6 +306,105 @@ loadScripts(document, 'script');</script>
              This is the unique identifier of the topic.</dd>
 <dd><code>data</code> - The data of the topic as a byte array.
              This is the value of the topic.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(byte,byte[])">
+<h3>Topic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Topic</span><wbr><span class="parameters">(byte&nbsp;type,
+ byte[]&nbsp;data)</span></div>
+<div class="block">Creates a dummy topic that cannot be added</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,int)">
+<h3>Topic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Topic</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ int&nbsp;data)</span></div>
+<div class="block">Creates a new topic from a int.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>path</code> - The path of the topic.</dd>
+<dd><code>data</code> - The data of the topic as an int.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,long)">
+<h3>Topic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Topic</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ long&nbsp;data)</span></div>
+<div class="block">Creates a new topic from a long.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>path</code> - The path of the topic.</dd>
+<dd><code>data</code> - The data of the topic as a long.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,float)">
+<h3>Topic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Topic</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ float&nbsp;data)</span></div>
+<div class="block">Creates a new topic from a float.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>path</code> - The path of the topic.</dd>
+<dd><code>data</code> - The data of the topic as a float.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,double)">
+<h3>Topic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Topic</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ double&nbsp;data)</span></div>
+<div class="block">Creates a new topic from a double.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>path</code> - The path of the topic.</dd>
+<dd><code>data</code> - The data of the topic as a double.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,java.lang.String)">
+<h3>Topic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Topic</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;data)</span></div>
+<div class="block">Creates a new topic from a string.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>path</code> - The path of the topic.</dd>
+<dd><code>data</code> - The data of the topic as a string.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,boolean)">
+<h3>Topic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Topic</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ boolean&nbsp;data)</span></div>
+<div class="block">Creates a new topic from a boolean.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>path</code> - The path of the topic.</dd>
+<dd><code>data</code> - The data of the topic as a boolean.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,me.autobot.server.topica.Topica.Database.EncodeableTopic)">
+<h3>Topic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Topic</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path,
+ <a href="Topica.Database.EncodeableTopic.html" title="interface in me.autobot.server.topica">Topica.Database.EncodeableTopic</a>&nbsp;data)</span></div>
+<div class="block">Creates a new topic from a custom encodeable topic.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>path</code> - The path of the topic.</dd>
+<dd><code>data</code> - The data of the topic as a custom encodeable topic.</dd>
 </dl>
 </section>
 </li>
@@ -471,6 +622,28 @@ loadScripts(document, 'script');</script>
            Must implement <a href="Topica.Database.EncodeableTopic.html" title="interface in me.autobot.server.topica"><code>Topica.Database.EncodeableTopic</code></a>.</dd>
 <dt>Returns:</dt>
 <dd>The data of the topic as a custom encodeable topic.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getType()">
+<h3>getType</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte</span>&nbsp;<span class="element-name">getType</span>()</div>
+<div class="block">Gets the type of the topic.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The type of the topic.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getName()">
+<h3>getName</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getName</span>()</div>
+<div class="block">Get the name/path of the topic.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The name/path of the topic.</dd>
 </dl>
 </section>
 </li>

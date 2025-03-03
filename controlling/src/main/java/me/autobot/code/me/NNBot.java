@@ -1,4 +1,4 @@
-package me.autobot.code;
+package me.autobot.code.me;
 
 import me.autobot.code.mechanisms.LIDAR;
 import me.autobot.lib.os.OSDetector;

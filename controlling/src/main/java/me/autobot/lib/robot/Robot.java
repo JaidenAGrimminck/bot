@@ -62,6 +62,8 @@ public class Robot implements Logger {
 
         editable = true;
 
+        new Topica.Database.Topic("/robot/selected", "");
+
         Server.start();
         Topica.start();
     }
@@ -85,6 +87,8 @@ public class Robot implements Logger {
 
         currentRobot = robot;
 
+        new Topica.Database.Topic("/robot/selected", robot.getClass().getSimpleName());
+
         Server.start();
         Topica.start();
     }
@@ -103,6 +107,10 @@ public class Robot implements Logger {
             Robot robot = robotClasses.get(index).getDeclaredConstructor().newInstance();
             currentRobot = robot;
             System.out.println("[INFO] Started robot " + robot.getClass().getSimpleName() + ".");
+
+            if (Topica.getDatabase().hasTopic("/robot/selected")) {
+                Topica.getDatabase().getTopic("/robot/selected").update(robot.getClass().getSimpleName());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -116,6 +124,10 @@ public class Robot implements Logger {
             currentRobot.stopLoop();
             System.out.println("[INFO] Stopped current robot.");
             currentRobot = null;
+
+            if (Topica.getDatabase().hasTopic("/robot/selected")) {
+                Topica.getDatabase().getTopic("/robot/selected").update("");
+            }
         }
     }
 
@@ -218,6 +230,55 @@ public class Robot implements Logger {
                 wsTimer.cancel();
             }
         }
+    }
+
+    private static Timer statusTimer;
+
+    /**
+     * Publishes the status of the robot to Topica
+     * */
+    public static void publishStatus() {
+        new Topica.Database.Topic("/robot/status", Topica.BYTE_TYPE, new byte[11]);
+
+        TimerTask status = new TimerTask() {
+            @Override
+            public void run() {
+                byte[] data = new byte[11];
+
+                data[0] = 0x6C;
+                if (currentRobot == null) {
+                    data[1] = (byte) 0xFF;
+                } else {
+                    data[1] = (byte) robotClasses.indexOf(currentRobot.getClass());
+                }
+
+                ByteBuffer buffer = ByteBuffer.allocate(8);
+                if (currentRobot != null) buffer.putLong(currentRobot.clock().getTimeElapsed());
+                else buffer.putLong(0);
+
+                for (int i = 0; i < 8; i++) {
+                    data[i + 2] = buffer.get(i);
+                }
+
+                byte status = 0;
+                if (editable) {
+                    status |= (byte) 0b10000000;
+                }
+
+                if (currentRobot != null) {
+                    if (currentRobot.paused) {
+                        status |= 0b01000000;
+                    }
+                }
+
+                data[10] = status;
+
+                Topica.getDatabase().getTopic("/robot/status").update(data);
+            }
+        };
+
+        statusTimer = new Timer();
+        statusTimer.schedule(status, 0, 100);
     }
 
     private final static ArrayList<WSClient> telemetryClients = new ArrayList<>();
@@ -502,6 +563,7 @@ public class Robot implements Logger {
      *          Negative values move the robot down.
      * @see #rotate(double)
      * **/
+    @Deprecated
     public void move(double a, double b) {
         if (hasCrashed) return;
         odometry.move(new Vector2d(a, b));
@@ -520,6 +582,7 @@ public class Robot implements Logger {
      *              @see Rotation2d#getTheta()
      * @see #move(double, double)
      * **/
+    @Deprecated
     public void rotate(double theta) {
         if (hasCrashed) return;
         odometry.rotate(Rotation2d.fromRadians(theta));
@@ -537,6 +600,7 @@ public class Robot implements Logger {
      * }
      * </code>
      * */
+    @Deprecated
     protected void onMove() {
 
     }
@@ -594,6 +658,7 @@ public class Robot implements Logger {
      * If the odometry is not set, it'll return a zero vector.
      * @return The position of the robot.
      * **/
+    @Deprecated
     public Vector2d getPosition() {
         if (odometry == null) return Vector2d.zero();
         return odometry.getPosition();
@@ -604,6 +669,7 @@ public class Robot implements Logger {
      * If the odometry is not set, it'll return a zero rotation.
      * @return The rotation of the robot.
      * **/
+    @Deprecated
     public Rotation2d getRotation() {
         if (odometry == null) return Rotation2d.zero();
         return odometry.getRotation();
@@ -698,6 +764,7 @@ public class Robot implements Logger {
     /**
      * Registers all the devices of the robot.
      * This should be called after assigning all the devices to the robot, but BEFORE connecting them to I2C.
+     * TODO: Deprecate this method and replace it with a default behavior.
      * */
     protected void registerAllDevices() {
         getDevices().forEach(device -> {
@@ -713,6 +780,7 @@ public class Robot implements Logger {
      * Gets the size of the robot.
      * @return The size of the robot.
      * */
+    @Deprecated
     public Vector2d getRobotSize() {
         return robotSize;
     }
@@ -721,6 +789,7 @@ public class Robot implements Logger {
      * Checks if the robot is in collision with any obstacles.
      * @return True if the robot is in collision with any obstacles, false otherwise.
      * */
+    @Deprecated
     public boolean inCollision() {
         if (totalSimulation) {
             // get obstacles
@@ -772,6 +841,7 @@ public class Robot implements Logger {
      * Gets the odometry of the robot.
      * @return The odometry of the robot.
      */
+    @Deprecated
     public SimpleOdometry2d getOdometry() {
         return odometry;
     }
@@ -780,6 +850,7 @@ public class Robot implements Logger {
      * Sets the odometry of the robot.
      * @param odometry The odometry of the robot.
      */
+    @Deprecated
     protected void setOdometry(SimpleOdometry2d odometry) {
         this.odometry = odometry;
     }
@@ -806,6 +877,7 @@ public class Robot implements Logger {
      * Resets the robot.
      * This method resets the robot's position and rotation to the starting position and rotation.
      * */
+    @Deprecated
     public void reset() {
         hasCrashed = false;
         odometry.reset();

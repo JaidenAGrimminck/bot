@@ -1,4 +1,4 @@
-package me.autobot.code;
+package me.autobot.code.me;
 
 import me.autobot.lib.math.Unit;
 import me.autobot.lib.math.coordinates.Vector2d;

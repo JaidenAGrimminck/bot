@@ -134,19 +134,34 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addTopic(me.autobot.server.topica.Topica.Database.Topic)" class="member-name-link">addTopic</a><wbr>(<a href="Topica.Database.Topic.html" title="class in me.autobot.server.topica">Topica.Database.Topic</a>&nbsp;topic)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds a topic to the database.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDefaultTopics()" class="member-name-link">getDefaultTopics</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get all default topics</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRealTopics()" class="member-name-link">getRealTopics</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get all (real) topics.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Topica.Database.Topic.html" title="class in me.autobot.server.topica">Topica.Database.Topic</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTopic(java.lang.String)" class="member-name-link">getTopic</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets a topic from the database by the path.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeTopic(me.autobot.server.topica.Topica.Database.Topic)" class="member-name-link">removeTopic</a><wbr>(<a href="Topica.Database.Topic.html" title="class in me.autobot.server.topica">Topica.Database.Topic</a>&nbsp;topic)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasTopic(java.lang.String)" class="member-name-link">hasTopic</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks if the topic exists or not</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeTopic(me.autobot.server.topica.Topica.Database.Topic)" class="member-name-link">removeTopic</a><wbr>(<a href="Topica.Database.Topic.html" title="class in me.autobot.server.topica">Topica.Database.Topic</a>&nbsp;topic)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Removes a topic from the database.</div>
 </div>
 </div>
@@ -182,9 +197,31 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="getRealTopics()">
+<h3>getRealTopics</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</span>&nbsp;<span class="element-name">getRealTopics</span>()</div>
+<div class="block">Get all (real) topics.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>All real topics, that is, excluding any client-specific topics.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getDefaultTopics()">
+<h3>getDefaultTopics</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</span>&nbsp;<span class="element-name">getDefaultTopics</span>()</div>
+<div class="block">Get all default topics</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>All default topics, that is, only client-specific topics.</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="addTopic(me.autobot.server.topica.Topica.Database.Topic)">
 <h3>addTopic</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addTopic</span><wbr><span class="parameters">(<a href="Topica.Database.Topic.html" title="class in me.autobot.server.topica">Topica.Database.Topic</a>&nbsp;topic)</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addTopic</span><wbr><span class="parameters">(<a href="Topica.Database.Topic.html" title="class in me.autobot.server.topica">Topica.Database.Topic</a>&nbsp;topic)</span></div>
 <div class="block">Adds a topic to the database.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -213,6 +250,19 @@ loadScripts(document, 'script');</script>
 <dd><code>path</code> - The path of the topic.</dd>
 <dt>Returns:</dt>
 <dd>The topic with the given path.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="hasTopic(java.lang.String)">
+<h3>hasTopic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasTopic</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;path)</span></div>
+<div class="block">Checks if the topic exists or not</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>path</code> - The path of the topic.</dd>
+<dt>Returns:</dt>
+<dd>True if the topic exists, false otherwise.</dd>
 </dl>
 </section>
 </li>

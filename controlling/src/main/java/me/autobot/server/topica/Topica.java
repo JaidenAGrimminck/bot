@@ -21,15 +21,46 @@ public class Topica extends NanoWSD.WebSocket {
     private static final byte SET_RESPONSE = 0b0010;
     private static final byte SUBSCRIBE_RESPONSE = 0b0011;
 
+    private static final byte RESPONSE_FLAG = 0b1000;
 
+    private static final long PING_TIME = 500; //ms
+
+    /**
+     * Type code denoting a byte list.
+     * */
     public static final byte BYTE_TYPE = 0x01;
+    /**
+     * Type code denoting a short.
+     * */
     public static final byte SHORT_TYPE = 0x02;
+    /**
+     * Type code denoting an integer.
+     * */
     public static final byte INT_TYPE = 0x03;
+    /**
+     * Type code denoting a long.
+     * */
     public static final byte LONG_TYPE = 0x04;
+    /**
+     * Type code denoting a float.
+     * */
     public static final byte FLOAT_TYPE = 0x05;
+    /**
+     * Type code denoting a double.
+     * */
     public static final byte DOUBLE_TYPE = 0x06;
+    /**
+     * Type code denoting a string.
+     * */
     public static final byte STRING_TYPE = 0x07;
+    /**
+     * Type code denoting a boolean.
+     * */
     public static final byte BOOLEAN_TYPE = 0x08;
+    /**
+     * A custom type that has a custom encoding.
+     * TODO: fix.
+     * */
     public static final byte CUSTOM_TYPE = 0x09;
 
     private static Database database;
@@ -43,6 +74,14 @@ public class Topica extends NanoWSD.WebSocket {
      * */
     public static void port(int port) {
         Topica.port = port;
+    }
+
+    /**
+     * Returns true or false depending on if the verbose setting is on.
+     * @return If the Topica server is verbose, using /topica/verbose.
+     * */
+    protected static boolean isVerbose() {
+        return database.hasTopic("/topica/verbose") && database.getTopic("/topica/verbose").getAsBoolean();
     }
 
     /**
@@ -184,6 +223,19 @@ public class Topica extends NanoWSD.WebSocket {
                 if (Topica.getDatabase() != null) {
                     Topica.getDatabase().addTopic(this);
                 }
+            }
+
+            /**
+             * Creates a dummy topic that is not added to the Database instance.
+             * @param type The type of the data
+             * @param data The raw byte data, can also pass `new byte[0]` and use `this#update()`.
+             */
+            public Topic(byte type, byte[] data) {
+                this.path = "/tmp/" + UUID.randomUUID();
+                this.data = data;
+                this.type = type;
+
+                callbacks = new ArrayList<>();
             }
 
             /**
@@ -487,10 +539,42 @@ public class Topica extends NanoWSD.WebSocket {
         }
 
         /**
+         * Get all (real) topics.
+         * @return All real topics, that is, excluding any client-specific topics.
+         * */
+        public String[] getRealTopics() {
+            String[] topicNames = new String[topics.size()];
+
+            for (int i = 0; i < topics.size(); i++) {
+                topicNames[i] = topics.get(i).path;
+            }
+
+            return topicNames;
+        }
+
+
+        /**
+         * Get all default topics
+         * @return All default topics, that is, only client-specific topics.
+         * */
+        public String[] getDefaultTopics() {
+            String[] defaultNames = new String[2];
+
+            defaultNames[0] = "/me/nickname";
+            defaultNames[1] = "/me/id";
+
+            return defaultNames;
+        }
+
+        /**
          * Adds a topic to the database.
          * @param topic The topic to add.
          * */
         protected void addTopic(Topic topic) {
+            if (topic.path.startsWith("/tmp")) {
+                return;
+            }
+
             topics.add(topic);
 
             if (hasTopic("/topica/verbose") && getTopic("/topica/verbose").getAsBoolean()) {
@@ -531,6 +615,97 @@ public class Topica extends NanoWSD.WebSocket {
         }
     }
 
+    private static ArrayList<String> usedNicknames = new ArrayList<>();
+
+
+    /**
+     * Generates a nickname
+     * @return the new nickname
+     * */
+    protected static String generateNickname() {
+        String[] first = new String[] {
+                "Raring",
+                "Gearing",
+                "Flying",
+                "Running",
+                "Jumping",
+                "Sleeping",
+                "Racking",
+                "Opening",
+                "Closing",
+                "Running",
+                "Sitting",
+                "Standing",
+                "Moving",
+                "Fleeing",
+                "Chilling",
+                "Heating",
+                "Cooking",
+                "Pinching",
+                "Squeezing",
+                "Stretching",
+                "Patting",
+                "Fluttering",
+        };
+
+        String[] second = new String[] {
+                "Axolotl",
+                "Racoon",
+                "Dog",
+                "Cat",
+                "Lion",
+                "Leopard",
+                "Shark",
+                "Fish",
+                "Catfish",
+                "Dolphin",
+                "Whale",
+                "Platypus",
+                "Turtle",
+                "Tortoise",
+                "Pigeon",
+                "Albatross",
+                "Seagull"
+        };
+
+        String[] third = new String[] {
+                "Pear",
+                "String",
+                "Apple",
+                "Cheese",
+                "Pasta",
+                "Steak",
+                "Orange",
+                "Lemon",
+                "Clementine",
+                "Broccoli",
+                "Aubergine",
+                "Eggplant",
+                "Bread",
+                "Melon",
+                "Mango",
+                "Dragonfruit",
+                "Lychee",
+                "Durian"
+        };
+
+        String nick;
+        int i = 0;
+
+        do {
+            nick = first[(int) Math.floor(Math.random() * first.length)];
+            nick += second[(int) Math.floor(Math.random() * second.length)];
+            nick += third[(int) Math.floor(Math.random() * third.length)];
+
+            i++;
+        } while (usedNicknames.contains(nick) && i < 4000);
+
+        if (i == 4000) {
+            return "NotCreativeEnough" + Math.floor(Math.random() * (usedNicknames.size() * 2 + 1));
+        }
+
+        return nick;
+    }
 
     /**
      * The server for the Topica protocol.
@@ -569,12 +744,25 @@ public class Topica extends NanoWSD.WebSocket {
     // variables for the Topica class
     private ArrayList<Pair<Timer, TimerTask>> subscriptions;
 
+    // code name to make it easier to understand which is what.
+    private String nickname;
+
+    private final UUID connectionID;
+
+    private TimerTask pingTask;
+    private Timer pingTimer;
+
     /**
      * Creates a new Topica WebSocket connection.
      * @param handshakeRequest The handshake request.
      * */
     public Topica(NanoHTTPD.IHTTPSession handshakeRequest) {
         super(handshakeRequest);
+
+        subscriptions = new ArrayList<>();
+
+        connectionID = UUID.randomUUID();
+        nickname = generateNickname();
     }
 
     /**
@@ -585,7 +773,27 @@ public class Topica extends NanoWSD.WebSocket {
         String remoteHost = this.getHandshakeRequest().getRemoteHostName();
         String remotePort = this.getHandshakeRequest().getRemoteIpAddress();
 
-        System.out.println("Opened new Topica connection with " + remoteHost + ":" + remotePort);
+        if (isVerbose()) {
+            System.out.println("[TOPICA] Opened new Topica connection @ " + remoteHost + ":" + remotePort + " with " + this.nickname + " (" + this.connectionID.toString() + ").");
+        }
+
+        pingTask = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    ping(new byte[] {
+                            0x00
+                    });
+                } catch (IOException e) {
+                    if (isVerbose()) {
+                        System.out.println("[TOPICA] Unable to ping!");
+                    }
+                }
+            }
+        };
+
+        pingTimer = new Timer();
+        pingTimer.schedule(pingTask, PING_TIME, PING_TIME); //ping every 500ms.
     }
 
     /**
@@ -602,10 +810,12 @@ public class Topica extends NanoWSD.WebSocket {
             pair.component2().cancel();
         }
 
-        String remoteHost = this.getHandshakeRequest().getRemoteHostName();
-        String remotePort = this.getHandshakeRequest().getRemoteIpAddress();
+        pingTimer.cancel();
+        pingTask.cancel();
 
-        System.out.println("[TOPICA] Closed Topica connection with " + remoteHost + ":" + remotePort);
+        if (isVerbose()) {
+            System.out.println("[TOPICA] Closed Topica connection with " + this.nickname + " (" + this.connectionID.toString() + ").");
+        }
     }
 
     /**
@@ -617,9 +827,6 @@ public class Topica extends NanoWSD.WebSocket {
         byte[] payload = message.getBinaryPayload();
 
         int[] data = Mathf.allPos(payload);
-
-        /**
-         * */
 
         //first, get the method using the first byte
         int firstByte = data[0];
@@ -659,11 +866,15 @@ public class Topica extends NanoWSD.WebSocket {
         }
     }
 
+    /**
+     * Sends the data of a topic to the client.
+     * @param topic The topic to send the data of.
+     * */
     protected void sendTopicData(String topic) {
         byte[] pathLength = new byte[2];
 
         // 4 msb to signify the method
-        pathLength[0] = GET_RESPONSE << 4;
+        pathLength[0] = (byte) (RESPONSE_FLAG << 4);
 
         // 12 lsb to signify the length of the path
         pathLength[0] |= (byte) ((topic.length() >> 8) & 0b00001111);
@@ -672,14 +883,28 @@ public class Topica extends NanoWSD.WebSocket {
         // encode the path
         byte[] encodedPath = topic.getBytes();
 
-        if (!database.hasTopic(topic)) {
+        if (!database.hasTopic(topic) && !topic.startsWith("/me/")) {
             // send an error message
-
             return;
         }
 
         // get the topic data
-        Database.Topic dbTopic = database.getTopic(topic);
+        Database.Topic dbTopic = null;
+
+        if (topic.startsWith("/me/")) {
+            dbTopic = new Database.Topic(STRING_TYPE, new byte[0]);
+            if (topic.equalsIgnoreCase("/me/nickname")) {
+                dbTopic.update(this.nickname);
+            } else if (topic.equalsIgnoreCase("/me/id")) {
+                dbTopic.update(this.connectionID.toString());
+            }
+        } else {
+            dbTopic = database.getTopic(topic);
+        }
+
+        if (dbTopic == null) {
+            return;
+        }
 
         // get the data
         byte[] data = dbTopic.getData();
@@ -722,6 +947,11 @@ public class Topica extends NanoWSD.WebSocket {
         } catch (IOException ignored) {}
     }
 
+    /**
+     * Sets the data of a topic.
+     * @param topic The topic to set the data of.
+     * @param unusedPayload The payload containing the rest of the data request.s
+     * */
     protected void setTopicData(String topic, int[] unusedPayload) {
         /**
          * In the unused payload:
@@ -734,7 +964,7 @@ public class Topica extends NanoWSD.WebSocket {
 
         ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
         for (int i = 0; i < Integer.BYTES; i++) {
-            buffer.put((byte) unusedPayload[i + 1]);
+            buffer.put(i, (byte) unusedPayload[i + 1]);
         }
 
         int dataLength = buffer.getInt();
@@ -758,18 +988,33 @@ public class Topica extends NanoWSD.WebSocket {
 
     }
 
+    /**
+     * Subscribes the websocket to a topic.
+     * @param topic The topic to subscribe to.
+     * @param unusedPayload The payload containing the rest of the data request.
+     * */
     protected void subscribeToTopic(String topic, int[] unusedPayload) {
         // the 4 bytes are the interval, in ms
         ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
-        for (int i = 0; i < Integer.BYTES; i++) {
-            buffer.put((byte) unusedPayload[i]);
+        for (int i = 0; i < 4; i++) {
+            buffer.put(i, (byte) unusedPayload[i]);
         }
 
         int interval = buffer.getInt();
 
         if (interval < 10) {
             // send an error message
+            if (isVerbose()) {
+                System.out.println("[TOPICA] Cannot subscribe topic " + topic + " with interval " + interval);
+                if (interval < 0) {
+                    System.out.println("[TOPICA] *Tip: double check your endian! Java uses big-endian.*");
+                }
+            }
             return;
+        }
+
+        if (isVerbose()) {
+            System.out.println("[TOPICA] Client subscribed to topic " + topic + "");
         }
 
         if (!database.hasTopic(topic)) {

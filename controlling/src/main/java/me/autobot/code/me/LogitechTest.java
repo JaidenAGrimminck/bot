@@ -1,9 +1,12 @@
-package me.autobot.code;
+package me.autobot.code.me;
 
 import me.autobot.lib.controls.LogitechF310;
 import me.autobot.lib.robot.PlayableRobot;
 import me.autobot.lib.robot.Robot;
 
+/**
+ * Robot used for testing the LogitechF310 gamepad.
+ * */
 @PlayableRobot(name = "Logitech Robot")
 public class LogitechTest extends Robot {
     private LogitechF310 gamepad;
@@ -21,7 +24,7 @@ public class LogitechTest extends Robot {
      * */
     @Override
     protected void loop() {
-        if (!clock().elapsedSince(500)) {
+        if (!clock().elapsedSince(1000)) {
             return;
         }
 
@@ -30,7 +33,7 @@ public class LogitechTest extends Robot {
         double rightx = gamepad.getRightX();
         double righty = gamepad.getRightY();
 
-        System.out.println("LEFT: (" + leftx + ", " + lefty + "), RIGHT: (" + rightx + ", " + righty + ")");
+        System.out.println("LEFT: (" + leftx + ", " + lefty + "), RIGHT: (" + rightx + ", " + righty + "), Last Updated: " + gamepad.getLastUpdated());
     }
 
     /**

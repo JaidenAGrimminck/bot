@@ -1,9 +1,8 @@
-package me.autobot.code;
+package me.autobot.code.me;
 
 import me.autobot.code.mechanisms.LIDAR;
 import me.autobot.lib.robot.PlayableRobot;
 import me.autobot.lib.robot.Robot;
-import me.autobot.lib.systems.mechanisms.Mechanism;
 
 /**
  * Bot with a LIDAR sensor.

@@ -1,6 +1,6 @@
 package me.autobot.sim;
 
-import me.autobot.code.SimRobot;
+import me.autobot.code.me.SimRobot;
 import me.autobot.lib.os.OSDetector;
 import me.autobot.lib.robot.Robot;
 import me.autobot.lib.pathing.Environment;
