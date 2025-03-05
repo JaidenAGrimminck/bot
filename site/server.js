@@ -18,8 +18,8 @@ const io = new Server(server);
 
 //"192.168.6.233" - controller
 // 192.168.6.232 - one w/ lidar
-const robot = new RobotConnection("192.168.6.233", 8080, false);
-const topica = new TopicaServer("192.168.6.233", 5443);
+const robot = new RobotConnection("172.16.131.113", 8080, false);
+const topica = new TopicaServer("172.16.131.113", 5443);
 
 const log = new Log();
 
@@ -36,11 +36,11 @@ app.get('/require.js', (req, res) => {
 
 io.on('connection', (socket) => {
 
-    socket.on("topica-get", (data={
+    // socket.on("topica-get", (data={
 
-    }) => {
+    // }) => {
 
-    })
+    // })
 
     // --below is deprecated, but need to remove it later--
 

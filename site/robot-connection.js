@@ -49,6 +49,7 @@ class RobotConnection {
             this.ws = new WebSocket(`${this.https ? "wss" : "ws"}://${this.ip}:${this.port}`);
         } catch (e) {
             setTimeout(() => {
+                this.ws.close();
                 this.register();
             }, this.restartTimeout);
             return;

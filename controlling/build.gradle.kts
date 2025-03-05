@@ -39,6 +39,17 @@ repositories {
     mavenCentral()
 }
 
+application {
+    mainClass.set("me.autobot.code.Main")
+}
+
+// jar
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "me.autobot.code.Main"
+    }
+}
+
 // ament {
 //     entryPoints {
 //         consoleScripts = []

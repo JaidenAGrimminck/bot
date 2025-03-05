@@ -5,6 +5,7 @@ import fi.iki.elonen.NanoHTTPD;
 import me.autobot.lib.robot.PlayableRobot;
 import me.autobot.lib.robot.Robot;
 import me.autobot.lib.tools.RunnableWithArgs;
+import me.autobot.server.topica.Topica;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -83,6 +84,30 @@ public class RESTServer extends NanoHTTPD {
 
                 //return json response
                 return newFixedLengthResponse(Response.Status.OK, "application/json", gson.toJson(names));
+            }
+        });
+
+        addRoute("/api/v2/topics", new Route() {
+            @Override
+            public Response run() {
+                String[] realTopics = Topica.getDatabase().getRealTopics();
+                String[] defaultTopics = Topica.getDatabase().getDefaultTopics();
+
+                ArrayList<String> topics = new ArrayList<>();
+
+                for (int i = 0; i < Math.max(realTopics.length, defaultTopics.length); i++) {
+                    if (i < realTopics.length) {
+                        topics.add(realTopics[i]);
+                    }
+
+                    if (i < defaultTopics.length) {
+                        topics.add(defaultTopics[i]);
+                    }
+                }
+
+                Gson gson = new Gson();
+
+                return newFixedLengthResponse(Response.Status.OK, "application/json", gson.toJson(topics));
             }
         });
     }

@@ -3,8 +3,8 @@ from gamepad import Gamepad
 import numpy as np
 import time
 
-#pad = Gamepad()
-server = TopicaServer("localhost", 5443, verbose=True)
+pad = Gamepad()
+server = TopicaServer("172.16.131.113", 5443, verbose=True)
 
 tuning = { # neutral values
     'left_x': {
@@ -30,21 +30,21 @@ tuning = { # neutral values
 }
 
 while True:
-    #pad.read_gamepad()
+    pad.read_gamepad()
 
-    #if pad.changed:c
-    if server.open:
-        # raw_left_x = pad.get_analogL_x()
-        # raw_left_y = pad.get_analogL_y()
+    if pad.changed:
+    #if server.open:
+        raw_left_x = pad.get_analogL_x()
+        raw_left_y = pad.get_analogL_y()
 
-        # raw_right_x = pad.get_analogR_x()
-        # raw_right_y = pad.get_analogR_y()
+        raw_right_x = pad.get_analogR_x()
+        raw_right_y = pad.get_analogR_y()
 
-        raw_left_x = 128
-        raw_left_y = 128
+        # raw_left_x = 128
+        # raw_left_y = 128
         
-        raw_right_x = 128
-        raw_right_y = 128
+        # raw_right_x = 128
+        # raw_right_y = 128
 
         left_x = (raw_left_x - tuning['left_x']['neutral']) / (tuning['left_x']['neutral'] - tuning['left_x']['min'])
         left_y = (raw_left_y - tuning['left_y']['neutral']) / (tuning['left_y']['neutral'] - tuning['left_y']['min'])
@@ -59,4 +59,4 @@ while True:
         server.set("/gamepad1/rightY", right_y)
         server.set("/gamepad1/timestamp", np.int64(round(time.time() * 1000)))
 
-        time.sleep(0.2)
+        time.sleep(0.05)
