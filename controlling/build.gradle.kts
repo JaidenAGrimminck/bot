@@ -61,25 +61,44 @@ tasks.jar {
 
 //new task, uploading
 tasks.register("upload") {
+    doFirst {
+        val reset = "\u001b[0m"
+        val yellow = "\u001b[33m"
+        val blue = "\u001b[34m"
+
+        println("${yellow}First, building the project and creating a ${blue}.jar${yellow} file!$reset")
+        println("...")
+        println("...")
+    }
+
     //build, jar
     dependsOn("build")
     dependsOn("jar")
 
     //then, we'll run the "upload" task
     doLast {
-        println("Finished building!")
+        val reset = "\u001b[0m"
+        val green = "\u001b[32m"
+        val red = "\u001b[31m"
+        val yellow = "\u001b[33m"
+        val blue = "\u001b[34m"
+        val italicsBlue = "\u001b[3;34m"
+        val italicsPurple = "\u001b[3;35m"
+        val greenBold = "\u001b[1;32m"
+
+        println("${green}Finished building!")
         //upload to server
-        println("Uploading to server...")
+        println("${yellow}Checking server arguments...")
 
         // get the first argument
         var server = project.findProperty("server") as String?
 
         //if server is null, then we'll use the default server
         if (server == null) {
-            println("No server provided, using default server")
+            println("${red}No server provided, using default server")
             server = "localhost";
         } else {
-            println("Server: $server")
+            println("${green}Server: $server")
         }
 
         // move the jar file into ./latest-build
@@ -89,8 +108,22 @@ tasks.register("upload") {
         // copy the jar file to the latest-build folder
         jarFile.copyTo(latestBuild, true)
 
-        println("Successfully locally copied jar file to latest-build folder.")
-        println("Attempting to upload to server... TODO: Implement me!")
+        println("${green}Successfully locally copied ${blue}.jar${green} file to the ${yellow}latest-build${green} folder.")
+
+        val username = project.findProperty("username") as String?
+        var destinationDir = "~/"
+
+        if (username == null) {
+            println("${red}Stopping here, details are undefined.")
+            println("${italicsBlue}Please provide:\n - ${italicsPurple}`server`${italicsBlue} (IP address of server),\n - ${italicsPurple}`username`${italicsBlue} (username of user on server),\n - and ${italicsPurple}`destinationDir`${italicsBlue} (directory on server to upload to) as arguments.")
+            println("${green}Successfully built at ${greenBold}./latest-build/${project.name}-${project.version}.jar${reset}${green}!$reset")
+        } else {
+            println("${yellow}Attempting to upload to server...${reset}")
+
+            exec {
+                commandLine("sh", "upload.sh", server, username, destinationDir)
+            }
+        }
     }
 }
 
