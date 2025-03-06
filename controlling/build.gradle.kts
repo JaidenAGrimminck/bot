@@ -48,6 +48,50 @@ tasks.jar {
     manifest {
         attributes["Main-Class"] = "me.autobot.code.Main"
     }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from(
+        *configurations.runtimeClasspath.get()
+            .filter { it.exists() }
+            .map { if (it.isDirectory) it else zipTree(it) }
+            .toTypedArray()
+    )
+}
+
+//new task, uploading
+tasks.register("upload") {
+    //build, jar
+    dependsOn("build")
+    dependsOn("jar")
+
+    //then, we'll run the "upload" task
+    doLast {
+        println("Finished building!")
+        //upload to server
+        println("Uploading to server...")
+
+        // get the first argument
+        var server = project.findProperty("server") as String?
+
+        //if server is null, then we'll use the default server
+        if (server == null) {
+            println("No server provided, using default server")
+            server = "localhost";
+        } else {
+            println("Server: $server")
+        }
+
+        // move the jar file into ./latest-build
+        val jarFile = file("build/libs/${project.name}-${project.version}.jar")
+        val latestBuild = file("latest-build/${project.name}-${project.version}.jar")
+
+        // copy the jar file to the latest-build folder
+        jarFile.copyTo(latestBuild, true)
+
+        println("Successfully locally copied jar file to latest-build folder.")
+        println("Attempting to upload to server... TODO: Implement me!")
+    }
 }
 
 // ament {
