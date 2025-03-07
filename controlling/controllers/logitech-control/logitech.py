@@ -4,7 +4,7 @@ import numpy as np
 import time
 
 pad = Gamepad()
-server = TopicaServer("172.16.131.113", 5443, verbose=True)
+server = TopicaServer("172.16.130.160", 5443, verbose=True)
 
 tuning = { # neutral values
     'left_x': {

@@ -166,7 +166,8 @@ public class MainBot extends Robot {
 
         if (Math.abs(gamepad.getLeftY()) > 0.05 || Math.abs(gamepad.getRightY()) > 0.05) {
             //arcadeDrive.drive(joystick.getY(), joystick.getX(), multiplier);
-            arcadeDrive.drive(gamepad.getLeftY() * multiplier * 0.2, gamepad.getRightY() * multiplier * 0.2);
+            double m = 0.4;
+            arcadeDrive.drive(gamepad.getLeftY() * multiplier * m, gamepad.getRightY() * multiplier * m);
 
             //System.out.println("Driving at speeds=" + joystick.getX() * multiplier + ", " + joystick.getY() * multiplier);
         } else {
