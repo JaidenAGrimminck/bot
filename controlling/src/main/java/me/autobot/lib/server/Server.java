@@ -1,4 +1,4 @@
-package me.autobot.server;
+package me.autobot.lib.server;
 
 /**
  * Server for the robot.

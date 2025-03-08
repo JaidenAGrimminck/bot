@@ -22,12 +22,12 @@ me.autobot.lib.robot
 me.autobot.lib.robot.drivebase
 me.autobot.lib.robot.motors
 me.autobot.lib.robot.sensors
+me.autobot.lib.server
+me.autobot.lib.server.topica
 me.autobot.lib.systems.actions
 me.autobot.lib.systems.mechanisms
 me.autobot.lib.telemetry
 me.autobot.lib.tools
-me.autobot.server
-me.autobot.server.topica
 me.autobot.sim
 me.autobot.sim.evolution
 me.autobot.sim.graphics

@@ -1,4 +1,4 @@
-package me.autobot.server;
+package me.autobot.lib.server;
 
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoWSD;

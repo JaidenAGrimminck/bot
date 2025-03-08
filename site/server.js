@@ -18,8 +18,9 @@ const io = new Server(server);
 
 //"192.168.6.233" - controller
 // 192.168.6.232 - one w/ lidar
-const robot = new RobotConnection("172.16.131.113", 8080, false);
-const topica = new TopicaServer("172.16.131.113", 5443);
+const ROBOT_IP = "172.16.130.160";
+const robot = new RobotConnection(ROBOT_IP, 8080, false);
+const topica = new TopicaServer(ROBOT_IP, 5443);
 
 const log = new Log();
 

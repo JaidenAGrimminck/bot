@@ -10,9 +10,9 @@ import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.odometry.SimpleOdometry2d;
 import me.autobot.lib.telemetry.SysoutMiddleman;
-import me.autobot.server.Server;
-import me.autobot.server.WSClient;
-import me.autobot.server.topica.Topica;
+import me.autobot.lib.server.Server;
+import me.autobot.lib.server.WSClient;
+import me.autobot.lib.server.topica.Topica;
 import me.autobot.sim.Simulation;
 import org.reflections.Reflections;
 

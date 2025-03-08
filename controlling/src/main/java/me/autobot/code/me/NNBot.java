@@ -7,7 +7,7 @@ import me.autobot.lib.robot.Robot;
 import me.autobot.lib.robot.drivebase.ArcadeDrive;
 import me.autobot.lib.robot.motors.HoverboardWheel;
 import me.autobot.lib.tools.RunnableWithArgs;
-import me.autobot.server.WSClient;
+import me.autobot.lib.server.WSClient;
 
 import java.nio.ByteBuffer;
 

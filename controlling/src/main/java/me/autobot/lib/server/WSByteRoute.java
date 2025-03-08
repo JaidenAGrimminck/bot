@@ -1,4 +1,4 @@
-package me.autobot.server;
+package me.autobot.lib.server;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -4,7 +4,7 @@ import me.autobot.code.me.SimRobot;
 import me.autobot.lib.os.OSDetector;
 import me.autobot.lib.robot.Robot;
 import me.autobot.lib.pathing.Environment;
-import me.autobot.server.WSServer;
+import me.autobot.lib.server.WSServer;
 import me.autobot.sim.graphics.SimCanvas;
 import me.autobot.sim.graphics.SimScreen;
 

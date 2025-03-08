@@ -1,4 +1,4 @@
-package me.autobot.server.topica;
+package me.autobot.lib.server.topica;
 
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoWSD;

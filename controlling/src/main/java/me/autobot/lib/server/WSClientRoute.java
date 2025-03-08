@@ -1,4 +1,4 @@
-package me.autobot.server;
+package me.autobot.lib.server;
 
 /**
  * A class representing a route for the WSClient.

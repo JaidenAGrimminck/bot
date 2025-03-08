@@ -2,7 +2,7 @@ package me.autobot.lib.controls;
 
 import me.autobot.lib.math.Mathf;
 import me.autobot.lib.tools.RunnableWithArgs;
-import me.autobot.server.WSClient;
+import me.autobot.lib.server.WSClient;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;

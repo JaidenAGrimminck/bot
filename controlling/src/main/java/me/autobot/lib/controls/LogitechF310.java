@@ -1,6 +1,6 @@
 package me.autobot.lib.controls;
 
-import me.autobot.server.topica.Topica;
+import me.autobot.lib.server.topica.Topica;
 
 public class LogitechF310 implements Gamepad {
 

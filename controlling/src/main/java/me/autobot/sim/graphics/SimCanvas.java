@@ -11,7 +11,7 @@ import me.autobot.lib.math.rotation.Rotation2d;
 import me.autobot.lib.robot.Sensor;
 import me.autobot.lib.robot.sensors.UltrasonicSensor;
 import me.autobot.lib.tools.RunnableWithArgs;
-import me.autobot.server.WSClient;
+import me.autobot.lib.server.WSClient;
 import me.autobot.sim.MapLoader;
 import me.autobot.sim.Simulation;
 import me.autobot.sim.evolution.EvolutionTracker;

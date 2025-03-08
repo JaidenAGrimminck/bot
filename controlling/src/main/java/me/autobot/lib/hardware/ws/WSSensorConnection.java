@@ -1,7 +1,7 @@
 package me.autobot.lib.hardware.ws;
 
 import me.autobot.lib.hardware.Connection;
-import me.autobot.server.WSClient;
+import me.autobot.lib.server.WSClient;
 
 import java.util.ArrayList;
 

@@ -1,11 +1,10 @@
-package me.autobot.server;
+package me.autobot.lib.server;
 
 import com.google.gson.Gson;
 import fi.iki.elonen.NanoHTTPD;
 import me.autobot.lib.robot.PlayableRobot;
 import me.autobot.lib.robot.Robot;
-import me.autobot.lib.tools.RunnableWithArgs;
-import me.autobot.server.topica.Topica;
+import me.autobot.lib.server.topica.Topica;
 
 import java.io.IOException;
 import java.util.ArrayList;

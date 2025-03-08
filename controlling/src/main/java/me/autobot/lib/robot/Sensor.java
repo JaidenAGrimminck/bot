@@ -3,7 +3,7 @@ package me.autobot.lib.robot;
 import me.autobot.lib.math.coordinates.Vector3d;
 import me.autobot.lib.math.rotation.Rotation3d;
 import me.autobot.lib.hardware.i2c.SensorHubI2CConnection;
-import me.autobot.server.WSClient;
+import me.autobot.lib.server.WSClient;
 
 import java.util.ArrayList;
 import java.util.Timer;

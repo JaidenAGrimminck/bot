@@ -3,7 +3,7 @@ package me.autobot.sim.evolution;
 import me.autobot.lib.robot.Robot;
 import me.autobot.lib.math.coordinates.Vector2d;
 import me.autobot.lib.math.rotation.Rotation2d;
-import me.autobot.server.WSClient;
+import me.autobot.lib.server.WSClient;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;

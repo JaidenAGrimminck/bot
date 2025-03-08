@@ -1,6 +1,6 @@
 package me.autobot.lib.tools;
 
-import me.autobot.server.WSClient;
+import me.autobot.lib.server.WSClient;
 
 /**
  * A runnable that can take arguments.
