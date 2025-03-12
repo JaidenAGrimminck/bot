@@ -1,8 +1,0 @@
-- created 3mm thick plates for mounting the 45° bars instead of the flimsy 45° holders
-- mounted on the robot, made sure that it updated in dependent designs
-- begun creating the 3D model for the motor controllers
-
-todo:
-- finish 3D motor model mount
-- fix any like issues with the lengths idk (imprecise)
-- create mounts for frame

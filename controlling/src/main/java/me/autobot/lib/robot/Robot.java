@@ -13,7 +13,7 @@ import me.autobot.lib.telemetry.SysoutMiddleman;
 import me.autobot.lib.server.Server;
 import me.autobot.lib.server.WSClient;
 import me.autobot.lib.server.topica.Topica;
-import me.autobot.sim.Simulation;
+import me.autobot.lib.tools.suppliers.ByteSupplier;
 import org.reflections.Reflections;
 
 import java.io.IOException;
@@ -307,11 +307,27 @@ public class Robot implements Logger {
     }
 
     /**
+     * Creates the telemetry topics.
+     * */
+    public static void createTelemetryTopics() {
+        Topica.topic("/robot/telemetry", Topica.BYTE_TYPE).bind(() -> {
+            Byte[] data = new Byte[3];
+
+            data[0] = 0x6D;
+            data[1] = 0x00;
+            data[2] = 0x00;
+
+            return data;
+        });
+    }
+
+    /**
      * Subscribes a WSClient to the telemetry of the robot.
      * @param client The client to subscribe.
      *               @see WSClient
      * @param subscribe Whether to subscribe or unsubscribe.
      * */
+    @Deprecated
     public static void subscribeToTelemetry(WSClient client, boolean subscribe) {
         if (subscribe) {
             if (!setupTelemetryListeners) {
@@ -446,19 +462,8 @@ public class Robot implements Logger {
         return robots.get(0);
     }
 
-
-    private Vector2d robotSize = new Vector2d(40, 60);
-
-    @Log
-    private SimpleOdometry2d odometry;
-
-    private boolean hasCrashed = false;
-
     @Log
     private byte identification;
-
-    @Log
-    private HashMap<String, Integer> flags = new HashMap<>();
 
     private long loopTime = 50;
     private final Timer loopTimer;
@@ -502,25 +507,6 @@ public class Robot implements Logger {
     }
 
     /**
-     * Initializes the odometry of the robot.
-     * This is used to keep track of the position and rotation of the robot.
-     * @param odometry The odometry of the robot.
-     *                 @see SimpleOdometry2d
-     * */
-    protected void initializeOdometry(SimpleOdometry2d odometry) {
-        this.odometry = odometry;
-    }
-
-    /**
-     * Sets the size of the robot.
-     * This is used for collision detection.
-     * @param sizeVector The size of the robot.
-     * */
-    protected void setRobotSize(Vector2d sizeVector) {
-        robotSize = sizeVector;
-    }
-
-    /**
      * Gets the identification of the robot.
      * This is a unique identifier for the robot, used generally for communication with multiple simulated robots.
      * If you have only one robot, you can generally ignore this, as the value will be 0x00.
@@ -551,58 +537,6 @@ public class Robot implements Logger {
         for (Device device : devices) {
             device.enableSimulation();
         }
-    }
-
-    /**
-     * Moves the robot by a certain amount.
-     * @param a The amount to move in the x direction.
-     *          Positive values move the robot to the right.
-     *          Negative values move the robot to the left.
-     * @param b The amount to move in the y direction.
-     *          Positive values move the robot up.
-     *          Negative values move the robot down.
-     * @see #rotate(double)
-     * **/
-    @Deprecated
-    public void move(double a, double b) {
-        if (hasCrashed) return;
-        odometry.move(new Vector2d(a, b));
-        onMove();
-    }
-
-    /**
-     * Rotates the robot by a certain amount.
-     * @param theta The amount to rotate the robot by.
-     *              Positive values rotate the robot clockwise.
-     *              Negative values rotate the robot counterclockwise.
-     *              The angle is in radians.
-     *              @see Math#toRadians(double)
-     *              @see Math#toDegrees(double)
-     *              @see Rotation2d#fromDegrees(double)
-     *              @see Rotation2d#getTheta()
-     * @see #move(double, double)
-     * **/
-    @Deprecated
-    public void rotate(double theta) {
-        if (hasCrashed) return;
-        odometry.rotate(Rotation2d.fromRadians(theta));
-        onMove();
-    }
-
-    /**
-     * Event called whenever the robot moves.
-     * Override this method with:
-     * <code>
-     * &#64;Override
-     * protected void onMove() {
-     *     //your code here
-     *     //this code will be executed whenever the robot moves
-     * }
-     * </code>
-     * */
-    @Deprecated
-    protected void onMove() {
-
     }
 
     /**
@@ -651,28 +585,6 @@ public class Robot implements Logger {
      * */
     protected void stop() {
 
-    }
-
-    /**
-     * Returns the position of the robot using the odometry.
-     * If the odometry is not set, it'll return a zero vector.
-     * @return The position of the robot.
-     * **/
-    @Deprecated
-    public Vector2d getPosition() {
-        if (odometry == null) return Vector2d.zero();
-        return odometry.getPosition();
-    }
-
-    /**
-     * Returns the rotation of the robot using the odometry.
-     * If the odometry is not set, it'll return a zero rotation.
-     * @return The rotation of the robot.
-     * **/
-    @Deprecated
-    public Rotation2d getRotation() {
-        if (odometry == null) return Rotation2d.zero();
-        return odometry.getRotation();
     }
 
     /**
@@ -774,113 +686,6 @@ public class Robot implements Logger {
             }
             device.setParent(this);
         });
-    }
-
-    /**
-     * Gets the size of the robot.
-     * @return The size of the robot.
-     * */
-    @Deprecated
-    public Vector2d getRobotSize() {
-        return robotSize;
-    }
-
-    /**
-     * Checks if the robot is in collision with any obstacles.
-     * @return True if the robot is in collision with any obstacles, false otherwise.
-     * */
-    @Deprecated
-    public boolean inCollision() {
-        if (totalSimulation) {
-            // get obstacles
-            ArrayList<Box2d> obstacles = (ArrayList<Box2d>) Simulation.getInstance().environment.obstacles.clone();
-
-            // get robot position
-            Vector2d pos = getPosition();
-            // get robot rotation
-            Rotation2d rot = getRotation();
-
-            //sort the box2d points by distance to the robot
-            obstacles.sort((o1, o2) -> {
-                double d1 = o1.getPosition().distance(pos.toInt2());
-                double d2 = o2.getPosition().distance(pos.toInt2());
-                return Double.compare(d1, d2);
-            });
-
-            Vector2d topLeft = new Vector2d(-robotSize.getX() / 2, -robotSize.getY() / 2);
-            Vector2d topRight =  new Vector2d(robotSize.getX() / 2, -robotSize.getY() / 2);
-            Vector2d bottomLeft = new Vector2d(-robotSize.getX() / 2, robotSize.getY() / 2);
-            Vector2d bottomRight = new Vector2d(robotSize.getX() / 2, robotSize.getY() / 2);
-
-            //rotate the points
-            topLeft = topLeft.rotate(rot);
-            topRight = topRight.rotate(rot);
-            bottomLeft = bottomLeft.rotate(rot);
-            bottomRight = bottomRight.rotate(rot);
-
-            Vector2d[] list = new Vector2d[] {topLeft, topRight, bottomLeft, bottomRight};
-
-            //add the position to the points
-            for (int i = 0; i < list.length; i++) {
-                list[i] = pos.add(list[i]);
-            }
-
-
-            for (Box2d obstacle : obstacles) {
-                if (Geometry.twoPolygonsIntersecting(list, obstacle.getVertices())) {
-                    hasCrashed = true;
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Gets the odometry of the robot.
-     * @return The odometry of the robot.
-     */
-    @Deprecated
-    public SimpleOdometry2d getOdometry() {
-        return odometry;
-    }
-
-    /**
-     * Sets the odometry of the robot.
-     * @param odometry The odometry of the robot.
-     */
-    @Deprecated
-    protected void setOdometry(SimpleOdometry2d odometry) {
-        this.odometry = odometry;
-    }
-
-    /**
-     * Sets a flag for the robot.
-     * @param key The key of the flag.
-     * @param value The value of the flag.
-     * */
-    public void setFlag(String key, int value) {
-        flags.put(key, value);
-    }
-
-    /**
-     * Gets a flag for the robot.
-     * @param key The key of the flag.
-     * @return The value of the flag.
-     * */
-    public int getFlag(String key) {
-        return flags.get(key);
-    }
-
-    /**
-     * Resets the robot.
-     * This method resets the robot's position and rotation to the starting position and rotation.
-     * */
-    @Deprecated
-    public void reset() {
-        hasCrashed = false;
-        odometry.reset();
     }
 
     /**

@@ -59,6 +59,17 @@ tasks.jar {
     )
 }
 
+tasks.register("simulate") {
+    // same as run, but change main class to me.autobot.simulation.Simulate
+    //TODO: change main class to me.autobot.simulation.Simulate
+    doFirst {
+        println("Simulating...")
+    }
+
+    // etc.
+
+}
+
 //new task, uploading
 tasks.register("upload") {
     doFirst {

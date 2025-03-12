@@ -15,6 +15,15 @@ public class SerialConnection extends Connection {
      * */
     public static int serialVerboseLevel = 2;
 
+    private static boolean connectionDisabled = false;
+
+    /**
+     * Disables all serial connections.
+     * */
+    public static void disableConnections() {
+        connectionDisabled = true;
+    }
+
     private int baudRate;
     private String commPort;
 
@@ -30,24 +39,26 @@ public class SerialConnection extends Connection {
         this.baudRate = baudRate;
         this.commPort = commPort;
 
-        port = SerialPort.getCommPort(commPort);
+        if (!connectionDisabled) {
+            port = SerialPort.getCommPort(commPort);
 
-        port.setComPortParameters(this.baudRate, Byte.SIZE, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
-        port.setComPortTimeouts(SerialPort.TIMEOUT_NONBLOCKING, 0, 0);
+            port.setComPortParameters(this.baudRate, Byte.SIZE, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
+            port.setComPortTimeouts(SerialPort.TIMEOUT_NONBLOCKING, 0, 0);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            port.closePort();
-        }));
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                port.closePort();
+            }));
 
-        if (!open()) {
-            throw new IllegalStateException("Could not open serial port " + commPort);
+            if (!open()) {
+                throw new IllegalStateException("Could not open serial port " + commPort);
+            }
+
+            Thread otherThread = new Thread(() -> {
+                port.addDataListener(new SerialListener());
+            });
+
+            otherThread.start();
         }
-
-        Thread otherThread = new Thread(() -> {
-            port.addDataListener(new SerialListener());
-        });
-
-        otherThread.start();
     }
 
     /**
@@ -90,6 +101,10 @@ public class SerialConnection extends Connection {
      * @param data The data to write to the serial port.
      */
     protected void write(byte[] data) {
+        if (connectionDisabled) {
+            return;
+        }
+
         port.writeBytes(data, data.length);
     }
 
@@ -112,6 +127,10 @@ public class SerialConnection extends Connection {
      * @return True if the port is open, false otherwise.
      * */
     public boolean open() {
+        if (connectionDisabled) {
+            return false;
+        }
+
         return port.openPort();
     }
 

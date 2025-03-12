@@ -1,9 +1,0 @@
-- added 45° brackets
-- added 45° extrusions
-- adjusted and make sure everything lines up + is equal
-- added extrusions for frame
-- etc
-
-todo:
-- add 90° brackets
-- add wheels into design

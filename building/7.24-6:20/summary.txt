@@ -1,7 +1,0 @@
-- created a few more holes + begun on the plates on the top
-
-todo:
-- need to change cad to be more even, like 1cm from the tops of the bars, etc.
-- cause i drilled holes 1cm from the tops. etc.
-
-(or I need to find a mill or something idk)

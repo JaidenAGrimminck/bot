@@ -21,7 +21,7 @@ public class CollisionSensor extends Sensor {
     @Override
     public double[] getValues() {
         return new double[] {
-                inSimulation() && this.getParent().inCollision() ? 1 : 0
+                inSimulation() ? 1 : 0 //&& this.getParent().inCollision() ? 1 : 0
         };
     }
 }

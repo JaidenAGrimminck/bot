@@ -28,8 +28,6 @@ me.autobot.lib.systems.actions
 me.autobot.lib.systems.mechanisms
 me.autobot.lib.telemetry
 me.autobot.lib.tools
-me.autobot.sim
-me.autobot.sim.evolution
-me.autobot.sim.graphics
-me.autobot.sim.graphics.elements
+me.autobot.lib.tools.suppliers
+me.autobot.simulation
 me.autobot.test

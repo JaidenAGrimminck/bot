@@ -18,4 +18,9 @@ public @interface PlayableRobot {
      * If the robot is disabled or not.
      * */
     public boolean disabled = false;
+
+    /**
+     * If the robot is able to be used in the simulator or not.
+     * */
+    public boolean simulatable = true;
 }

@@ -81,7 +81,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
-<dd><code><a href="../../code/me/LidarBot.html" title="class in me.autobot.code.me">LidarBot</a></code>, <code><a href="../../code/me/LogitechTest.html" title="class in me.autobot.code.me">LogitechTest</a></code>, <code><a href="../../code/me/MainBot.html" title="class in me.autobot.code.me">MainBot</a></code>, <code><a href="../../code/me/NNBot.html" title="class in me.autobot.code.me">NNBot</a></code>, <code><a href="../../code/examples/ServoBot.html" title="class in me.autobot.code.examples">ServoBot</a></code>, <code><a href="../../code/me/SimRobot.html" title="class in me.autobot.code.me">SimRobot</a></code>, <code><a href="../../code/me/TestBot.html" title="class in me.autobot.code.me">TestBot</a></code>, <code><a href="../../code/examples/UltrasonicBot.html" title="class in me.autobot.code.examples">UltrasonicBot</a></code></dd>
+<dd><code><a href="../../code/me/LidarBot.html" title="class in me.autobot.code.me">LidarBot</a></code>, <code><a href="../../code/me/LogitechTest.html" title="class in me.autobot.code.me">LogitechTest</a></code>, <code><a href="../../code/me/MainBot.html" title="class in me.autobot.code.me">MainBot</a></code>, <code><a href="../../code/me/NNBot.html" title="class in me.autobot.code.me">NNBot</a></code>, <code><a href="../../code/examples/ServoBot.html" title="class in me.autobot.code.examples">ServoBot</a></code>, <code><a href="../../code/me/TestBot.html" title="class in me.autobot.code.me">TestBot</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Robot</span>
@@ -124,19 +124,19 @@ implements <a href="../telemetry/Logger.html" title="interface in me.autobot.lib
 <div class="block">Gets the clock of the robot.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#disableRobot()" class="member-name-link">disableRobot</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createTelemetryTopics()" class="member-name-link">createTelemetryTopics</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates the telemetry topics.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#disableRobot()" class="member-name-link">disableRobot</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Stops the current robot.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="Device.html" title="class in me.autobot.lib.robot">Device</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDevices()" class="member-name-link">getDevices</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets all the devices of the robot.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFlag(java.lang.String)" class="member-name-link">getFlag</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="Device.html" title="class in me.autobot.lib.robot">Device</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDevices()" class="member-name-link">getDevices</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets a flag for the robot.</div>
+<div class="block">Gets all the devices of the robot.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>byte</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getIdentification()" class="member-name-link">getIdentification</a>()</code></div>
@@ -158,16 +158,6 @@ implements <a href="../telemetry/Logger.html" title="interface in me.autobot.lib
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets all the motors of the robot.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="../odometry/SimpleOdometry2d.html" title="class in me.autobot.lib.odometry">SimpleOdometry2d</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#getOdometry()" class="member-name-link">getOdometry</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
-<div class="block"><span class="deprecated-label">Deprecated.</span></div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="../math/coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#getPosition()" class="member-name-link">getPosition</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
-<div class="block"><span class="deprecated-label">Deprecated.</span></div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="Robot.html" title="class in me.autobot.lib.robot">Robot</a>&gt;&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getRobotClasses()" class="member-name-link">getRobotClasses</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
@@ -177,16 +167,6 @@ implements <a href="../telemetry/Logger.html" title="interface in me.autobot.lib
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getRobots()" class="member-name-link">getRobots</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Gets all the robots.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="../math/coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#getRobotSize()" class="member-name-link">getRobotSize</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
-<div class="block"><span class="deprecated-label">Deprecated.</span></div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="../math/rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#getRotation()" class="member-name-link">getRotation</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
-<div class="block"><span class="deprecated-label">Deprecated.</span></div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="Sensor.html" title="class in me.autobot.lib.robot">Sensor</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSensors()" class="member-name-link">getSensors</a>()</code></div>
@@ -198,31 +178,10 @@ implements <a href="../telemetry/Logger.html" title="interface in me.autobot.lib
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the time elapsed since the robot was created.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#inCollision()" class="member-name-link">inCollision</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
-<div class="block"><span class="deprecated-label">Deprecated.</span></div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initializeOdometry(me.autobot.lib.odometry.SimpleOdometry2d)" class="member-name-link">initializeOdometry</a><wbr>(<a href="../odometry/SimpleOdometry2d.html" title="class in me.autobot.lib.odometry">SimpleOdometry2d</a>&nbsp;odometry)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Initializes the odometry of the robot.</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loop()" class="member-name-link">loop</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Loop method.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#move(double,double)" class="member-name-link">move</a><wbr>(double&nbsp;a,
- double&nbsp;b)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
-<div class="block"><span class="deprecated-label">Deprecated.</span></div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#onMove()" class="member-name-link">onMove</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
-<div class="block"><span class="deprecated-label">Deprecated.</span></div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#pauseRobot()" class="member-name-link">pauseRobot</a>()</code></div>
@@ -244,36 +203,15 @@ implements <a href="../telemetry/Logger.html" title="interface in me.autobot.lib
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Removes all inactive clients from the telemetry list.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#reset()" class="member-name-link">reset</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
-<div class="block"><span class="deprecated-label">Deprecated.</span></div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#resumeRobot()" class="member-name-link">resumeRobot</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#resumeRobot()" class="member-name-link">resumeRobot</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Resumes the current robot.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#rotate(double)" class="member-name-link">rotate</a><wbr>(double&nbsp;theta)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
-<div class="block"><span class="deprecated-label">Deprecated.</span></div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFlag(java.lang.String,int)" class="member-name-link">setFlag</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- int&nbsp;value)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLoopTime(long)" class="member-name-link">setLoopTime</a><wbr>(long&nbsp;loopTime)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets a flag for the robot.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLoopTime(long)" class="member-name-link">setLoopTime</a><wbr>(long&nbsp;loopTime)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the loop time.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#setOdometry(me.autobot.lib.odometry.SimpleOdometry2d)" class="member-name-link">setOdometry</a><wbr>(<a href="../odometry/SimpleOdometry2d.html" title="class in me.autobot.lib.odometry">SimpleOdometry2d</a>&nbsp;odometry)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
-<div class="block"><span class="deprecated-label">Deprecated.</span></div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPaused(boolean)" class="member-name-link">setPaused</a><wbr>(boolean&nbsp;paused)</code></div>
@@ -281,60 +219,55 @@ implements <a href="../telemetry/Logger.html" title="interface in me.autobot.lib
 <div class="block">Pauses the robot.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRobotSize(me.autobot.lib.math.coordinates.Vector2d)" class="member-name-link">setRobotSize</a><wbr>(<a href="../math/coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;sizeVector)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setup()" class="member-name-link">setup</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the size of the robot.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setup()" class="member-name-link">setup</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Setup method.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Starts all the robots (adds them to the editable list available for selection).</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#start(me.autobot.lib.robot.Robot)" class="member-name-link">start</a><wbr>(<a href="Robot.html" title="class in me.autobot.lib.robot">Robot</a>&nbsp;robot)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#start(me.autobot.lib.robot.Robot)" class="member-name-link">start</a><wbr>(<a href="Robot.html" title="class in me.autobot.lib.robot">Robot</a>&nbsp;robot)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Starts a singular robot.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#startRobot(int)" class="member-name-link">startRobot</a><wbr>(int&nbsp;index)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#startRobot(int)" class="member-name-link">startRobot</a><wbr>(int&nbsp;index)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Starts a robot by index.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#startSimulation()" class="member-name-link">startSimulation</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#startSimulation()" class="member-name-link">startSimulation</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Starts the simulation for all robots.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Stop method.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopLoop()" class="member-name-link">stopLoop</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopLoop()" class="member-name-link">stopLoop</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Cancels the loop timer.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#subscribeToStatus(me.autobot.lib.server.WSClient,boolean)" class="member-name-link">subscribeToStatus</a><wbr>(<a href="../server/WSClient.html" title="class in me.autobot.lib.server">WSClient</a>&nbsp;client,
- boolean&nbsp;subscribe)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Subscribes a WSClient to the status of the robot.</div>
-</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#subscribeToTelemetry(me.autobot.lib.server.WSClient,boolean)" class="member-name-link">subscribeToTelemetry</a><wbr>(<a href="../server/WSClient.html" title="class in me.autobot.lib.server">WSClient</a>&nbsp;client,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#subscribeToStatus(me.autobot.lib.server.WSClient,boolean)" class="member-name-link">subscribeToStatus</a><wbr>(<a href="../server/WSClient.html" title="class in me.autobot.lib.server">WSClient</a>&nbsp;client,
  boolean&nbsp;subscribe)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Subscribes a WSClient to the telemetry of the robot.</div>
+<div class="block">Subscribes a WSClient to the status of the robot.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#switchDevicesToSimulation()" class="member-name-link">switchDevicesToSimulation</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#subscribeToTelemetry(me.autobot.lib.server.WSClient,boolean)" class="member-name-link">subscribeToTelemetry</a><wbr>(<a href="../server/WSClient.html" title="class in me.autobot.lib.server">WSClient</a>&nbsp;client,
+ boolean&nbsp;subscribe)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6">
+<div class="block"><span class="deprecated-label">Deprecated.</span></div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#switchDevicesToSimulation()" class="member-name-link">switchDevicesToSimulation</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Switches all sensors to simulation mode.</div>
 </div>
 </div>
@@ -449,10 +382,19 @@ implements <a href="../telemetry/Logger.html" title="interface in me.autobot.lib
 </section>
 </li>
 <li>
+<section class="detail" id="createTelemetryTopics()">
+<h3>createTelemetryTopics</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">createTelemetryTopics</span>()</div>
+<div class="block">Creates the telemetry topics.</div>
+</section>
+</li>
+<li>
 <section class="detail" id="subscribeToTelemetry(me.autobot.lib.server.WSClient,boolean)">
 <h3>subscribeToTelemetry</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">subscribeToTelemetry</span><wbr><span class="parameters">(<a href="../server/WSClient.html" title="class in me.autobot.lib.server">WSClient</a>&nbsp;client,
+<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">subscribeToTelemetry</span><wbr><span class="parameters">(<a href="../server/WSClient.html" title="class in me.autobot.lib.server">WSClient</a>&nbsp;client,
  boolean&nbsp;subscribe)</span></div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
 <div class="block">Subscribes a WSClient to the telemetry of the robot.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -508,36 +450,6 @@ implements <a href="../telemetry/Logger.html" title="interface in me.autobot.lib
 </section>
 </li>
 <li>
-<section class="detail" id="initializeOdometry(me.autobot.lib.odometry.SimpleOdometry2d)">
-<h3>initializeOdometry</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initializeOdometry</span><wbr><span class="parameters">(<a href="../odometry/SimpleOdometry2d.html" title="class in me.autobot.lib.odometry">SimpleOdometry2d</a>&nbsp;odometry)</span></div>
-<div class="block">Initializes the odometry of the robot.
- This is used to keep track of the position and rotation of the robot.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>odometry</code> - The odometry of the robot.</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../odometry/SimpleOdometry2d.html" title="class in me.autobot.lib.odometry"><code>SimpleOdometry2d</code></a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setRobotSize(me.autobot.lib.math.coordinates.Vector2d)">
-<h3>setRobotSize</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRobotSize</span><wbr><span class="parameters">(<a href="../math/coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a>&nbsp;sizeVector)</span></div>
-<div class="block">Sets the size of the robot.
- This is used for collision detection.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>sizeVector</code> - The size of the robot.</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="getIdentification()">
 <h3>getIdentification</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte</span>&nbsp;<span class="element-name">getIdentification</span>()</div>
@@ -577,74 +489,6 @@ implements <a href="../telemetry/Logger.html" title="interface in me.autobot.lib
 </ul>
 </dd>
 </dl>
-</section>
-</li>
-<li>
-<section class="detail" id="move(double,double)">
-<h3>move</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">move</span><wbr><span class="parameters">(double&nbsp;a,
- double&nbsp;b)</span></div>
-<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
-<div class="block">Moves the robot by a certain amount.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>a</code> - The amount to move in the x direction.
-          Positive values move the robot to the right.
-          Negative values move the robot to the left.</dd>
-<dd><code>b</code> - The amount to move in the y direction.
-          Positive values move the robot up.
-          Negative values move the robot down.</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="#rotate(double)"><code>rotate(double)</code></a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="rotate(double)">
-<h3>rotate</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">rotate</span><wbr><span class="parameters">(double&nbsp;theta)</span></div>
-<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
-<div class="block">Rotates the robot by a certain amount.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>theta</code> - The amount to rotate the robot by.
-              Positive values rotate the robot clockwise.
-              Negative values rotate the robot counterclockwise.
-              The angle is in radians.</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list-long">
-<li><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Math.html#toRadians(double)" title="class or interface in java.lang" class="external-link"><code>Math.toRadians(double)</code></a></li>
-<li><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Math.html#toDegrees(double)" title="class or interface in java.lang" class="external-link"><code>Math.toDegrees(double)</code></a></li>
-<li><a href="../math/rotation/Rotation2d.html#fromDegrees(double)"><code>Rotation2d.fromDegrees(double)</code></a></li>
-<li><a href="../math/rotation/Rotation2d.html#getTheta()"><code>Rotation2d.getTheta()</code></a></li>
-<li><a href="#move(double,double)"><code>move(double, double)</code></a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="onMove()">
-<h3>onMove</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onMove</span>()</div>
-<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
-<div class="block">Event called whenever the robot moves.
- Override this method with:
- <code>
- &#64;Override
- protected void onMove() {
-     //your code here
-     //this code will be executed whenever the robot moves
- }
- </code></div>
 </section>
 </li>
 <li>
@@ -693,34 +537,6 @@ implements <a href="../telemetry/Logger.html" title="interface in me.autobot.lib
      //this code will be executed when the robot is stopped
      }
  </code></div>
-</section>
-</li>
-<li>
-<section class="detail" id="getPosition()">
-<h3>getPosition</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../math/coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></span>&nbsp;<span class="element-name">getPosition</span>()</div>
-<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
-<div class="block">Returns the position of the robot using the odometry.
- If the odometry is not set, it'll return a zero vector.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The position of the robot.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getRotation()">
-<h3>getRotation</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../math/rotation/Rotation2d.html" title="class in me.autobot.lib.math.rotation">Rotation2d</a></span>&nbsp;<span class="element-name">getRotation</span>()</div>
-<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
-<div class="block">Returns the rotation of the robot using the odometry.
- If the odometry is not set, it'll return a zero rotation.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The rotation of the robot.</dd>
-</dl>
 </section>
 </li>
 <li>
@@ -783,94 +599,6 @@ implements <a href="../telemetry/Logger.html" title="interface in me.autobot.lib
 <div class="block">Registers all the devices of the robot.
  This should be called after assigning all the devices to the robot, but BEFORE connecting them to I2C.
  TODO: Deprecate this method and replace it with a default behavior.</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getRobotSize()">
-<h3>getRobotSize</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../math/coordinates/Vector2d.html" title="class in me.autobot.lib.math.coordinates">Vector2d</a></span>&nbsp;<span class="element-name">getRobotSize</span>()</div>
-<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
-<div class="block">Gets the size of the robot.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The size of the robot.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="inCollision()">
-<h3>inCollision</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">inCollision</span>()</div>
-<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
-<div class="block">Checks if the robot is in collision with any obstacles.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>True if the robot is in collision with any obstacles, false otherwise.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getOdometry()">
-<h3>getOdometry</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../odometry/SimpleOdometry2d.html" title="class in me.autobot.lib.odometry">SimpleOdometry2d</a></span>&nbsp;<span class="element-name">getOdometry</span>()</div>
-<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
-<div class="block">Gets the odometry of the robot.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The odometry of the robot.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setOdometry(me.autobot.lib.odometry.SimpleOdometry2d)">
-<h3>setOdometry</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setOdometry</span><wbr><span class="parameters">(<a href="../odometry/SimpleOdometry2d.html" title="class in me.autobot.lib.odometry">SimpleOdometry2d</a>&nbsp;odometry)</span></div>
-<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
-<div class="block">Sets the odometry of the robot.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>odometry</code> - The odometry of the robot.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setFlag(java.lang.String,int)">
-<h3>setFlag</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setFlag</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- int&nbsp;value)</span></div>
-<div class="block">Sets a flag for the robot.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>key</code> - The key of the flag.</dd>
-<dd><code>value</code> - The value of the flag.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getFlag(java.lang.String)">
-<h3>getFlag</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getFlag</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key)</span></div>
-<div class="block">Gets a flag for the robot.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>key</code> - The key of the flag.</dd>
-<dt>Returns:</dt>
-<dd>The value of the flag.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="reset()">
-<h3>reset</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">reset</span>()</div>
-<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
-<div class="block">Resets the robot.
- This method resets the robot's position and rotation to the starting position and rotation.</div>
 </section>
 </li>
 <li>

@@ -28,6 +28,15 @@ public class I2CConnection extends Connection {
      * */
     public static final int default_bus = 1;
 
+    private static boolean connectionsDisabled = false;
+
+    /**
+     * Disable all connections.
+     * */
+    public static void disableConnections() {
+        connectionsDisabled = true;
+    }
+
     private Context context;
     private I2CProvider provider;
 
@@ -47,17 +56,19 @@ public class I2CConnection extends Connection {
      * @param device The device of the I2C device.
      * */
     public I2CConnection(String id, int bus, int device) {
-        context = Pi4J.newAutoContext();
-        provider = context.provider("linuxfs-i2c");
-        config = I2C.newConfigBuilder(context)
-                .id(id)
-                .bus(bus)
-                .device(device)
-                .build();
-        this.device = provider.create(config);   
+        if (connectionsDisabled) {
+            context = Pi4J.newAutoContext();
+            provider = context.provider("linuxfs-i2c");
+            config = I2C.newConfigBuilder(context)
+                    .id(id)
+                    .bus(bus)
+                    .device(device)
+                    .build();
+            this.device = provider.create(config);
 
-        this.deviceAddress = device;
-        this.bus = bus;
+            this.deviceAddress = device;
+            this.bus = bus;
+        }
     }
 
     /**
@@ -65,6 +76,8 @@ public class I2CConnection extends Connection {
      * @param data The data to write to the I2C device.
      * */
     public void write(byte[] data) {
+        if (connectionsDisabled) return;
+
         try {
             device.write(data);
         } catch (Exception e) {
@@ -82,6 +95,8 @@ public class I2CConnection extends Connection {
      * @return The data read from the I2C device.
      * */
     public byte[] read(int length) {
+        if (connectionsDisabled) return new byte[0];
+
         ByteBuffer buff = device.readByteBuffer(length);
 
         return buff.array();

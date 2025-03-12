@@ -4,10 +4,18 @@ import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoWSD;
 import kotlin.Pair;
 import me.autobot.lib.math.Mathf;
+import me.autobot.lib.tools.suppliers.ByteSupplier;
+import me.autobot.lib.tools.suppliers.FloatSupplier;
+import me.autobot.lib.tools.suppliers.ShortSupplier;
+import me.autobot.lib.tools.suppliers.StringSupplier;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.*;
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+import java.util.function.IntSupplier;
+import java.util.function.LongSupplier;
 
 
 /**
@@ -82,6 +90,23 @@ public class Topica extends NanoWSD.WebSocket {
      * */
     protected static boolean isVerbose() {
         return database.hasTopic("/topica/verbose") && database.getTopic("/topica/verbose").getAsBoolean();
+    }
+
+    /**
+     * Gets or creates a topic if it does not exist.
+     * @param path The path of the topic.
+     * @param type The type of the topic.
+     * */
+    public static Database.Topic topic(String path, byte type) {
+        if (database == null) {
+            createDatabase();
+        }
+
+        if (database.hasTopic(path)) {
+            return database.getTopic(path);
+        }
+
+        return new Database.Topic(path, type, new byte[0]);
     }
 
     /**
@@ -205,6 +230,10 @@ public class Topica extends NanoWSD.WebSocket {
             private byte type;
 
             private ArrayList<UpdateCallback> callbacks;
+
+            private TimerTask updateTask;
+            private Timer updateTimer;
+            private long updateTime = 100; //ms
 
             /**
              * Creates a new topic.
@@ -526,6 +555,175 @@ public class Topica extends NanoWSD.WebSocket {
              * */
             public String getName() {
                 return path;
+            }
+
+            /**
+             * Cancels any previous binding if it exists.
+             * */
+            private void cancelPreviousBindingIfExists() {
+                if (updateTask != null) {
+                    updateTask.cancel();
+                    updateTimer.cancel();
+                }
+            }
+
+            /**
+             * Binds the topic to a supplier.
+             * @param supplier The supplier to bind to.
+             */
+            public void bind(ByteSupplier supplier) {
+                cancelPreviousBindingIfExists();
+
+                updateTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        Byte[] bytes = supplier.get();
+
+                        byte[] data = new byte[bytes.length];
+                        for (int i = 0; i < bytes.length; i++) {
+                            data[i] = bytes[i];
+                        }
+
+                        update(data);
+                    }
+                };
+
+                updateTimer = new Timer();
+                updateTimer.schedule(updateTask, 0, updateTime);
+            }
+
+            /**
+             * Binds the topic to a supplier.
+             * @param supplier The supplier to bind to.
+             */
+            public void bind(ShortSupplier supplier) {
+                cancelPreviousBindingIfExists();
+
+                updateTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        update(supplier.get());
+                    }
+                };
+
+                updateTimer = new Timer();
+                updateTimer.schedule(updateTask, 0, updateTime);
+            }
+
+            /**
+             * Binds the topic to a supplier.
+             * @param supplier The supplier to bind to.
+             */
+            public void bind(IntSupplier supplier) {
+                cancelPreviousBindingIfExists();
+
+                updateTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        update(supplier.getAsInt());
+                    }
+                };
+
+                updateTimer = new Timer();
+                updateTimer.schedule(updateTask, 0, updateTime);
+            }
+
+            /**
+             * Binds the topic to a supplier.
+             * @param supplier The supplier to bind to.
+             */
+            public void bind(LongSupplier supplier) {
+                cancelPreviousBindingIfExists();
+
+                updateTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        update(supplier.getAsLong());
+                    }
+                };
+
+                updateTimer = new Timer();
+                updateTimer.schedule(updateTask, 0, updateTime);
+            }
+
+            /**
+             * Binds the topic to a supplier.
+             * @param supplier The supplier to bind to.
+             */
+            public void bind(FloatSupplier supplier) {
+                cancelPreviousBindingIfExists();
+
+                updateTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        update(supplier.get());
+                    }
+                };
+
+                updateTimer = new Timer();
+                updateTimer.schedule(updateTask, 0, updateTime);
+            }
+
+            /**
+             * Binds the topic to a supplier.
+             * @param supplier The supplier to bind to.
+             */
+            public void bind(DoubleSupplier supplier) {
+                cancelPreviousBindingIfExists();
+
+                updateTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        update(supplier.getAsDouble());
+                    }
+                };
+
+                updateTimer = new Timer();
+                updateTimer.schedule(updateTask, 0, updateTime);
+            }
+
+            /**
+             * Binds the topic to a supplier.
+             * @param supplier The supplier to bind to.
+             */
+            public void bind(StringSupplier supplier) {
+                cancelPreviousBindingIfExists();
+
+                updateTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        update(supplier.get());
+                    }
+                };
+
+                updateTimer = new Timer();
+                updateTimer.schedule(updateTask, 0, updateTime);
+            }
+
+            /**
+             * Binds the topic to a supplier.
+             * @param supplier The supplier to bind to.
+             */
+            public void bind(BooleanSupplier supplier) {
+                cancelPreviousBindingIfExists();
+
+                updateTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        update(supplier.getAsBoolean());
+                    }
+                };
+
+                updateTimer = new Timer();
+                updateTimer.schedule(updateTask, 0, updateTime);
+            }
+
+            /**
+             * Sets the update time of the topic.
+             * @param time The time to update the topic.
+             * */
+            public void bindLoopTime(long time) {
+                updateTime = time;
             }
         }
 

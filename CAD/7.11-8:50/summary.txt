@@ -1,5 +1,0 @@
-- started on shell
-- flipped wheels, still sort of broken though (fusion's fault not mine)
-
-todo:
-- finish shell

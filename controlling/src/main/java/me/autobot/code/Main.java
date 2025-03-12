@@ -1,7 +1,6 @@
 package me.autobot.code;
 
 import me.autobot.lib.robot.Robot;
-import me.autobot.sim.Simulation;
 
 /**
  * The main entry point to the program.
@@ -16,7 +15,7 @@ public class Main {
      * This is the entry point of the code.
      * Just create a new instance of whatever Robot class you may want to run, and the code will start running.
      * Note: This is NOT for simulation. This is for running the code on the actual robot.
-     * @see Simulation
+     * @see me.autobot.simulation.Simulate
      * @see me.autobot.lib.robot.Robot
      * @param args The arguments passed to the program.
      * */

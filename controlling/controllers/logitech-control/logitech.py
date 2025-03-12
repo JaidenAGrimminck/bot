@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../../../topica')
+
 from topica import TopicaServer
 from gamepad import Gamepad
 import numpy as np
