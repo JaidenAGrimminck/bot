@@ -1,4 +1,5 @@
 package me.autobot.lib.tools.lambdas;
 
-public class ByteLambda {
+public interface ByteLambda extends ObjectLambda {
+    void run(byte a);
 }

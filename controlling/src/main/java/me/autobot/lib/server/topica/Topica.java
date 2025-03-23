@@ -4,10 +4,8 @@ import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoWSD;
 import kotlin.Pair;
 import me.autobot.lib.math.Mathf;
-import me.autobot.lib.tools.suppliers.ByteSupplier;
-import me.autobot.lib.tools.suppliers.FloatSupplier;
-import me.autobot.lib.tools.suppliers.ShortSupplier;
-import me.autobot.lib.tools.suppliers.StringSupplier;
+import me.autobot.lib.tools.lambdas.*;
+import me.autobot.lib.tools.suppliers.*;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -235,6 +233,8 @@ public class Topica extends NanoWSD.WebSocket {
             private Timer updateTimer;
             private long updateTime = 100; //ms
 
+            private List<ObjectLambda> internalSubscriptions = new ArrayList<>();
+
             /**
              * Creates a new topic.
              * @param path The path of the topic.
@@ -453,6 +453,7 @@ public class Topica extends NanoWSD.WebSocket {
                 this.data = buffer.array();
 
                 runCallbacks();
+                runInternalSubscriptions();
             }
 
             /**
@@ -465,6 +466,7 @@ public class Topica extends NanoWSD.WebSocket {
                 this.data = buffer.array();
 
                 runCallbacks();
+                runInternalSubscriptions();
             }
 
             /**
@@ -477,6 +479,7 @@ public class Topica extends NanoWSD.WebSocket {
                 this.data = buffer.array();
 
                 runCallbacks();
+                runInternalSubscriptions();
             }
 
             /**
@@ -489,6 +492,7 @@ public class Topica extends NanoWSD.WebSocket {
                 this.data = buffer.array();
 
                 runCallbacks();
+                runInternalSubscriptions();
             }
 
             /**
@@ -499,6 +503,7 @@ public class Topica extends NanoWSD.WebSocket {
                 this.data = data.getBytes();
 
                 runCallbacks();
+                runInternalSubscriptions();
             }
 
             /**
@@ -509,6 +514,7 @@ public class Topica extends NanoWSD.WebSocket {
                 this.data = new byte[] { (byte) (data ? 1 : 0) };
 
                 runCallbacks();
+                runInternalSubscriptions();
             }
 
             /**
@@ -519,6 +525,44 @@ public class Topica extends NanoWSD.WebSocket {
                 this.data = data;
 
                 runCallbacks();
+                runInternalSubscriptions();
+            }
+
+            protected void runInternalSubscriptions() {
+                // run general since byte data might just be updated
+                for (ObjectLambda lambda : internalSubscriptions) {
+                    switch (type) {
+                        case BYTE_TYPE:
+                            ((ByteLambda) lambda).run(data[0]);
+                            break;
+                        case SHORT_TYPE:
+                            ByteBuffer buffer = ByteBuffer.wrap(data);
+                            ((ShortLambda) lambda).run(buffer.getShort());
+                            break;
+                        case INT_TYPE:
+                            ByteBuffer buffer2 = ByteBuffer.wrap(data);
+                            ((IntegerLambda) lambda).run(buffer2.getInt());
+                            break;
+                        case LONG_TYPE:
+                            ByteBuffer buffer3 = ByteBuffer.wrap(data);
+                            ((LongLambda) lambda).run(buffer3.getLong());
+                            break;
+                        case FLOAT_TYPE:
+                            ByteBuffer buffer4 = ByteBuffer.wrap(data);
+                            ((FloatLambda) lambda).run(buffer4.getFloat());
+                            break;
+                        case DOUBLE_TYPE:
+                            ByteBuffer buffer5 = ByteBuffer.wrap(data);
+                            ((DoubleLambda) lambda).run(buffer5.getDouble());
+                            break;
+                        case STRING_TYPE:
+                            ((StringLambda) lambda).run(new String(data));
+                            break;
+                        case BOOLEAN_TYPE:
+                            ((BooleanLambda) lambda).run(data[0] == 1);
+                            break;
+                    }
+                }
             }
 
             /**
@@ -724,6 +768,55 @@ public class Topica extends NanoWSD.WebSocket {
              * */
             public void bindLoopTime(long time) {
                 updateTime = time;
+            }
+
+            /**
+             * Subscribes to the topic. If not the correct type, it will not subscribe.
+             * @param lambda The lambda to subscribe to.
+             * */
+            public void subscribe(ObjectLambda lambda) {
+                switch (type) {
+                    case BYTE_TYPE:
+                        if (lambda instanceof ByteSupplier) {
+                            internalSubscriptions.add(lambda);
+                        }
+                        break;
+                    case SHORT_TYPE:
+                        if (lambda instanceof ShortSupplier) {
+                            internalSubscriptions.add(lambda);
+                        }
+                        break;
+                    case INT_TYPE:
+                        if (lambda instanceof IntSupplier) {
+                            internalSubscriptions.add(lambda);
+                        }
+                        break;
+                    case LONG_TYPE:
+                        if (lambda instanceof LongSupplier) {
+                            internalSubscriptions.add(lambda);
+                        }
+                        break;
+                    case FLOAT_TYPE:
+                        if (lambda instanceof FloatSupplier) {
+                            internalSubscriptions.add(lambda);
+                        }
+                        break;
+                    case DOUBLE_TYPE:
+                        if (lambda instanceof DoubleSupplier) {
+                            internalSubscriptions.add(lambda);
+                        }
+                        break;
+                    case STRING_TYPE:
+                        if (lambda instanceof StringSupplier) {
+                            internalSubscriptions.add(lambda);
+                        }
+                        break;
+                    case BOOLEAN_TYPE:
+                        if (lambda instanceof BooleanSupplier) {
+                            internalSubscriptions.add(lambda);
+                        }
+                        break;
+                }
             }
         }
 

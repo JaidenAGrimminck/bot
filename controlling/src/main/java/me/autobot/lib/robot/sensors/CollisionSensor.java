@@ -9,7 +9,7 @@ public class CollisionSensor extends Sensor {
     /**
      * Creates a new collision sensor (for simulation) with the given identifier and address.
      * @param identifier The identifier of the sensor. Could be any number, should be unique to all other sensors on the robot.
-\     * */
+    * */
     public CollisionSensor(int identifier) {
         super(identifier, 1);
         setSensorValues(0);
