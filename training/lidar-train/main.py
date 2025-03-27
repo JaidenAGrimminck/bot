@@ -137,12 +137,12 @@ def draw(frame):
             # save the top 10
             for j, agent in enumerate(agents[:10]):
                 if not agent.reached_goal:
-                    agent.save(f"{data_dir}saves-{rt}{file_connection}gen-{s}{file_connection}agent-{j}.npy")
+                    agent.save(f"{data_dir}{file_connection}saves-{rt}{file_connection}gen-{s}{file_connection}agent-{j}")
 
             # save any that have reached the goal
             for j, agent in agents:
                 if agent.reached_goal:
-                    agent.save(f"{data_dir}saves-{rt}{file_connection}gen-{s}{file_connection}agent-SUCCESS-{j}.npy")
+                    agent.save(f"{data_dir}{file_connection}saves-{rt}{file_connection}gen-{s}{file_connection}agent-SUCCESS-{j}")
 
         # mutate the top 10%
         for agent in agents[:num_agents // 10]:
