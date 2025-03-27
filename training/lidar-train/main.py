@@ -8,7 +8,7 @@ import environment as ev
 from agent import Agent
 from math import pi, sin
 #from topica import TopicaServer
-from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process, render
+from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process, render, t_limit_ext, t_initial, verbose
 import os
 import time
 import multiprocessing as mp
@@ -101,9 +101,9 @@ def setup():
     ))
 
     obstacles.append(ev.Rectangle(
-        60, 20,
-        -pi / 10,
-        50, 10
+        65, 20,
+        pi / 10,
+        30, 10
     ))
 
     obstacles.append(ev.Rectangle(
@@ -136,8 +136,8 @@ i = 0
 t = 0
 s = 1
 
-t_limit = 5
-t_limit_ext = 5
+t_limit = t_initial
+
 
 def draw(frame):
     global i, t, t_limit, s, agents
@@ -182,7 +182,8 @@ def draw(frame):
 
     t += dt #dt
 
-    print(f"Epoch {i} complete.")
+    if verbose >= 2:
+        print(f"Epoch {i} complete.")
 
     if t > t_limit:
         t = 0
@@ -229,9 +230,10 @@ def draw(frame):
         for agent in agents[num_agents // 10:]:
             agent.crossover(agents[np.random.randint(num_agents)])
         
-        print(f"Generation {s} completed (t={t_limit})")
-        print(f"Top 10 agents: {[agent.points for agent in agents[:10]]}")
-        print("\n")
+        if verbose >= 1:
+            print(f"Generation {s} completed (t={t_limit})")
+            print(f"Top 10 agents: {[agent.points for agent in agents[:10]]}")
+            print("\n")
 
         for agent in agents:
             agent.reset(begin["pos"], begin["rot"])
