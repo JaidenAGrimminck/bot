@@ -13,6 +13,7 @@ dt = 0.1
 mutation_rate = 0.1
 
 save_files = True
+multi_process = True
 
 base_dir = os.path.dirname(os.path.realpath(__file__))
 data_dir = os.path.join(base_dir, "data")

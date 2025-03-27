@@ -8,9 +8,30 @@ import environment as ev
 from agent import Agent
 from math import pi, sin
 #from topica import TopicaServer
-from constants import num_agents, dt, save_files, data_dir, file_connection
+from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process
 import os
 import time
+import multiprocessing as mp
+from functools import partial
+
+# Set up multiprocessing
+def process_agent(agent, goal, obstacles, dt):
+    if agent.has_collided or agent.reached_goal:
+        return agent
+    
+    agent.lidar(obstacles)
+    agent.predict(np.array(goal))
+    agent.step(dt)
+    agent.collided(obstacles)
+    agent.reached(np.array(goal))
+    
+    return agent
+
+def process_agents_parallel(agents, goal, obstacles, dt):
+    with mp.Pool(processes=mp.cpu_count()) as pool:
+        process_func = partial(process_agent, goal=goal, obstacles=obstacles, dt=dt)
+        updated_agents = pool.map(process_func, agents)
+    return updated_agents
 
 obstacles = []
 agents = []
@@ -79,7 +100,7 @@ t_limit = 5
 t_limit_ext = 5
 
 def draw(frame):
-    global i, t, t_limit, s
+    global i, t, t_limit, s, agents
 
     plt.clf()
     plt.xlim(0, 100)
@@ -94,20 +115,25 @@ def draw(frame):
     plt.scatter(goal[0], goal[1], color='green', s=10)
     plt.scatter(start[0], start[1], color='blue', s=10)
 
-    for agent in agents:
-        if agent.has_collided or agent.reached_goal:
+    if not multi_process:
+        for agent in agents:
+            if agent.has_collided or agent.reached_goal:
+                agent.plot(plt)
+                continue
+            
             agent.plot(plt)
-            continue
-        
-        agent.plot(plt)
-        agent.lidar(obstacles)
-        agent.predict(np.array(goal))
-        agent.step(dt) # 0.1 seconds steps
-        agent.collided(obstacles)
-        agent.reached(np.array(goal))
+            agent.lidar(obstacles)
+            agent.predict(np.array(goal))
+            agent.step(dt) # 0.1 seconds steps
+            agent.collided(obstacles)
+            agent.reached(np.array(goal))
 
-        if agent.has_collided:
-            agent.points -= 1
+            if agent.has_collided:
+                agent.points -= 1
+    else:
+        agents = process_agents_parallel(agents, goal, obstacles, dt)
+        for agent in agents:
+            agent.plot(plt)
 
     i += 1
 
