@@ -147,6 +147,8 @@ def draw(frame):
 
     t += dt #dt
 
+    print(f"Epoch {i} complete.")
+
     if t > t_limit:
         t = 0
         i = 0
