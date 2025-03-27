@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import convolve1d
+from constants import conversion
 
 class LidarProcessor:
     """Process raw LIDAR data and prepare it for neural network input"""
@@ -164,6 +165,20 @@ class RobotController:
         self.network = EnhancedNeuralNetwork([input_size, 64, 32, output_size])
         self.network.randomize()  # Initialize with random weights
     
+    def crossover(self, other):
+        """Crossover with another controller for genetic algorithm training"""
+        new_network = self.network.clone()
+        for i in range(len(self.network.weights)):
+            mask = np.random.randint(2, size=self.network.weights[i].shape)
+            new_network.weights[i] = np.where(mask, self.network.weights[i], other.network.weights[i])
+            
+            mask = np.random.randint(2, size=self.network.biases[i].shape)
+            new_network.biases[i] = np.where(mask, self.network.biases[i], other.network.biases[i])
+        
+        new_controller = RobotController(num_lidar_points=self.num_lidar_points)
+        new_controller.network = new_network
+        return new_controller
+
     def get_action(self, lidar_readings, goal_direction, goal_distance):
         """
         Determine robot action based on sensor readings and goal
@@ -182,7 +197,7 @@ class RobotController:
         # Normalize goal information
         sin_goal = np.sin(goal_direction)
         cos_goal = np.cos(goal_direction)
-        normalized_distance = min(1.0, goal_distance / 10.0)  # Assume max relevant distance is 10m
+        normalized_distance = min(1.0, goal_distance / (conversion * 10))  # Assume max relevant distance is 10m
         
         # Create input vector for neural network
         nn_input = np.concatenate([
@@ -204,6 +219,13 @@ class RobotController:
         
         return linear_velocity, angular_velocity
     
+    def mutate(self, mutation_rate):
+        """Mutate the controller for genetic algorithm training"""
+        new_network = self.network.mutate_weights(mutation_rate)
+        new_controller = RobotController(num_lidar_points=self.num_lidar_points)
+        new_controller.network = new_network
+        return new_controller
+
     def save(self, filename):
         """Save the controller"""
         self.network.save(filename)

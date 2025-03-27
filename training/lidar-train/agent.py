@@ -5,9 +5,9 @@ import numpy as np
 import environment as ev
 import matplotlib as mpl
 from math import pi
-from constants import conversion, wheel_base, max_wheel_speed
+from constants import conversion, wheel_base, max_wheel_speed, mutation_rate
 from robot import arcade_drive
-
+from neural_network import RobotController
 
 
 max_ray = conversion * 10 # 10 meters
@@ -24,6 +24,15 @@ class Agent:
 
         self.forward_input = 0
         self.horizontal_input = 0
+
+        self.lidar_cache = []
+
+        self.controller = RobotController(36)
+
+        self.has_collided = False
+        self.reached_goal = False
+
+        self.points = 0
     
     def plot(self, plt):
         # update internals of rectangle
@@ -34,6 +43,8 @@ class Agent:
 
     def lidar(self, obstacles=[], plt=None):
         rot = int(self.rotation / pi * 180)
+        cache = []
+
         for t in range(rot, 360 + rot, 10):
             dir = np.array([
                 max_ray * np.cos(t / 180 * np.pi),
@@ -63,7 +74,42 @@ class Agent:
                     plt.plot([self.location[0], end[0]], [self.location[1], end[1]], color='red', alpha=0.2)
                 else:
                     plt.plot([self.location[0], dir[0] + self.location[0]], [self.location[1], dir[1] + self.location[1]], color='black', alpha=0.2)
+            
+            if closest is not None:
+                cache.append(np.linalg.norm(closest - self.location))
+            else:
+                cache.append(max_ray)
+        
+        self.lidar_cache = cache
+
         pass
+
+    def predict(self, goal=np.array([92,92])):
+        dir = goal - self.location
+        dir = dir / np.linalg.norm(dir)
+        # convert to angle
+        theta = np.arctan2(dir[1], dir[0])
+        theta = theta - self.rotation
+
+        distance = np.linalg.norm(goal - self.location)
+
+        y, x = self.controller.get_action(np.array(self.lidar_cache), theta, distance)
+
+        self.forward_input = y
+        self.horizontal_input = x
+    
+    def collided(self, obstacles=[]):
+        for obs in obstacles:
+            if obs.intersects(self.internal_rectangle):
+                self.has_collided = True
+                return True
+        return False
+    
+    def reached(self, goal):
+        if np.linalg.norm(goal - self.location) < 1:
+            self.reached_goal = True
+            return True
+        return False
 
     def step(self, dt):
         left_output, right_output = arcade_drive(self.forward_input, self.horizontal_input)
@@ -81,4 +127,29 @@ class Agent:
 
         self.location = np.array([x, y])
         self.rotation = theta
-        
+        pass
+
+    def mutate(self):
+        self.controller.mutate(mutation_rate)
+        pass
+
+    def crossover(self, other):
+        self.controller.crossover(other.controller)
+        pass
+
+    def reset(self, pos, rot):
+        self.location = pos
+        self.rotation = rot
+        self.has_collided = False
+        self.forward_input = 0
+        self.horizontal_input = 0
+        self.lidar_cache = []
+
+        self.points = 0
+
+        self.internal_rectangle._calculate_corners()
+        pass
+
+    def save(self, path):
+        self.controller.save(path)
+        pass

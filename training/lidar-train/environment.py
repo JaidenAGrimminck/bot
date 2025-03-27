@@ -180,6 +180,32 @@ class Rectangle(Object):
         
         return ax
     
+    def intersects(self, other):
+        # Check if any corner of 'other' is inside 'self'
+        if any(self.signedDistance(pt) <= 0 for pt in other.corners):
+            return True
+        # Check if any corner of 'self' is inside 'other'
+        if any(other.signedDistance(pt) <= 0 for pt in self.corners):
+            return True
+
+        # Helper to check if two line segments intersect
+        def segs_intersect(a1, a2, b1, b2):
+            denom = (b2[1] - b1[1]) * (a2[0] - a1[0]) - (b2[0] - b1[0]) * (a2[1] - a1[1])
+            if abs(denom) < 1e-10:
+                return False
+            ua = ((b2[0] - b1[0]) * (a1[1] - b1[1]) - (b2[1] - b1[1]) * (a1[0] - b1[0])) / denom
+            ub = ((a2[0] - a1[0]) * (a1[1] - b1[1]) - (a2[1] - a1[1]) * (a1[0] - b1[0])) / denom
+            return 0 <= ua <= 1 and 0 <= ub <= 1
+
+        # Check all edges for intersection
+        for i in range(4):
+            for j in range(4):
+                if segs_intersect(self.corners[i], self.corners[(i + 1) % 4],
+                                    other.corners[j], other.corners[(j + 1) % 4]):
+                    return True
+        
+        return False
+    
     def __repr__(self):
         return f"Rectangle(center={self.center}, rotation={self.rotation}, width={self.width}, height={self.height})"
 
