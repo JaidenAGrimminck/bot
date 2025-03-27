@@ -10,3 +10,5 @@ num_agents = 100
 dt = 0.1
 
 mutation_rate = 0.1
+
+save_files = True

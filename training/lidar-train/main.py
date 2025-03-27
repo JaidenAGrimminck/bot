@@ -8,7 +8,7 @@ import environment as ev
 from agent import Agent
 from math import pi, sin
 #from topica import TopicaServer
-from constants import num_agents, dt
+from constants import num_agents, dt, save_files
 import os
 import time
 
@@ -118,9 +118,7 @@ def draw(frame):
         i = 0
         s += 1
 
-        # check if the "saves" folder is present
-        if not os.path.exists(f"saves-{rt}"):
-            os.makedirs(f"saves-{rt}")
+        
 
         # give points based on distance to goal
         for agent in agents:
@@ -129,17 +127,22 @@ def draw(frame):
         # order agents by points
         agents.sort(key=lambda x: x.points, reverse=True)
 
-        os.makedirs(f"saves/gen-{s}", exist_ok=True)
+        if save_files:
+            # check if the "saves" folder is present
+            if not os.path.exists(f"saves-{rt}"):
+                os.makedirs(f"saves-{rt}")
+            
+            os.makedirs(f"saves/gen-{s}", exist_ok=True)
 
-        # save the top 10
-        for j, agent in enumerate(agents[:10]):
-            if not agent.reached_goal:
-                agent.save(f"saves-{rt}/gen-{s}/agent-{j}.npy")
+            # save the top 10
+            for j, agent in enumerate(agents[:10]):
+                if not agent.reached_goal:
+                    agent.save(f"saves-{rt}/gen-{s}/agent-{j}.npy")
 
-        # save any that have reached the goal
-        for j, agent in agents:
-            if agent.reached_goal:
-                agent.save(f"saves-{rt}/gen-{s}/agent-SUCCESS-{j}.npy")
+            # save any that have reached the goal
+            for j, agent in agents:
+                if agent.reached_goal:
+                    agent.save(f"saves-{rt}/gen-{s}/agent-SUCCESS-{j}.npy")
 
         # mutate the top 10%
         for agent in agents[:num_agents // 10]:
@@ -152,7 +155,9 @@ def draw(frame):
         for agent in agents:
             agent.reset(begin["pos"], begin["rot"])
         
-        print(t_limit)
+        print(f"Generation {s} completed (t={t_limit})")
+        print(f"Top 10 agents: {[agent.points for agent in agents[:10]]}")
+        print("\n")
 
         t_limit += t_limit_ext
 
