@@ -132,7 +132,7 @@ def draw(frame):
             if not os.path.exists(f"{data_dir}{file_connection}saves-{rt}"):
                 os.makedirs(f"{data_dir}{file_connection}saves-{rt}")
             
-            os.makedirs(f"{data_dir}{file_connection}saves{file_connection}gen-{s}", exist_ok=True)
+            os.makedirs(f"{data_dir}{file_connection}saves-{rt}{file_connection}gen-{s}", exist_ok=True)
 
             # save the top 10
             for j, agent in enumerate(agents[:10]):
