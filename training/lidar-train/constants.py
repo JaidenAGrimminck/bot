@@ -1,5 +1,6 @@
-# # of pixels to 1 meter
+import os
 
+# # of pixels to 1 meter
 conversion = 10 / 1
 
 wheel_base = 0.4 * conversion  # Distance between the wheels (m => pixel units)
@@ -12,3 +13,9 @@ dt = 0.1
 mutation_rate = 0.1
 
 save_files = True
+
+base_dir = os.path.dirname(os.path.realpath(__file__))
+data_dir = os.path.join(base_dir, "data")
+
+# / on macos and \ on windows
+file_connection = "\\" if os.name == "nt" else "/"

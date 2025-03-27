@@ -8,7 +8,7 @@ import environment as ev
 from agent import Agent
 from math import pi, sin
 #from topica import TopicaServer
-from constants import num_agents, dt, save_files
+from constants import num_agents, dt, save_files, data_dir, file_connection
 import os
 import time
 
@@ -129,20 +129,20 @@ def draw(frame):
 
         if save_files:
             # check if the "saves" folder is present
-            if not os.path.exists(f"saves-{rt}"):
-                os.makedirs(f"saves-{rt}")
+            if not os.path.exists(f"{data_dir}{file_connection}saves-{rt}"):
+                os.makedirs(f"{data_dir}{file_connection}saves-{rt}")
             
-            os.makedirs(f"saves/gen-{s}", exist_ok=True)
+            os.makedirs(f"{data_dir}{file_connection}saves{file_connection}gen-{s}", exist_ok=True)
 
             # save the top 10
             for j, agent in enumerate(agents[:10]):
                 if not agent.reached_goal:
-                    agent.save(f"saves-{rt}/gen-{s}/agent-{j}.npy")
+                    agent.save(f"{data_dir}saves-{rt}{file_connection}gen-{s}{file_connection}agent-{j}.npy")
 
             # save any that have reached the goal
             for j, agent in agents:
                 if agent.reached_goal:
-                    agent.save(f"saves-{rt}/gen-{s}/agent-SUCCESS-{j}.npy")
+                    agent.save(f"{data_dir}saves-{rt}{file_connection}gen-{s}{file_connection}agent-SUCCESS-{j}.npy")
 
         # mutate the top 10%
         for agent in agents[:num_agents // 10]:
