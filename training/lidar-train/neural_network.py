@@ -3,6 +3,129 @@ import matplotlib.pyplot as plt
 from scipy.ndimage import convolve1d
 from constants import conversion
 
+torch_installed = False
+
+try:
+    import torch
+
+    torch_installed = True
+except ImportError:
+    print("Torch not installed, ignoring.")
+
+import numpy as np
+import platform
+import subprocess
+import os
+
+def check_amd_gpu():
+    """Check specifically for AMD GPU availability"""
+    if platform.system() == "Windows":
+        try:
+            import win32com.client
+            wmi = win32com.client.GetObject("winmgmts:")
+            for gpu in wmi.InstancesOf("Win32_VideoController"):
+                if "AMD" in gpu.Name and "Radeon" in gpu.Name:
+                    return True, gpu.Name
+        except:
+            pass
+    elif platform.system() == "Linux":
+        try:
+            output = subprocess.check_output(["lspci"], universal_newlines=True)
+            if "AMD" in output and "Radeon" in output:
+                for line in output.split('\n'):
+                    if "AMD" in line and "Radeon" in line:
+                        return True, line.strip()
+        except:
+            pass
+    return False, "No AMD Radeon GPU detected"
+
+def check_gpu_availability():
+    """Check if GPU acceleration is available"""
+    has_amd, amd_info = check_amd_gpu()
+
+    if not torch_installed:
+        return "No GPU acceleration available"
+    
+    if torch.cuda.is_available():
+        return f"CUDA ({torch.cuda.get_device_name(0)})", torch.device("cuda")
+    elif hasattr(torch, 'has_rocm') and torch.has_rocm:
+        return f"ROCm (AMD GPU: {amd_info})", torch.device("rocm")
+    elif hasattr(torch.backends, 'mps') and torch.backends.mps.is_available():
+        return "MPS (Apple GPU)", torch.device("mps")
+    elif has_amd:
+        print(f"AMD GPU detected ({amd_info}) but no acceleration available.")
+        print("Consider installing PyTorch with ROCm support")
+        return "CPU (AMD GPU not utilized)", torch.device("cpu")
+    else:
+        return "CPU", torch.device("cpu")
+
+def numpy_to_tensor(np_array, device=None):
+    """Convert NumPy array to PyTorch tensor on appropriate device"""
+    if device is None:
+        _, device = check_gpu_availability()
+    return torch.tensor(np_array, device=device, dtype=torch.float32)
+
+def tensor_to_numpy(tensor):
+    """Convert PyTorch tensor to NumPy array"""
+    return tensor.detach().cpu().numpy()
+
+class GPUNeuralNetwork:
+    """GPU-accelerated version of the neural network"""
+    
+    def __init__(self, shape, device=None):
+        self.shape = shape
+        self.size = len(shape)
+        
+        self.device_info, self.device = check_gpu_availability() if device is None else (None, device)
+        print(f"Using device: {self.device_info}")
+        
+        self.weights = []
+        self.biases = []
+        
+        for i in range(1, self.size):
+            # He initialization
+            self.weights.append(torch.randn(self.shape[i-1], self.shape[i], 
+                                           device=self.device) * 
+                              torch.sqrt(torch.tensor(2.0/self.shape[i-1], device=self.device)))
+            self.biases.append(torch.zeros(self.shape[i], device=self.device))
+    
+    def predict(self, input_data):
+        if isinstance(input_data, np.ndarray):
+            layer = numpy_to_tensor(input_data, self.device)
+        else:
+            layer = input_data
+            
+        # First n-1 layers use ReLU
+        for i in range(self.size - 2):
+            layer = torch.matmul(layer, self.weights[i]) + self.biases[i]
+            layer = torch.relu(layer)
+        
+        # Last layer uses sigmoid
+        layer = torch.matmul(layer, self.weights[-1]) + self.biases[-1]
+        layer = torch.sigmoid(layer)
+        
+        return tensor_to_numpy(layer)
+    
+    # Rest of methods similar to EnhancedNeuralNetwork but using torch functions
+    def zero(self):
+        for i in range(self.size - 1):
+            self.weights[i].zero_()
+            self.biases[i].zero_()
+    
+    def randomize(self):
+        for i in range(self.size - 1):
+            self.weights[i] = torch.randn(self.shape[i-1], self.shape[i], 
+                                       device=self.device) * \
+                           torch.sqrt(torch.tensor(2.0/self.shape[i-1], device=self.device))
+            self.biases[i].zero_()
+    
+    def clone(self):
+        n = GPUNeuralNetwork(self.shape, self.device)
+        for i in range(self.size - 1):
+            n.weights[i] = self.weights[i].clone()
+            n.biases[i] = self.biases[i].clone()
+        return n
+
 class LidarProcessor:
     """Process raw LIDAR data and prepare it for neural network input"""
     
@@ -167,7 +290,10 @@ class RobotController:
         output_size = 2
         
         # Create neural network with appropriate architecture
-        self.network = EnhancedNeuralNetwork([input_size, 64, 32, output_size])
+        if torch_installed:
+            self.network = GPUNeuralNetwork([input_size, 64, 32, output_size])
+        else:
+            self.network = EnhancedNeuralNetwork([input_size, 64, 32, output_size])
         self.network.randomize()  # Initialize with random weights
     
     def crossover(self, other):
@@ -384,5 +510,6 @@ def simulate_environment(visualize=True):
         plt.show()
 
 if __name__ == "__main__":
+    print(check_gpu_availability())
     # Example of using the controller in a simulated environment
-    simulate_environment(visualize=True)
+    #simulate_environment(visualize=True)

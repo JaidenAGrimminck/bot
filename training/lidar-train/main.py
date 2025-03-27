@@ -14,28 +14,63 @@ import time
 import multiprocessing as mp
 from functools import partial
 
-# Set up multiprocessing
-def process_agent(agent, goal, obstacles, dt):
-    if agent.has_collided or agent.reached_goal:
-        return agent
-    
-    agent.lidar(obstacles)
-    agent.predict(np.array(goal))
-    agent.step(dt)
-    agent.collided(obstacles)
-    agent.reached(np.array(goal))
-    
-    return agent
+# Set up multiprocessing with optimizations for 1000 agents
+
+# Global process pool for efficiency
+_process_pool = None
+
+def get_process_pool():
+    """Get or create process pool for reuse"""
+    global _process_pool
+    if _process_pool is None:
+        # Leave one CPU free for system processes
+        processes = max(1, mp.cpu_count() - 1)
+        _process_pool = mp.Pool(processes=processes)
+    return _process_pool
+
+def process_agent_batch(agent_batch, goal, obstacles, dt):
+    """Process a batch of agents in a single process"""
+    for agent in agent_batch:
+        if not (agent.has_collided or agent.reached_goal):
+            agent.lidar(obstacles)
+            agent.predict(np.array(goal))
+            agent.step(dt)
+            agent.collided(obstacles)
+            agent.reached(np.array(goal))
+    return agent_batch
 
 def process_agents_parallel(agents, goal, obstacles, dt):
-    # For small number of agents, sequential processing is faster due to multiprocessing overhead
-    if len(agents) <= 4:  # Threshold can be adjusted based on your specific system
-        return [process_agent(agent, goal, obstacles, dt) for agent in agents]
+    """Process agents in parallel with optimized batching for 1000+ agents"""
+    # For small number of agents, sequential processing is faster
+    if len(agents) <= 20:
+        for agent in agents:
+            if not (agent.has_collided or agent.reached_goal):
+                agent.lidar(obstacles)
+                agent.predict(np.array(goal))
+                agent.step(dt)
+                agent.collided(obstacles)
+                agent.reached(np.array(goal))
+        return agents
     
-    # Only use multiprocessing for larger numbers of agents where it's beneficial
-    with mp.Pool(processes=mp.cpu_count()) as pool:
-        process_func = partial(process_agent, goal=goal, obstacles=obstacles, dt=dt)
-        updated_agents = pool.map(process_func, agents)
+    # Use larger batch sizes for Windows with many agents to reduce overhead
+    num_processes = max(1, mp.cpu_count() - 1)
+    batch_size = max(50, len(agents) // (num_processes * 2))
+    
+    # Create batches of agents
+    agent_batches = [agents[i:i + batch_size] for i in range(0, len(agents), batch_size)]
+    
+    # Get process pool (reused between calls)
+    pool = get_process_pool()
+    
+    # Process batches in parallel
+    process_func = partial(process_agent_batch, goal=goal, obstacles=obstacles, dt=dt)
+    result_batches = pool.map(process_func, agent_batches)
+    
+    # Combine results
+    updated_agents = []
+    for batch in result_batches:
+        updated_agents.extend(batch)
+    
     return updated_agents
 
 obstacles = []
