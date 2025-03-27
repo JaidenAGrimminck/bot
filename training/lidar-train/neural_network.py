@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import convolve1d
-from constants import conversion
+from constants import conversion, use_gpu_accel
 
 torch_installed = False
 
@@ -290,10 +290,11 @@ class RobotController:
         output_size = 2
         
         # Create neural network with appropriate architecture
-        if torch_installed:
+        if torch_installed and use_gpu_accel:
             self.network = GPUNeuralNetwork([input_size, 64, 32, output_size])
         else:
             self.network = EnhancedNeuralNetwork([input_size, 64, 32, output_size])
+        
         self.network.randomize()  # Initialize with random weights
     
     def crossover(self, other):
