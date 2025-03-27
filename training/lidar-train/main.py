@@ -28,6 +28,11 @@ def process_agent(agent, goal, obstacles, dt):
     return agent
 
 def process_agents_parallel(agents, goal, obstacles, dt):
+    # For small number of agents, sequential processing is faster due to multiprocessing overhead
+    if len(agents) <= 4:  # Threshold can be adjusted based on your specific system
+        return [process_agent(agent, goal, obstacles, dt) for agent in agents]
+    
+    # Only use multiprocessing for larger numbers of agents where it's beneficial
     with mp.Pool(processes=mp.cpu_count()) as pool:
         process_func = partial(process_agent, goal=goal, obstacles=obstacles, dt=dt)
         updated_agents = pool.map(process_func, agents)
