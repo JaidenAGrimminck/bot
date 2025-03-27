@@ -8,7 +8,7 @@ import environment as ev
 from agent import Agent
 from math import pi, sin
 #from topica import TopicaServer
-from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process, render, t_limit_ext, t_initial, verbose
+from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process, render, t_limit_ext, t_initial, verbose, windows_batch, macos_batch
 import os
 import time
 import multiprocessing as mp
@@ -54,7 +54,10 @@ def process_agents_parallel(agents, goal, obstacles, dt):
     
     # Use larger batch sizes for Windows with many agents to reduce overhead
     num_processes = max(1, mp.cpu_count() - 1)
-    batch_size = max(50, len(agents) // (num_processes * 2))
+
+    batch_size_b = windows_batch if os.name == "nt" else macos_batch
+
+    batch_size = max(batch_size_b, len(agents) // (num_processes * 2))
     
     # Create batches of agents
     agent_batches = [agents[i:i + batch_size] for i in range(0, len(agents), batch_size)]

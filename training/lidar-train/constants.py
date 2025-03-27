@@ -32,3 +32,6 @@ use_gpu_accel = False
 # 1 has generation printouts
 # 0 has no printouts
 verbose = 2 if os.name == "nt" else 2
+
+macos_batch = 50
+windows_batch = 100
