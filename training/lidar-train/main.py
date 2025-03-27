@@ -8,7 +8,7 @@ import environment as ev
 from agent import Agent
 from math import pi, sin
 #from topica import TopicaServer
-from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process
+from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process, render
 import os
 import time
 import multiprocessing as mp
@@ -107,26 +107,28 @@ t_limit_ext = 5
 def draw(frame):
     global i, t, t_limit, s, agents
 
-    plt.clf()
-    plt.xlim(0, 100)
-    plt.ylim(0, 100)
-    plt.gca().set_aspect('equal', adjustable='box')
-    # x axis and y axis 
-    plt.title(f'Live Simulation t={int(t * 10) / 10}, s={s}, i={i}')
+    if render:
+        plt.clf()
+        plt.xlim(0, 100)
+        plt.ylim(0, 100)
+        plt.gca().set_aspect('equal', adjustable='box')
+        # x axis and y axis 
+        plt.title(f'Live Simulation t={int(t * 10) / 10}, s={s}, i={i}')
 
-    for obs in obstacles:
-        obs.plot(plt)
+        for obs in obstacles:
+            obs.plot(plt)
 
-    plt.scatter(goal[0], goal[1], color='green', s=10)
-    plt.scatter(start[0], start[1], color='blue', s=10)
+        plt.scatter(goal[0], goal[1], color='green', s=10)
+        plt.scatter(start[0], start[1], color='blue', s=10)
 
     if not multi_process:
         for agent in agents:
-            if agent.has_collided or agent.reached_goal:
+            if (agent.has_collided or agent.reached_goal) and render:
                 agent.plot(plt)
                 continue
             
-            agent.plot(plt)
+            if render:
+                agent.plot(plt)
             agent.lidar(obstacles)
             agent.predict(np.array(goal))
             agent.step(dt) # 0.1 seconds steps
@@ -137,8 +139,9 @@ def draw(frame):
                 agent.points -= 1
     else:
         agents = process_agents_parallel(agents, goal, obstacles, dt)
-        for agent in agents:
-            agent.plot(plt)
+        if render:
+            for agent in agents:
+                agent.plot(plt)
 
     i += 1
 
@@ -203,11 +206,15 @@ ani = None
 def run():
     global ani
 
-    plt.figure(figsize=(6, 6))
+    if render:
+        plt.figure(figsize=(6, 6))
 
-    ani = animation.FuncAnimation(plt.gcf(), draw, interval=1)
+        ani = animation.FuncAnimation(plt.gcf(), draw, interval=1)
 
-    plt.show()
+        plt.show()
+    else:
+        while True:
+            draw(None)
     
 
 if __name__ == "__main__":

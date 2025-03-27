@@ -20,3 +20,5 @@ data_dir = os.path.join(base_dir, "data")
 
 # / on macos and \ on windows
 file_connection = "\\" if os.name == "nt" else "/"
+
+render = False
