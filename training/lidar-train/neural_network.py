@@ -126,13 +126,18 @@ class EnhancedNeuralNetwork:
     
     def save(self, filename):
         """Save model weights and biases"""
-        np.savez(filename, weights=self.weights, biases=self.biases)
+        data_dict = {}
+        for i, w in enumerate(self.weights):
+            data_dict[f'weight_{i}'] = w
+        for i, b in enumerate(self.biases):
+            data_dict[f'bias_{i}'] = b
+        np.savez(filename, **data_dict)
     
     def load(self, filename):
         """Load model weights and biases"""
-        data = np.load(filename, allow_pickle=True)
-        self.weights = data['weights']
-        self.biases = data['biases']
+        data = np.load(filename)
+        self.weights = [data[f'weight_{i}'] for i in range(len(self.weights))]
+        self.biases = [data[f'bias_{i}'] for i in range(len(self.biases))]
 
 # Activation functions
 def relu(x):

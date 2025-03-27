@@ -134,15 +134,21 @@ def draw(frame):
             
             os.makedirs(f"{data_dir}{file_connection}saves-{rt}{file_connection}gen-{s}", exist_ok=True)
 
+            j = 0
             # save the top 10
-            for j, agent in enumerate(agents[:10]):
+            for agent in enumerate(agents[:10]):
+                agent = agent[1]
                 if not agent.reached_goal:
                     agent.save(f"{data_dir}{file_connection}saves-{rt}{file_connection}gen-{s}{file_connection}agent-{j}")
+                j += 1
+            j = 0
 
             # save any that have reached the goal
-            for j, agent in agents:
+            for agent in agents:
                 if agent.reached_goal:
                     agent.save(f"{data_dir}{file_connection}saves-{rt}{file_connection}gen-{s}{file_connection}agent-SUCCESS-{j}")
+
+                j += 1
 
         # mutate the top 10%
         for agent in agents[:num_agents // 10]:
@@ -151,13 +157,13 @@ def draw(frame):
         # for the rest, crossover
         for agent in agents[num_agents // 10:]:
             agent.crossover(agents[np.random.randint(num_agents)])
-
-        for agent in agents:
-            agent.reset(begin["pos"], begin["rot"])
         
         print(f"Generation {s} completed (t={t_limit})")
         print(f"Top 10 agents: {[agent.points for agent in agents[:10]]}")
         print("\n")
+
+        for agent in agents:
+            agent.reset(begin["pos"], begin["rot"])
 
         t_limit += t_limit_ext
 
