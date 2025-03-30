@@ -13,7 +13,7 @@ dt = 0.1
 mutation_rate = 0.1
 
 save_files = True if os.name == "nt" else False
-multi_process = True if os.name == "nt" else True
+multi_process = True if os.name == "nt" else False
 
 t_limit_ext = 1
 t_initial = 2
@@ -24,7 +24,7 @@ data_dir = os.path.join(base_dir, "data")
 # / on macos and \ on windows
 file_connection = "\\" if os.name == "nt" else "/"
 
-render = False if os.name == "nt" else False
+render = False if os.name == "nt" else True
 # always check if you have it installed
 use_gpu_accel = False
 
@@ -35,3 +35,8 @@ verbose = 2 if os.name == "nt" else 2
 
 macos_batch = 50
 windows_batch = 100
+
+prefixed = {
+    "use": True,
+    "model": f"{data_dir}/saves-1743071807.4439204/gen-25/agent-0.npz"
+}

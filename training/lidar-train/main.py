@@ -8,7 +8,7 @@ import environment as ev
 from agent import Agent
 from math import pi, sin
 #from topica import TopicaServer
-from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process, render, t_limit_ext, t_initial, verbose, windows_batch, macos_batch
+from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process, render, t_limit_ext, t_initial, verbose, windows_batch, macos_batch, prefixed
 import os
 import time
 import multiprocessing as mp
@@ -118,6 +118,16 @@ def setup():
 
 
 def summonAgents():
+    if prefixed["use"]:
+        agents.append(
+            Agent(
+                begin["pos"],
+                begin["rot"],
+                prefixed["model"]
+            )
+        )
+        return
+
     for i in range(num_agents):
         agents.append(
             Agent(
@@ -158,6 +168,25 @@ def draw(frame):
 
         plt.scatter(goal[0], goal[1], color='green', s=10)
         plt.scatter(start[0], start[1], color='blue', s=10)
+
+    if prefixed["use"]:
+
+        for agent in agents:
+            if (agent.has_collided or agent.reached_goal) and render:
+                agent.plot(plt)
+                continue
+            
+            agent.plot(plt)
+            agent.lidar(obstacles, plt)
+            agent.predict(np.array(goal))
+            agent.step(dt)
+            agent.collided(obstacles)
+            agent.reached(np.array(goal))
+
+        i += 1
+        t += dt
+
+        return
 
     if not multi_process:
         for agent in agents:
@@ -225,14 +254,35 @@ def draw(frame):
 
                 j += 1
 
-        # mutate the top 10%
-        for agent in agents[:num_agents // 10]:
-            agent.mutate()
+        # ignore the top 10% of agents
+
+        # for the 10-40% percentile, crossover with a random agent and mutate slightly
+        a_in = 1
+        for agent in agents[num_agents // 10:num_agents // 40]:
+            # crossover with a random agent
+            rand_agent = agents[np.random.randint(0, num_agents // 40)]
+            
+            agent.crossover(rand_agent) # crossover with a random agent
+
+            agent.mutate(a_in / 10000) # mutate slightly
+
+            a_in += 1
+
+        # for the 40-80% percentile, crossover with a random agent and mutate a lot
+        a_in = 1
+        for agent in agents[num_agents // 40:num_agents // 80]:
+            # crossover with a random agent
+            rand_agent = agents[np.random.randint(0, num_agents // 80)]
+            agent.crossover(rand_agent)
+
+            agent.mutate(a_in / 4000)
+
+            a_in += 1
         
-        # for the rest, crossover
-        for agent in agents[num_agents // 10:]:
-            agent.crossover(agents[np.random.randint(num_agents)])
-        
+        # for the 80-100% percentile, randomize the agent
+        for agent in agents[num_agents // 80:num_agents]:
+            agent.randomize()
+
         if verbose >= 1:
             print(f"Generation {s} completed (t={t_limit})")
             print(f"Top 10 agents: {[agent.points for agent in agents[:10]]}")
@@ -251,7 +301,8 @@ def run():
     if render:
         plt.figure(figsize=(6, 6))
 
-        ani = animation.FuncAnimation(plt.gcf(), draw, interval=1)
+        ani = animation.FuncAnimation(plt.gcf(), draw, interval=
+                                      100 if prefixed["use"] else 1)
 
         plt.show()
     else:

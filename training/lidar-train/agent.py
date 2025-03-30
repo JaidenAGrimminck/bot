@@ -13,7 +13,7 @@ from neural_network import RobotController
 max_ray = conversion * 10 # 10 meters
 
 class Agent:
-    def __init__(self, location, rotation):
+    def __init__(self, location, rotation, model_path=None):
         self.location = location
         self.rotation = rotation
         self.w = .60 * conversion
@@ -28,6 +28,9 @@ class Agent:
         self.lidar_cache = []
 
         self.controller = RobotController(36)
+
+        if model_path is not None:
+            self.controller.load(model_path)
 
         self.has_collided = False
         self.reached_goal = False
@@ -99,6 +102,11 @@ class Agent:
         self.horizontal_input = x
     
     def collided(self, obstacles=[]):
+        # recalculate the internal rectangle
+        self.internal_rectangle.center = self.location
+        self.internal_rectangle.rotation = self.rotation
+        self.internal_rectangle._calculate_corners()
+
         for obs in obstacles:
             if obs.intersects(self.internal_rectangle):
                 self.has_collided = True
@@ -135,6 +143,10 @@ class Agent:
 
     def crossover(self, other):
         self.controller.crossover(other.controller)
+        pass
+
+    def randomize(self):
+        self.controller.randomize()
         pass
 
     def reset(self, pos, rot):
