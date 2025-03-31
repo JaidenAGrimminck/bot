@@ -203,7 +203,7 @@ def draw(frame):
             agent.reached(np.array(goal))
 
             if agent.has_collided:
-                agent.points -= 1
+                agent.points -= 0.5
     else:
         agents = process_agents_parallel(agents, goal, obstacles, dt)
         if render:

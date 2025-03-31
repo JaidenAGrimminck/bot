@@ -357,6 +357,10 @@ class RobotController:
         new_controller = RobotController(num_lidar_points=self.num_lidar_points)
         new_controller.network = new_network
         return new_controller
+    
+    def randomize(self):
+        """Randomize the controller weights"""
+        self.network.randomize()
 
     def save(self, filename):
         """Save the controller"""

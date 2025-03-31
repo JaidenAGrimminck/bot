@@ -6,7 +6,7 @@ conversion = 10 / 1
 wheel_base = 0.4 * conversion  # Distance between the wheels (m => pixel units)
 max_wheel_speed = 1.0 * conversion  # Maximum speed per wheel (m^2 => units per second)
 
-num_agents = 1000 if os.name == "nt" else 1000
+num_agents = 1000 if os.name == "nt" else 10
 
 dt = 0.1
 
@@ -37,6 +37,6 @@ macos_batch = 50
 windows_batch = 100
 
 prefixed = {
-    "use": True,
+    "use": False,
     "model": f"{data_dir}/saves-1743071807.4439204/gen-25/agent-0.npz"
 }
