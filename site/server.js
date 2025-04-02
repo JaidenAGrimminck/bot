@@ -18,7 +18,7 @@ const io = new Server(server);
 
 //"192.168.6.233" - controller
 // 192.168.6.232 - one w/ lidar
-const ROBOT_IP = "172.16.130.160";
+const ROBOT_IP = "localhost"; //"172.16.130.160";
 const robot = new RobotConnection(ROBOT_IP, 8080, false);
 const topica = new TopicaServer(ROBOT_IP, 5443);
 
@@ -37,11 +37,80 @@ app.get('/require.js', (req, res) => {
 
 io.on('connection', (socket) => {
 
-    // socket.on("topica-get", (data={
+    let socketOpen = true;
 
-    // }) => {
+    socket.on("topica-get", (data={
+        path: "",
+    }) => {
+        if (!topica.open) {
+            socket.emit("topica-update", {
+                value: null,
+                path: data.path,
+                subUpdate: false
+            })
 
-    // })
+            return;
+        }
+
+        topica.get(data.path, (value) => {
+            if (socketOpen) {
+                socket.emit("topica-update", {
+                    value,
+                    path: data.path,
+                    subUpdate: false
+                });
+            }
+        });
+    });
+
+    socket.on("topica-set", (data={
+        path: "",
+        value: "",
+        value_byte: 0
+    }) => {
+        if (!topica.open) return;
+
+        topica.set(data.path, data.value, data.value_byte);
+    });
+
+    socket.on("topica-subscribe", (data={
+        path: "",
+        interval: 1000
+    }) => {
+        if (!topica.open) return;
+
+        topica.subscribe(data.path, data.interval, (value) => {
+            if (socketOpen) {
+                socket.emit("topica-update", {
+                    value,
+                    path: data.path,
+                    subUpdate: true
+                });
+            }
+        });
+    });
+
+    topica.onEvent("newtopic", async (data) => {
+        const topics = await topica.getTopics();
+
+        if (socketOpen) {
+            socket.emit("topica-topics", {
+                "topics": topics
+            });
+        }
+    });
+
+    // send over topics as a preliminary step.
+    (async () => {
+        if (!topica.open) return;
+
+        const topics = await topica.getTopics();
+
+        socket.emit("topica-topics", {
+            "topics": topics
+        });
+    })();
+        
 
     // --below is deprecated, but need to remove it later--
 
@@ -136,6 +205,8 @@ io.on('connection', (socket) => {
 
         robot.removeEventListener('onRobotStatus', robotStatusListener);
         robot.removeEventListener('onRobotClasses', robotClassesListener);
+
+        socketOpen = false;
     });
 });
 

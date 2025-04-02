@@ -221,3 +221,96 @@ setTimeout(() => {
         beginHeartbeatInterval();
     }
 }, 100)
+
+
+// topica manager
+
+class TopicaMiddleman {
+    static Type = {
+        BYTE: 0x01,
+        INT16: 0x02,
+        SHORT: 0x02,
+        INT32: 0x03,
+        INT: 0x03,
+        INT64: 0x04,
+        LONG: 0x04,
+        FLOAT: 0x05,
+        FLOAT32: 0x05,
+        DOUBLE: 0x06,
+        FLOAT64: 0x06,
+        STRING: 0x07,
+        BOOL: 0x08,
+        BOOLEAN: 0x08
+    }
+    
+    constructor() {
+        this.paths = {};
+
+        this.getCallbacks = {};
+        this.subCallbacks = {};
+
+        socket.on("topica-update", (data) => {
+            this.update(data);
+        });
+
+        socket.on("topica-topics", (data) => {
+            for (let topic of data.topics) {
+                if (topic.path in this.paths) {
+                    continue;
+                }
+
+                this.paths[topic.path] = null;
+            }
+        })
+    }
+
+    update(data) {
+        this.paths[data.path] = data.value;
+
+        if (data.subUpdate) {
+            if (this.subCallbacks[data.path]) {
+                this.subCallbacks[data.path](data.value);
+            }
+        } else {
+            if (this.getCallbacks[data.path]) {
+                this.getCallbacks[data.path](data.value);
+                delete this.getCallbacks[data.path];
+            }
+        }
+    }
+
+    set(path, value, type) {
+        socket.emit("topica-set", {
+            path,
+            value,
+            value_byte: type
+        });
+    }
+    
+    get(path, callback) {
+        this.getCallbacks[path] = callback;
+
+        socket.emit("topica-get", {
+            path
+        });
+    }
+
+    subscribe(path, interval, callback) {
+        this.subCallbacks[path] = callback;
+
+        socket.emit("topica-subscribe", {
+            path,
+            interval
+        });
+    }
+
+    //TODO: implement
+    // unsubscribe(path) {
+    //     delete this.subCallbacks[path];
+
+    //     socket.emit("topica-unsubscribe", {
+    //         path
+    //     });
+    // }
+    
+}

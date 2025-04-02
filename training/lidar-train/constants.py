@@ -18,6 +18,8 @@ multi_process = True if os.name == "nt" else False
 t_limit_ext = 1
 t_initial = 2
 
+max_t = 20
+
 base_dir = os.path.dirname(os.path.realpath(__file__))
 data_dir = os.path.join(base_dir, "data")
 
@@ -38,5 +40,6 @@ windows_batch = 100
 
 prefixed = {
     "use": False,
-    "model": f"{data_dir}/saves-1743071807.4439204/gen-25/agent-0.npz"
+    "model": f"{data_dir}/saves/gen-34/agent-SUCCESS-0.npz",
+    "interval": 10,
 }

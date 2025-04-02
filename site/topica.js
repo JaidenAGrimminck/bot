@@ -44,7 +44,8 @@ class TopicaServer {
             "error": [],
             "open": [],
             "close": [],
-            "reconnect": []
+            "reconnect": [],
+            "newtopic": []
         };
 
         this.connectedOnce = false;
@@ -69,6 +70,13 @@ class TopicaServer {
         this.ws.onclose = this.onClose.bind(this);
         this.ws.onerror = this.onError.bind(this);
         this.ws.onmessage = this.onMessage.bind(this);
+
+        this.onEvent = this.onEvent.bind(this);
+        this.get = this.get.bind(this);
+        this.getPromise = this.getPromise.bind(this);
+        this.subscribe = this.subscribe.bind(this);
+        this.set = this.set.bind(this);
+        this.getTopics = this.getTopics.bind(this);
     }
 
     /**
@@ -232,6 +240,19 @@ class TopicaServer {
     }
 
     /**
+     * Get a value from the Topica server (returns a promise).
+     * @param {string} topic
+     * @returns {Promise<*>}
+     */
+    async getPromise(topic) {
+        return new Promise((resolve, reject) => {
+            this.get(topic, (value) => {
+                resolve(value);
+            });
+        });
+    }
+
+    /**
      * Subscribe to a topic on the Topica server.
      * @param {string} topic
      * @param {number} interval_ms
@@ -309,13 +330,40 @@ class TopicaServer {
 
     /***
      * Called whenever an internal event occurs.
-     * @param {string} event The event code. [open, close, error, reconnect]
+     * @param {string} event The event code. [open, close, error, reconnect, newtopic]
      * @param {function} callback The callback function
      */
-    on(event, callback) {
+    onEvent(event, callback) {
         if (Object.keys(this.internalEvents).includes(event)) {
             this.internalEvents[event].push(callback);
+
+            if (this.internalEvents[event].length == 1 && event == "newtopic") {
+                this.getTopics();
+            }
         }
+    }
+
+    /**
+     * Get all paths.
+     * @returns {Promise<string[]>}
+     */
+    async getTopics() {
+        const port = await this.getPromise("/topica/port")
+
+        const req = await fetch(`http://${this.host}:${port}/api/v2/topics`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (req.status != 200) {
+            throw new Error("Failed to get topics");
+        }
+
+        const topics = await req.json(); // should be a list of strings
+
+        return topics;
     }
 }
 

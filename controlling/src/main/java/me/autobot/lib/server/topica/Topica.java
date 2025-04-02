@@ -124,6 +124,14 @@ public class Topica extends NanoWSD.WebSocket {
          * Strict: new topics cannot be created through the web interface, and must be created through the code.
          * */
         new Database.Topic("/topica/strict", false);
+        /*
+         * Last Topic Created: A timestamp of when the last topic created was.
+         */
+        new Database.Topic("/topica/last_topic_created", System.currentTimeMillis());
+        /*
+        * REST Api Port: The port of the REST API.
+         */
+        new Database.Topic("/topica/rest_port", 8081);
     }
 
     /**
@@ -236,6 +244,15 @@ public class Topica extends NanoWSD.WebSocket {
             private List<ObjectLambda> internalSubscriptions = new ArrayList<>();
 
             /**
+             * "Notifies" that a new topic has been created
+             * */
+            private void creationNotice() {
+                if (Topica.getDatabase().hasTopic("/topica/last_topic_created")) {
+                    Topica.getDatabase().getTopic("/topica/last_topic_created").update(System.currentTimeMillis());
+                }
+            }
+
+            /**
              * Creates a new topic.
              * @param path The path of the topic.
              *             This is the unique identifier of the topic.
@@ -252,6 +269,8 @@ public class Topica extends NanoWSD.WebSocket {
                 if (Topica.getDatabase() != null) {
                     Topica.getDatabase().addTopic(this);
                 }
+
+                creationNotice();
             }
 
             /**
@@ -265,6 +284,8 @@ public class Topica extends NanoWSD.WebSocket {
                 this.type = type;
 
                 callbacks = new ArrayList<>();
+
+                creationNotice();
             }
 
             /**
@@ -345,6 +366,8 @@ public class Topica extends NanoWSD.WebSocket {
                 if (Topica.getDatabase() != null) {
                     Topica.getDatabase().addTopic(this);
                 }
+
+                creationNotice();
             }
 
             /**
@@ -1293,6 +1316,37 @@ public class Topica extends NanoWSD.WebSocket {
 
         int interval = buffer.getInt();
 
+        if (interval == 0) { // this means just whenever there's a new value
+            Timer timer = new Timer();
+
+            TimerTask task = new TimerTask() {
+                byte[] lastRawValue = new byte[0];
+
+                @Override
+                public void run() {
+                    if (!database.hasTopic(topic)) {
+                        return;
+                    }
+
+                    if (lastRawValue == database.getTopic(topic).getData()) {
+                        return;
+                    }
+
+                    sendTopicData(topic);
+                }
+            };
+
+            timer.scheduleAtFixedRate(task, 0, 10);
+
+            subscriptions.add(new Pair<>(timer, task));
+
+            if (isVerbose()) {
+                System.out.println("[TOPICA] Client subscribed to topic " + topic + " with no interval (just whenever there's a new value).");
+            }
+
+            return;
+        }
+
         if (interval < 10) {
             // send an error message
             if (isVerbose()) {
@@ -1304,12 +1358,12 @@ public class Topica extends NanoWSD.WebSocket {
             return;
         }
 
-        if (isVerbose()) {
-            System.out.println("[TOPICA] Client subscribed to topic " + topic + "");
-        }
-
         if (!database.hasTopic(topic)) {
             return;
+        }
+
+        if (isVerbose()) {
+            System.out.println("[TOPICA] Client subscribed to topic " + topic + " (interval=" + interval + "ms).");
         }
 
         Timer timer = new Timer();

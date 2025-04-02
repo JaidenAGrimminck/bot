@@ -8,7 +8,7 @@ import environment as ev
 from agent import Agent
 from math import pi, sin
 #from topica import TopicaServer
-from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process, render, t_limit_ext, t_initial, verbose, windows_batch, macos_batch, prefixed
+from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process, render, t_limit_ext, t_initial, verbose, windows_batch, macos_batch, prefixed, max_t
 import os
 import time
 import multiprocessing as mp
@@ -86,35 +86,30 @@ Setup the environment with obstacles
 """
 def setup():
     obstacles.append(ev.Rectangle(
-        10, 20,
-        2*pi - pi / 4,
-        10, 10
+        50, 100,
+        0,
+        100, 10
     ))
 
     obstacles.append(ev.Rectangle(
-        50, 50,
-        pi / 6,
-        10, 10
+        50, 0,
+        0,
+        100, 10
     ))
+
+    obstacles.append(ev.Rectangle(
+        0, 50,
+        0,
+        10, 100
+    ))
+
+    obstacles.append(ev.Rectangle(
+        100, 50,
+        0,
+        10, 100
+    ))
+
     
-    obstacles.append(ev.Rectangle(
-        20, 65,
-        pi / 3,
-        50, 10
-    ))
-
-    obstacles.append(ev.Rectangle(
-        65, 20,
-        pi / 10,
-        30, 10
-    ))
-
-    obstacles.append(ev.Rectangle(
-        75, 75,
-        1.7 * pi / 3,
-        50, 10
-    ))
-
 
 
 def summonAgents():
@@ -137,8 +132,8 @@ def summonAgents():
         )
     
 
-goal = (92,92)
-start = (20, 6)
+goal = (90,90)
+start = (10, 10)
 
 begin = {
     "pos": start,
@@ -150,7 +145,6 @@ t = 0
 s = 1
 
 t_limit = t_initial
-
 
 def draw(frame):
     global i, t, t_limit, s, agents
@@ -254,6 +248,17 @@ def draw(frame):
 
                 j += 1
 
+            if s % 25 == 0 and s != 0:
+                # save all agents
+                os.makedirs(f"{data_dir}{file_connection}saves-{rt}{file_connection}gen-{s}-fullgen", exist_ok=True)
+
+                j = 0
+
+                for agent in enumerate(agents):
+                    agent = agent[1]
+                    agent.save(f"{data_dir}{file_connection}saves-{rt}{file_connection}gen-{s}-fullgen{file_connection}agent-{j}")
+                    j += 1
+
         # ignore the top 10% of agents
 
         # for the 10-40% percentile, crossover with a random agent and mutate slightly
@@ -293,6 +298,9 @@ def draw(frame):
 
         t_limit += t_limit_ext
 
+        if t_limit > max_t:
+            t_limit = max_t
+
 ani = None
 
 def run():
@@ -302,7 +310,7 @@ def run():
         plt.figure(figsize=(6, 6))
 
         ani = animation.FuncAnimation(plt.gcf(), draw, interval=
-                                      100 if prefixed["use"] else 1)
+                                      prefixed["interval"] if prefixed["use"] else 1)
 
         plt.show()
     else:

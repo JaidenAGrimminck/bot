@@ -1,11 +1,13 @@
 package me.autobot.lib.server;
 
+import me.autobot.lib.server.topica.Topica;
+
 /**
  * Server for the robot.
  * */
 public class Server {
     private static int ws_port;
-    private static int rest_port;
+    private static int rest_port = 8081;
 
     private static WSServer ws_server;
     private static RESTServer rest_server;
@@ -31,6 +33,8 @@ public class Server {
         }
 
         rest_port = _rest_port;
+
+        Topica.topic("/topica/rest_port", Topica.INT_TYPE).update(rest_port);
     }
 
     /**
@@ -38,5 +42,21 @@ public class Server {
      * */
     public static void start() {
         start(8080, 8081);
+    }
+
+    /**
+     * Gets the port of the websocket server.
+     * @return The port of the websocket server.
+     * */
+    public static int getWsPort() {
+        return ws_port;
+    }
+
+    /**
+     * Gets the port of the REST server.
+     * @return The port of the REST server.
+     * */
+    public static int getRestPort() {
+        return rest_port;
     }
 }
