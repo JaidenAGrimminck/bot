@@ -253,6 +253,14 @@ class TopicaMiddleman {
             this.update(data);
         });
 
+        this.events = {
+            "newtopic": []
+        }
+
+        this.onEvent("newtopic", (data) => {
+            console.log("topics", data)
+        })
+
         socket.on("topica-topics", (data) => {
             for (let topic of data.topics) {
                 if (topic.path in this.paths) {
@@ -261,11 +269,20 @@ class TopicaMiddleman {
 
                 this.paths[topic.path] = null;
             }
+
+            this.events["newtopic"].forEach((callback) => {
+                callback(data);
+            });
         })
     }
 
     update(data) {
         this.paths[data.path] = data.value;
+
+        if (data.type == 0x04) { //if big int
+            //convert from string to bigint
+            data.value = BigInt(data.value);
+        }
 
         if (data.subUpdate) {
             if (this.subCallbacks[data.path]) {
@@ -304,6 +321,18 @@ class TopicaMiddleman {
         });
     }
 
+    onEvent(event, callback) {
+        if (this.events[event] == undefined) {
+            this.events[event] = [];
+        }
+
+        this.events[event].push(callback);
+
+        if (event == "newtopic" && Object.keys(this.paths).length > 0) {
+            callback({ topics: this.paths });
+        }
+    }
+
     //TODO: implement
     // unsubscribe(path) {
     //     delete this.subCallbacks[path];
@@ -314,3 +343,5 @@ class TopicaMiddleman {
     // }
     
 }
+
+window.topica = new TopicaMiddleman();

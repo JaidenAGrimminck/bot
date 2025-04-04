@@ -42,7 +42,10 @@ class Agent:
         self.internal_rectangle.center = self.location
         self.internal_rectangle.rotation = self.rotation
         self.internal_rectangle._calculate_corners()
-        self.internal_rectangle.plot(plt, "blue", False, "bo")
+
+        clr = "red" if self.has_collided else ("green" if self.reached_goal else "blue")
+
+        self.internal_rectangle.plot(plt, clr, False, "bo")
 
     def lidar(self, obstacles=[], plt=None):
         rot = int(self.rotation / pi * 180)
@@ -113,8 +116,8 @@ class Agent:
                 return True
         return False
     
-    def reached(self, goal):
-        if np.linalg.norm(goal - self.location) < 1:
+    def reached(self, goal, threshold=1):
+        if np.linalg.norm(goal - self.location) < threshold:
             self.reached_goal = True
             return True
         return False
@@ -153,6 +156,7 @@ class Agent:
         self.location = pos
         self.rotation = rot
         self.has_collided = False
+        self.reached_goal = False
         self.forward_input = 0
         self.horizontal_input = 0
         self.lidar_cache = []
@@ -164,4 +168,8 @@ class Agent:
 
     def save(self, path):
         self.controller.save(path)
+        pass
+
+    def load(self, path):
+        self.controller.load(path)
         pass

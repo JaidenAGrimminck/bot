@@ -52,10 +52,11 @@ io.on('connection', (socket) => {
             return;
         }
 
-        topica.get(data.path, (value) => {
+        topica.get(data.path, (value, type) => {
             if (socketOpen) {
                 socket.emit("topica-update", {
-                    value,
+                    value: typeof value === 'bigint' ? value.toString() : value,
+                    type,
                     path: data.path,
                     subUpdate: false
                 });
@@ -79,11 +80,12 @@ io.on('connection', (socket) => {
     }) => {
         if (!topica.open) return;
 
-        topica.subscribe(data.path, data.interval, (value) => {
+        topica.subscribe(data.path, data.interval, (path, value, type) => {
             if (socketOpen) {
                 socket.emit("topica-update", {
                     value,
-                    path: data.path,
+                    type,
+                    path,
                     subUpdate: true
                 });
             }
@@ -106,9 +108,13 @@ io.on('connection', (socket) => {
 
         const topics = await topica.getTopics();
 
-        socket.emit("topica-topics", {
-            "topics": topics
-        });
+        while (!socket.connected) {} //hang until socket is connected.
+
+        setTimeout(() => {
+            socket.emit("topica-topics", {
+                "topics": topics
+            });
+        }, 100);
     })();
         
 

@@ -132,14 +132,14 @@ class TopicaServer {
             }
 
             if (Object.keys(this.get_callbacks).includes(path)) {
-                this.get_callbacks[path](value);
+                this.get_callbacks[path](value, dataType);
 
                 delete this.get_callbacks[path];
             }
 
             for (let topic of Object.keys(this.subscribe_callbacks)) {
                 if (path.startsWith(topic)) {
-                    this.subscribe_callbacks[topic](path, value);
+                    this.subscribe_callbacks[topic](path, value, dataType);
                 }
             }
 
@@ -292,28 +292,28 @@ class TopicaServer {
         let raw_data = [];
 
         switch (type_byte) {
-            case TopicaServer.BYTE:
+            case TopicaServer.Type.BYTE:
                 raw_data = value;
                 break;
-            case TopicaServer.INT16:
+            case TopicaServer.Type.INT16:
                 raw_data = pack('>h', value)
                 break
-            case TopicaServer.INT32:
+            case TopicaServer.Type.INT32:
                 raw_data = pack('>i', value)
                 break
-            case TopicaServer.INT64:
+            case TopicaServer.Type.INT64:
                 raw_data = pack('>q', value)
                 break
-            case TopicaServer.FLOAT:
+            case TopicaServer.Type.FLOAT:
                 raw_data = pack('>f', value)
                 break
-            case TopicaServer.DOUBLE:
+            case TopicaServer.Type.DOUBLE:
                 raw_data = pack('>d', value)
                 break
-            case TopicaServer.STRING:
+            case TopicaServer.Type.STRING:
                 raw_data = Buffer.from(value, "utf-8")
                 break
-            case TopicaServer.BOOL:
+            case TopicaServer.Type.BOOL:
                 raw_data = pack('>?', value)
                 break
             default:
@@ -336,10 +336,17 @@ class TopicaServer {
     onEvent(event, callback) {
         if (Object.keys(this.internalEvents).includes(event)) {
             this.internalEvents[event].push(callback);
+        }
 
-            if (this.internalEvents[event].length == 1 && event == "newtopic") {
-                this.getTopics();
-            }
+        if (event == "newtopic" && this.internalEvents["newtopic"].length == 1) {
+            this.subscribe("/topica/last_topic_created", 0, async (path, value) => {
+                // get new topics
+                const topics = await this.getTopics();
+
+                for (let callback of Object.values(this.internalEvents["newtopic"])) {
+                    callback({ topics });
+                }
+            })
         }
     }
 
@@ -348,7 +355,7 @@ class TopicaServer {
      * @returns {Promise<string[]>}
      */
     async getTopics() {
-        const port = await this.getPromise("/topica/port")
+        const port = await this.getPromise("/topica/rest_port");
 
         const req = await fetch(`http://${this.host}:${port}/api/v2/topics`, {
             method: "GET",

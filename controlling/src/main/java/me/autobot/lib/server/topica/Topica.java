@@ -1333,6 +1333,8 @@ public class Topica extends NanoWSD.WebSocket {
                     }
 
                     sendTopicData(topic);
+
+                    lastRawValue = database.getTopic(topic).getData();
                 }
             };
 

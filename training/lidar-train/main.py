@@ -8,7 +8,7 @@ import environment as ev
 from agent import Agent
 from math import pi, sin
 #from topica import TopicaServer
-from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process, render, t_limit_ext, t_initial, verbose, windows_batch, macos_batch, prefixed, max_t
+from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process, render, t_limit_ext, t_initial, verbose, windows_batch, macos_batch, prefixed, max_t, checkpoint, goal_threshold
 import os
 import time
 import multiprocessing as mp
@@ -36,7 +36,7 @@ def process_agent_batch(agent_batch, goal, obstacles, dt):
             agent.predict(np.array(goal))
             agent.step(dt)
             agent.collided(obstacles)
-            agent.reached(np.array(goal))
+            agent.reached(np.array(goal), goal_threshold)
     return agent_batch
 
 def process_agents_parallel(agents, goal, obstacles, dt):
@@ -49,7 +49,7 @@ def process_agents_parallel(agents, goal, obstacles, dt):
                 agent.predict(np.array(goal))
                 agent.step(dt)
                 agent.collided(obstacles)
-                agent.reached(np.array(goal))
+                agent.reached(np.array(goal), goal_threshold)
         return agents
     
     # Use larger batch sizes for Windows with many agents to reduce overhead
@@ -109,6 +109,13 @@ def setup():
         10, 100
     ))
 
+
+    obstacles.append(ev.Rectangle(
+        50, 50,
+        -pi / 4,
+        40, 10
+    ))
+
     
 
 
@@ -130,6 +137,48 @@ def summonAgents():
                 begin["rot"]
             )
         )
+    
+    if checkpoint["use"]:
+        # check if the folder exists
+        folder = checkpoint["folder"]
+
+        if not os.path.exists(folder):
+            print("Checkpoint folder does not exist.")
+            return
+        
+        # check if the folder is empty
+        if len(os.listdir(folder)) == 0:
+            print("Checkpoint folder is empty.")
+            return
+        
+        i = 0
+
+        for file in os.listdir(folder):
+            # check if the file is a .npz file
+            if file.endswith(".npz"):
+                # check if the file is in the format "agent-{i}.npz"
+                if file.startswith("agent-") and file[6:-4].isdigit():
+                    # check if the file is not already loaded
+                    if i >= len(agents):
+                        break
+
+                    # load the agent
+                    agents[i].load(folder + file)
+
+                    i += 1
+
+                    continue
+                
+                # check if the file is in the format "agent-SUCCESS-{i}.npz"
+                if file.startswith("agent-SUCCESS-") and file[14:-4].isdigit():
+                    # check if the file is not already loaded
+                    if i >= len(agents):
+                        break
+
+                    # load the agent
+                    agents[i].load(folder + file)
+
+                    i += 1
     
 
 goal = (90,90)
@@ -166,6 +215,9 @@ def draw(frame):
     if prefixed["use"]:
 
         for agent in agents:
+            if i == 0:
+                agent.reset(begin["pos"], begin["rot"])
+
             if (agent.has_collided or agent.reached_goal) and render:
                 agent.plot(plt)
                 continue
@@ -194,7 +246,7 @@ def draw(frame):
             agent.predict(np.array(goal))
             agent.step(dt) # 0.1 seconds steps
             agent.collided(obstacles)
-            agent.reached(np.array(goal))
+            agent.reached(np.array(goal), goal_threshold)
 
             if agent.has_collided:
                 agent.points -= 0.5
@@ -211,12 +263,18 @@ def draw(frame):
     if verbose >= 2:
         print(f"Epoch {i} complete.")
 
+    highest_d = 100000
+
+    # find closest distance
+    for agent in agents:
+        agent.distance = np.linalg.norm(agent.location - np.array(goal))
+        if agent.distance < highest_d:
+            highest_d = agent.distance
+
     if t > t_limit:
         t = 0
         i = 0
         s += 1
-
-        
 
         # give points based on distance to goal
         for agent in agents:
@@ -259,34 +317,37 @@ def draw(frame):
                     agent.save(f"{data_dir}{file_connection}saves-{rt}{file_connection}gen-{s}-fullgen{file_connection}agent-{j}")
                     j += 1
 
-        # ignore the top 10% of agents
-
-        # for the 10-40% percentile, crossover with a random agent and mutate slightly
-        a_in = 1
-        for agent in agents[num_agents // 10:num_agents // 40]:
-            # crossover with a random agent
-            rand_agent = agents[np.random.randint(0, num_agents // 40)]
+        if (checkpoint["use"] and checkpoint["train"]) or not checkpoint["use"]:
+            # ignore the top 10% of agents
             
-            agent.crossover(rand_agent) # crossover with a random agent
+            # for the 10-40% percentile, crossover with a random agent and mutate slightly
+            a_in = 1
+            for agent in agents[num_agents // 10:num_agents // 40]:
+                # crossover with a random agent
+                rand_agent = agents[np.random.randint(0, num_agents // 40)]
+                
+                agent.crossover(rand_agent) # crossover with a random agent
 
-            agent.mutate(a_in / 10000) # mutate slightly
+                agent.mutate(a_in / 10000) # mutate slightly
 
-            a_in += 1
+                a_in += 1
 
-        # for the 40-80% percentile, crossover with a random agent and mutate a lot
-        a_in = 1
-        for agent in agents[num_agents // 40:num_agents // 80]:
-            # crossover with a random agent
-            rand_agent = agents[np.random.randint(0, num_agents // 80)]
-            agent.crossover(rand_agent)
+            # for the 40-80% percentile, crossover with a random agent and mutate a lot
+            a_in = 1
+            for agent in agents[num_agents // 40:num_agents // 80]:
+                # crossover with a random agent
+                rand_agent = agents[np.random.randint(0, num_agents // 80)]
+                agent.crossover(rand_agent)
 
-            agent.mutate(a_in / 4000)
+                agent.mutate(a_in / 4000)
 
-            a_in += 1
-        
-        # for the 80-100% percentile, randomize the agent
-        for agent in agents[num_agents // 80:num_agents]:
-            agent.randomize()
+                a_in += 1
+            
+            # for the 80-100% percentile, randomize the agent
+            for agent in agents[num_agents // 80:num_agents]:
+                agent.randomize()
+        elif verbose >= 1:
+            print("Checkpointing is enabled, skipping training.")
 
         if verbose >= 1:
             print(f"Generation {s} completed (t={t_limit})")
@@ -321,6 +382,10 @@ def run():
 if __name__ == "__main__":
     # set rt to now
     rt = time.time()
+
+    if checkpoint["use"]:
+        t_limit = checkpoint["time_limit"]
+    
     setup()
     summonAgents()
     run()

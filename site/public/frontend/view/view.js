@@ -325,6 +325,77 @@ class View extends HTMLElement {
         });
 
         //and add mouse up event listener to window
+
+        //add listener to the paths
+        window.topica.onEvent("newtopic", (data) => {
+            //sort paths alphabetically
+            let paths = data.topics;
+            
+            let sortedPaths = paths.sort();
+
+            // Create a tree structure from paths
+            let topicsTree = {};
+
+            for (let path of sortedPaths) {
+                // Skip empty paths
+                if (!path) continue;
+                
+                // Split path into segments
+                const segments = path.split('/').filter(segment => segment.length > 0);
+                
+                // Navigate the tree and create nodes as needed
+                let currentLevel = topicsTree;
+                
+                for (let i = 0; i < segments.length; i++) {
+                    const segment = segments[i];
+                    const isLeaf = i === segments.length - 1;
+                    
+                    // Create path segment if it doesn't exist
+                    if (!currentLevel[segment]) {
+                        currentLevel[segment] = isLeaf ? null : {};
+                    }
+                    
+                    // Move to the next level if not at leaf
+                    if (!isLeaf) {
+                        currentLevel = currentLevel[segment];
+                    }
+                }
+            }
+
+            // Function to build side items recursively
+            function buildSideItems(tree, parentPath = "") {
+                const container = document.createElement("div");
+                
+                for (const key in tree) {
+                    const fullPath = parentPath ? `${parentPath}/${key}` : `/${key}`;
+                    const sideItem = document.createElement("view-sideitem");
+                    sideItem.setAttribute("title", "/" + key);
+                    sideItem.setAttribute("path", fullPath);
+                    
+                    if (tree[key] !== null) {
+                        // This is a directory with children
+                        const childContainer = buildSideItems(tree[key], fullPath);
+                        sideItem.appendChild(childContainer);
+                    }
+                    
+                    container.appendChild(sideItem);
+                }
+                
+                return container;
+            }
+
+
+            const container = this.querySelector(".sideitem-container");
+
+            //clear the container
+            container.innerHTML = "";
+
+            
+            // Build the side items and append to the container
+            const sideItems = buildSideItems(topicsTree);
+            container.appendChild(sideItems);
+            
+        })
     }
 
     async initAdjustSize(e) {
