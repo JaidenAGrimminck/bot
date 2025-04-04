@@ -179,6 +179,8 @@ def summonAgents():
                     agents[i].load(folder + file)
 
                     i += 1
+        
+        print(f"Loaded {i} agents from checkpoint folder.")
     
 
 goal = (90,90)
@@ -385,6 +387,12 @@ if __name__ == "__main__":
 
     if checkpoint["use"]:
         t_limit = checkpoint["time_limit"]
+
+        print("Starting from checkpoint.")
+        print(f"Time limit: {t_limit}")
+        print(f"Checkpoint folder: {checkpoint['folder']}")
+        print(f"Checkpoint training: {checkpoint['train']}")
+        print("\n")
     
     setup()
     summonAgents()
