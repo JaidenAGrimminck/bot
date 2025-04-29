@@ -8,7 +8,7 @@ import environment as ev
 from agent import Agent
 from math import pi, sin
 #from topica import TopicaServer
-from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process, render, t_limit_ext, t_initial, verbose, windows_batch, macos_batch, prefixed, max_t, checkpoint, goal_threshold
+from constants import num_agents, dt, save_files, data_dir, file_connection, multi_process, render, t_limit_ext, t_initial, verbose, windows_batch, macos_batch, prefixed, max_t, checkpoint, goal_threshold, start_env_index, env_switch_at
 import os
 import time
 import multiprocessing as mp
@@ -79,44 +79,16 @@ def process_agents_parallel(agents, goal, obstacles, dt):
 obstacles = []
 agents = []
 
+current_env_index = start_env_index
+
 rt = 0
 
 """
 Setup the environment with obstacles
 """
 def setup():
-    obstacles.append(ev.Rectangle(
-        50, 100,
-        0,
-        100, 10
-    ))
-
-    obstacles.append(ev.Rectangle(
-        50, 0,
-        0,
-        100, 10
-    ))
-
-    obstacles.append(ev.Rectangle(
-        0, 50,
-        0,
-        10, 100
-    ))
-
-    obstacles.append(ev.Rectangle(
-        100, 50,
-        0,
-        10, 100
-    ))
-
-
-    obstacles.append(ev.Rectangle(
-        50, 50,
-        -pi / 4,
-        40, 10
-    ))
-
-    
+    global obstacles
+    obstacles = ev.getEnvironment(current_env_index)
 
 
 def summonAgents():
@@ -198,7 +170,7 @@ s = 1
 t_limit = t_initial
 
 def draw(frame):
-    global i, t, t_limit, s, agents
+    global i, t, t_limit, s, agents, current_env_index
 
     if render:
         plt.clf()
@@ -348,6 +320,12 @@ def draw(frame):
             # for the 80-100% percentile, randomize the agent
             for agent in agents[num_agents // 80:num_agents]:
                 agent.randomize()
+
+            if s % env_switch_at == 0 and s != 0:
+                current_env_index += 1
+                setup() # change the environment
+                print(f"Environment changed to {current_env_index}")
+
         elif verbose >= 1:
             print("Checkpointing is enabled, skipping training.")
 
@@ -384,6 +362,26 @@ def run():
 if __name__ == "__main__":
     # set rt to now
     rt = time.time()
+
+    print("Starting simulation.")
+    print(f"Number of agents: {num_agents}")
+    print(f"Time step: {dt}")
+    print(f"(Beginning) Time limit: {t_limit}")
+    print(f"Environment index: {current_env_index}")
+    print(f"Verbose: {verbose}")
+    print(f"Render: {render}")
+    print(f"Save files: {save_files}")
+    print(f"Multi process: {multi_process}")
+    print(f"Checkpoint: {checkpoint['use']}")
+    print(f"Checkpoint folder: {checkpoint['folder']}")
+    print(f"Checkpoint training: {checkpoint['train']}")
+    print(f"Checkpoint time limit: {checkpoint['time_limit']}")
+    print(f"Checkpoint model: {prefixed['model']}")
+    print(f"Checkpoint interval: {prefixed['interval']}")
+    print(f"Checkpoint use: {prefixed['use']}")
+    print(f"Starting environment index: {start_env_index}")
+    print(f"Goal threshold: {goal_threshold}")
+    print(f"Max time: {max_t}")
 
     if checkpoint["use"]:
         t_limit = checkpoint["time_limit"]

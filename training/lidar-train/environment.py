@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib as mpl
 from matplotlib.patches import Polygon
+from math import pi, sin, cos, atan2, sqrt
 
 class Object:
     def __init__(self, x, y, rotation, size):
@@ -208,5 +209,102 @@ class Rectangle(Object):
     
     def __repr__(self):
         return f"Rectangle(center={self.center}, rotation={self.rotation}, width={self.width}, height={self.height})"
+
+def getEnvironment(n):
+    obstacles = []
+
+    obstacles.append(Rectangle(
+        50, 100,
+        0,
+        100, 10
+    ))
+
+    obstacles.append(Rectangle(
+        50, 0,
+        0,
+        100, 10
+    ))
+
+    obstacles.append(Rectangle(
+        0, 50,
+        0,
+        10, 100
+    ))
+
+    obstacles.append(Rectangle(
+        100, 50,
+        0,
+        10, 100
+    ))
+
+    # switch statement
+    if n == 1:
+        obstacles.append(Rectangle(
+            50, 50,
+            -pi / 4,
+            40, 10
+        ))
+    elif n == 2:
+        obstacles.append(Rectangle(
+            40, 60,
+            pi / 4,
+            120, 10
+        ))
+
+        obstacles.append(Rectangle(
+            60, 40,
+            pi / 4,
+            120, 10
+        ))
+    elif n == 3:
+        obstacles.append(Rectangle(
+            50, 50,
+            -pi / 4,
+            40, 10
+        ))
+
+        obstacles.append(Rectangle(
+            80, 20,
+            pi / 4,
+            40, 10
+        ))
+
+        obstacles.append(Rectangle(
+            20, 80,
+            pi / 4,
+            40, 10
+        ))
+    elif n == 4:
+        obstacles.append(Rectangle(
+            30, 30,
+            0,
+            10, 60
+        ))
+
+        obstacles.append(Rectangle(
+            70, 70,
+            0,
+            10, 60
+        ))
+    elif n >= 5:
+        obstacles.append(Rectangle(
+            25, 30,
+            0,
+            5, 60
+        ))
+
+        obstacles.append(Rectangle(
+            50, 70,
+            0,
+            5, 60
+        ))
+
+        obstacles.append(Rectangle(
+            75, 30,
+            0,
+            5, 60
+        ))
+
+    return obstacles
 
 #Rectangle.sd = staticmethod(Rectangle.sd)

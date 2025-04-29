@@ -20,3 +20,4 @@ controlling/ips.txt
 __pycache__
 
 training/lidar-train/data
+controlling/.idea/misc.xml
