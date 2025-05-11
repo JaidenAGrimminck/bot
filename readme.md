@@ -19,10 +19,8 @@ Made by Jaiden.
 This project is supposed to be sort of a capstone project for my senior year of high school... but on a personal level (rather than for school).
 It's a fun project that I'm having a great time exploring all sorts of areas from robotics to neural networks.
 
-*Are you also a teenager and on Hack Club? See my progress [here!](https://hackclub.slack.com/archives/C083HATD5DX)*
-
 > [!WARNING]
-> This project is in ACTIVE DEVELOPMENT. As such, docs may be out of date and some features may not work.
+> This project is in ACTIVE DEVELOPMENT. As such, docs may be (very) out of date and some features may not work.
 > If you'd like something to be fixed, feel free to make an issue or contribute by making a pull request.
 
 ## Prerequisites
