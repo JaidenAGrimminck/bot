@@ -42,6 +42,12 @@ git clone https://github.com/JaidenAGrimminck/bot.git
 # Media
 
 
+
+https://github.com/user-attachments/assets/110070ed-5c0f-49bf-9240-7cae3323b00f
+
+*the bot in the beginning phases of self-driving/object-avoidance*
+
+
 https://github.com/user-attachments/assets/e8538c88-3dbe-4262-9000-22e12cc6994f
 
 *an example of the simulator using cross-platform control (network in Python, simulator in Java). video sped up 4x*
