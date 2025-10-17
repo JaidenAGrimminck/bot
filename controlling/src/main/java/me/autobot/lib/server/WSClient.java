@@ -176,6 +176,7 @@ public class WSClient extends NanoWSD.WebSocket {
      * @param address The address of the callable.
      * @param runnable The runnable to run when the callable is called.
      * */
+    @Deprecated
     public static void registerCallable(int address, Runnable runnable) {
         callables.put(Mathf.allPos(address), runnable);
     }

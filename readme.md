@@ -85,6 +85,39 @@ Then to run, run `./gradlew run`.
 
 [See the Java Docs **here**!](https://jaidenagrimminck.github.io/bot/controlling/docs/javadoc/index.html)
 
+### Getting Started
+
+You should create your robot classes in the `me.autobot.code.me` package. From here, your initial code should look like:
+
+```java
+@PlayableRobot(name = "My Robot")
+public class MyRobot extends Robot {
+  @Override
+  protected void setup() {
+    // called at the beginning, when the playable robot is started
+
+    // -- setup your devices --
+    registerAllDevices();
+
+    // -- connect to serial/i2c/etc --
+  }
+
+  @Override
+  protected void loop() {
+    if (!clock().elapsed(2000)) return; // sometimes preferred to allow i2c/serial connections to fully establish before continuing
+
+    // called every tick when the playable robot is running
+  }
+
+  @Override
+  protected void stop() {
+    // called when an error is thrown or you click "stop" on the dashboard
+  }
+}
+```
+
+From here, you're able to get started!
+
 ### Topica
 
 Topica is a fast custom communication protocol with Topic-like architecture over WebSocket. It's fast and efficient, and requires minimal download to use.
