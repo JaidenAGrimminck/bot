@@ -85,7 +85,135 @@ Then to run, run `./gradlew run`.
 
 [See the Java Docs **here**!](https://jaidenagrimminck.github.io/bot/controlling/docs/javadoc/index.html)
 
-### WS Server
+### Topica
+
+Topica is a fast custom communication protocol with Topic-like architecture over WebSocket. It's fast and efficient, and requires minimal download to use.
+
+The Topica server is automatically started when the robot is started. By default, the server is hosted at port `5443`.
+
+> [!NOTE]
+> To change the port, you can use `Topica.port(int port)`, but this needs to be called before `Robot.start()`.
+
+There's a few settings/default topics that are set as a part of the server:
+
+- `verbose` - default value: `true` - for messages in the console when a new topic is made.
+- `strict` - default value: `false` - new topics cannot be created through the web interface (JS/Python libraries), and must be created through the code.
+- `last_topic_created` - A timestamp of when the last topic created was.
+- `rest_port` - default value: `8081` - The port of the Topica REST API.
+
+A list of Topica topics are accessible at the REST API located at the `rest_port` (default: `8081`). This server has two endpoints:
+
+- `/api/v1/robots` - A list of PlayableRobots avaliable.
+- `/api/v2/topics` - A list of Topics avaliable.
+
+Additionally, for each Topica client (inaccessible for the Topica host) are read-only Topics for identification:
+- `/me/id` - An UUID to identify the client.
+- `/me/nickname` - A randomly generated friendly nickname to easily identify the client. Do NOT use for client identification or manipulation, as nicknames have the potential to be not unique, rather use `/me/id`.
+
+The library also adds on the following endpoints:
+- `/robot/selected` - name of the PlayableRobot that's selected
+- `/robot/status` - 11-byte list for robot status.
+
+The following data types are valid:
+- BYTE: 0x01,
+- INT16/SHORT: 0x02,
+- INT32: 0x03,
+- INT64: 0x04,
+- LONG: 0x04,
+- FLOAT32: 0x05,
+- DOUBLE/LOAT64: 0x06,
+- STRING: 0x07,
+- BOOLEAN: 0x08,
+- BYTE[]/CUSTOM: 0x09
+
+#### In Java
+
+There's a few ways that we can create Topics within the Java library.
+
+First, we can create a Topic with just instantiating the class.
+
+```java
+Topica.Database.Topic topic = new Topica.Database.Topic("/tmp/timestamp", 0L)
+```
+
+This is inheritly risky if we don't have strict mode on. What if the Topic is already created by a client? What if we already created the topic within the code. We can thus check if the topic is created already as such:
+
+```java
+Topica.Database.Topic topic = null;
+
+if (Topica.getDatabase().hasTopic("/tmp/timestamp")) {
+  topic = Topica.getDatabase().getTopic("/tmp/timestamp");
+} else {
+  topic = new Topica.Database.Topic("/tmp/timestamp", 0L)
+}
+```
+
+But this is inefficient (and annoying to code)! Thus, if we know the type, we can thus do the following:
+
+```java
+topic = Topica.topic("/tmp/timestamp", Topica.LONG);
+```
+
+Topics can be used in a variety of ways. For example, if we have robot data that we want to share with the clients, we can *bind* it to a supplier as so:
+
+```java
+// an example of binding a long topic to the current time.
+topic.bind(() -> {
+  return System.currentTimeMillis();
+})
+```
+
+These update every 0.1s and can be adjusted with `bindLoopTime(long interval)` (loop times are topic specific, and not global).
+
+We can also *subscribe* to a topic to get data every time the topic data is updated, as so:
+
+```java
+topic.subscribe((o) -> { // o is typeof object
+  long l = (long) o;
+  System.out.println("Current time: " + l);
+})
+```
+
+If we have another method, we can also pass it through:
+```java
+void test(long l) {
+  System.out.println("Time one second ago: " + (l - 1000L));
+}
+//...
+topic.subsribe(this::test)
+```
+
+We can also create a callback
+
+#### Python Library
+
+The Python library is located at `topica/topica.py` and depends off of the `websocket` package, `struct` package, and `numpy`.
+
+We can import the library as so:
+```python
+import sys
+sys.path.append('path/to/folder/topica')
+
+from topica import TopicaServer
+```
+
+Then, we can create a connection to the TopicaServer:
+```python
+server = TopicaServer("the.robot.ip", 5443, verbose=True)
+```
+*Verbose allows to know if we're connected to the server via console.*
+
+
+#### JavaScript Library
+
+The JavaScript library is located at `site/topica.js` and depends off of the `ws` package (and the internal `struct.js` file).
+
+### Legacy WS Server
+
+> [!WARNING]
+> The legacy server remains up due to some legacy connections that depend on it and has not been fully updated. I don't recommend using it, rather I recommend Topica for any future uses.
+
+The (legacy) WS server is hosted on the robot at port `::8080`.
 
 The WS server is hosted on the robot at port `::8080`.
 
