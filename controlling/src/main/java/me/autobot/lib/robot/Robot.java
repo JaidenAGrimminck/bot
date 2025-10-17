@@ -25,7 +25,7 @@ import java.util.*;
  * The general robot class.
  * This can be extended to create a robot with sensors and motors.
  * **/
-public class Robot implements Logger {
+public abstract class Robot implements Logger {
 
     /**
      * List of all the robot classes.
