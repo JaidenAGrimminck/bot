@@ -144,7 +144,7 @@ Topica.Database.Topic topic = null;
 if (Topica.getDatabase().hasTopic("/tmp/timestamp")) {
   topic = Topica.getDatabase().getTopic("/tmp/timestamp");
 } else {
-  topic = new Topica.Database.Topic("/tmp/timestamp", 0L)
+  topic = new Topica.Database.Topic("/tmp/timestamp", 0L);
 }
 ```
 
@@ -160,7 +160,7 @@ Topics can be used in a variety of ways. For example, if we have robot data that
 // an example of binding a long topic to the current time.
 topic.bind(() -> {
   return System.currentTimeMillis();
-})
+});
 ```
 
 These update every 0.1s and can be adjusted with `bindLoopTime(long interval)` (loop times are topic specific, and not global).
@@ -171,7 +171,7 @@ We can also *subscribe* to a topic to get data every time the topic data is upda
 topic.subscribe((o) -> { // o is typeof object
   long l = (long) o;
   System.out.println("Current time: " + l);
-})
+});
 ```
 
 If we have another method, we can also pass it through:
@@ -180,10 +180,31 @@ void test(long l) {
   System.out.println("Time one second ago: " + (l - 1000L));
 }
 //...
-topic.subsribe(this::test)
+topic.subscribe(this::test);
 ```
 
-We can also create a callback
+We can also create a callback as so (when the value updates):
+```java
+topic.addCallback((topic) -> {
+  // ...
+});
+```
+
+If we want to update the topic data, we can do it as so:
+```java
+topic.update(10L); // multiple valid type inputs
+```
+
+If we want to get the value, there's a few methods to do so depending on the type:
+```java
+long c = topic.getAsLong();
+// or, for example
+topic.getAsDouble();
+topic.getAsInt(); // etc.
+```
+
+> [!WARNING]
+> A precondition of those methods is that the Topic is the valid type in order to call it. If this precondition is not fullfilled, then the data may be inaccurate / an error may be thrown.
 
 #### Python Library
 
@@ -203,10 +224,86 @@ server = TopicaServer("the.robot.ip", 5443, verbose=True)
 ```
 *Verbose allows to know if we're connected to the server via console.*
 
+We can update values as so:
+```python
+server.set("/value/random", 10)
+```
+
+There's no need to specify type, but if the type is invalid (not supported), then an error may be thrown.
+
+We can also *subscribe* to values as so:
+```python
+server.subscribe("/value/random", interval_ms=100, callback=lambda x: print(x))
+```
+
+Or, we can do a single value request:
+```python
+server.get("/value/random", onResponse=lambda x: print(x))
+```
+
+We can listen to when the server is open/closed/etc, such as:
+```python
+def onOpen():
+  print("Connection is open!")
+
+server.onEvent("open", onOpen)
+```
+
+The valid events are `open`, `close`, `error`, and `reconnect`.
+
+> [!NOTE]
+> Open is called only on the first connection, and reconnect is called on every reconnection.
+
 
 #### JavaScript Library
 
 The JavaScript library is located at `site/topica.js` and depends off of the `ws` package (and the internal `struct.js` file).
+
+We can create a connection as so:
+```js
+const { TopicaServer } = require("./topica.js");
+
+const topica = new TopicaServer("the.robot.ip", 5443);
+``` 
+
+This works similarly to the Python library.
+
+We can get all the valid topics as so:
+```js
+const topics = await topica.getTopics();
+```
+
+We can *subscribe* to a path:
+```js
+topica.subscribe("/get/the/topic", 100, (value) => {
+  console.log(value);
+})
+```
+
+> [!NOTE]
+> If you want to subscribe for only when the value is updated, pass the interval to be `0`.
+
+We can *set* a topic (note: we need to specify the type due to JS's behavior as a typeless language):
+```js
+topica.set("/random/topic", 5, Topica.Type.INT);
+```
+
+We can *get* a topic:
+```js
+const value = topica.get("/random/topic");
+```
+
+We can also await for an event:
+```js
+// valid events: [open, close, error, reconnect, newtopic]
+topica.onEvent("open", () => {
+  console.log("Server open!")
+})
+```
+
+> [!NOTE]
+> There's also `newtopic` event, which is called for whenever a new topic is created.
+
 
 ### Legacy WS Server
 
@@ -343,7 +440,7 @@ git clone https://github.com/JaidenAGrimminck/bot.git
 
 In the `site` folder for the repo, run `npm install`
 
-To run, run via `npm start` in the `site` folder.
+To run, run via `node server.js` in the `site` folder.
 
 ### Modularity
 
@@ -365,54 +462,16 @@ Additionally, corresponding `.css` files are also automatically imported if they
 
 If the file depends on an element, for example `panel` depends on the component `graph`, a `need.txt` file can be included in the `panel` folder in the `frontend`, containing a comma-separated list of the components that need to be imported.
 
-### Panel
+This is pretty much a lightweight version of React, check out the `site/public` folder for examples of how this can be used.
 
-The panel component is a versatile component that contains many different functions, such as displaying the status of the robot, making a graph, the log of the robot, or access to the shell.
+Here's some examples of the frontend:
 
-#### Status
+#### Topica Topics Display
+![topicdisplay](readme/images/topicadisplay.png)
 
-The status panel displays the status of the robot. Currently, it just displays the connection speed between the frontend and the backend, and between the robot (but the robot isn't built yet, so just 0 for now).
+#### Telemetry View
 
-![status](readme/site/images/status.png)
-
-*example of the status panel*
-
-#### Graph
-
-The graph panel displays a graph of some number of the robot, tracking some local variable over time, or some other type of updating graph.
-
-![graph](readme/site/images/graph.png)
-
-*example graph of the uptime over time*
-
-#### Log
-
-The log panel displays the log of the backend, and can be switched to the CLI (not yet functional though).
-
-![log](readme/site/images/log.png)
-
-*example of what the log might look like*
-
-#### Error
-
-If an error ever occurs, the following panel will appear. Additionally, this will appear in the `console` as a warning, giving a helpful tip on what might've gone wrong.
-
-![error](readme/site/images/error.png)
-
-![error msg](readme/site/images/error%20msg.png)
-
-*example of the error panel and the error message*
-
-### Number
-
-The number component is quite simply just a real-time number display. This is quite useful to display things such as battery voltage, uptime, or more.
-
-![number](readme/site/images/number.png)
-
-*example of the number component recording the backend speed*
-
-
-
+![telemetry](readme/images/tele.png)
 
 # License
 
